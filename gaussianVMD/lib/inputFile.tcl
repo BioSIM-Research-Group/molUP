@@ -44,8 +44,7 @@ proc gaussianVMD::loadButton {fileExtension} {
 			gaussianVMD::loadMolecule $gaussianVMD::fileName $gaussianVMD::actualTime
 
 		} elseif {$gaussianVMD::loadMode == "First Structure"} {
-			gaussianVMD::loadGaussianOutputFile $gaussianVMD::path
-			gaussianVMD::loadGaussianOutputFileInitialStructure $gaussianVMD::path
+			gaussianVMD::loadGaussianOutputFileFirstStructure
 			gaussianVMD::loadMolecule $gaussianVMD::fileName $gaussianVMD::actualTime
 			
 		} elseif {$gaussianVMD::loadMode == "All optimized structures"} {
@@ -76,28 +75,6 @@ proc gaussianVMD::getBlankLines {path numberLine} {
 	set eachBlankLine [split $blankLines ":"]
 	set lineNumber [lindex $eachBlankLine $numberLine]
 	return $lineNumber
-}
-
-
-#### Load a Gaussian ouput file
-proc gaussianVMD::loadGaussianOutputFile {path} {
-	#### Get the title line
-	set gaussianVMD::title [exec sed -n "/^ ----------------------------$/,/^ ----------------------------$/{/^ ----------------------------$/b;/^ ----------------------------$/b;p}" $path]
-
-	#### Keywords of the calculations
-	set gaussianVMD::keywordsCalc [exec sed -n "/^ ----------------------------------------------------------------------$/,/^ ----------------------------------------------------------------------$/{/^ ----------------------------------------------------------------------$/b;/^ ----------------------------------------------------------------------$/b;p}" $path]
-
-	#### Get the charge and Multiplicity
-	set linesChargesMulti [exec grep "^ Charge =" $path]
-	set linesChargesMultiSplit [split $linesChargesMulti "\n"]
-	set gaussianVMD::chargesMultip ""
-	set i 0
-	foreach line $linesChargesMultiSplit {
-		set charge [string range $line 9 11]
-		set multiplicity [string index $line 28]
-		append gaussianVMD::chargesMultip $charge " " $multiplicity
-		incr $i
-	}
 }
 
 
@@ -146,24 +123,6 @@ proc gaussianVMD::loadGaussianOutputFileAllStructures {path} {
 	}
 }
 
-#### Load the first structure of a output file
-proc gaussianVMD::loadGaussianOutputFileInitialStructure {path} {
-	#### Number of Atoms
-	set lineBeforeStructure [split [exec grep -n " Charge =" $path | tail -n 1] ":"]
-	set firstLineStructure [expr [lindex $lineBeforeStructure 0] + 1]
-	set lineAfterStructure [split [exec egrep -n -B 1 "^ $" $path | tail -n 1] ":"]
-	set lastLineStructure [expr [lindex $lineAfterStructure 0] - 1]
-
-	#### Grep the initial structure
-	set gaussianVMD::structureGaussian [exec sed -n "$firstLineStructure,$lastLineStructure p" $path]
-
-	#### Get Information about the structure of the system
-	gaussianVMD::organizeStructureData
-
-	#### Convert the file to PDB
-	gaussianVMD::convertToPDB
-
-}
 
 #### Load the last structure of a PDB file
 proc gaussianVMD::loadGaussianOutputFileLastStructure {path} {
