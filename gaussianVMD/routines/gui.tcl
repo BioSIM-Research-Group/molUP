@@ -33,7 +33,7 @@ proc gaussianVMD::buildGui {} {
     grid [frame $gaussianVMD::topGui.frame0 -bg black] -row 0 -column 0 -padx 1 -pady 1 -sticky news
     
     grid [canvas $gaussianVMD::topGui.frame0.title -height 45 -width [expr $wWidth * 2] -bg "mint cream"  -highlightthickness 0] -in $gaussianVMD::topGui.frame0 -row 0 -column 0 -sticky news
-    	$gaussianVMD::topGui.frame0.title create text $wWidth 20 -text "Gaussian for VMD" -font {Helvetival 20} -fill "light sea green"
+    	$gaussianVMD::topGui.frame0.title create text $wWidth 20 -text "Gaussian for VMD" -font {Arial 20} -fill "light sea green"
 
 
     #### FRAME 1 - Load a file
@@ -41,7 +41,7 @@ proc gaussianVMD::buildGui {} {
 		
 		grid [ttk::label $gaussianVMD::topGui.frame1.pathEntryLabel \
 		    -text {Choose a file to load: } \
-		    -font {Helvetical 13} \
+		    -font {Arial 13} \
 		    -foreground {light sea green} \
 		    ] -in $gaussianVMD::topGui.frame1 -row 0 -column 0 -padx 2 -pady 2 -sticky news
 
@@ -78,18 +78,18 @@ proc gaussianVMD::buildGui {} {
 	#### FRAME 2 - Informations abou the file
 	grid [frame $gaussianVMD::topGui.frame2 -background "white"] -row 3 -column 0 -padx 5 -pady 5 -sticky news
 		#### Job Title
-		grid [label $gaussianVMD::topGui.frame2.jobTitleLabel \
+		grid [ttk::label $gaussianVMD::topGui.frame2.jobTitleLabel \
 			    -text {Job title:} \
-			    -font {Helvetical 16} \
+			    -font {Arial 16} \
 			    -background {white} \
 			    -foreground {light sea green} \
 			    ] -in $gaussianVMD::topGui.frame2 -row 0 -column 0 -padx 10 -pady 0 -sticky nws
 
-		grid [entry $gaussianVMD::topGui.frame2.jobTitle \
+		grid [ttk::entry $gaussianVMD::topGui.frame2.jobTitle \
 			-textvariable gaussianVMD::title \
 		    -background {white} \
 		    -width 45 \
-		    -font {Helvetical 12} \
+		    -font {Arial 12} \
 		    ] -in $gaussianVMD::topGui.frame2 -row 1 -column 0 -padx 10 -pady 5 -sticky news
 
 
