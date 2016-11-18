@@ -62,10 +62,14 @@ namespace eval gaussianVMD:: {
 		variable selectionModificationType		""
 		variable selectionModificationValue		""
 
+		#### Images
+		variable images 		"logo.gif"
+		variable imagesNames 	"logo"
 
 }
 
 
 ## Initiate ###
+gaussianVMD::loadImages
 gaussianVMD::buildGui
 

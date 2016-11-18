@@ -27,15 +27,17 @@ proc gaussianVMD::buildGui {} {
 	set x [expr $sWidth - 2*($wWidth)]
 
 	wm geometry $::gaussianVMD::topGui 400x${sHeight}+$x+25
-	$::gaussianVMD::topGui configure -background {light slate gray}
+	$::gaussianVMD::topGui configure -background {white}
 	wm resizable $::gaussianVMD::topGui 0 0
 
 	###########################################################
     #### FRAME 0 - initial logo
     grid [ttk::frame $gaussianVMD::topGui.frame0] -row 0 -column 0 -padx 5 -pady 10 -sticky news
     
-    grid [canvas $gaussianVMD::topGui.frame0.title -height 45 -width [expr $wWidth * 2 - 10] -bg "mint cream"  -highlightthickness 0] -in $gaussianVMD::topGui.frame0 -row 0 -column 0 -sticky news
-    	$gaussianVMD::topGui.frame0.title create text $wWidth 20 -text "Gaussian for VMD" -font {Arial 20} -fill "light sea green"
+    grid [canvas $gaussianVMD::topGui.frame0.title -height 90 -width [expr $wWidth * 2 - 10] -bg "white"  -highlightthickness 0] -in $gaussianVMD::topGui.frame0 -row 0 -column 0 -sticky news
+    	$gaussianVMD::topGui.frame0.title create text [expr $wWidth + 30] 45 -text "Gaussian for VMD" -font {Arial 30} -fill "black"
+	
+	$gaussianVMD::topGui.frame0.title create image 50 45 -image $gaussianVMD::logo
 
 	###########################################################
     #### FRAME 1 - Load a file
@@ -260,7 +262,7 @@ proc gaussianVMD::buildGui {} {
 
 
 	#### Last FRAME - Save The Files
-	grid [ttk::frame $gaussianVMD::topGui.frameLast -style gaussianVMD.TFrame] -row 10 -column 0 -padx 5 -pady 2 -sticky news
+	grid [ttk::frame $gaussianVMD::topGui.frameLast] -row 10 -column 0 -padx 5 -pady 2 -sticky news
 
 		grid [ttk::label $gaussianVMD::topGui.frameLast.savePDBLabel \
 			    -text {Save as PDB File:} \
@@ -293,9 +295,9 @@ proc gaussianVMD::buildGui {} {
 
 		grid [ttk::label $gaussianVMD::topGui.frameLast.copyright \
 		    -text "Developed by Henrique S. Fernandes - henriquefer11@gmail.com - 2016 v $gaussianVMD::version" \
-		    -font {Arial 8} \
+		    -font {Arial 9} \
 		    -foreground {gray} \
-		    ] -in $gaussianVMD::topGui.frameLast -row 3 -column 0 -padx 5 -pady 10 -sticky ne
+		    ] -in $gaussianVMD::topGui.frameLast -row 3 -column 0 -columnspan 2 -padx 5 -pady 10 -sticky ne
 
 
 }
@@ -311,5 +313,11 @@ ttk::style configure gaussianVMD.TLabel \
 	-font {Arial 14} \
 	-background {red}
 
-ttk::style configure gaussianVMD.TFrame \
-	-background {red}
+
+
+
+proc gaussianVMD::loadImages {} {
+	foreach file $gaussianVMD::images keyword $gaussianVMD::imagesNames {
+		variable $keyword [image create photo -format gif -file img/$file] 
+	}
+}
