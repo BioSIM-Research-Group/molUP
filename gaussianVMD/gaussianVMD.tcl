@@ -61,6 +61,7 @@ namespace eval gaussianVMD:: {
 		variable loadMode						""
 		variable selectionModificationType		""
 		variable selectionModificationValue		""
+		variable atomSelection					"all"
 
 		#### Images
 		variable images 		"logo.gif"

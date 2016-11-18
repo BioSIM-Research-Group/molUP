@@ -220,7 +220,7 @@ proc gaussianVMD::buildGui {} {
 				    ] -in $gaussianVMD::topGui.frame4 -row 0 -column 0 -padx 2 -pady 2 -sticky news
 
 		grid [ttk::entry $gaussianVMD::topGui.frame4.selection \
-				-textvariable "teste" \
+				-textvariable gaussianVMD::atomSelection \
 			    -width 45 \
 			    -font {Arial 12} \
 			    ] -in $gaussianVMD::topGui.frame4 -row 1 -column 0 -sticky news
@@ -228,17 +228,24 @@ proc gaussianVMD::buildGui {} {
 	grid [ttk::frame $gaussianVMD::topGui.frame5] -row 8 -column 0 -padx 5 -pady 0 -sticky news		    
 		
 		grid [ttk::combobox $gaussianVMD::topGui.frame5.selectModification \
-		    -textvariable $gaussianVMD::selectionModificationType \
+		    -textvariable gaussianVMD::selectionModificationType \
 		    -width 10 \
 			-state readonly \
 		    -values "[list "Freeze" "Layer"]"
 		    ] -in $gaussianVMD::topGui.frame5 -row 0 -column 1 -sticky news
 
+		$gaussianVMD::topGui.frame5.selectModification set "Layer"
+
 		grid [ttk::combobox $gaussianVMD::topGui.frame5.selectModificationValue \
 		    -textvariable $gaussianVMD::selectionModificationValue \
 		    -width 20 \
-		    -values "[list "0" "-1" "-2" "-3" "High Layer" "Medium Layer" "Low Layer"]"
+			-postcommand {$gaussianVMD::topGui.frame5.selectModificationValue configure -values [if {$gaussianVMD::selectionModificationType == "Freeze"} {
+			list "0" "-1" "-2" "-3"
+			} elseif {$gaussianVMD::selectionModificationType == "Layer"} {
+			list "High Layer" "Medium Layer" "Low Layer"
+			} else {}]} \
 		    ] -in $gaussianVMD::topGui.frame5 -row 0 -column 2 -sticky news 
+
 
 		grid [ttk::button $gaussianVMD::topGui.frame5.selectionApply \
 		    -text "Apply" \
