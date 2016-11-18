@@ -249,7 +249,7 @@ proc gaussianVMD::buildGui {} {
 
 		grid [ttk::button $gaussianVMD::topGui.frame5.selectionApply \
 		    -text "Apply" \
-		    -command {gaussianVMD::loadButton $gaussianVMD::fileExtension} \
+			-command {gaussianVMD::applyToStructure} \
 		    ] -in $gaussianVMD::topGui.frame5 -row 0 -column 3 -sticky news
 
 		

@@ -19,3 +19,4 @@ package ifneeded loadMoleculeVMD 	                        1.0 [list source [file
 package ifneeded timeControl     	                        1.0 [list source [file join $dir/lib/timeControl.tcl]]
 package ifneeded loadGaussianInputFile     	                1.0 [list source [file join $dir/lib/loadGaussianInputFile.tcl]]
 package ifneeded loadGaussianOutputFileFirstStructure     	1.0 [list source [file join $dir/lib/loadGaussianOutputFileFirstStructure.tcl]]
+package ifneeded applyToStructure                        	1.0 [list source [file join $dir/lib/applyToStructure.tcl]]
