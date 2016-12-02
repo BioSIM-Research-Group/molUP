@@ -8,3 +8,4 @@ proc gaussianVMD::applyToStructure {} {
         set alert [tk_messageBox -message "No structure was loaded. Please, load a structure before try to modify it." -type ok -icon error]
     }
 }
+

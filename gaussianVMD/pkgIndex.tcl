@@ -21,3 +21,4 @@ package ifneeded loadGaussianInputFile     	                1.0 [list source [fi
 package ifneeded loadGaussianOutputFileFirstStructure     	1.0 [list source [file join $dir/lib/loadGaussianOutputFileFirstStructure.tcl]]
 package ifneeded loadGaussianOutputFileLastStructure     	1.0 [list source [file join $dir/lib/loadGaussianOutputFileLastStructure.tcl]]
 package ifneeded applyToStructure                        	1.0 [list source [file join $dir/lib/applyToStructure.tcl]]
+package ifneeded editStructure                          	1.0 [list source [file join $dir/lib/editStructure.tcl]]

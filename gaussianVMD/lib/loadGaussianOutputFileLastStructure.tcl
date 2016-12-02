@@ -116,13 +116,10 @@ proc gaussianVMD::loadGaussianOutputFileLastStructure {} {
 		for {set i 0} {$i < 6} {incr i} {
 			lappend [subst columns$i] [subst $[subst column$i]]
 		}
-
 			lappend gaussianVMD::xxList						$column3			
 			lappend gaussianVMD::yyList						$column4
 			lappend gaussianVMD::zzList						$column5
 	}
-
-
 
 	## Create a temporary folder
 	exec mkdir -p .temporary

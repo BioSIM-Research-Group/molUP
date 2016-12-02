@@ -127,6 +127,7 @@ proc gaussianVMD::buildGui {} {
 		grid [ttk::frame $gaussianVMD::topGui.frame3.tabsAtomList.tab1.frame] -row 0 -column 0  -padx 0 -pady 0
 
 			grid [tablelist::tablelist $gaussianVMD::topGui.frame3.tabsAtomList.tab1.frame.tableLayer\
+				 -showeditcursor true \
 				 -columns {0 "Index" 0 "Atom" 0 "Resname" 0 "Resid" 0 "Charges"} \
 				 -stretch all \
 				 -background white \
@@ -144,16 +145,22 @@ proc gaussianVMD::buildGui {} {
 			     -command [list $gaussianVMD::topGui.frame3.tabsAtomList.tab1.frame.tableLayer xview]\
 			     ] -in $gaussianVMD::topGui.frame3.tabsAtomList.tab1.frame -row 1 -column 0 -padx 0 -pady 0 -sticky news
 
+			$gaussianVMD::topGui.frame3.tabsAtomList.tab1.frame.tableLayer configcolumns 4 -editable true
+
+
+
 
 		## ONIOM Layer
 		grid [ttk::frame $gaussianVMD::topGui.frame3.tabsAtomList.tab2.frame] -row 0 -column 0  -padx 0 -pady 0
 
 			grid [tablelist::tablelist $gaussianVMD::topGui.frame3.tabsAtomList.tab2.frame.tableLayer \
-			     -columns {0 "Index" 0 "Atom" 0 "Resname" 0 "Resid" 0 "Layer"} \
+			     -columns {0 "Index" center 0 "Atom" center 0 "Resname" center 0 "Resid" center 0 "Layer" center} \
 		         -stretch all \
 		         -background white \
 		         -yscrollcommand [list $gaussianVMD::topGui.frame3.tabsAtomList.tab2.frame.yscb set] \
 				 -xscrollcommand [list $gaussianVMD::topGui.frame3.tabsAtomList.tab2.frame.xscb set] \
+				 -selectmode extended \
+				 -editstartcommand gaussianVMD::oniomLayer \
 		         ] -in $gaussianVMD::topGui.frame3.tabsAtomList.tab2.frame -row 0 -column 0 -padx 0 -pady 0 -ipadx 95 -sticky news
 
 			grid [ttk::scrollbar $gaussianVMD::topGui.frame3.tabsAtomList.tab2.frame.yscb \
@@ -165,6 +172,13 @@ proc gaussianVMD::buildGui {} {
 			     -orient horizontal \
 			     -command [list $gaussianVMD::topGui.frame3.tabsAtomList.tab2.frame.tableLayer xview]\
 			     ] -in $gaussianVMD::topGui.frame3.tabsAtomList.tab2.frame -row 1 -column 0 -padx 0 -pady 0 -sticky news
+
+
+
+			$gaussianVMD::topGui.frame3.tabsAtomList.tab2.frame.tableLayer columnconfigure 4 \
+				-sortmode real \
+				-editable true \
+				-editwindow ttk::combobox
 
 
 		## Freeze Status

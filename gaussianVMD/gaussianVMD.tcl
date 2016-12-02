@@ -21,6 +21,7 @@ namespace eval gaussianVMD:: {
 		package require loadGaussianOutputFileFirstStructure	1.0
 		package require loadGaussianOutputFileLastStructure		1.0
 		package require applyToStructure						1.0
+		package	require editStructure							1.0
 
 		package require Tk
 		package require tablelist 
