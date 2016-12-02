@@ -128,11 +128,13 @@ proc gaussianVMD::buildGui {} {
 
 			grid [tablelist::tablelist $gaussianVMD::topGui.frame3.tabsAtomList.tab1.frame.tableLayer\
 				 -showeditcursor true \
-				 -columns {0 "Index" 0 "Atom" 0 "Resname" 0 "Resid" 0 "Charges"} \
+				 -columns {0 "Index" center 0 "Atom" center 0 "Resname" center 0 "Resid" center 0 "Charges" center} \
 				 -stretch all \
 				 -background white \
 				 -yscrollcommand [list $gaussianVMD::topGui.frame3.tabsAtomList.tab1.frame.yscb set] \
 				 -xscrollcommand [list $gaussianVMD::topGui.frame3.tabsAtomList.tab1.frame.xscb set] \
+				 -selectmode extended \
+				 -movablecolumns true \
 				 ] -in $gaussianVMD::topGui.frame3.tabsAtomList.tab1.frame -row 0 -column 0 -padx 0 -pady 0 -ipadx 95 -sticky news
 
 			grid [ttk::scrollbar $gaussianVMD::topGui.frame3.tabsAtomList.tab1.frame.yscb \
@@ -147,6 +149,7 @@ proc gaussianVMD::buildGui {} {
 
 			$gaussianVMD::topGui.frame3.tabsAtomList.tab1.frame.tableLayer configcolumns 4 -editable true
 
+    	bind $gaussianVMD::topGui.frame3.tabsAtomList.tab1.frame.tableLayer <<TablelistSelect>> gaussianVMD::changeRepCurSelection
 
 
 
@@ -185,7 +188,7 @@ proc gaussianVMD::buildGui {} {
 		grid [ttk::frame $gaussianVMD::topGui.frame3.tabsAtomList.tab3.frame] -row 0 -column 0  -padx 0 -pady 0
 
 			grid [tablelist::tablelist $gaussianVMD::topGui.frame3.tabsAtomList.tab3.frame.tableLayer \
-				 -columns {0 "Index" 0 "Atom" 0 "Resname" 0 "Resid" 0 "Freeze"} \
+				 -columns {0 "Index" center 0 "Atom" center 0 "Resname" center 0 "Resid" center 0 "Freeze" center} \
 			     -stretch all \
 			     -background white \
 			     -yscrollcommand [list $gaussianVMD::topGui.frame3.tabsAtomList.tab3.frame.yscb set] \
@@ -207,7 +210,7 @@ proc gaussianVMD::buildGui {} {
 		grid [ttk::frame $gaussianVMD::topGui.frame3.tabsAtomList.tab4.frame] -row 0 -column 0  -padx 0 -pady 0
 
 			grid [tablelist::tablelist $gaussianVMD::topGui.frame3.tabsAtomList.tab4.frame.tableLayer \
-				 -columns {0 "Index" 0 "Atom" 0 "Resname" 0 "Resid" 0 "X" 0 "Y" 0 "Z"} \
+				 -columns {0 "Index" center 0 "Atom" center 0 "Resname" center 0 "Resid" center 0 "X" center 0 "Y" center 0 "Z" center} \
 			     -stretch all \
 			     -background white \
 			     -yscrollcommand [list $gaussianVMD::topGui.frame3.tabsAtomList.tab4.frame.yscb set] \

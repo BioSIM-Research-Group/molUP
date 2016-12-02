@@ -7,5 +7,5 @@ proc gaussianVMD::loadMolecule {fileName timeWhenWasSaved} {
 	##Show a successful messgae
 	set alert [tk_messageBox -message "The file was sucessfully loaded." -type ok -icon info]
 
-
+	gaussianVMD::addSelectionRep
 }

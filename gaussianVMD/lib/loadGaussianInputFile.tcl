@@ -18,77 +18,10 @@ proc gaussianVMD::loadGaussianInputFile {} {
 	#### Number of Atoms
 	set lineNumberFirst [expr [gaussianVMD::getBlankLines $gaussianVMD::path 1] + 2]
 	set lineNumberLast [expr [gaussianVMD::getBlankLines $gaussianVMD::path 2] - 1]
+	set gaussianVMD::numberAtoms [expr $lineNumberLast - $lineNumberFirst + 1]
+		## Get the Initial Structure
 	set gaussianVMD::structureGaussian [exec sed -n "$lineNumberFirst,$lineNumberLast p" $gaussianVMD::path]
 
-    #### Organize the structure info
-    set allAtoms [split $gaussianVMD::structureGaussian \n]
-	foreach atom $allAtoms {
-		lassign $atom column0 column1 column2 column3 column4 column5 column6 column7 column8
-		for {set i 0} {$i < 9} {incr i} {
-			lappend [subst columns$i] [subst $[subst column$i]]
-		}
-
-	    #### Condition to distinguish between ONIOM and simple calculations
-		if {$column5 != ""} {
-
-			if {[string match "*--*" $column0]==1} {
-
-				regexp {(\S+)[-](\S+)[-][-](\S+)[(]PDBName=(\S+),ResName=(\S+),ResNum=(\S+)[)]} $column0 -> \
-					 atomicSymbol gaussianAtomType charge pdbAtomType resname resid
-					lappend gaussianVMD::atomicSymbolList 			$atomicSymbol
-					lappend gaussianVMD::gaussianAtomTypeList		$gaussianAtomType
-					lappend gaussianVMD::pdbAtomTypeList	 		$pdbAtomType
-					lappend gaussianVMD::resnameList		 		$resname
-					lappend gaussianVMD::residList		 			$resid
-					lappend gaussianVMD::chargeList 				-$charge
-					lappend gaussianVMD::freezeList					$column1
-					lappend gaussianVMD::xxList						$column2			
-					lappend gaussianVMD::yyList						$column3
-					lappend gaussianVMD::zzList						$column4
-					lappend gaussianVMD::atomDesigList				$column5
-					lappend gaussianVMD::linkAtomList				$column6
-					lappend gaussianVMD::linkAtomNumbList			$column7
-					lappend gaussianVMD::linkAtomValueList			$column8	
-
-			} else {
-					regexp {(\S+)[-](\S+)[-](\S+)[(]PDBName=(\S+),ResName=(\S+),ResNum=(\S+)[)]} $column0 -> \
-					 atomicSymbol gaussianAtomType charge pdbAtomType resname resid
-					lappend gaussianVMD::atomicSymbolList 			$atomicSymbol
-					lappend gaussianVMD::gaussianAtomTypeList		$gaussianAtomType
-					lappend gaussianVMD::pdbAtomTypeList	 		$pdbAtomType
-					lappend gaussianVMD::resnameList		 		$resname
-					lappend gaussianVMD::residList		 			$resid
-					lappend gaussianVMD::chargeList 				$charge
-					lappend gaussianVMD::freezeList					$column1
-					lappend gaussianVMD::xxList						$column2			
-					lappend gaussianVMD::yyList						$column3
-					lappend gaussianVMD::zzList						$column4
-					lappend gaussianVMD::atomDesigList				$column5
-					lappend gaussianVMD::linkAtomList				$column6
-					lappend gaussianVMD::linkAtomNumbList			$column7
-					lappend gaussianVMD::linkAtomValueList			$column8
-			}
-		} else {
-
-			lappend gaussianVMD::atomicSymbolList 			$column0
-			lappend gaussianVMD::xxList						$column1			
-			lappend gaussianVMD::yyList						$column2
-			lappend gaussianVMD::zzList						$column3
-			lappend gaussianVMD::gaussianAtomTypeList		""
-			lappend gaussianVMD::pdbAtomTypeList	 		""
-			lappend gaussianVMD::resnameList		 		""
-			lappend gaussianVMD::residList		 			""
-			lappend gaussianVMD::chargeList 				""
-			lappend gaussianVMD::freezeList					""
-			lappend gaussianVMD::atomDesigList				""
-			lappend gaussianVMD::linkAtomList				""
-			lappend gaussianVMD::linkAtomNumbList			""
-			lappend gaussianVMD::linkAtomValueList			""
-		}
-	}
-
-    #### Convert the information to a PDB file
-    set gaussianVMD::numberAtoms [llength $gaussianVMD::atomicSymbolList]
 
 	## Create a temporary folder
 	exec mkdir -p .temporary
@@ -102,55 +35,90 @@ proc gaussianVMD::loadGaussianInputFile {} {
 	## Add a header to the file
 	puts $gaussianVMD::temporaryPDBFile "HEADER\n $gaussianVMD::title"
 
-	## Add the structure to the file
-	for {set i 0} {$i < $gaussianVMD::numberAtoms} {incr i} {
-	  	
-	  	set xx [regexp {(\S+)\.+(\S+)} [lindex $gaussianVMD::xxList $i] -> xbefore xafter]
-	    set x $xbefore\.[format %.3s $xafter]
-	    set yy [regexp {(\S+)\.+(\S+)} [lindex $gaussianVMD::yyList $i] -> ybefore yafter]
-	    set y $ybefore\.[format %.3s $yafter]
-	    set zz [regexp {(\S+)\.+(\S+)} [lindex $gaussianVMD::zzList $i] -> zbefore zafter]
-	    set z $zbefore\.[format %.3s $zafter]
+	puts $gaussianVMD::temporaryPDBFile $gaussianVMD::structureGaussian
 
+    #### Organize the structure info
+    set allAtoms [split $gaussianVMD::structureGaussian \n]
+	set i 0
+	foreach atom $allAtoms {
+			
+			lassign $atom column0 column1 column2 column3 column4 column5 column6 column7 column8
 
-	   	puts $gaussianVMD::temporaryPDBFile "[format %-4s "ATOM"] [format %6s [expr $i + 1]] [format %-4s [lindex $gaussianVMD::pdbAtomTypeList $i]][format %4s [lindex $gaussianVMD::resnameList $i]] [format %-1s [lindex $gaussianVMD::atomDesigList $i]] [format %-7s [lindex $gaussianVMD::residList $i]] [format %7s $x] [format %7s $y] [format %7s $z] [format %5s "1.00"] [format %-8s "00.00"] [format %8s [lindex $gaussianVMD::atomicSymbolList $i]]"
+	    	#### Condition to distinguish between ONIOM and simple calculations
+			incr i
+			regexp {(\S+)[-](\S+)[-](\S+)[(]PDBName=(\S+),ResName=(\S+),ResNum=(\S+)[)]} $column0 -> \
+			atomicSymbol gaussianAtomType charge pdbAtomType resname resid
 
-	   	$gaussianVMD::topGui.frame3.tabsAtomList.tab1.frame.tableLayer insert end [list \
-	   	"[expr $i + 1]" \
-	   	"[lindex $gaussianVMD::pdbAtomTypeList $i]" \
-	   	"[lindex $gaussianVMD::resnameList $i]" \
-	   	"[lindex $gaussianVMD::residList $i]" \
-	   	"[lindex $gaussianVMD::chargeList $i]"\
-	   	]
+			regexp {(\S+)\.+(\S+)} $column2 -> xbefore xafter
+	    	set x $xbefore\.[format %.3s $xafter]
+	    	regexp {(\S+)\.+(\S+)} $column3 -> ybefore yafter
+	    	set y $ybefore\.[format %.3s $yafter]
+	    	regexp {(\S+)\.+(\S+)} $column4 -> zbefore zafter
+	    	set z $zbefore\.[format %.3s $zafter]
+			
+			if {[string match "*--*" $column0]==1} {
+				set charge [expr $charge * -1] } else {
+			 }
+			
 
-	   	$gaussianVMD::topGui.frame3.tabsAtomList.tab2.frame.tableLayer insert end [list \
-	   	"[expr $i + 1]" \
-	   	"[lindex $gaussianVMD::pdbAtomTypeList $i]" \
-	   	"[lindex $gaussianVMD::resnameList $i]" \
-	   	"[lindex $gaussianVMD::residList $i]" \
-	   	"[lindex $gaussianVMD::atomDesigList $i]"\
-	   	]
+			puts $gaussianVMD::temporaryPDBFile "[format %-4s "ATOM"] [format %6s $i] [format %-4s $pdbAtomType][format %4s $resname] [format %-1s $column5] [format %-7s $resid] [format %7s $x] [format %7s $y] [format %7s $z] [format %5s "1.00"] [format %-8s "00.00"] [format %8s $atomicSymbol]"
+			
+			$gaussianVMD::topGui.frame3.tabsAtomList.tab1.frame.tableLayer insert end [list \
+	   			"$i" \
+	   			"$pdbAtomType" \
+	   			"$resname" \
+	   			"$resid" \
+	   			"$charge"\
+	   			]
+			   
+			$gaussianVMD::topGui.frame3.tabsAtomList.tab2.frame.tableLayer insert end [list \
+	   			"$i" \
+	   			"$pdbAtomType" \
+	   			"$resname" \
+	   			"$resid" \
+	   			"$column5"\
+	   			]
+	   		
+			$gaussianVMD::topGui.frame3.tabsAtomList.tab3.frame.tableLayer insert end [list \
+	   			"$i" \
+	   			"$pdbAtomType" \
+	   			"$resname" \
+	   			"$resid" \
+	   			"$column1"\
+	   			]
+	   		
+			$gaussianVMD::topGui.frame3.tabsAtomList.tab4.frame.tableLayer insert end [list \
+	   			"$i" \
+	   			"$pdbAtomType" \
+	   			"$resname" \
+	   			"$resid" \
+	   			"$x" \
+	   			"$y" \
+	   			"$z"\
+	   			]
 
-	   	$gaussianVMD::topGui.frame3.tabsAtomList.tab3.frame.tableLayer insert end [list \
-	   	"[expr $i + 1]" \
-	   	"[lindex $gaussianVMD::pdbAtomTypeList $i]" \
-	   	"[lindex $gaussianVMD::resnameList $i]" \
-	   	"[lindex $gaussianVMD::residList $i]" \
-	   	"[lindex $gaussianVMD::freezeList $i]"\
-	   	]
+			set atomicSymbol 		""
+			set gaussianAtomType 	"" 
+			set charge				""
+			set pdbAtomType			""
+			set resname				""
+			set resid				""
+			set x					""
+			set y					""
+			set z					""
+			set column0				""
+			set column1				""
+			set column2				""
+			set column3				""
+			set column4				""
+			set column5				""
+			set column6				""
+			set column7				""
+			set column8				""
 
-	   	$gaussianVMD::topGui.frame3.tabsAtomList.tab4.frame.tableLayer insert end [list \
-	   	"[expr $i + 1]" \
-	   	"[lindex $gaussianVMD::pdbAtomTypeList $i]" \
-	   	"[lindex $gaussianVMD::resnameList $i]" \
-	   	"[lindex $gaussianVMD::residList $i]" \
-	   	"[lindex $gaussianVMD::xxList $i]" \
-	   	"[lindex $gaussianVMD::yyList $i]" \
-	   	"[lindex $gaussianVMD::zzList $i]"\
-	   	]
-	  }
-
-	  ## Add a footer to the file
+	}	  
+	
+	## Add a footer to the file
 	  puts $gaussianVMD::temporaryPDBFile "END"
 
     #### Close the temporary file
