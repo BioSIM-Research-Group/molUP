@@ -65,6 +65,15 @@ namespace eval gaussianVMD:: {
 		variable selectionModificationType		""
 		variable selectionModificationValue		""
 		variable atomSelection					"all"
+		variable HLrep		"0"
+		variable MLrep		"0"
+		variable LLrep		"0"
+		variable unfreezeRep	"0"
+		variable freezeRep		"0"
+		variable allRep			"1"
+		variable proteinRep		"0"
+		variable nonproteinRep	"0"
+		variable waterRep		"0"
 
 		#### Images
 		variable images 		"logo.gif"

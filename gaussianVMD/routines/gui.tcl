@@ -158,48 +158,57 @@ proc gaussianVMD::buildGui {} {
 										-style gaussianVMD.TLabel
 									    ] -in $gaussianVMD::topGui.frame3.tabsAtomList.tab1.frame -row 2 -column 0 -padx 2 -pady 2 -sticky news
 
-					grid [ttk::button $gaussianVMD::topGui.frame3.tabsAtomList.tab1.frame.showHL \
+					grid [ttk::checkbutton $gaussianVMD::topGui.frame3.tabsAtomList.tab1.frame.showHL \
 							    -text "High Layer" \
+								-variable gaussianVMD::HLrep \
 								-command {gaussianVMD::onOffRepresentation 2} \
 							    ] -in $gaussianVMD::topGui.frame3.tabsAtomList.tab1.frame -row 3 -column 0 -sticky news
 
-					grid [ttk::button $gaussianVMD::topGui.frame3.tabsAtomList.tab1.frame.showML \
+					grid [ttk::checkbutton $gaussianVMD::topGui.frame3.tabsAtomList.tab1.frame.showML \
 							    -text "Medium Layer" \
+								-variable gaussianVMD::MLrep \
 								-command {gaussianVMD::onOffRepresentation 3} \
 							    ] -in $gaussianVMD::topGui.frame3.tabsAtomList.tab1.frame -row 3 -column 1 -sticky news
 					
-					grid [ttk::button $gaussianVMD::topGui.frame3.tabsAtomList.tab1.frame.showLL \
+					grid [ttk::checkbutton $gaussianVMD::topGui.frame3.tabsAtomList.tab1.frame.showLL \
 							    -text "Low Layer" \
+								-variable gaussianVMD::LLrep \
 								-command {gaussianVMD::onOffRepresentation 4} \
 							    ] -in $gaussianVMD::topGui.frame3.tabsAtomList.tab1.frame -row 3 -column 2 -sticky news
 					
-					grid [ttk::button $gaussianVMD::topGui.frame3.tabsAtomList.tab1.frame.unfreeze \
+					grid [ttk::checkbutton $gaussianVMD::topGui.frame3.tabsAtomList.tab1.frame.unfreeze \
 							    -text "Unfreeze" \
+								-variable gaussianVMD::unfreezeRep \
 								-command {gaussianVMD::onOffRepresentation 8} \
 							    ] -in $gaussianVMD::topGui.frame3.tabsAtomList.tab1.frame -row 4 -column 0 -sticky news
 
-					grid [ttk::button $gaussianVMD::topGui.frame3.tabsAtomList.tab1.frame.freezeMinusOne \
+					grid [ttk::checkbutton $gaussianVMD::topGui.frame3.tabsAtomList.tab1.frame.freezeMinusOne \
 							    -text "Freeze" \
+								-variable gaussianVMD::freezeRep \
 								-command {gaussianVMD::onOffRepresentation 9} \
 							    ] -in $gaussianVMD::topGui.frame3.tabsAtomList.tab1.frame -row 4 -column 1 -sticky news
 					
-					grid [ttk::button $gaussianVMD::topGui.frame3.tabsAtomList.tab1.frame.all \
+					grid [ttk::checkbutton $gaussianVMD::topGui.frame3.tabsAtomList.tab1.frame.all \
 							    -text "All" \
+								-variable gaussianVMD::allRep \
 								-command {gaussianVMD::onOffRepresentation 0} \
 							    ] -in $gaussianVMD::topGui.frame3.tabsAtomList.tab1.frame -row 4 -column 2 -sticky news
 					
-					grid [ttk::button $gaussianVMD::topGui.frame3.tabsAtomList.tab1.frame.protein \
+					grid [ttk::checkbutton $gaussianVMD::topGui.frame3.tabsAtomList.tab1.frame.protein \
 							    -text "Protein" \
+								-variable gaussianVMD::proteinRep \
 								-command {gaussianVMD::onOffRepresentation 5} \
 							    ] -in $gaussianVMD::topGui.frame3.tabsAtomList.tab1.frame -row 5 -column 0 -sticky news
 
-					grid [ttk::button $gaussianVMD::topGui.frame3.tabsAtomList.tab1.frame.nonProtein \
+					grid [ttk::checkbutton $gaussianVMD::topGui.frame3.tabsAtomList.tab1.frame.nonProtein \
 							    -text "Non-Protein" \
+								-variable gaussianVMD::nonproteinRep \
 								-command {gaussianVMD::onOffRepresentation 6} \
 							    ] -in $gaussianVMD::topGui.frame3.tabsAtomList.tab1.frame -row 5 -column 1 -sticky news
 					
-					grid [ttk::button $gaussianVMD::topGui.frame3.tabsAtomList.tab1.frame.water \
+					grid [ttk::checkbutton $gaussianVMD::topGui.frame3.tabsAtomList.tab1.frame.water \
 							    -text "Water" \
+								-variable gaussianVMD::waterRep \
 								-command {gaussianVMD::onOffRepresentation 7} \
 							    ] -in $gaussianVMD::topGui.frame3.tabsAtomList.tab1.frame -row 5 -column 2 -sticky news
 
