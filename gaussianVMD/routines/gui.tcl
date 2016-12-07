@@ -117,100 +117,141 @@ proc gaussianVMD::buildGui {} {
 	#### Atom List - Table
 	grid [ttk::frame $gaussianVMD::topGui.frame3] -row 5 -column 0 -padx 5 -pady 0 -sticky news
 		grid [ttk::notebook $gaussianVMD::topGui.frame3.tabsAtomList] -in $gaussianVMD::topGui.frame3 -row 0 -column 0
-			$gaussianVMD::topGui.frame3.tabsAtomList add [frame $gaussianVMD::topGui.frame3.tabsAtomList.tab1] -text "Charges"
+			$gaussianVMD::topGui.frame3.tabsAtomList add [frame $gaussianVMD::topGui.frame3.tabsAtomList.tab1] -text "Visualization"
 			$gaussianVMD::topGui.frame3.tabsAtomList add [frame $gaussianVMD::topGui.frame3.tabsAtomList.tab2] -text "Layer"
 			$gaussianVMD::topGui.frame3.tabsAtomList add [frame $gaussianVMD::topGui.frame3.tabsAtomList.tab3] -text "Freeze"
-			$gaussianVMD::topGui.frame3.tabsAtomList add [frame $gaussianVMD::topGui.frame3.tabsAtomList.tab4] -text "Coordinates"
+			$gaussianVMD::topGui.frame3.tabsAtomList add [frame $gaussianVMD::topGui.frame3.tabsAtomList.tab4] -text "Charges"
+			$gaussianVMD::topGui.frame3.tabsAtomList add [frame $gaussianVMD::topGui.frame3.tabsAtomList.tab5] -text "XYZ"
 			$gaussianVMD::topGui.frame3.tabsAtomList select $gaussianVMD::topGui.frame3.tabsAtomList.tab1
-
-		### Charges
+		
+		##### - Visualization
 		grid [ttk::frame $gaussianVMD::topGui.frame3.tabsAtomList.tab1.frame] -row 0 -column 0  -padx 0 -pady 0
 
-			grid [tablelist::tablelist $gaussianVMD::topGui.frame3.tabsAtomList.tab1.frame.tableLayer\
+		grid [ttk::label $gaussianVMD::topGui.frame3.tabsAtomList.tab1.frame.quickRepLabel \
+							-text {Quick representantion:} \
+							-style gaussianVMD.TLabel
+						    ] -in $gaussianVMD::topGui.frame3.tabsAtomList.tab1.frame -row 0 -column 0 -padx 2 -pady 2 -sticky news
+
+		grid [ttk::checkbutton $gaussianVMD::topGui.frame3.tabsAtomList.tab1.frame.showHL \
+				    -text "High Layer" \
+					-variable gaussianVMD::HLrep \
+					-command {gaussianVMD::onOffRepresentation 2} \
+				    ] -in $gaussianVMD::topGui.frame3.tabsAtomList.tab1.frame -row 1 -column 0 -sticky news
+
+		grid [ttk::checkbutton $gaussianVMD::topGui.frame3.tabsAtomList.tab1.frame.showML \
+				    -text "Medium Layer" \
+					-variable gaussianVMD::MLrep \
+					-command {gaussianVMD::onOffRepresentation 3} \
+				    ] -in $gaussianVMD::topGui.frame3.tabsAtomList.tab1.frame -row 1 -column 1 -sticky news
+		
+		grid [ttk::checkbutton $gaussianVMD::topGui.frame3.tabsAtomList.tab1.frame.showLL \
+				    -text "Low Layer" \
+					-variable gaussianVMD::LLrep \
+					-command {gaussianVMD::onOffRepresentation 4} \
+				    ] -in $gaussianVMD::topGui.frame3.tabsAtomList.tab1.frame -row 1 -column 2 -sticky news
+		
+		grid [ttk::checkbutton $gaussianVMD::topGui.frame3.tabsAtomList.tab1.frame.unfreeze \
+				    -text "Unfreeze" \
+					-variable gaussianVMD::unfreezeRep \
+					-command {gaussianVMD::onOffRepresentation 8} \
+				    ] -in $gaussianVMD::topGui.frame3.tabsAtomList.tab1.frame -row 2 -column 0 -sticky news
+		grid [ttk::checkbutton $gaussianVMD::topGui.frame3.tabsAtomList.tab1.frame.freezeMinusOne \
+				    -text "Freeze" \
+					-variable gaussianVMD::freezeRep \
+					-command {gaussianVMD::onOffRepresentation 9} \
+				    ] -in $gaussianVMD::topGui.frame3.tabsAtomList.tab1.frame -row 2 -column 1 -sticky news
+		
+		grid [ttk::checkbutton $gaussianVMD::topGui.frame3.tabsAtomList.tab1.frame.all \
+				    -text "All" \
+					-variable gaussianVMD::allRep \
+					-command {gaussianVMD::onOffRepresentation 0} \
+				    ] -in $gaussianVMD::topGui.frame3.tabsAtomList.tab1.frame -row 2 -column 2 -sticky news
+		
+		grid [ttk::checkbutton $gaussianVMD::topGui.frame3.tabsAtomList.tab1.frame.protein \
+				    -text "Protein" \
+					-variable gaussianVMD::proteinRep \
+					-command {gaussianVMD::onOffRepresentation 5} \
+				    ] -in $gaussianVMD::topGui.frame3.tabsAtomList.tab1.frame -row 3 -column 0 -sticky news
+		grid [ttk::checkbutton $gaussianVMD::topGui.frame3.tabsAtomList.tab1.frame.nonProtein \
+				    -text "Non-Protein" \
+					-variable gaussianVMD::nonproteinRep \
+					-command {gaussianVMD::onOffRepresentation 6} \
+				    ] -in $gaussianVMD::topGui.frame3.tabsAtomList.tab1.frame -row 3 -column 1 -sticky news
+		
+		grid [ttk::checkbutton $gaussianVMD::topGui.frame3.tabsAtomList.tab1.frame.water \
+				    -text "Water" \
+					-variable gaussianVMD::waterRep \
+					-command {gaussianVMD::onOffRepresentation 7} \
+				    ] -in $gaussianVMD::topGui.frame3.tabsAtomList.tab1.frame -row 3 -column 2 -sticky news
+		
+		grid [ttk::label $gaussianVMD::topGui.frame3.tabsAtomList.tab1.frame.toolsLabel \
+							-text {Tools:} \
+							-style gaussianVMD.TLabel
+						    ] -in $gaussianVMD::topGui.frame3.tabsAtomList.tab1.frame -row 4 -column 0 -padx 2 -pady 2 -sticky news
+
+		grid [ttk::button $gaussianVMD::topGui.frame3.tabsAtomList.tab1.frame.resetView \
+				    -text "Reset View" \
+					-command {display resetview} \
+				    ] -in $gaussianVMD::topGui.frame3.tabsAtomList.tab1.frame -row 5 -column 0 -sticky news
+		
+		grid [ttk::button $gaussianVMD::topGui.frame3.tabsAtomList.tab1.frame.showRepresentantionWindow \
+				    -text "Graphical Rep." \
+					-command {menu graphics on} \
+				    ] -in $gaussianVMD::topGui.frame3.tabsAtomList.tab1.frame -row 5 -column 1 -sticky news
+		
+		grid [ttk::button $gaussianVMD::topGui.frame3.tabsAtomList.tab1.frame.deleteAllLabels \
+				    -text "Delete all labels" \
+					-command {gaussianVMD::deleteAllLabels} \
+				    ] -in $gaussianVMD::topGui.frame3.tabsAtomList.tab1.frame -row 6 -column 0 -sticky news
+
+		grid [ttk::button $gaussianVMD::topGui.frame3.tabsAtomList.tab1.frame.mouseModeRotate \
+				    -text "Rotate" \
+					-command {mouse mode rotate} \
+				    ] -in $gaussianVMD::topGui.frame3.tabsAtomList.tab1.frame -row 7 -column 0 -sticky news
+
+		grid [ttk::button $gaussianVMD::topGui.frame3.tabsAtomList.tab1.frame.mouseModeTranslate \
+				    -text "Translate" \
+					-command {mouse mode translate} \
+				    ] -in $gaussianVMD::topGui.frame3.tabsAtomList.tab1.frame -row 7 -column 1 -sticky news
+
+		grid [ttk::button $gaussianVMD::topGui.frame3.tabsAtomList.tab1.frame.mouseModeScale \
+				    -text "Scale" \
+					-command {mouse mode scale} \
+				    ] -in $gaussianVMD::topGui.frame3.tabsAtomList.tab1.frame -row 7 -column 2 -sticky news
+
+
+		### Charges
+		grid [ttk::frame $gaussianVMD::topGui.frame3.tabsAtomList.tab4.frame] -row 0 -column 0  -padx 0 -pady 0
+
+			grid [tablelist::tablelist $gaussianVMD::topGui.frame3.tabsAtomList.tab4.frame.tableLayer\
 				 -showeditcursor true \
 				 -columns {0 "Index" center 0 "Atom" center 0 "Resname" center 0 "Resid" center 0 "Charges" center} \
 				 -stretch all \
 				 -background white \
-				 -yscrollcommand [list $gaussianVMD::topGui.frame3.tabsAtomList.tab1.frame.yscb set] \
-				 -xscrollcommand [list $gaussianVMD::topGui.frame3.tabsAtomList.tab1.frame.xscb set] \
+				 -yscrollcommand [list $gaussianVMD::topGui.frame3.tabsAtomList.tab4.frame.yscb set] \
+				 -xscrollcommand [list $gaussianVMD::topGui.frame3.tabsAtomList.tab4.frame.xscb set] \
 				 -selectmode extended \
 				 -movablecolumns true \
-				 ] -in $gaussianVMD::topGui.frame3.tabsAtomList.tab1.frame -row 0 -column 0 -padx 0 -pady 0 -ipadx 95 -sticky news -columnspan 3
+				 -height 16 \
+				 ] -in $gaussianVMD::topGui.frame3.tabsAtomList.tab4.frame -row 0 -column 0 -padx 0 -pady 0 -ipadx 95 -sticky news
 
-			grid [ttk::scrollbar $gaussianVMD::topGui.frame3.tabsAtomList.tab1.frame.yscb \
+			grid [ttk::scrollbar $gaussianVMD::topGui.frame3.tabsAtomList.tab4.frame.yscb \
 			     -orient vertical \
-			     -command [list $gaussianVMD::topGui.frame3.tabsAtomList.tab1.frame.tableLayer yview]\
-			     ] -in $gaussianVMD::topGui.frame3.tabsAtomList.tab1.frame -row 0 -column 1 -padx 0 -pady 0 -sticky nse -columnspan 3
+			     -command [list $gaussianVMD::topGui.frame3.tabsAtomList.tab4.frame.tableLayer yview]\
+			     ] -in $gaussianVMD::topGui.frame3.tabsAtomList.tab4.frame -row 0 -column 1 -padx 0 -pady 0 -sticky nse
 
-			grid [ttk::scrollbar $gaussianVMD::topGui.frame3.tabsAtomList.tab1.frame.xscb \
+			grid [ttk::scrollbar $gaussianVMD::topGui.frame3.tabsAtomList.tab4.frame.xscb \
 			     -orient horizontal \
-			     -command [list $gaussianVMD::topGui.frame3.tabsAtomList.tab1.frame.tableLayer xview]\
-			     ] -in $gaussianVMD::topGui.frame3.tabsAtomList.tab1.frame -row 1 -column 0 -padx 0 -pady 0 -sticky news -columnspan 3
+			     -command [list $gaussianVMD::topGui.frame3.tabsAtomList.tab4.frame.tableLayer xview]\
+			     ] -in $gaussianVMD::topGui.frame3.tabsAtomList.tab4.frame -row 1 -column 0 -padx 0 -pady 0 -sticky news
 
-			$gaussianVMD::topGui.frame3.tabsAtomList.tab1.frame.tableLayer configcolumns 4 -editable true
+			$gaussianVMD::topGui.frame3.tabsAtomList.tab4.frame.tableLayer configcolumns 4 -editable true
 
-    	bind $gaussianVMD::topGui.frame3.tabsAtomList.tab1.frame.tableLayer <<TablelistSelect>> gaussianVMD::changeRepCurSelection
+    	bind $gaussianVMD::topGui.frame3.tabsAtomList.tab4.frame.tableLayer <<TablelistSelect>> gaussianVMD::changeRepCurSelection
 
 
-					##### - Atom Selection
-					grid [ttk::label $gaussianVMD::topGui.frame3.tabsAtomList.tab1.frame.selectionLabel \
-										-text {Quick representantion:} \
-										-style gaussianVMD.TLabel
-									    ] -in $gaussianVMD::topGui.frame3.tabsAtomList.tab1.frame -row 2 -column 0 -padx 2 -pady 2 -sticky news
 
-					grid [ttk::checkbutton $gaussianVMD::topGui.frame3.tabsAtomList.tab1.frame.showHL \
-							    -text "High Layer" \
-								-variable gaussianVMD::HLrep \
-								-command {gaussianVMD::onOffRepresentation 2} \
-							    ] -in $gaussianVMD::topGui.frame3.tabsAtomList.tab1.frame -row 3 -column 0 -sticky news
 
-					grid [ttk::checkbutton $gaussianVMD::topGui.frame3.tabsAtomList.tab1.frame.showML \
-							    -text "Medium Layer" \
-								-variable gaussianVMD::MLrep \
-								-command {gaussianVMD::onOffRepresentation 3} \
-							    ] -in $gaussianVMD::topGui.frame3.tabsAtomList.tab1.frame -row 3 -column 1 -sticky news
-					
-					grid [ttk::checkbutton $gaussianVMD::topGui.frame3.tabsAtomList.tab1.frame.showLL \
-							    -text "Low Layer" \
-								-variable gaussianVMD::LLrep \
-								-command {gaussianVMD::onOffRepresentation 4} \
-							    ] -in $gaussianVMD::topGui.frame3.tabsAtomList.tab1.frame -row 3 -column 2 -sticky news
-					
-					grid [ttk::checkbutton $gaussianVMD::topGui.frame3.tabsAtomList.tab1.frame.unfreeze \
-							    -text "Unfreeze" \
-								-variable gaussianVMD::unfreezeRep \
-								-command {gaussianVMD::onOffRepresentation 8} \
-							    ] -in $gaussianVMD::topGui.frame3.tabsAtomList.tab1.frame -row 4 -column 0 -sticky news
-
-					grid [ttk::checkbutton $gaussianVMD::topGui.frame3.tabsAtomList.tab1.frame.freezeMinusOne \
-							    -text "Freeze" \
-								-variable gaussianVMD::freezeRep \
-								-command {gaussianVMD::onOffRepresentation 9} \
-							    ] -in $gaussianVMD::topGui.frame3.tabsAtomList.tab1.frame -row 4 -column 1 -sticky news
-					
-					grid [ttk::checkbutton $gaussianVMD::topGui.frame3.tabsAtomList.tab1.frame.all \
-							    -text "All" \
-								-variable gaussianVMD::allRep \
-								-command {gaussianVMD::onOffRepresentation 0} \
-							    ] -in $gaussianVMD::topGui.frame3.tabsAtomList.tab1.frame -row 4 -column 2 -sticky news
-					
-					grid [ttk::checkbutton $gaussianVMD::topGui.frame3.tabsAtomList.tab1.frame.protein \
-							    -text "Protein" \
-								-variable gaussianVMD::proteinRep \
-								-command {gaussianVMD::onOffRepresentation 5} \
-							    ] -in $gaussianVMD::topGui.frame3.tabsAtomList.tab1.frame -row 5 -column 0 -sticky news
-
-					grid [ttk::checkbutton $gaussianVMD::topGui.frame3.tabsAtomList.tab1.frame.nonProtein \
-							    -text "Non-Protein" \
-								-variable gaussianVMD::nonproteinRep \
-								-command {gaussianVMD::onOffRepresentation 6} \
-							    ] -in $gaussianVMD::topGui.frame3.tabsAtomList.tab1.frame -row 5 -column 1 -sticky news
-					
-					grid [ttk::checkbutton $gaussianVMD::topGui.frame3.tabsAtomList.tab1.frame.water \
-							    -text "Water" \
-								-variable gaussianVMD::waterRep \
-								-command {gaussianVMD::onOffRepresentation 7} \
-							    ] -in $gaussianVMD::topGui.frame3.tabsAtomList.tab1.frame -row 5 -column 2 -sticky news
 
 		## ONIOM Layer
 		grid [ttk::frame $gaussianVMD::topGui.frame3.tabsAtomList.tab2.frame] -row 0 -column 0  -padx 0 -pady 0
@@ -223,17 +264,17 @@ proc gaussianVMD::buildGui {} {
 				 -xscrollcommand [list $gaussianVMD::topGui.frame3.tabsAtomList.tab2.frame.xscb set] \
 				 -selectmode extended \
 				 -editstartcommand gaussianVMD::oniomLayer \
-		         ] -in $gaussianVMD::topGui.frame3.tabsAtomList.tab2.frame -row 0 -column 0 -padx 0 -pady 0 -ipadx 95 -sticky news
+		         ] -in $gaussianVMD::topGui.frame3.tabsAtomList.tab2.frame -row 0 -column 0 -padx 0 -pady 0 -ipadx 95 -sticky news -columnspan 2
 
 			grid [ttk::scrollbar $gaussianVMD::topGui.frame3.tabsAtomList.tab2.frame.yscb \
 			     -orient vertical \
 			     -command [list $gaussianVMD::topGui.frame3.tabsAtomList.tab2.frame.tableLayer yview]\
-			     ] -in $gaussianVMD::topGui.frame3.tabsAtomList.tab2.frame -row 0 -column 1 -padx 0 -pady 0 -sticky nse
+			     ] -in $gaussianVMD::topGui.frame3.tabsAtomList.tab2.frame -row 0 -column 2 -padx 0 -pady 0 -sticky nse
 
 			grid [ttk::scrollbar $gaussianVMD::topGui.frame3.tabsAtomList.tab2.frame.xscb \
 			     -orient horizontal \
 			     -command [list $gaussianVMD::topGui.frame3.tabsAtomList.tab2.frame.tableLayer xview]\
-			     ] -in $gaussianVMD::topGui.frame3.tabsAtomList.tab2.frame -row 1 -column 0 -padx 0 -pady 0 -sticky news
+			     ] -in $gaussianVMD::topGui.frame3.tabsAtomList.tab2.frame -row 1 -column 0 -padx 0 -pady 0 -sticky news -columnspan 2
 
 
 
@@ -246,24 +287,29 @@ proc gaussianVMD::buildGui {} {
 							grid [ttk::label $gaussianVMD::topGui.frame3.tabsAtomList.tab2.frame.selectionLabel \
 										-text {Atom selection (Change ONIOM layer):} \
 										-style gaussianVMD.TLabel
-									    ] -in $gaussianVMD::topGui.frame3.tabsAtomList.tab2.frame -row 2 -column 0 -padx 2 -pady 2 -sticky news
+									    ] -in $gaussianVMD::topGui.frame3.tabsAtomList.tab2.frame -row 2 -column 0 -padx 2 -pady 2 -sticky news -columnspan 2
 									
 							grid [ttk::entry $gaussianVMD::topGui.frame3.tabsAtomList.tab2.frame.selection \
-									-textvariable gaussianVMD::atomSelection \
+									-textvariable gaussianVMD::atomSelectionONIOM \
 								    -width 45 \
 								    -font {Arial 12} \
-								    ] -in $gaussianVMD::topGui.frame3.tabsAtomList.tab2.frame -row 3 -column 0 -sticky news
+								    ] -in $gaussianVMD::topGui.frame3.tabsAtomList.tab2.frame -row 3 -column 0 -sticky news -columnspan 2
 													
 							grid [ttk::combobox $gaussianVMD::topGui.frame3.tabsAtomList.tab2.frameselectModificationValue \
 							    -textvariable $gaussianVMD::selectionModificationValue \
 							    -width 20 \
-								-values "[list "0" "-1" "-2" "-3"]"
-							    ] -in $gaussianVMD::topGui.frame3.tabsAtomList.tab2.frame -row 4 -column 0 -sticky news 
+								-values "[list "H" "M" "L"]"
+							    ] -in $gaussianVMD::topGui.frame3.tabsAtomList.tab2.frame -row 4 -column 0 -sticky news -columnspan 2
 							
 							grid [ttk::button $gaussianVMD::topGui.frame3.tabsAtomList.tab2.frame.selectionApply \
 							    -text "Apply" \
 								-command {gaussianVMD::applyToStructure} \
-							    ] -in $gaussianVMD::topGui.frame3.tabsAtomList.tab2.frame -row 5 -column 0 -sticky news
+							    ] -in $gaussianVMD::topGui.frame3.tabsAtomList.tab2.frame -row 5 -column 0 -sticky news 
+
+							grid [ttk::button $gaussianVMD::topGui.frame3.tabsAtomList.tab2.frame.clearSelection \
+							    -text "Clear Selection" \
+								-command {gaussianVMD::clearSelection} \
+							    ] -in $gaussianVMD::topGui.frame3.tabsAtomList.tab2.frame -row 5 -column 1 -sticky news
 
 
 		## Freeze Status
@@ -275,61 +321,66 @@ proc gaussianVMD::buildGui {} {
 			     -background white \
 			     -yscrollcommand [list $gaussianVMD::topGui.frame3.tabsAtomList.tab3.frame.yscb set] \
 	             -xscrollcommand [list $gaussianVMD::topGui.frame3.tabsAtomList.tab3.frame.xscb set] \
-			     ] -in $gaussianVMD::topGui.frame3.tabsAtomList.tab3.frame -row 0 -column 0 -padx 0 -pady 0 -ipadx 95 -sticky news
+			     ] -in $gaussianVMD::topGui.frame3.tabsAtomList.tab3.frame -row 0 -column 0 -padx 0 -pady 0 -ipadx 95 -sticky news -columnspan 2
 
 			grid [ttk::scrollbar $gaussianVMD::topGui.frame3.tabsAtomList.tab3.frame.yscb \
 			     -orient vertical \
 			     -command [list $gaussianVMD::topGui.frame3.tabsAtomList.tab3.frame.tableLayer yview]\
-			     ] -in $gaussianVMD::topGui.frame3.tabsAtomList.tab3.frame -row 0 -column 1 -padx 0 -pady 0 -sticky nse
+			     ] -in $gaussianVMD::topGui.frame3.tabsAtomList.tab3.frame -row 0 -column 2 -padx 0 -pady 0 -sticky nse
 
 			grid [ttk::scrollbar $gaussianVMD::topGui.frame3.tabsAtomList.tab3.frame.xscb \
 			     -orient horizontal \
 			     -command [list $gaussianVMD::topGui.frame3.tabsAtomList.tab3.frame.tableLayer xview]\
-			     ] -in $gaussianVMD::topGui.frame3.tabsAtomList.tab3.frame -row 1 -column 0 -padx 0 -pady 0 -sticky news
+			     ] -in $gaussianVMD::topGui.frame3.tabsAtomList.tab3.frame -row 1 -column 0 -padx 0 -pady 0 -sticky news -columnspan 2
 		
 							#### FRAME - Atom Selection
 							grid [ttk::label $gaussianVMD::topGui.frame3.tabsAtomList.tab3.frame.selectionLabel \
 										-text {Atom selection (Change freezing state):} \
 										-style gaussianVMD.TLabel
-									    ] -in $gaussianVMD::topGui.frame3.tabsAtomList.tab3.frame -row 2 -column 0 -padx 2 -pady 2 -sticky news
+									    ] -in $gaussianVMD::topGui.frame3.tabsAtomList.tab3.frame -row 2 -column 0 -padx 2 -pady 2 -sticky news -columnspan 2
 									
 							grid [ttk::entry $gaussianVMD::topGui.frame3.tabsAtomList.tab3.frame.selection \
-									-textvariable gaussianVMD::atomSelection \
+									-textvariable gaussianVMD::atomSelectionFreeze \
 								    -width 45 \
 								    -font {Arial 12} \
-								    ] -in $gaussianVMD::topGui.frame3.tabsAtomList.tab3.frame -row 3 -column 0 -sticky news
+								    ] -in $gaussianVMD::topGui.frame3.tabsAtomList.tab3.frame -row 3 -column 0 -sticky news -columnspan 2
 													
 							grid [ttk::combobox $gaussianVMD::topGui.frame3.tabsAtomList.tab3.frameselectModificationValue \
 							    -textvariable $gaussianVMD::selectionModificationValue \
 							    -width 20 \
-								-values "[list "H" "M" "L"]"
-							    ] -in $gaussianVMD::topGui.frame3.tabsAtomList.tab3.frame -row 4 -column 0 -sticky news 
+								-values "[list "0" "-1" "-2" "-3"]"
+							    ] -in $gaussianVMD::topGui.frame3.tabsAtomList.tab3.frame -row 4 -column 0 -sticky news -columnspan 2
 							
 							grid [ttk::button $gaussianVMD::topGui.frame3.tabsAtomList.tab3.frame.selectionApply \
 							    -text "Apply" \
 								-command {gaussianVMD::applyToStructure} \
 							    ] -in $gaussianVMD::topGui.frame3.tabsAtomList.tab3.frame -row 5 -column 0 -sticky news
 
-		## Coordinates
-		grid [ttk::frame $gaussianVMD::topGui.frame3.tabsAtomList.tab4.frame] -row 0 -column 0  -padx 0 -pady 0
+							grid [ttk::button $gaussianVMD::topGui.frame3.tabsAtomList.tab3.frame.clearSelection \
+							    -text "Clear Selection" \
+								-command {gaussianVMD::applyToStructure} \
+							    ] -in $gaussianVMD::topGui.frame3.tabsAtomList.tab3.frame -row 5 -column 1 -sticky news
 
-			grid [tablelist::tablelist $gaussianVMD::topGui.frame3.tabsAtomList.tab4.frame.tableLayer \
+		## Coordinates
+		grid [ttk::frame $gaussianVMD::topGui.frame3.tabsAtomList.tab5.frame] -row 0 -column 0  -padx 0 -pady 0
+
+			grid [tablelist::tablelist $gaussianVMD::topGui.frame3.tabsAtomList.tab5.frame.tableLayer \
 				 -columns {0 "Index" center 0 "Atom" center 0 "Resname" center 0 "Resid" center 0 "X" center 0 "Y" center 0 "Z" center} \
 			     -stretch all \
 			     -background white \
-			     -yscrollcommand [list $gaussianVMD::topGui.frame3.tabsAtomList.tab4.frame.yscb set] \
-	             -xscrollcommand [list $gaussianVMD::topGui.frame3.tabsAtomList.tab4.frame.xscb set] \
-			     ] -in $gaussianVMD::topGui.frame3.tabsAtomList.tab4.frame -row 0 -column 0 -padx 0 -pady 0 -ipadx 95 -sticky news
+			     -yscrollcommand [list $gaussianVMD::topGui.frame3.tabsAtomList.tab5.frame.yscb set] \
+	             -xscrollcommand [list $gaussianVMD::topGui.frame3.tabsAtomList.tab5.frame.xscb set] \
+			     ] -in $gaussianVMD::topGui.frame3.tabsAtomList.tab5.frame -row 0 -column 0 -padx 0 -pady 0 -ipadx 95 -sticky news
 
-			grid [ttk::scrollbar $gaussianVMD::topGui.frame3.tabsAtomList.tab4.frame.yscb \
+			grid [ttk::scrollbar $gaussianVMD::topGui.frame3.tabsAtomList.tab5.frame.yscb \
 			     -orient vertical \
-			     -command [list $gaussianVMD::topGui.frame3.tabsAtomList.tab4.frame.tableLayer yview]\
-			     ] -in $gaussianVMD::topGui.frame3.tabsAtomList.tab4.frame -row 0 -column 1 -padx 0 -pady 0 -sticky nse
+			     -command [list $gaussianVMD::topGui.frame3.tabsAtomList.tab5.frame.tableLayer yview]\
+			     ] -in $gaussianVMD::topGui.frame3.tabsAtomList.tab5.frame -row 0 -column 1 -padx 0 -pady 0 -sticky nse
 
-			grid [ttk::scrollbar $gaussianVMD::topGui.frame3.tabsAtomList.tab4.frame.xscb \
+			grid [ttk::scrollbar $gaussianVMD::topGui.frame3.tabsAtomList.tab5.frame.xscb \
 			     -orient horizontal \
-			     -command [list $gaussianVMD::topGui.frame3.tabsAtomList.tab4.frame.tableLayer xview]\
-			     ] -in $gaussianVMD::topGui.frame3.tabsAtomList.tab4.frame -row 1 -column 0 -padx 0 -pady 0 -sticky news
+			     -command [list $gaussianVMD::topGui.frame3.tabsAtomList.tab5.frame.tableLayer xview]\
+			     ] -in $gaussianVMD::topGui.frame3.tabsAtomList.tab5.frame -row 1 -column 0 -padx 0 -pady 0 -sticky news
 
 
 

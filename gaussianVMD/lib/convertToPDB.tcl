@@ -132,7 +132,7 @@ proc gaussianVMD::convertToPDBLastStructure {} {
 
 	   	puts $gaussianVMD::temporaryPDBFile "[format %-4s "ATOM"] [format %6s [expr $i + 1]] [format %-4s [lindex $gaussianVMD::pdbAtomTypeList $i]][format %4s [lindex $gaussianVMD::resnameList $i]] [format %-1s [lindex $gaussianVMD::atomDesigList $i]] [format %-7s [lindex $gaussianVMD::residList $i]] [format %7s $x] [format %7s $y] [format %7s $z] [format %5s "1.00"] [format %-8s "00.00"] [format %8s [lindex $gaussianVMD::atomicSymbolList $i]]"
 		
-		$gaussianVMD::topGui.frame3.tabsAtomList.tab1.frame.tableLayer insert end [list \
+		$gaussianVMD::topGui.frame3.tabsAtomList.tab4.frame.tableLayer insert end [list \
 	   	"[expr $i + 1]" \
 	   	"[lindex $gaussianVMD::pdbAtomTypeList $i]" \
 	   	"[lindex $gaussianVMD::resnameList $i]" \
@@ -156,7 +156,7 @@ proc gaussianVMD::convertToPDBLastStructure {} {
 	   	"[lindex $gaussianVMD::freezeList $i]"\
 	   	]
 
-	   	$gaussianVMD::topGui.frame3.tabsAtomList.tab4.frame.tableLayer insert end [list \
+	   	$gaussianVMD::topGui.frame3.tabsAtomList.tab5.frame.tableLayer insert end [list \
 	   	"[expr $i + 1]" \
 	   	"[lindex $gaussianVMD::pdbAtomTypeList $i]" \
 	   	"[lindex $gaussianVMD::resnameList $i]" \

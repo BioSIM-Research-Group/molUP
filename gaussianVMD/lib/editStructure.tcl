@@ -23,7 +23,7 @@ proc gaussianVMD::onOffRepresentation {repIndex} {
             mol showrep top $repIndex 0
         }
 
-        display resetview
+        #display resetview
     }
 
 }
@@ -113,11 +113,23 @@ proc gaussianVMD::addSelectionRep {} {
 
 #### Representantion of current selection
 proc gaussianVMD::changeRepCurSelection {} {
-    set indexSelectedAtoms [$gaussianVMD::topGui.frame3.tabsAtomList.tab1.frame.tableLayer curselection]
+    set indexSelectedAtoms [$gaussianVMD::topGui.frame3.tabsAtomList.tab4.frame.tableLayer curselection]
     
     mol modselect 1 top index $indexSelectedAtoms
+    
+    #set gaussianVMD::atomSelectionONIOM "index $indexSelectedAtoms"
+
 }
 
+
+#### Delete All Labels
+proc gaussianVMD::deleteAllLabels {} {
+    label delete Atoms All
+    label delete Bonds All
+    label delete Angles All
+    label delete Dihedrals All
+    label delete Springs All
+}
 
 #### Optimize index list on VMD Representantion
 proc gaussianVMD::optimizeIndexList {list} {
