@@ -21,6 +21,10 @@ proc gaussianVMD::onOffRepresentation {repIndex} {
 }
 
 proc gaussianVMD::addSelectionRep {} {
+    #### Change atom colors
+    color Name C green3
+
+
     #### Representation of the atoms selected on the tablelist
     mol selection none
 	mol color ColorID 4
