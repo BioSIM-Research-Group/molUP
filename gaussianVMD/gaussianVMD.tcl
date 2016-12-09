@@ -63,7 +63,8 @@ namespace eval gaussianVMD:: {
 		variable time1
 		variable loadMode						""
 		variable selectionModificationType		""
-		variable selectionModificationValue		""
+		variable selectionModificationValueOniom		""
+		variable selectionModificationValueFreeze		""
 		variable atomSelectionONIOM				"none"
 		variable atomSelectionFreeze			"none"
 		variable HLrep		"0"

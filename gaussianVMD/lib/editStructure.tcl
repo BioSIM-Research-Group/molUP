@@ -7,6 +7,17 @@ proc gaussianVMD::oniomLayer {tbl row col text} {
     $w configure -values $values -state readonly
 }
 
+proc gaussianVMD::oniomLayerEnd {} {
+    set highLayerIndex [$gaussianVMD::topGui.frame3.tabsAtomList.tab2.frame.tableLayer searchcolumn 4 "H" -all]
+    mol modselect 2 top index [gaussianVMD::optimizeIndexList $highLayerIndex]
+
+    set mediumLayerIndex [$gaussianVMD::topGui.frame3.tabsAtomList.tab2.frame.tableLayer searchcolumn 4 "M" -all]
+    mol modselect 3 top index [gaussianVMD::optimizeIndexList $mediumLayerIndex]
+
+    set lowLayerIndex [$gaussianVMD::topGui.frame3.tabsAtomList.tab2.frame.tableLayer searchcolumn 4 "L" -all]
+    mol modselect 4 top index [gaussianVMD::optimizeIndexList $lowLayerIndex]
+}
+
 
 proc gaussianVMD::onOffRepresentation {repIndex} {
     set molExists [mol list]
@@ -41,7 +52,8 @@ proc gaussianVMD::addSelectionRep {} {
 	mol addrep top
 
     #### Representantion of High layer
-    mol selection chain H
+    set highLayerIndex [$gaussianVMD::topGui.frame3.tabsAtomList.tab2.frame.tableLayer searchcolumn 4 "H" -all]
+    mol selection index [gaussianVMD::optimizeIndexList $highLayerIndex]
     mol color Name
     mol material Diffuse
     mol representation Licorice 0.300000 12.000000 12.000000
@@ -49,7 +61,8 @@ proc gaussianVMD::addSelectionRep {} {
     mol showrep top 2 $gaussianVMD::HLrep
 
     #### Representantion of Medium layer
-    mol selection chain M
+    set mediumLayerIndex [$gaussianVMD::topGui.frame3.tabsAtomList.tab2.frame.tableLayer searchcolumn 4 "M" -all]
+    mol selection index [gaussianVMD::optimizeIndexList $mediumLayerIndex]
     mol color Name
     mol material Diffuse
     mol representation Licorice 0.100000 12.000000 12.000000
@@ -57,7 +70,8 @@ proc gaussianVMD::addSelectionRep {} {
     mol showrep top 3 $gaussianVMD::MLrep
 
     #### Representantion of Low layer
-    mol selection chain L
+    set lowLayerIndex [$gaussianVMD::topGui.frame3.tabsAtomList.tab2.frame.tableLayer searchcolumn 4 "L" -all]
+    mol selection index [gaussianVMD::optimizeIndexList $lowLayerIndex]
     mol color Name
     mol material Diffuse
     mol representation Lines 1.000000
@@ -112,12 +126,64 @@ proc gaussianVMD::addSelectionRep {} {
 }
 
 #### Representantion of current selection
-proc gaussianVMD::changeRepCurSelection {} {
-    set indexSelectedAtoms [$gaussianVMD::topGui.frame3.tabsAtomList.tab4.frame.tableLayer curselection]
-    
-    mol modselect 1 top index $indexSelectedAtoms
-    
-    #set gaussianVMD::atomSelectionONIOM "index $indexSelectedAtoms"
+proc gaussianVMD::changeRepCurSelection {option} {
+
+    set evaluateLoadedMol [mol list]
+
+    if {$evaluateLoadedMol == "ERROR) No molecules loaded."} {
+        set alert [tk_messageBox -message "No structure was loaded." -type ok -icon error]
+    } else {
+        if {$option == "charges"} {
+            set indexSelectedAtoms [$gaussianVMD::topGui.frame3.tabsAtomList.tab4.frame.tableLayer curselection]
+            mol modselect 1 top index $indexSelectedAtoms
+        
+        } elseif {$option == "oniom"} {
+            set indexSelectedAtoms [$gaussianVMD::topGui.frame3.tabsAtomList.tab2.frame.tableLayer curselection]
+            mol modselect 1 top index $indexSelectedAtoms
+            set gaussianVMD::atomSelectionONIOM "index $indexSelectedAtoms"
+        
+        } elseif {$option == "freeze"} {
+            set indexSelectedAtoms [$gaussianVMD::topGui.frame3.tabsAtomList.tab3.frame.tableLayer curselection]
+            mol modselect 1 top index $indexSelectedAtoms
+            set gaussianVMD::atomSelectionFreeze "index $indexSelectedAtoms"
+        } else {
+            
+        }
+    }
+}
+
+#### Apply selection to structure 
+proc gaussianVMD::applyToStructure {option} {
+    if {$option == "oniom"} {
+        set listIndexAtoms [[atomselect top $gaussianVMD::atomSelectionONIOM] get {index}]
+        foreach atom $listIndexAtoms {
+            $gaussianVMD::topGui.frame3.tabsAtomList.tab2.frame.tableLayer configcells [subst $atom],4 -text [subst $gaussianVMD::selectionModificationValueOniom]
+        }
+        gaussianVMD::oniomLayerEnd
+
+    } elseif {$option == "freeze"} {
+       
+
+    } else {
+        
+    }
+}
+
+#### Clear selection
+proc gaussianVMD::clearSelection {option} {
+    if {$option == "charges"} {
+        mol modselect 1 top none
+
+    } elseif {$option == "oniom"} {
+        mol modselect 1 top none
+        set gaussianVMD::atomSelectionONIOM ""
+
+    } elseif {$option == "freeze"} {
+        mol modselect 1 top none
+        set gaussianVMD::atomSelectionFreeze ""
+    } else {
+        
+    }
 
 }
 
@@ -134,20 +200,18 @@ proc gaussianVMD::deleteAllLabels {} {
 #### Optimize index list on VMD Representantion
 proc gaussianVMD::optimizeIndexList {list} {
     set outputVariable  ""
-    set lastVar         "-2"
-    set lastVarAlt      "-2"
 
-    foreach value $list {
-        
-        if {$value != [expr $lastVar + 1]} {
-            if {$lastVar != "-2" && $lastVarAlt != "-2" && $lastVarAlt != $lastVar} {
-                     append outputVariable "to " $lastVar " "
+    for {set index 0} { $index < [llength $list] } { incr index } {
+        if {$index == 0} {
+            append outputVariable [lindex $list $index] " "
+        } else {
+            if {[lindex $list $index] == [expr [lindex $list [expr $index + 1]] - 1]} {
+                
+            } else {
+                append outputVariable "to " [lindex $list $index] " "
+                append outputVariable [lindex $list [expr $index + 1]] " "
+                incr index
             }
-            append outputVariable $value " "
-            set lastVarAlt $value
-            set lastVar $value
-        } elseif {$value == [expr $lastVar + 1]} {
-            set lastVar $value
         }
 
     }
