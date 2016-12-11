@@ -422,8 +422,8 @@ proc gaussianVMD::buildGui {} {
 		    	] -in $gaussianVMD::topGui.frame6 -row 0 -column 0 -sticky news
 
 			grid [ttk::button $gaussianVMD::topGui.frame6.manipulateStructure \
-		    	-text "Structure Manipulation" \
-		    	-command {} \
+		    	-text "Bond Modify" \
+		    	-command {gaussianVMD::guiBondModif} \
 		    	] -in $gaussianVMD::topGui.frame6 -row 0 -column 1 -sticky news
 
 

@@ -11,6 +11,8 @@ namespace eval gaussianVMD:: {
 	
 		#### Load Packages				
 		package require gui 									1.0
+		package require guiBondModif							1.0
+		
 		package require inputFile 								1.0
 		package require getStructure							1.0
 		package require convertToPDB							1.0
@@ -23,6 +25,7 @@ namespace eval gaussianVMD:: {
 		package require applyToStructure						1.0
 		package	require editStructure							1.0
 
+
 		package require Tk
 		package require tablelist 
 	
@@ -32,6 +35,7 @@ namespace eval gaussianVMD:: {
 		## General
 		variable version	    	"0.1.1 (alpha)"
         variable topGui         	".gaussianVMD"
+		variable bondModif         	".gaussianVMD.bondModif"
 		global path
 		variable path 				"/"
 		variable fileName			""

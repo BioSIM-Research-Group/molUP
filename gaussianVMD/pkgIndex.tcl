@@ -10,7 +10,11 @@
 
 set dir [exec pwd]
 
+#GUI
 package ifneeded gui        	                            1.0 [list source [file join $dir/routines/gui.tcl]]
+package ifneeded guiBondModif  	                            1.0 [list source [file join $dir/routines/guiBondModif.tcl]]
+
+#lib
 package ifneeded inputFile   	                            1.0 [list source [file join $dir/lib/inputFile.tcl]]
 package ifneeded getStructure  	                            1.0 [list source [file join $dir/lib/getStructure.tcl]]
 package ifneeded convertToPDB  	                            1.0 [list source [file join $dir/lib/convertToPDB.tcl]]
