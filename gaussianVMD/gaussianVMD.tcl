@@ -82,8 +82,8 @@ namespace eval gaussianVMD:: {
 		variable waterRep		"0"
 
 		#### Images
-		variable images 		"logo.gif"
-		variable imagesNames 	"logo"
+		variable images 		"logo.gif bondEdit.gif angleEdit.gif dihedralEdit.gif energyProfile.gif savePDB.gif saveGaussian.gif"
+		variable imagesNames 	"logo bondEdit angleEdit dihedralEdit energyProfile savePDB saveGaussian"
 
 }
 

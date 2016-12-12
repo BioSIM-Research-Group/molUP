@@ -413,48 +413,86 @@ proc gaussianVMD::buildGui {} {
 
 
 		
-		#### Energetic Profile
+		#### Tools
 		grid [ttk::frame $gaussianVMD::topGui.frame6] -row 9 -column 0 -padx 5 -pady 4 -sticky news		    
 
-			grid [ttk::button $gaussianVMD::topGui.frame6.seeEnergy \
-		    	-text "Energetic Profile" \
-		    	-command {} \
-		    	] -in $gaussianVMD::topGui.frame6 -row 0 -column 0 -sticky news
+			grid [canvas $gaussianVMD::topGui.frame6.energyProfile -height 46 -width 46 -bg "white" \
+			    ] -in $gaussianVMD::topGui.frame6 -row 0 -column 0
+				$gaussianVMD::topGui.frame6.energyProfile create image 26 26 -image $gaussianVMD::energyProfile
+				bind $gaussianVMD::topGui.frame6.energyProfile <Button-1> {gaussianVMD::guiBondModif}
 
-			grid [ttk::button $gaussianVMD::topGui.frame6.manipulateStructure \
-		    	-text "Bond Modify" \
-		    	-command {gaussianVMD::guiBondModif} \
-		    	] -in $gaussianVMD::topGui.frame6 -row 0 -column 1 -sticky news
+			grid [canvas $gaussianVMD::topGui.frame6.bondEdit -height 46 -width 66 -bg "white" \
+			    ] -in $gaussianVMD::topGui.frame6 -row 0 -column 1
+				$gaussianVMD::topGui.frame6.bondEdit create image 46 26 -image $gaussianVMD::bondEdit
+				bind $gaussianVMD::topGui.frame6.bondEdit <Button-1> {gaussianVMD::guiBondModif}
+
+			grid [canvas $gaussianVMD::topGui.frame6.angleEdit -height 46 -width 46 -bg "white" \
+			    ] -in $gaussianVMD::topGui.frame6 -row 0 -column 2
+				$gaussianVMD::topGui.frame6.angleEdit create image 26 26 -image $gaussianVMD::angleEdit
+				bind $gaussianVMD::topGui.frame6.angleEdit <Button-1> {gaussianVMD::guiBondModif}
+
+			grid [canvas $gaussianVMD::topGui.frame6.dihedralEdit -height 46 -width 46 -bg "white" \
+			    ] -in $gaussianVMD::topGui.frame6 -row 0 -column 3
+				$gaussianVMD::topGui.frame6.dihedralEdit create image 26 26 -image $gaussianVMD::dihedralEdit
+				bind $gaussianVMD::topGui.frame6.dihedralEdit <Button-1> {gaussianVMD::guiBondModif}
+
+			grid [canvas $gaussianVMD::topGui.frame6.savePDB -height 46 -width 66 -bg "white" \
+			    ] -in $gaussianVMD::topGui.frame6 -row 0 -column 4
+				$gaussianVMD::topGui.frame6.savePDB create image 46 26 -image $gaussianVMD::savePDB
+				bind $gaussianVMD::topGui.frame6.savePDB <Button-1> {gaussianVMD::guiBondModif}
+
+			grid [canvas $gaussianVMD::topGui.frame6.saveGaussian -height 46 -width 92 -bg "white" \
+			    ] -in $gaussianVMD::topGui.frame6 -row 0 -column 5
+				$gaussianVMD::topGui.frame6.saveGaussian create image 26 26 -image $gaussianVMD::saveGaussian
+				bind $gaussianVMD::topGui.frame6.saveGaussian <Button-1> {gaussianVMD::guiBondModif}
 
 
+			#grid [ttk::button $gaussianVMD::topGui.frame6.bondEdit \
+			#	-image $gaussianVMD::bondEdit \
+			#	-style gaussianVMD.edit.TButton \
+			#	-text "AA" \
+		    #	-command {gaussianVMD::guiBondModif} \
+		    #	] -in $gaussianVMD::topGui.frame6 -row 0 -column 2 -sticky news
+			#
+			#grid [ttk::button $gaussianVMD::topGui.frame6.angleEdit \
+			#	-image $gaussianVMD::angleEdit \
+		    #	-command {gaussianVMD::guiBondModif} \
+		    #	] -in $gaussianVMD::topGui.frame6 -row 0 -column 3 -sticky news
+#
+			#grid [ttk::button $gaussianVMD::topGui.frame6.dihedralEdit \
+			#	-image $gaussianVMD::dihedralEdit \
+		    #	-command {gaussianVMD::guiBondModif} \
+		    #	] -in $gaussianVMD::topGui.frame6 -row 0 -column 4 -sticky news
 
-	#### Last FRAME - Save The Files
+
+#
+	##### Last FRAME - Save The Files
 	grid [ttk::frame $gaussianVMD::topGui.frameLast] -row 10 -column 0 -padx 5 -pady 2 -sticky news
 
-		grid [ttk::label $gaussianVMD::topGui.frameLast.savePDBLabel \
-			    -text {Save as PDB File:} \
-			    -style gaussianVMD.TLabel
-			    ] -in $gaussianVMD::topGui.frameLast -row 0 -column 0 -padx 2 -pady 2 -sticky news
-
-
-		grid [ttk::button $gaussianVMD::topGui.frameLast.savePDB \
-		    -text "Save" \
-		    -command gaussianVMD::onSelect \
-		    ] -in $gaussianVMD::topGui.frameLast -row 0 -column 1 -sticky news
-
-
-
-		grid [ttk::label $gaussianVMD::topGui.frameLast.saveGaussianLabel \
-			    -text {Save as Gaussian Input (.com) File:} \
-				-style gaussianVMD.TLabel
-			    ] -in $gaussianVMD::topGui.frameLast -row 1 -column 0 -padx 2 -pady 2 -sticky news
-
-
-		grid [ttk::button $gaussianVMD::topGui.frameLast.saveGaussian \
-		    -text "Save" \
-		    -command gaussianVMD::onSelect \
-		    ] -in $gaussianVMD::topGui.frameLast -row 1 -column 1 -sticky news
-
+	#	grid [ttk::label $gaussianVMD::topGui.frameLast.savePDBLabel \
+	#		    -text {Save as PDB File:} \
+	#		    -style gaussianVMD.TLabel
+	#		    ] -in $gaussianVMD::topGui.frameLast -row 0 -column 0 -padx 2 -pady 2 -sticky news
+#
+#
+	#	grid [ttk::button $gaussianVMD::topGui.frameLast.savePDB \
+	#	    -text "Save" \
+	#	    -command gaussianVMD::onSelect \
+	#	    ] -in $gaussianVMD::topGui.frameLast -row 0 -column 1 -sticky news
+#
+#
+#
+	#	grid [ttk::label $gaussianVMD::topGui.frameLast.saveGaussianLabel \
+	#		    -text {Save as Gaussian Input (.com) File:} \
+	#			-style gaussianVMD.TLabel
+	#		    ] -in $gaussianVMD::topGui.frameLast -row 1 -column 0 -padx 2 -pady 2 -sticky news
+#
+#
+	#	grid [ttk::button $gaussianVMD::topGui.frameLast.saveGaussian \
+	#	    -text "Save" \
+	#	    -command gaussianVMD::onSelect \
+	#	    ] -in $gaussianVMD::topGui.frameLast -row 1 -column 1 -sticky news
+#
 		grid [ttk::button $gaussianVMD::topGui.frameLast.quit \
 		    -text "Quit" \
 		    -command gaussianVMD::quit \
@@ -463,7 +501,7 @@ proc gaussianVMD::buildGui {} {
 		grid [ttk::label $gaussianVMD::topGui.frameLast.copyright \
 		    -text "Developed by Henrique S. Fernandes - henriquefer11@gmail.com - 2016 v $gaussianVMD::version" \
 		    -font {Arial 9} \
-		    -foreground {gray} \
+		    -foreground {black} \
 		    ] -in $gaussianVMD::topGui.frameLast -row 3 -column 0 -columnspan 2 -padx 5 -pady 10 -sticky ne
 
 
@@ -488,6 +526,9 @@ ttk::style configure gaussianVMD.TButton \
 ttk::style configure gaussianVMD.QuickRep.TCheckbutton \
 	-foreground {black} \
 	-font {Arial 12}
+
+ttk::style configure gaussianVMD.edit.TButton \
+	-font {Arial 30}
 
 
 
