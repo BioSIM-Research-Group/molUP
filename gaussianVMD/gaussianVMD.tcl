@@ -20,6 +20,7 @@ namespace eval gaussianVMD:: {
 		package require timeControl								1.0
 		package require quit									1.0
 		package require loadGaussianInputFile					1.0
+		package require loadGaussianOutputFile					1.0
 		package require loadGaussianOutputFileFirstStructure	1.0
 		package require loadGaussianOutputFileLastStructure		1.0
 		package require applyToStructure						1.0

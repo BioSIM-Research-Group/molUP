@@ -35,8 +35,6 @@ proc gaussianVMD::loadGaussianInputFile {} {
 	## Add a header to the file
 	puts $gaussianVMD::temporaryPDBFile "HEADER\n $gaussianVMD::title"
 
-	puts $gaussianVMD::temporaryPDBFile $gaussianVMD::structureGaussian
-
     #### Organize the structure info
     set allAtoms [split $gaussianVMD::structureGaussian \n]
 	set i 0

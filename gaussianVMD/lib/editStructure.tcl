@@ -18,6 +18,17 @@ proc gaussianVMD::oniomLayerEnd {} {
     mol modselect 4 top index [gaussianVMD::optimizeIndexList $lowLayerIndex]
 }
 
+proc gaussianVMD::freezeEnd {} {
+    set highLayerIndex [$gaussianVMD::topGui.frame3.tabsAtomList.tab3.frame.tableLayer searchcolumn 4 "0" -all]
+    mol modselect 8 top index [gaussianVMD::optimizeIndexList $highLayerIndex]
+
+    set mediumLayerIndex [$gaussianVMD::topGui.frame3.tabsAtomList.tab3.frame.tableLayer searchcolumn 4 "-1" -all]
+    append mediumLayerIndex [$gaussianVMD::topGui.frame3.tabsAtomList.tab3.frame.tableLayer searchcolumn 4 "-2" -all]
+    append mediumLayerIndex [$gaussianVMD::topGui.frame3.tabsAtomList.tab3.frame.tableLayer searchcolumn 4 "-3" -all]
+    mol modselect 9 top index [gaussianVMD::optimizeIndexList $mediumLayerIndex]
+
+}
+
 
 proc gaussianVMD::onOffRepresentation {repIndex} {
     set molExists [mol list]
@@ -162,7 +173,11 @@ proc gaussianVMD::applyToStructure {option} {
         gaussianVMD::oniomLayerEnd
 
     } elseif {$option == "freeze"} {
-       
+       set listIndexAtoms [[atomselect top $gaussianVMD::atomSelectionFreeze] get {index}]
+        foreach atom $listIndexAtoms {
+            $gaussianVMD::topGui.frame3.tabsAtomList.tab3.frame.tableLayer configcells [subst $atom],4 -text [subst $gaussianVMD::selectionModificationValueFreeze]
+        }
+        gaussianVMD::freezeEnd
 
     } else {
         
