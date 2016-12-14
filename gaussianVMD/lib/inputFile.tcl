@@ -44,7 +44,6 @@ proc gaussianVMD::loadButton {fileExtension} {
 
 		} elseif {$gaussianVMD::loadMode == "First Structure"} {
 			gaussianVMD::loadGaussianOutputFile firstStructure
-			gaussianVMD::loadMolecule $gaussianVMD::fileName $gaussianVMD::actualTime
 			
 		} elseif {$gaussianVMD::loadMode == "All optimized structures"} {
 

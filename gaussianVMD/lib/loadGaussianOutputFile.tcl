@@ -5,33 +5,17 @@ proc gaussianVMD::loadGaussianOutputFile {option} {
     
     # option tells the procedure to get the first, the last, the optimizred or all structures
 
-    #### Get the title line
-	set gaussianVMD::title [exec sed -n "/^ ----------------------------$/,/^ ----------------------------$/{/^ ----------------------------$/b;/^ ----------------------------$/b;p}" $gaussianVMD::path]
-
-	#### Keywords of the calculations
-	set gaussianVMD::keywordsCalc [exec sed -n "/^ ----------------------------------------------------------------------$/,/^ ----------------------------------------------------------------------$/{/^ ----------------------------------------------------------------------$/b;/^ ----------------------------------------------------------------------$/b;p}" $gaussianVMD::path]
-
-	#### Get the charge and Multiplicity
-	set linesChargesMulti [exec grep "^ Charge =" $gaussianVMD::path]
-	set linesChargesMultiSplit [split $linesChargesMulti "\n"]
-	set gaussianVMD::chargesMultip ""
-	set i 0
-	foreach line $linesChargesMultiSplit {
-		set charge [string range $line 9 11]
-		set multiplicity [string index $line 28]
-		append gaussianVMD::chargesMultip $charge " " $multiplicity
-		incr $i
-	}
+	gaussianVMD::timeBegin
 
 	#### Number of Atoms
-	set lineBeforeStructure [split [exec grep -n " Charge =" $gaussianVMD::path | tail -n 1] ":"]
+	set lineBeforeStructure [split [exec head -n 300 $gaussianVMD::path | grep -n " Charge =" | tail -n 1] ":"]
 	set firstLineStructure [expr [lindex $lineBeforeStructure 0] + 1]
-	set lineAfterStructure [split [exec egrep -n -B 1 "^ $" $gaussianVMD::path | tail -n 1] ":"]
+	set lineAfterStructure [split [exec egrep -n -m 2 "^ $" $gaussianVMD::path | tail -n 1] ":"]
 	set lastLineStructure [expr [lindex $lineAfterStructure 0] - 1]
-
 
 	#### Grep the initial structure
 	set gaussianVMD::structureGaussian [exec sed -n "$firstLineStructure,$lastLineStructure p" $gaussianVMD::path]
+	#set gaussianVMD::structureGaussian [exec tail -n+$firstLineStructure $gaussianVMD::path | head -n$gaussianVMD::numberAtoms]
 
 	## Create a temporary folder
 	exec mkdir -p .temporary
@@ -44,7 +28,6 @@ proc gaussianVMD::loadGaussianOutputFile {option} {
 
 	## Add a header to the file
 	puts $gaussianVMD::temporaryPDBFile "HEADER\n $gaussianVMD::title"
-
 
     ####
     if {$option == "firstStructure"} {
@@ -132,9 +115,41 @@ proc gaussianVMD::loadGaussianOutputFile {option} {
     
     	## Add a footer to the file
     	  puts $gaussianVMD::temporaryPDBFile "END"
-        
+
         #### Close the temporary file
     	  close $gaussianVMD::temporaryPDBFile
+		
+		#### Load the molecule on VMD
+		gaussianVMD::loadMolecule $gaussianVMD::fileName $gaussianVMD::actualTime
+
+    	#### Get the title line
+		set titleFirstLine [split [exec grep -n -m 1 "^ -------------------$" $gaussianVMD::path] ":"]
+		set titleFirstLine1 [expr [lindex $titleFirstLine 0] + 1]
+		set titleLastLine [split [exec grep -n -m 2 "^ -------------------$" $gaussianVMD::path | tail -n 1] ":"]
+		set titleLastLine1 [expr [lindex $titleLastLine 0] - 1]
+		set gaussianVMD::title [exec sed -n "$titleFirstLine1,$titleLastLine1 p" $gaussianVMD::path]
+
+		#### Keywords of the calculations
+		set keywordFirstLine [split [exec grep -n -m 1 "^ -------------------------------------------------------------$" $gaussianVMD::path] ":"]
+		set keywordFirstLine1 [expr [lindex $keywordFirstLine 0] + 1]
+		set keywordLastLine [split [exec grep -n -m 2 "^ -------------------------------------------------------------$" $gaussianVMD::path | tail -n 1] ":"]
+		set keywordLastLine1 [expr [lindex $keywordLastLine 0] - 1]
+		set gaussianVMD::keywordsCalc [exec sed -n "$keywordFirstLine1,$keywordLastLine1 p" $gaussianVMD::path]
+
+		#### Get the charge and Multiplicity
+		set linesChargesMulti [exec grep "^ Charge =" $gaussianVMD::path]
+		set linesChargesMultiSplit [split $linesChargesMulti "\n"]
+		set gaussianVMD::chargesMultip ""
+		set i 0
+		foreach line $linesChargesMultiSplit {
+			set charge [string range $line 9 11]
+			set multiplicity [string index $line 28]
+			append gaussianVMD::chargesMultip $charge " " $multiplicity
+			incr $i
+		}
+
+		gaussianVMD::timeEnd
+
 
     } elseif {$option == "lastStructure"} {
         
