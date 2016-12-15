@@ -29,6 +29,7 @@ namespace eval gaussianVMD:: {
 
 		package require Tk
 		package require tablelist 
+		package require Thread
 	
 
 		#### Program Variables

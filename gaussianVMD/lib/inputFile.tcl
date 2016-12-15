@@ -39,12 +39,13 @@ proc gaussianVMD::loadButton {fileExtension} {
 		set gaussianVMD::loadMode [$gaussianVMD::topGui.frame1.selectLoadMode get]
 
 		if {$gaussianVMD::loadMode == "Last Structure"} {
-			gaussianVMD::loadGaussianOutputFileLastStructure
-			gaussianVMD::loadMolecule $gaussianVMD::fileName $gaussianVMD::actualTime
+			gaussianVMD::loadGaussianOutputFile lastStructure
+			gaussianVMD::globalInfoOutputFile
 
 		} elseif {$gaussianVMD::loadMode == "First Structure"} {
 			gaussianVMD::loadGaussianOutputFile firstStructure
-			
+			gaussianVMD::globalInfoOutputFile
+				
 		} elseif {$gaussianVMD::loadMode == "All optimized structures"} {
 
 
