@@ -50,9 +50,8 @@ proc gaussianVMD::loadButton {fileExtension} {
 
 
 		} elseif {$gaussianVMD::loadMode == "All structures (may take a long time to load)"} {
-			gaussianVMD::loadGaussianOutputFile $gaussianVMD::path
-			gaussianVMD::loadGaussianOutputFileAllStructures $gaussianVMD::path
-			gaussianVMD::loadMolecule $gaussianVMD::fileName $gaussianVMD::actualTime
+			gaussianVMD::loadGaussianOutputFile allStructures
+			gaussianVMD::globalInfoOutputFile
 
 		} else {
 				set alert [tk_messageBox -message "Please select which structure you want to load." -type ok -icon info]
