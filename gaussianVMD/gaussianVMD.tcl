@@ -65,6 +65,7 @@ namespace eval gaussianVMD:: {
 		variable numberStructures
 		variable actualTime
 		variable temporaryPDBFile
+		variable temporaryXYZFile
 		variable time0
 		variable time1
 		variable loadMode						""
