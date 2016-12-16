@@ -35,7 +35,7 @@ namespace eval gaussianVMD:: {
 		#### Program Variables
 
 		## General
-		variable version	    	"0.1.1 (alpha)"
+		variable version	    	"0.1.5 (alpha)"
         variable topGui         	".gaussianVMD"
 		variable bondModif         	".gaussianVMD.bondModif"
 		global path
@@ -83,10 +83,13 @@ namespace eval gaussianVMD:: {
 		variable proteinRep		"0"
 		variable nonproteinRep	"0"
 		variable waterRep		"0"
+		variable pickedAtom
 
 		#### Images
 		variable images 		"logo.gif bondEdit.gif angleEdit.gif dihedralEdit.gif energyProfile.gif savePDB.gif saveGaussian.gif"
 		variable imagesNames 	"logo bondEdit angleEdit dihedralEdit energyProfile savePDB saveGaussian"
+		
+
 
 }
 

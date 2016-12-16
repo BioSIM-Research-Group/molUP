@@ -115,13 +115,14 @@ proc gaussianVMD::buildGui {} {
 	###########################################################
 	#### Tabs to present the atom list
 	#### Atom List - Table
-	grid [ttk::frame $gaussianVMD::topGui.frame3] -row 5 -column 0 -padx 5 -pady 0 -sticky news
+	grid [ttk::frame $gaussianVMD::topGui.frame3] -row 5 -column 0 -padx 0 -pady 0 -sticky news
 		grid [ttk::notebook $gaussianVMD::topGui.frame3.tabsAtomList] -in $gaussianVMD::topGui.frame3 -row 0 -column 0
 			$gaussianVMD::topGui.frame3.tabsAtomList add [frame $gaussianVMD::topGui.frame3.tabsAtomList.tab1] -text "Visualization"
 			$gaussianVMD::topGui.frame3.tabsAtomList add [frame $gaussianVMD::topGui.frame3.tabsAtomList.tab2] -text "Layer"
 			$gaussianVMD::topGui.frame3.tabsAtomList add [frame $gaussianVMD::topGui.frame3.tabsAtomList.tab3] -text "Freeze"
 			$gaussianVMD::topGui.frame3.tabsAtomList add [frame $gaussianVMD::topGui.frame3.tabsAtomList.tab4] -text "Charges"
-			$gaussianVMD::topGui.frame3.tabsAtomList add [frame $gaussianVMD::topGui.frame3.tabsAtomList.tab5] -text "XYZ"
+			$gaussianVMD::topGui.frame3.tabsAtomList add [frame $gaussianVMD::topGui.frame3.tabsAtomList.tab5] -text "Tools"
+			#$gaussianVMD::topGui.frame3.tabsAtomList add [frame $gaussianVMD::topGui.frame3.tabsAtomList.tab5] -text "XYZ"
 			$gaussianVMD::topGui.frame3.tabsAtomList select $gaussianVMD::topGui.frame3.tabsAtomList.tab1
 		
 		##### - Visualization
@@ -388,63 +389,95 @@ proc gaussianVMD::buildGui {} {
 
 
 		#### Coordinates
+		#grid [ttk::frame $gaussianVMD::topGui.frame3.tabsAtomList.tab5.frame] -row 0 -column 0  -padx 0 -pady 0
+		#
+		#	grid [tablelist::tablelist $gaussianVMD::topGui.frame3.tabsAtomList.tab5.frame.tableLayer \
+		#		 -columns {0 "# Atom" center 0 "Atom" center 0 "Resname" center 0 "Resid" center 0 "X" center 0 "Y" center 0 "Z" center} \
+		#	     -stretch all \
+		#	     -background white \
+		#	     -yscrollcommand [list $gaussianVMD::topGui.frame3.tabsAtomList.tab5.frame.yscb set] \
+	    #         -xscrollcommand [list $gaussianVMD::topGui.frame3.tabsAtomList.tab5.frame.xscb set] \
+		#	     ] -in $gaussianVMD::topGui.frame3.tabsAtomList.tab5.frame -row 0 -column 0 -padx 0 -pady 0 -ipadx 95 -sticky news
+		#
+		#	grid [ttk::scrollbar $gaussianVMD::topGui.frame3.tabsAtomList.tab5.frame.yscb \
+		#	     -orient vertical \
+		#	     -command [list $gaussianVMD::topGui.frame3.tabsAtomList.tab5.frame.tableLayer yview]\
+		#	     ] -in $gaussianVMD::topGui.frame3.tabsAtomList.tab5.frame -row 0 -column 1 -padx 0 -pady 0 -sticky nse
+		#
+		#	grid [ttk::scrollbar $gaussianVMD::topGui.frame3.tabsAtomList.tab5.frame.xscb \
+		#	     -orient horizontal \
+		#	     -command [list $gaussianVMD::topGui.frame3.tabsAtomList.tab5.frame.tableLayer xview]\
+		#	     ] -in $gaussianVMD::topGui.frame3.tabsAtomList.tab5.frame -row 1 -column 0 -padx 0 -pady 0 -sticky news
+
+
+		#### Tools
 		grid [ttk::frame $gaussianVMD::topGui.frame3.tabsAtomList.tab5.frame] -row 0 -column 0  -padx 0 -pady 0
+			grid [ttk::label $gaussianVMD::topGui.frame3.tabsAtomList.tab5.frame.manipulation \
+							-text {Structure manipulation:} \
+							-style gaussianVMD.TLabel
+						    ] -in $gaussianVMD::topGui.frame3.tabsAtomList.tab5.frame -row 0 -column 0 -padx 2 -pady 2 -sticky news -columnspan 3
 
-			grid [tablelist::tablelist $gaussianVMD::topGui.frame3.tabsAtomList.tab5.frame.tableLayer \
-				 -columns {0 "# Atom" center 0 "Atom" center 0 "Resname" center 0 "Resid" center 0 "X" center 0 "Y" center 0 "Z" center} \
-			     -stretch all \
-			     -background white \
-			     -yscrollcommand [list $gaussianVMD::topGui.frame3.tabsAtomList.tab5.frame.yscb set] \
-	             -xscrollcommand [list $gaussianVMD::topGui.frame3.tabsAtomList.tab5.frame.xscb set] \
-			     ] -in $gaussianVMD::topGui.frame3.tabsAtomList.tab5.frame -row 0 -column 0 -padx 0 -pady 0 -ipadx 95 -sticky news
+			grid [ttk::button $gaussianVMD::topGui.frame3.tabsAtomList.tab5.frame.bondEdit \
+				    -text "Bond" \
+					-command {gaussianVMD::guiBondModif} \
+					-width 9 \
+				    ] -in $gaussianVMD::topGui.frame3.tabsAtomList.tab5.frame -row 1 -column 1 -sticky news
 
-			grid [ttk::scrollbar $gaussianVMD::topGui.frame3.tabsAtomList.tab5.frame.yscb \
-			     -orient vertical \
-			     -command [list $gaussianVMD::topGui.frame3.tabsAtomList.tab5.frame.tableLayer yview]\
-			     ] -in $gaussianVMD::topGui.frame3.tabsAtomList.tab5.frame -row 0 -column 1 -padx 0 -pady 0 -sticky nse
+			grid [ttk::button $gaussianVMD::topGui.frame3.tabsAtomList.tab5.frame.angleEdit \
+				    -text "Angle" \
+					-command {} \
+					-width 9 \
+				    ] -in $gaussianVMD::topGui.frame3.tabsAtomList.tab5.frame -row 1 -column 2 -sticky news
 
-			grid [ttk::scrollbar $gaussianVMD::topGui.frame3.tabsAtomList.tab5.frame.xscb \
-			     -orient horizontal \
-			     -command [list $gaussianVMD::topGui.frame3.tabsAtomList.tab5.frame.tableLayer xview]\
-			     ] -in $gaussianVMD::topGui.frame3.tabsAtomList.tab5.frame -row 1 -column 0 -padx 0 -pady 0 -sticky news
+			grid [ttk::button $gaussianVMD::topGui.frame3.tabsAtomList.tab5.frame.dihedralEdit \
+				    -text "Dihedral" \
+					-command {} \
+					-width 9 \
+				    ] -in $gaussianVMD::topGui.frame3.tabsAtomList.tab5.frame -row 1 -column 3 -sticky news
 
+			grid [ttk::label $gaussianVMD::topGui.frame3.tabsAtomList.tab5.frame.energyLabel \
+							-text {Energy (available for files with multi structures:} \
+							-style gaussianVMD.TLabel
+						    ] -in $gaussianVMD::topGui.frame3.tabsAtomList.tab5.frame -row 2 -column 0 -padx 2 -pady 5 -sticky news -columnspan 3
 
-
-
+			grid [ttk::button $gaussianVMD::topGui.frame3.tabsAtomList.tab5.frame.energyGraph\
+				    -text "Energy Graph" \
+					-command {} \
+				    ] -in $gaussianVMD::topGui.frame3.tabsAtomList.tab5.frame -row 3 -column 1 -sticky news -columnspan 3
 
 		
 		#### Tools
-		grid [ttk::frame $gaussianVMD::topGui.frame6] -row 9 -column 0 -padx 5 -pady 4 -sticky news		    
-
-			grid [canvas $gaussianVMD::topGui.frame6.energyProfile -height 46 -width 46 -bg "white" \
-			    ] -in $gaussianVMD::topGui.frame6 -row 0 -column 0
-				$gaussianVMD::topGui.frame6.energyProfile create image 26 26 -image $gaussianVMD::energyProfile
-				bind $gaussianVMD::topGui.frame6.energyProfile <Button-1> {gaussianVMD::guiBondModif}
-
-			grid [canvas $gaussianVMD::topGui.frame6.bondEdit -height 46 -width 66 -bg "white" \
-			    ] -in $gaussianVMD::topGui.frame6 -row 0 -column 1
-				$gaussianVMD::topGui.frame6.bondEdit create image 46 26 -image $gaussianVMD::bondEdit
-				bind $gaussianVMD::topGui.frame6.bondEdit <Button-1> {gaussianVMD::guiBondModif}
-
-			grid [canvas $gaussianVMD::topGui.frame6.angleEdit -height 46 -width 46 -bg "white" \
-			    ] -in $gaussianVMD::topGui.frame6 -row 0 -column 2
-				$gaussianVMD::topGui.frame6.angleEdit create image 26 26 -image $gaussianVMD::angleEdit
-				bind $gaussianVMD::topGui.frame6.angleEdit <Button-1> {gaussianVMD::guiBondModif}
-
-			grid [canvas $gaussianVMD::topGui.frame6.dihedralEdit -height 46 -width 46 -bg "white" \
-			    ] -in $gaussianVMD::topGui.frame6 -row 0 -column 3
-				$gaussianVMD::topGui.frame6.dihedralEdit create image 26 26 -image $gaussianVMD::dihedralEdit
-				bind $gaussianVMD::topGui.frame6.dihedralEdit <Button-1> {gaussianVMD::guiBondModif}
-
-			grid [canvas $gaussianVMD::topGui.frame6.savePDB -height 46 -width 66 -bg "white" \
-			    ] -in $gaussianVMD::topGui.frame6 -row 0 -column 4
-				$gaussianVMD::topGui.frame6.savePDB create image 46 26 -image $gaussianVMD::savePDB
-				bind $gaussianVMD::topGui.frame6.savePDB <Button-1> {gaussianVMD::guiBondModif}
-
-			grid [canvas $gaussianVMD::topGui.frame6.saveGaussian -height 46 -width 92 -bg "white" \
-			    ] -in $gaussianVMD::topGui.frame6 -row 0 -column 5
-				$gaussianVMD::topGui.frame6.saveGaussian create image 26 26 -image $gaussianVMD::saveGaussian
-				bind $gaussianVMD::topGui.frame6.saveGaussian <Button-1> {gaussianVMD::guiBondModif}
+		#grid [ttk::frame $gaussianVMD::topGui.frame6] -row 9 -column 0 -padx 5 -pady 4 -sticky news		    
+#
+		#	grid [canvas $gaussianVMD::topGui.frame6.energyProfile -height 46 -width 46 -bg "white" \
+		#	    ] -in $gaussianVMD::topGui.frame6 -row 0 -column 0
+		#		$gaussianVMD::topGui.frame6.energyProfile create image 26 26 -image $gaussianVMD::energyProfile
+		#		bind $gaussianVMD::topGui.frame6.energyProfile <Button-1> {gaussianVMD::guiBondModif}
+#
+			#grid [canvas $gaussianVMD::topGui.frame6.bondEdit -height 46 -width 66 -bg "white" \
+			#    ] -in $gaussianVMD::topGui.frame6 -row 0 -column 1
+			#	$gaussianVMD::topGui.frame6.bondEdit create image 46 26 -image $gaussianVMD::bondEdit
+			#	bind $gaussianVMD::topGui.frame6.bondEdit <Button-1> {gaussianVMD::guiBondModif}
+#
+			#grid [canvas $gaussianVMD::topGui.frame6.angleEdit -height 46 -width 46 -bg "white" \
+			#    ] -in $gaussianVMD::topGui.frame6 -row 0 -column 2
+			#	$gaussianVMD::topGui.frame6.angleEdit create image 26 26 -image $gaussianVMD::angleEdit
+			#	bind $gaussianVMD::topGui.frame6.angleEdit <Button-1> {gaussianVMD::guiBondModif}
+#
+			#grid [canvas $gaussianVMD::topGui.frame6.dihedralEdit -height 46 -width 46 -bg "white" \
+			#    ] -in $gaussianVMD::topGui.frame6 -row 0 -column 3
+			#	$gaussianVMD::topGui.frame6.dihedralEdit create image 26 26 -image $gaussianVMD::dihedralEdit
+			#	bind $gaussianVMD::topGui.frame6.dihedralEdit <Button-1> {gaussianVMD::guiBondModif}
+#
+		#	grid [canvas $gaussianVMD::topGui.frame6.savePDB -height 46 -width 66 -bg "white" \
+		#	    ] -in $gaussianVMD::topGui.frame6 -row 0 -column 4
+		#		$gaussianVMD::topGui.frame6.savePDB create image 46 26 -image $gaussianVMD::savePDB
+		#		bind $gaussianVMD::topGui.frame6.savePDB <Button-1> {gaussianVMD::guiBondModif}
+#
+		#	grid [canvas $gaussianVMD::topGui.frame6.saveGaussian -height 46 -width 92 -bg "white" \
+		#	    ] -in $gaussianVMD::topGui.frame6 -row 0 -column 5
+		#		$gaussianVMD::topGui.frame6.saveGaussian create image 26 26 -image $gaussianVMD::saveGaussian
+		#		bind $gaussianVMD::topGui.frame6.saveGaussian <Button-1> {gaussianVMD::guiBondModif}
 
 
 			#grid [ttk::button $gaussianVMD::topGui.frame6.bondEdit \

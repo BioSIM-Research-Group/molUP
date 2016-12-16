@@ -197,15 +197,15 @@ proc gaussianVMD::loadGaussianOutputFile {option} {
     	   			"$column1"\
     	   			]
                     
-    			$gaussianVMD::topGui.frame3.tabsAtomList.tab5.frame.tableLayer insert end [list \
-    	   			"$i" \
-    	   			"$pdbAtomType" \
-    	   			"$resname" \
-    	   			"$resid" \
-    	   			"$x" \
-    	   			"$y" \
-    	   			"$z"\
-    	   			]
+    			#$gaussianVMD::topGui.frame3.tabsAtomList.tab5.frame.tableLayer insert end [list \
+    	   		#	"$i" \
+    	   		#	"$pdbAtomType" \
+    	   		#	"$resname" \
+    	   		#	"$resid" \
+    	   		#	"$x" \
+    	   		#	"$y" \
+    	   		#	"$z"\
+    	   		#	]
                     
     			set atomicSymbol 		""
     			set gaussianAtomType 	"" 
@@ -329,15 +329,15 @@ proc gaussianVMD::loadGaussianOutputFile {option} {
     			   			"$column1"\
     			   			]
 						   
-    					$gaussianVMD::topGui.frame3.tabsAtomList.tab5.frame.tableLayer insert end [list \
-    			   			"$i" \
-    			   			"$pdbAtomType" \
-    			   			"$resname" \
-    			   			"$resid" \
-    			   			"$x" \
-    			   			"$y" \
-    			   			"$z"\
-    			   			]
+    					#$gaussianVMD::topGui.frame3.tabsAtomList.tab5.frame.tableLayer insert end [list \
+    			   		#	"$i" \
+    			   		#	"$pdbAtomType" \
+    			   		#	"$resname" \
+    			   		#	"$resid" \
+    			   		#	"$x" \
+    			   		#	"$y" \
+    			   		#	"$z"\
+    			   		#	]
 						   
     					set atomicSymbol 		""
     					set gaussianAtomType 	"" 
@@ -503,15 +503,15 @@ proc gaussianVMD::loadGaussianOutputFile {option} {
     			   			"$column1"\
     			   			]
 						   
-    					$gaussianVMD::topGui.frame3.tabsAtomList.tab5.frame.tableLayer insert end [list \
-    			   			"$i" \
-    			   			"$pdbAtomType" \
-    			   			"$resname" \
-    			   			"$resid" \
-    			   			"$x" \
-    			   			"$y" \
-    			   			"$z"\
-    			   			]
+    					#$gaussianVMD::topGui.frame3.tabsAtomList.tab5.frame.tableLayer insert end [list \
+    			   		#	"$i" \
+    			   		#	"$pdbAtomType" \
+    			   		#	"$resname" \
+    			   		#	"$resid" \
+    			   		#	"$x" \
+    			   		#	"$y" \
+    			   		#	"$z"\
+    			   		#	]
 						   
     					set atomicSymbol 		""
     					set gaussianAtomType 	"" 
@@ -592,7 +592,7 @@ proc gaussianVMD::loadGaussianOutputFile {option} {
 proc gaussianVMD::globalInfoOutputFile {} {
 	    
 		#### Get the title line
-		set titleFirstLine [exec grep -n -m 6 -e "^  -*" $gaussianVMD::path | cut -f1 -d:]
+		set titleFirstLine [exec grep -n -m 6 -e "^ -" $gaussianVMD::path | cut -f1 -d:]
 		set titleFirstLine1 [expr [lindex $titleFirstLine 4] + 1]
 		set titleLastLine1 [expr [lindex $titleFirstLine 5] - 1]
 		set gaussianVMD::title [exec sed -n "$titleFirstLine1,$titleLastLine1 p" $gaussianVMD::path]

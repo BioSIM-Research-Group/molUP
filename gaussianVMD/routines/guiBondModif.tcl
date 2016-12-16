@@ -32,6 +32,14 @@ proc gaussianVMD::guiBondModif {} {
 
 
 
+	#### Activate atom pick
+	mouse callback on
+
+	user add key a {
+			set gaussianVMD::pickedAtom $vmd_pick_atom_silent
+			puts $gaussianVMD::pickedAtom
+		}
+
     #### Information
     grid [ttk::frame $gaussianVMD::bondModif.frame0] -row 0 -column 0 -padx 5 -pady 2 -sticky news
         

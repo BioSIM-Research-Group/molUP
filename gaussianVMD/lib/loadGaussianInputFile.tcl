@@ -84,16 +84,6 @@ proc gaussianVMD::loadGaussianInputFile {} {
 	   			"$resid" \
 	   			"$column1"\
 	   			]
-	   		
-			$gaussianVMD::topGui.frame3.tabsAtomList.tab5.frame.tableLayer insert end [list \
-	   			"$i" \
-	   			"$pdbAtomType" \
-	   			"$resname" \
-	   			"$resid" \
-	   			"$x" \
-	   			"$y" \
-	   			"$z"\
-	   			]
 
 			set atomicSymbol 		""
 			set gaussianAtomType 	"" 

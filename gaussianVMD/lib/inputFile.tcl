@@ -34,6 +34,8 @@ proc gaussianVMD::loadButton {fileExtension} {
 		gaussianVMD::loadGaussianInputFile
 		gaussianVMD::loadMolecule $gaussianVMD::fileName $gaussianVMD::actualTime normal
 
+		$gaussianVMD::topGui.frame1.buttonLoadFile configure -state disabled
+
 	#### Open a .log file
 	} elseif {$gaussianVMD::fileExtension == ".log"} {
 		set gaussianVMD::loadMode [$gaussianVMD::topGui.frame1.selectLoadMode get]
@@ -41,14 +43,22 @@ proc gaussianVMD::loadButton {fileExtension} {
 		if {$gaussianVMD::loadMode == "Last Structure"} {
 			gaussianVMD::loadGaussianOutputFile lastStructure
 
+			$gaussianVMD::topGui.frame1.buttonLoadFile configure -state disabled
+
 		} elseif {$gaussianVMD::loadMode == "First Structure"} {
 			gaussianVMD::loadGaussianOutputFile firstStructure
+
+			$gaussianVMD::topGui.frame1.buttonLoadFile configure -state disabled
 				
 		} elseif {$gaussianVMD::loadMode == "All optimized structures"} {
 			gaussianVMD::loadGaussianOutputFile optimizedStructures
 
+			$gaussianVMD::topGui.frame1.buttonLoadFile configure -state disabled
+
 		} elseif {$gaussianVMD::loadMode == "All structures (may take a long time to load)"} {
 			gaussianVMD::loadGaussianOutputFile allStructures
+
+			$gaussianVMD::topGui.frame1.buttonLoadFile configure -state disabled
 
 		} else {
 				set alert [tk_messageBox -message "Please select which structure you want to load." -type ok -icon info]
@@ -58,6 +68,7 @@ proc gaussianVMD::loadButton {fileExtension} {
 	} else {
 		set alert [tk_messageBox -message "Oops!\nThe file is not supported.\nYou can only load .com or .log files (Gaussian)." -type ok -icon question]
 	}
+
 }
 
 
