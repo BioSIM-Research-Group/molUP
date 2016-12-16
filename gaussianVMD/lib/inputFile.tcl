@@ -6,7 +6,7 @@ proc gaussianVMD::onSelect {} {
             {{Gaussian Input (.com)}       {.com}        }
             {{Gaussian Output (.log)}       {.log}        }
     }
-    set gaussianVMD::path [tk_getOpenFile -filetypes $fileTypes]    
+    set gaussianVMD::path [tk_getOpenFile -filetypes $fileTypes] 
     return $gaussianVMD::path
 }
 
@@ -32,7 +32,7 @@ proc gaussianVMD::loadButton {fileExtension} {
 	#### Open a .com file
 	if {$gaussianVMD::fileExtension == ".com"} {
 		gaussianVMD::loadGaussianInputFile
-		gaussianVMD::loadMolecule $gaussianVMD::fileName $gaussianVMD::actualTime
+		gaussianVMD::loadMolecule $gaussianVMD::fileName $gaussianVMD::actualTime normal
 
 	#### Open a .log file
 	} elseif {$gaussianVMD::fileExtension == ".log"} {
@@ -40,18 +40,15 @@ proc gaussianVMD::loadButton {fileExtension} {
 
 		if {$gaussianVMD::loadMode == "Last Structure"} {
 			gaussianVMD::loadGaussianOutputFile lastStructure
-			gaussianVMD::globalInfoOutputFile
 
 		} elseif {$gaussianVMD::loadMode == "First Structure"} {
 			gaussianVMD::loadGaussianOutputFile firstStructure
-			gaussianVMD::globalInfoOutputFile
 				
 		} elseif {$gaussianVMD::loadMode == "All optimized structures"} {
-
+			gaussianVMD::loadGaussianOutputFile optimizedStructures
 
 		} elseif {$gaussianVMD::loadMode == "All structures (may take a long time to load)"} {
 			gaussianVMD::loadGaussianOutputFile allStructures
-			gaussianVMD::globalInfoOutputFile
 
 		} else {
 				set alert [tk_messageBox -message "Please select which structure you want to load." -type ok -icon info]

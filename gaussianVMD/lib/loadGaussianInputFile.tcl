@@ -22,15 +22,15 @@ proc gaussianVMD::loadGaussianInputFile {} {
 		## Get the Initial Structure
 	set gaussianVMD::structureGaussian [exec sed -n "$lineNumberFirst,$lineNumberLast p" $gaussianVMD::path]
 
-
-	## Create a temporary folder
-	exec mkdir -p .temporary
-
 	## Set actual time
 	set gaussianVMD::actualTime [clock seconds]
 
+	## Create a temporary folder
+	exec mkdir -p .temporary/[subst $gaussianVMD::actualTime]
+
+
 	## Create a temporary file PDB
-	set gaussianVMD::temporaryPDBFile [open ".temporary/[subst $gaussianVMD::fileName]_[subst $gaussianVMD::actualTime].pdb" w]
+	set gaussianVMD::temporaryPDBFile [open ".temporary/[subst $gaussianVMD::actualTime]/[subst $gaussianVMD::fileName].pdb" w]
 
 	## Add a header to the file
 	puts $gaussianVMD::temporaryPDBFile "HEADER\n $gaussianVMD::title"
