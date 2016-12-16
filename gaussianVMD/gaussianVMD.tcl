@@ -25,6 +25,7 @@ namespace eval gaussianVMD:: {
 		package require loadGaussianOutputFileLastStructure		1.0
 		package require applyToStructure						1.0
 		package	require editStructure							1.0
+		package require modify									1.0
 
 
 		package require Tk
@@ -84,6 +85,11 @@ namespace eval gaussianVMD:: {
 		variable nonproteinRep	"0"
 		variable waterRep		"0"
 		variable pickedAtom
+		variable atom1BondSel	"none"
+		variable atom2BondSel	"none"
+		variable atom1BondOpt	"Fixed Atom"
+		variable atom2BondOpt	"Move Atom"
+		variable BondDistance	"0.00"
 
 		#### Images
 		variable images 		"logo.gif bondEdit.gif angleEdit.gif dihedralEdit.gif energyProfile.gif savePDB.gif saveGaussian.gif"

@@ -56,7 +56,7 @@ proc gaussianVMD::guiBondModif {} {
 		    ] -in $gaussianVMD::bondModif.frame0 -row 2 -column 0 -padx 2 -pady 0 -sticky news
 
             grid [ttk::entry $gaussianVMD::bondModif.frame0.atom1Index \
-		        -textvariable {} \
+		        -textvariable {gaussianVMD::atom1BondSel} \
 		        -width 12 \
 		        ] -in $gaussianVMD::bondModif.frame0 -row 2 -column 1 -sticky news
 
@@ -65,7 +65,7 @@ proc gaussianVMD::guiBondModif {} {
 		        ] -in $gaussianVMD::bondModif.frame0 -row 2 -column 2 -padx 2 -pady 0 -sticky news
             
             grid [ttk::combobox $gaussianVMD::bondModif.frame0.atom1Options \
-		        -textvariable {} \
+		        -textvariable {gaussianVMD::atom1BondOpt} \
 		        -width 10 \
 			    -state readonly \
 		        -values "[list "Fixed Atom" "Move Atom" "Move Atoms"]"
@@ -81,7 +81,7 @@ proc gaussianVMD::guiBondModif {} {
 		    ] -in $gaussianVMD::bondModif.frame0 -row 4 -column 0 -padx 2 -pady 0 -sticky news
 
             grid [ttk::entry $gaussianVMD::bondModif.frame0.atom2Index \
-		        -textvariable {} \
+		        -textvariable {gaussianVMD::atom2BondSel} \
 		        -width 12 \
 		        ] -in $gaussianVMD::bondModif.frame0 -row 4 -column 1 -sticky news
 
@@ -90,7 +90,7 @@ proc gaussianVMD::guiBondModif {} {
 		        ] -in $gaussianVMD::bondModif.frame0 -row 4 -column 2 -padx 2 -pady 0 -sticky news
             
             grid [ttk::combobox $gaussianVMD::bondModif.frame0.atom2Options \
-		        -textvariable {} \
+		        -textvariable {gaussianVMD::atom2BondOpt} \
 		        -width 10 \
 			    -state readonly \
 		        -values "[list "Fixed Atom" "Move Atom" "Move Atoms"]"
@@ -108,7 +108,7 @@ proc gaussianVMD::guiBondModif {} {
 		        ] -in $gaussianVMD::bondModif.frame1 -row 0 -column 0 -padx 2 -pady 2 -sticky news
 
                 grid [ttk::entry $gaussianVMD::bondModif.frame1.distance \
-                    -textvariable {} \
+                    -textvariable {gaussianVMD::BondDistance} \
                     -width 10 \
                     ] -in $gaussianVMD::bondModif.frame1 -row 0 -column 1 -padx 2 -pady 2 -sticky news
                 
