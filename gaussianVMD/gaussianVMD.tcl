@@ -84,12 +84,13 @@ namespace eval gaussianVMD:: {
 		variable proteinRep		"0"
 		variable nonproteinRep	"0"
 		variable waterRep		"0"
-		variable pickedAtom
+		variable pickedAtoms	{}
 		variable atom1BondSel	"none"
 		variable atom2BondSel	"none"
 		variable atom1BondOpt	"Fixed Atom"
 		variable atom2BondOpt	"Move Atom"
-		variable BondDistance	"0.00"
+		variable BondDistance	"0.01"
+		variable initialBondDistance	"0.01"
 
 		#### Images
 		variable images 		"logo.gif bondEdit.gif angleEdit.gif dihedralEdit.gif energyProfile.gif savePDB.gif saveGaussian.gif"

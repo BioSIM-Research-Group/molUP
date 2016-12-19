@@ -134,6 +134,13 @@ proc gaussianVMD::addSelectionRep {} {
     #### Representantion all
     mol showrep top 0 $gaussianVMD::allRep
 
+    #### Representantion Selected atoms
+    mol selection "none"
+	mol color ColorID 3
+    mol material Transparent
+	mol representation VDW 0.300000 1.000000
+	mol addrep top
+
 }
 
 #### Representantion of current selection

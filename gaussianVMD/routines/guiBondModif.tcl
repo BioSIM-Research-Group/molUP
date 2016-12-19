@@ -19,26 +19,11 @@ proc gaussianVMD::guiBondModif {} {
 	#window wifth and height
 	set wWidth [winfo reqwidth $::gaussianVMD::bondModif]
 	set wHeight [winfo reqheight $::gaussianVMD::bondModif]
-	
-	#display reposition 0 [expr ${sHeight} - 15]
-	#display resize [expr $sWidth - 400] ${sHeight}
-
-	#wm geometry window $gaussianVMD::bondModif 400x590
-	#set x [expr $sWidth - 2*($wWidth)]
-
-	#wm geometry $::gaussianVMD::bondModif 400x${sHeight}+$x+25
 	$::gaussianVMD::bondModif configure -background {white}
 	wm resizable $::gaussianVMD::bondModif 0 0
 
 
 
-	#### Activate atom pick
-	mouse callback on
-
-	user add key a {
-			set gaussianVMD::pickedAtom $vmd_pick_atom_silent
-			puts $gaussianVMD::pickedAtom
-		}
 
     #### Information
     grid [ttk::frame $gaussianVMD::bondModif.frame0] -row 0 -column 0 -padx 5 -pady 2 -sticky news
@@ -58,6 +43,7 @@ proc gaussianVMD::guiBondModif {} {
             grid [ttk::entry $gaussianVMD::bondModif.frame0.atom1Index \
 		        -textvariable {gaussianVMD::atom1BondSel} \
 		        -width 12 \
+				-state readonly \
 		        ] -in $gaussianVMD::bondModif.frame0 -row 2 -column 1 -sticky news
 
             grid [ttk::label $gaussianVMD::bondModif.frame0.atom1OptionsLabel \
@@ -83,6 +69,7 @@ proc gaussianVMD::guiBondModif {} {
             grid [ttk::entry $gaussianVMD::bondModif.frame0.atom2Index \
 		        -textvariable {gaussianVMD::atom2BondSel} \
 		        -width 12 \
+				-state readonly \
 		        ] -in $gaussianVMD::bondModif.frame0 -row 4 -column 1 -sticky news
 
             grid [ttk::label $gaussianVMD::bondModif.frame0.atom2OptionsLabel \
@@ -99,7 +86,13 @@ proc gaussianVMD::guiBondModif {} {
 
 
         grid [ttk::frame $gaussianVMD::bondModif.frame2] -row 1 -column 0 -padx 5 -pady 5 -sticky news
-            
+			grid [ttk::scale $gaussianVMD::bondModif.frame2.scaleBondDistance \
+				-length 280 \
+				-from 0.01 \
+				-to 10.00 \
+				-variable {gaussianVMD::BondDistance} \
+				-command {gaussianVMD::calcBondDistance} \
+			] -in $gaussianVMD::bondModif.frame2 -row 0 -column 0 -padx 5 -sticky news
 
 
         grid [ttk::frame $gaussianVMD::bondModif.frame1] -row 2 -column 0 -padx 5 -pady 5 -sticky news
@@ -108,7 +101,7 @@ proc gaussianVMD::guiBondModif {} {
 		        ] -in $gaussianVMD::bondModif.frame1 -row 0 -column 0 -padx 2 -pady 2 -sticky news
 
                 grid [ttk::entry $gaussianVMD::bondModif.frame1.distance \
-                    -textvariable {gaussianVMD::BondDistance} \
+					-textvariable {gaussianVMD::BondDistance} \
                     -width 10 \
                     ] -in $gaussianVMD::bondModif.frame1 -row 0 -column 1 -padx 2 -pady 2 -sticky news
                 
@@ -117,5 +110,10 @@ proc gaussianVMD::guiBondModif {} {
 		            -command {} \
 		            ] -in $gaussianVMD::bondModif.frame1 -row 0 -column 2 -sticky news
 
+
+
+
+	#### Run the initial procedure
+	gaussianVMD::guiBondModifInitialProc
 
 }
