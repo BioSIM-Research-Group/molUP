@@ -46,37 +46,39 @@ proc gaussianVMD::atomPicked {args} {
 
 }
 
-proc gaussianVMD::calcBondDistance {value} {
+proc gaussianVMD::calcBondDistance {bondlength} {
 
     if {$gaussianVMD::atom2BondSel != 0} {
+
+        set atomsToBeMoved1 100
+        set atomsToBeMoved2 1
+
         ## Set the selections for the desired atoms
         set selection1 [atomselect top "index $gaussianVMD::atom1BondSel"]
         set selection2 [atomselect top "index $gaussianVMD::atom2BondSel"]
 
-        ## Get atom coordinates Atom 1
-        set atom1X [[lindex $selection1 0] get x]
-        set atom1Y [[lindex $selection1 0] get y]
-        set atom1Z [[lindex $selection1 0] get z]
+        ## Get atom coordinates
+        set pos1 [join [$selection1 get {x y z}]]
+        set pos2 [join [$selection2 get {x y z}]]
+        $selection1 delete
+        $selection2 delete
 
-        ## Get atom coordinates Atom 2
-        set atom2X [[lindex $selection2 0] get x]
-        set atom2Y [[lindex $selection2 0] get y]
-        set atom2Z [[lindex $selection2 0] get z]
+        ## Set vectors
+        set dir    [vecnorm [vecsub $pos1 $pos2]]
+        set curval [veclength [vecsub $pos2 $pos1]]
 
-        ## Move atom
-        set factor [expr $gaussianVMD::BondDistance / $gaussianVMD::initialBondDistance]
+        ## Atoms to be moved
+        set indexes1 [join [::util::bondedsel top $gaussianVMD::atom2BondSel $gaussianVMD::atom1BondSel -maxdepth $atomsToBeMoved1]]
+        set indexes2 [join [::util::bondedsel top $gaussianVMD::atom1BondSel $gaussianVMD::atom2BondSel -maxdepth $atomsToBeMoved2]]
+        set selection1 [atomselect top "index $indexes1 and not index $gaussianVMD::atom2BondSel"]
+        set selection2 [atomselect top "index $indexes2 and not index $gaussianVMD::atom1BondSel"]
 
-        ## Calculate the coordinates of the vector
-        set vectorX [expr ($atom2X - $atom1X) * $factor]
-        set vectorY [expr ($atom2Y - $atom1Y) * $factor]
-        set vectorZ [expr ($atom2Z - $atom1Z) * $factor]
-
-        puts "[list $vectorX $vectorY $vectorZ]"
-
-        $selection2 moveby [list $vectorX $vectorY $vectorZ]
-
+        ## Move atoms according to distance
+        $selection1 moveby [vecscale [expr -0.5*($curval-$bondlength)] $dir]
+        $selection2 moveby [vecscale [expr 0.5*($curval-$bondlength)] $dir]
+        $selection1 delete
+        $selection2 delete
         
-
 
     } else {
         
