@@ -88,8 +88,8 @@ proc gaussianVMD::guiBondModif {} {
         grid [ttk::frame $gaussianVMD::bondModif.frame2] -row 1 -column 0 -padx 5 -pady 5 -sticky news
 			grid [ttk::scale $gaussianVMD::bondModif.frame2.scaleBondDistance \
 				-length 280 \
-				-from 0.01 \
-				-to 10.00 \
+				-from 0.0001 \
+				-to 15.0000 \
 				-variable {gaussianVMD::BondDistance} \
 				-command {gaussianVMD::calcBondDistance} \
 			] -in $gaussianVMD::bondModif.frame2 -row 0 -column 0 -padx 5 -sticky news
@@ -102,7 +102,6 @@ proc gaussianVMD::guiBondModif {} {
 
                 grid [ttk::entry $gaussianVMD::bondModif.frame1.distance \
 					-textvariable {gaussianVMD::BondDistance} \
-					-command {gaussianVMD::calcBondDistance} \
                     -width 10 \
                     ] -in $gaussianVMD::bondModif.frame1 -row 0 -column 1 -padx 2 -pady 2 -sticky news
                 

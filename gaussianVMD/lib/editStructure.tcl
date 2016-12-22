@@ -67,7 +67,7 @@ proc gaussianVMD::addSelectionRep {} {
     mol selection index [gaussianVMD::optimizeIndexList $highLayerIndex]
     mol color Name
     mol material Diffuse
-    mol representation Licorice 0.300000 12.000000 12.000000
+    mol representation Licorice 0.300000 50.000000 50.000000
     mol addrep top
     mol showrep top 2 $gaussianVMD::HLrep
 
@@ -76,7 +76,7 @@ proc gaussianVMD::addSelectionRep {} {
     mol selection index [gaussianVMD::optimizeIndexList $mediumLayerIndex]
     mol color Name
     mol material Diffuse
-    mol representation Licorice 0.100000 12.000000 12.000000
+    mol representation Licorice 0.100000 50.000000 50.000000
     mol addrep top
     mol showrep top 3 $gaussianVMD::MLrep
 
@@ -101,7 +101,7 @@ proc gaussianVMD::addSelectionRep {} {
     mol selection all and not (protein or water)
     mol color Name
     mol material Diffuse
-    mol representation Licorice 0.100000 12.000000 12.000000
+    mol representation Licorice 0.100000 50.000000 50.000000
     mol addrep top
     mol showrep top 6 $gaussianVMD::nonproteinRep
 
@@ -119,7 +119,7 @@ proc gaussianVMD::addSelectionRep {} {
     mol selection index [gaussianVMD::optimizeIndexList $unfreezeAtomIndex]
     mol color Name
     mol material Diffuse
-    mol representation Licorice 0.200000 12.000000 12.000000
+    mol representation Licorice 0.200000 50.000000 50.000000
     mol addrep top
     mol showrep top 8 $gaussianVMD::unfreezeRep
 
@@ -127,7 +127,7 @@ proc gaussianVMD::addSelectionRep {} {
     mol selection all and not index [gaussianVMD::optimizeIndexList $unfreezeAtomIndex]
     mol color Name
     mol material Diffuse
-    mol representation Licorice 0.100000 12.000000 12.000000
+    mol representation Licorice 0.100000 50.000000 50.000000
     mol addrep top
     mol showrep top 9 $gaussianVMD::freezeRep
 
@@ -136,9 +136,9 @@ proc gaussianVMD::addSelectionRep {} {
 
     #### Representantion Selected atoms
     mol selection "none"
-	mol color ColorID 3
+	mol color ColorID 8
     mol material Transparent
-	mol representation VDW 0.300000 1.000000
+	mol representation VDW 0.400000 50.000000
 	mol addrep top
 
 }

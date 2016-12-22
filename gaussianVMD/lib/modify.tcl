@@ -66,23 +66,135 @@ proc gaussianVMD::calcBondDistance {bondlength} {
         ## Set vectors
         set dir    [vecnorm [vecsub $pos1 $pos2]]
         set curval [veclength [vecsub $pos2 $pos1]]
-
-        ## Atoms to be moved
-        set indexes1 [join [::util::bondedsel top $gaussianVMD::atom2BondSel $gaussianVMD::atom1BondSel -maxdepth $atomsToBeMoved1]]
-        set indexes2 [join [::util::bondedsel top $gaussianVMD::atom1BondSel $gaussianVMD::atom2BondSel -maxdepth $atomsToBeMoved2]]
-        set selection1 [atomselect top "index $indexes1 and not index $gaussianVMD::atom2BondSel"]
-        set selection2 [atomselect top "index $indexes2 and not index $gaussianVMD::atom1BondSel"]
-
-        ## Move atoms according to distance
-        $selection1 moveby [vecscale [expr -0.5*($curval-$bondlength)] $dir]
-        $selection2 moveby [vecscale [expr 0.5*($curval-$bondlength)] $dir]
-        $selection1 delete
-        $selection2 delete
         
+        
+        if {$gaussianVMD::atom1BondOpt == "Fixed Atom" && $gaussianVMD::atom2BondOpt == "Fixed Atom"} {
+            set alert [tk_messageBox -message "At least one atom must be free to move." -type ok -icon error]
+
+        } elseif {$gaussianVMD::atom1BondOpt == "Fixed Atom" && $gaussianVMD::atom2BondOpt == "Move Atom"} {
+
+            set atomsToBeMoved2 1
+
+            ## Atoms to be moved
+            #set indexes1 [join [::util::bondedsel top $gaussianVMD::atom2BondSel $gaussianVMD::atom1BondSel -maxdepth $atomsToBeMoved1]]
+            set indexes2 [join [::util::bondedsel top $gaussianVMD::atom1BondSel $gaussianVMD::atom2BondSel -maxdepth $atomsToBeMoved2]]
+            #set selection1 [atomselect top "index $indexes1 and not index $gaussianVMD::atom2BondSel"]
+            set selection2 [atomselect top "index $indexes2 and not index $gaussianVMD::atom1BondSel"]
+            ## Move atoms according to distance
+            #$selection1 moveby [vecscale [expr -0.5*($curval-$bondlength)] $dir]
+            $selection2 moveby [vecscale [expr 1*($curval-$bondlength)] $dir]
+            #$selection1 delete
+            $selection2 delete
+            
+        } elseif {$gaussianVMD::atom1BondOpt == "Move Atom" && $gaussianVMD::atom2BondOpt == "Fixed Atom"} {
+
+            set atomsToBeMoved1 1
+
+            ## Atoms to be moved
+            set indexes1 [join [::util::bondedsel top $gaussianVMD::atom2BondSel $gaussianVMD::atom1BondSel -maxdepth $atomsToBeMoved1]]
+            #set indexes2 [join [::util::bondedsel top $gaussianVMD::atom1BondSel $gaussianVMD::atom2BondSel -maxdepth $atomsToBeMoved2]]
+            set selection1 [atomselect top "index $indexes1 and not index $gaussianVMD::atom2BondSel"]
+            #set selection2 [atomselect top "index $indexes2 and not index $gaussianVMD::atom1BondSel"]
+            ## Move atoms according to distance
+            $selection1 moveby [vecscale [expr -1*($curval-$bondlength)] $dir]
+            #$selection2 moveby [vecscale [expr 1*($curval-$bondlength)] $dir]
+            $selection1 delete
+            #$selection2 delete
+            
+        } elseif {$gaussianVMD::atom1BondOpt == "Move Atom" && $gaussianVMD::atom2BondOpt == "Move Atom"} {
+
+            set atomsToBeMoved1 1
+            set atomsToBeMoved2 1
+
+            ## Atoms to be moved
+            set indexes1 [join [::util::bondedsel top $gaussianVMD::atom2BondSel $gaussianVMD::atom1BondSel -maxdepth $atomsToBeMoved1]]
+            set indexes2 [join [::util::bondedsel top $gaussianVMD::atom1BondSel $gaussianVMD::atom2BondSel -maxdepth $atomsToBeMoved2]]
+            set selection1 [atomselect top "index $indexes1 and not index $gaussianVMD::atom2BondSel"]
+            set selection2 [atomselect top "index $indexes2 and not index $gaussianVMD::atom1BondSel"]
+            ## Move atoms according to distance
+            $selection1 moveby [vecscale [expr -0.5*($curval-$bondlength)] $dir]
+            $selection2 moveby [vecscale [expr 0.5*($curval-$bondlength)] $dir]
+            $selection1 delete
+            $selection2 delete
+            
+        } elseif {$gaussianVMD::atom1BondOpt == "Move Atom" && $gaussianVMD::atom2BondOpt == "Move Atoms"} {
+
+            set atomsToBeMoved1 1
+
+            ## Atoms to be moved
+            set indexes1 [join [::util::bondedsel top $gaussianVMD::atom2BondSel $gaussianVMD::atom1BondSel -maxdepth $atomsToBeMoved1]]
+            set indexes2 [join [::util::bondedsel top $gaussianVMD::atom1BondSel $gaussianVMD::atom2BondSel]]
+            set selection1 [atomselect top "index $indexes1 and not index $gaussianVMD::atom2BondSel"]
+            set selection2 [atomselect top "index $indexes2 and not index $gaussianVMD::atom1BondSel"]
+            ## Move atoms according to distance
+            $selection1 moveby [vecscale [expr -0.5*($curval-$bondlength)] $dir]
+            $selection2 moveby [vecscale [expr 0.5*($curval-$bondlength)] $dir]
+            $selection1 delete
+            $selection2 delete
+            
+        } elseif {$gaussianVMD::atom1BondOpt == "Move Atoms" && $gaussianVMD::atom2BondOpt == "Move Atom"} {
+
+            set atomsToBeMoved2 1
+
+            ## Atoms to be moved
+            set indexes1 [join [::util::bondedsel top $gaussianVMD::atom2BondSel $gaussianVMD::atom1BondSel]]
+            set indexes2 [join [::util::bondedsel top $gaussianVMD::atom1BondSel $gaussianVMD::atom2BondSel -maxdepth $atomsToBeMoved2]]
+            set selection1 [atomselect top "index $indexes1 and not index $gaussianVMD::atom2BondSel"]
+            set selection2 [atomselect top "index $indexes2 and not index $gaussianVMD::atom1BondSel"]
+            ## Move atoms according to distance
+            $selection1 moveby [vecscale [expr -0.5*($curval-$bondlength)] $dir]
+            $selection2 moveby [vecscale [expr 0.5*($curval-$bondlength)] $dir]
+            $selection1 delete
+            $selection2 delete
+            
+        } elseif {$gaussianVMD::atom1BondOpt == "Move Atoms" && $gaussianVMD::atom2BondOpt == "Move Atoms"} {
+
+            ## Atoms to be moved
+            set indexes1 [join [::util::bondedsel top $gaussianVMD::atom2BondSel $gaussianVMD::atom1BondSel]]
+            set indexes2 [join [::util::bondedsel top $gaussianVMD::atom1BondSel $gaussianVMD::atom2BondSel]]
+            set selection1 [atomselect top "index $indexes1 and not index $gaussianVMD::atom2BondSel"]
+            set selection2 [atomselect top "index $indexes2 and not index $gaussianVMD::atom1BondSel"]
+            ## Move atoms according to distance
+            $selection1 moveby [vecscale [expr -0.5*($curval-$bondlength)] $dir]
+            $selection2 moveby [vecscale [expr 0.5*($curval-$bondlength)] $dir]
+            $selection1 delete
+            $selection2 delete
+            
+        } elseif {$gaussianVMD::atom1BondOpt == "Fixed Atom" && $gaussianVMD::atom2BondOpt == "Move Atoms"} {
+
+            ## Atoms to be moved
+            #set indexes1 [join [::util::bondedsel top $gaussianVMD::atom2BondSel $gaussianVMD::atom1BondSel -maxdepth $atomsToBeMoved1]]
+            set indexes2 [join [::util::bondedsel top $gaussianVMD::atom1BondSel $gaussianVMD::atom2BondSel]]
+            #set selection1 [atomselect top "index $indexes1 and not index $gaussianVMD::atom2BondSel"]
+            set selection2 [atomselect top "index $indexes2 and not index $gaussianVMD::atom1BondSel"]
+            ## Move atoms according to distance
+            #$selection1 moveby [vecscale [expr -0.5*($curval-$bondlength)] $dir]
+            $selection2 moveby [vecscale [expr 1*($curval-$bondlength)] $dir]
+            #$selection1 delete
+            $selection2 delete
+            
+        } elseif {$gaussianVMD::atom1BondOpt == "Move Atoms" && $gaussianVMD::atom2BondOpt == "Fixed Atom"} {
+
+            ## Atoms to be moved
+            set indexes1 [join [::util::bondedsel top $gaussianVMD::atom2BondSel $gaussianVMD::atom1BondSel]]
+            #set indexes2 [join [::util::bondedsel top $gaussianVMD::atom1BondSel $gaussianVMD::atom2BondSel -maxdepth $atomsToBeMoved2]]
+            set selection1 [atomselect top "index $indexes1 and not index $gaussianVMD::atom2BondSel"]
+            #set selection2 [atomselect top "index $indexes2 and not index $gaussianVMD::atom1BondSel"]
+            ## Move atoms according to distance
+            $selection1 moveby [vecscale [expr -1*($curval-$bondlength)] $dir]
+            #$selection2 moveby [vecscale [expr 1*($curval-$bondlength)] $dir]
+            $selection1 delete
+            #$selection2 delete
+            
+        } else {
+            set alert [tk_messageBox -message "Unkown error. Please contact the developer." -type ok -icon error]
+        }
+
 
     } else {
         
     }
 
     set gaussianVMD::initialBondDistance $gaussianVMD::BondDistance
+    
 }
