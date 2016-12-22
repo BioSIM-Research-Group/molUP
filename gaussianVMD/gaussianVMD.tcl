@@ -26,6 +26,7 @@ namespace eval gaussianVMD:: {
 		package require applyToStructure						1.0
 		package	require editStructure							1.0
 		package require modify									1.0
+		package require saveFiles								1.0
 
 
 		package require Tk
@@ -36,7 +37,7 @@ namespace eval gaussianVMD:: {
 		#### Program Variables
 
 		## General
-		variable version	    	"0.1.5 (alpha)"
+		variable version	    	"0.1.8 (alpha)"
         variable topGui         	".gaussianVMD"
 		variable bondModif         	".gaussianVMD.bondModif"
 		global path

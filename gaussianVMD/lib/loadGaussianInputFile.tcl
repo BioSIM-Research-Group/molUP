@@ -63,7 +63,7 @@ proc gaussianVMD::loadGaussianInputFile {} {
 			
 			$gaussianVMD::topGui.frame3.tabsAtomList.tab4.frame.tableLayer insert end [list \
 	   			"$i" \
-	   			"$pdbAtomType" \
+	   			"[lindex [split $gaussianAtomType "-"] 0]" \
 	   			"$resname" \
 	   			"$resid" \
 	   			"$charge"\

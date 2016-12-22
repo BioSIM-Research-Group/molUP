@@ -28,3 +28,4 @@ package ifneeded loadGaussianOutputFileLastStructure     	1.0 [list source [file
 package ifneeded applyToStructure                        	1.0 [list source [file join $dir/lib/applyToStructure.tcl]]
 package ifneeded editStructure                          	1.0 [list source [file join $dir/lib/editStructure.tcl]]
 package ifneeded modify                                   	1.0 [list source [file join $dir/lib/modify.tcl]]
+package ifneeded saveFiles                                 	1.0 [list source [file join $dir/lib/saveFiles.tcl]]

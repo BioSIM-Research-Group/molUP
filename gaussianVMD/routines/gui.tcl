@@ -446,56 +446,28 @@ proc gaussianVMD::buildGui {} {
 				    ] -in $gaussianVMD::topGui.frame3.tabsAtomList.tab5.frame -row 3 -column 1 -sticky news -columnspan 3
 
 		
-		#### Tools
-		#grid [ttk::frame $gaussianVMD::topGui.frame6] -row 9 -column 0 -padx 5 -pady 4 -sticky news		    
-#
-		#	grid [canvas $gaussianVMD::topGui.frame6.energyProfile -height 46 -width 46 -bg "white" \
-		#	    ] -in $gaussianVMD::topGui.frame6 -row 0 -column 0
-		#		$gaussianVMD::topGui.frame6.energyProfile create image 26 26 -image $gaussianVMD::energyProfile
-		#		bind $gaussianVMD::topGui.frame6.energyProfile <Button-1> {gaussianVMD::guiBondModif}
-#
-			#grid [canvas $gaussianVMD::topGui.frame6.bondEdit -height 46 -width 66 -bg "white" \
-			#    ] -in $gaussianVMD::topGui.frame6 -row 0 -column 1
-			#	$gaussianVMD::topGui.frame6.bondEdit create image 46 26 -image $gaussianVMD::bondEdit
-			#	bind $gaussianVMD::topGui.frame6.bondEdit <Button-1> {gaussianVMD::guiBondModif}
-#
-			#grid [canvas $gaussianVMD::topGui.frame6.angleEdit -height 46 -width 46 -bg "white" \
-			#    ] -in $gaussianVMD::topGui.frame6 -row 0 -column 2
-			#	$gaussianVMD::topGui.frame6.angleEdit create image 26 26 -image $gaussianVMD::angleEdit
-			#	bind $gaussianVMD::topGui.frame6.angleEdit <Button-1> {gaussianVMD::guiBondModif}
-#
-			#grid [canvas $gaussianVMD::topGui.frame6.dihedralEdit -height 46 -width 46 -bg "white" \
-			#    ] -in $gaussianVMD::topGui.frame6 -row 0 -column 3
-			#	$gaussianVMD::topGui.frame6.dihedralEdit create image 26 26 -image $gaussianVMD::dihedralEdit
-			#	bind $gaussianVMD::topGui.frame6.dihedralEdit <Button-1> {gaussianVMD::guiBondModif}
-#
-		#	grid [canvas $gaussianVMD::topGui.frame6.savePDB -height 46 -width 66 -bg "white" \
-		#	    ] -in $gaussianVMD::topGui.frame6 -row 0 -column 4
-		#		$gaussianVMD::topGui.frame6.savePDB create image 46 26 -image $gaussianVMD::savePDB
-		#		bind $gaussianVMD::topGui.frame6.savePDB <Button-1> {gaussianVMD::guiBondModif}
-#
-		#	grid [canvas $gaussianVMD::topGui.frame6.saveGaussian -height 46 -width 92 -bg "white" \
-		#	    ] -in $gaussianVMD::topGui.frame6 -row 0 -column 5
-		#		$gaussianVMD::topGui.frame6.saveGaussian create image 26 26 -image $gaussianVMD::saveGaussian
-		#		bind $gaussianVMD::topGui.frame6.saveGaussian <Button-1> {gaussianVMD::guiBondModif}
+		#### Save as 
+		grid [ttk::frame $gaussianVMD::topGui.frame6] -row 9 -column 0 -padx 5 -pady 4 -sticky news		    
+			grid [ttk::label $gaussianVMD::topGui.frame6.savePDBLabel \
+		    	-text {Save current molecule: } \
+				-style gaussianVMD.TLabel \
+		    	] -in $gaussianVMD::topGui.frame6 -row 0 -column 0 -padx 2 -pady 2 -sticky news -columnspan 3
 
+			grid [ttk::button $gaussianVMD::topGui.frame6.buttonSavePDBFile \
+			    -text "Save as PDB" \
+			    -command {gaussianVMD::savePDB} \
+			    ] -in $gaussianVMD::topGui.frame6 -row 1 -column 0 -sticky news
 
-			#grid [ttk::button $gaussianVMD::topGui.frame6.bondEdit \
-			#	-image $gaussianVMD::bondEdit \
-			#	-style gaussianVMD.edit.TButton \
-			#	-text "AA" \
-		    #	-command {gaussianVMD::guiBondModif} \
-		    #	] -in $gaussianVMD::topGui.frame6 -row 0 -column 2 -sticky news
-			#
-			#grid [ttk::button $gaussianVMD::topGui.frame6.angleEdit \
-			#	-image $gaussianVMD::angleEdit \
-		    #	-command {gaussianVMD::guiBondModif} \
-		    #	] -in $gaussianVMD::topGui.frame6 -row 0 -column 3 -sticky news
-#
-			#grid [ttk::button $gaussianVMD::topGui.frame6.dihedralEdit \
-			#	-image $gaussianVMD::dihedralEdit \
-		    #	-command {gaussianVMD::guiBondModif} \
-		    #	] -in $gaussianVMD::topGui.frame6 -row 0 -column 4 -sticky news
+			grid [ttk::button $gaussianVMD::topGui.frame6.buttonSaveGaussianFile \
+			    -text "Save as Gaussian" \
+			    -command {gaussianVMD::saveGaussian} \
+			    ] -in $gaussianVMD::topGui.frame6 -row 1 -column 1 -sticky news
+
+			grid [ttk::button $gaussianVMD::topGui.frame6.buttonSaveXYZFile \
+			    -text "Save as XYZ" \
+			    -command {gaussianVMD::saveXYZ} \
+			    ] -in $gaussianVMD::topGui.frame6 -row 1 -column 2 -sticky news
+
 
 
 #
