@@ -78,6 +78,8 @@ proc gaussianVMD::writeGaussianFile {path} {
     ## Write Charge and Multi
     puts $file "$gaussianVMD::chargesMultip"
 
+    
+
     close $file
 
 }

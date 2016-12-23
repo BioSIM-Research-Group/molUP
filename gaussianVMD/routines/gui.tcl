@@ -217,6 +217,11 @@ proc gaussianVMD::buildGui {} {
 					-command {gaussianVMD::deleteAllLabels} \
 				    ] -in $gaussianVMD::topGui.frame3.tabsAtomList.tab1.frame -row 6 -column 0 -sticky news
 
+		grid [ttk::button $gaussianVMD::topGui.frame3.tabsAtomList.tab1.frame.centerAtom \
+				    -text "Center on atom" \
+					-command {mouse mode center} \
+				    ] -in $gaussianVMD::topGui.frame3.tabsAtomList.tab1.frame -row 6 -column 1 -sticky news
+
 		grid [ttk::button $gaussianVMD::topGui.frame3.tabsAtomList.tab1.frame.mouseModeRotate \
 				    -text "Rotate" \
 					-command {mouse mode rotate} \
@@ -419,7 +424,7 @@ proc gaussianVMD::buildGui {} {
 
 			grid [ttk::button $gaussianVMD::topGui.frame3.tabsAtomList.tab5.frame.bondEdit \
 				    -text "Bond" \
-					-command {gaussianVMD::guiBondModif} \
+					-command {gaussianVMD::bondModifInitialProc} \
 					-width 9 \
 				    ] -in $gaussianVMD::topGui.frame3.tabsAtomList.tab5.frame -row 1 -column 1 -sticky news
 

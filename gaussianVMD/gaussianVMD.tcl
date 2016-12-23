@@ -92,10 +92,14 @@ namespace eval gaussianVMD:: {
 		variable atom2BondOpt	"Move Atom"
 		variable BondDistance	"0.01"
 		variable initialBondDistance	"0.01"
+		variable initialSelection {}
+		variable initialSelectionX {}
+		variable initialSelectionY {}
+		variable initialSelectionZ {}
 
 		#### Images
-		variable images 		"logo.gif bondEdit.gif angleEdit.gif dihedralEdit.gif energyProfile.gif savePDB.gif saveGaussian.gif"
-		variable imagesNames 	"logo bondEdit angleEdit dihedralEdit energyProfile savePDB saveGaussian"
+		variable images 		"logo.gif"
+		variable imagesNames 	"logo"
 		
 
 

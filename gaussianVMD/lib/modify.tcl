@@ -1,13 +1,45 @@
 package provide modify 1.0
 
 #### Initial procedute BondGui
-proc gaussianVMD::guiBondModifInitialProc {} {
+proc gaussianVMD::bondModifInitialProc {} {
     ## Clear the pickedAtoms variable
 	set gaussianVMD::pickedAtoms {}
 	## Trace the variable to run a command each time a atom is picked
     trace variable ::vmd_pick_atom w gaussianVMD::atomPicked
 	## Activate atom pick
 	mouse mode pick
+
+}
+
+#### Initial procedute BondGui
+proc gaussianVMD::guiBondModifInitialProc {} {
+    ## Get the index of the atoms picked
+    set indexes1 [join [::util::bondedsel top $gaussianVMD::atom2BondSel $gaussianVMD::atom1BondSel]]
+    set indexes2 [join [::util::bondedsel top $gaussianVMD::atom1BondSel $gaussianVMD::atom2BondSel]]
+    set atomSelect [atomselect top "index $indexes1 $indexes2"]
+    set gaussianVMD::initialSelection [$atomSelect get index]
+    set gaussianVMD::initialSelectionX [$atomSelect get {x y z}]
+
+    ## Deactivate the atom pick
+    trace remove variable ::vmd_pick_atom write gaussianVMD::atomPicked
+    mouse mode rotate
+
+}
+
+
+#### Revert the initial structure
+proc gaussianVMD::revertInitialStructure {} {
+
+    set i 0
+    foreach atom $gaussianVMD::initialSelection {
+        set sel [atomselect top "index $atom"]
+        $sel moveto [lindex $gaussianVMD::initialSelectionX $i]
+        incr i
+    }
+
+    set gaussianVMD::initialSelectionX []
+    set gaussianVMD::initialSelectionY []
+    set gaussianVMD::initialSelectionZ []
 
 }
 
@@ -20,6 +52,7 @@ proc gaussianVMD::atomPicked {args} {
     set gaussianVMD::BondDistance "0.00"
 
     if {$numberPickedAtoms > 1 } {
+
         set gaussianVMD::pickedAtoms {}
 
         lappend gaussianVMD::pickedAtoms $vmd_pick_atom
@@ -31,6 +64,8 @@ proc gaussianVMD::atomPicked {args} {
         set gaussianVMD::BondDistance [measure bond [list [list $gaussianVMD::atom1BondSel 0] [list $gaussianVMD::atom2BondSel 0]]]
         set gaussianVMD::initialBondDistance $gaussianVMD::BondDistance
     
+        
+
     } else {
         
         lappend gaussianVMD::pickedAtoms $vmd_pick_atom
@@ -43,7 +78,10 @@ proc gaussianVMD::atomPicked {args} {
         set gaussianVMD::initialBondDistance $gaussianVMD::BondDistance
     }
 
+    gaussianVMD::guiBondModif
 
+    #### Run the initial procedure
+	gaussianVMD::guiBondModifInitialProc
 }
 
 proc gaussianVMD::calcBondDistance {bondlength} {
@@ -196,5 +234,33 @@ proc gaussianVMD::calcBondDistance {bondlength} {
     }
 
     set gaussianVMD::initialBondDistance $gaussianVMD::BondDistance
+
+}
+
+proc gaussianVMD::bondGuiCloseSave {} {
+    trace remove variable ::vmd_pick_atom write gaussianVMD::atomPicked
+    mouse mode rotate
     
+    set molExists [mol list]
+    if {$molExists == "ERROR) No molecules loaded."} {
+    } else {
+        mol modselect 10 top "none"
+    }
+
+    destroy $::gaussianVMD::bondModif
+}
+
+
+proc gaussianVMD::bondGuiCloseNotSave {} {
+    trace remove variable ::vmd_pick_atom write gaussianVMD::atomPicked
+    mouse mode rotate
+    
+    set molExists [mol list]
+    if {$molExists == "ERROR) No molecules loaded."} {
+    } else {
+        mol modselect 10 top "none"
+    }
+
+    gaussianVMD::revertInitialStructure
+    destroy $::gaussianVMD::bondModif
 }

@@ -22,8 +22,9 @@ proc gaussianVMD::guiBondModif {} {
 	$::gaussianVMD::bondModif configure -background {white}
 	wm resizable $::gaussianVMD::bondModif 0 0
 
+	wm protocol $::gaussianVMD::bondModif WM_DELETE_WINDOW {gaussianVMD::bondGuiCloseSave}
 
-
+	
 
     #### Information
     grid [ttk::frame $gaussianVMD::bondModif.frame0] -row 0 -column 0 -padx 5 -pady 2 -sticky news
@@ -86,34 +87,46 @@ proc gaussianVMD::guiBondModif {} {
 
 
         grid [ttk::frame $gaussianVMD::bondModif.frame2] -row 1 -column 0 -padx 5 -pady 5 -sticky news
-			grid [ttk::scale $gaussianVMD::bondModif.frame2.scaleBondDistance \
+			grid [scale $gaussianVMD::bondModif.frame2.scaleBondDistance \
 				-length 280 \
-				-from 0.0001 \
-				-to 15.0000 \
+				-from 0.01 \
+				-to 15.00 \
+				-resolution 0.01 \
 				-variable {gaussianVMD::BondDistance} \
 				-command {gaussianVMD::calcBondDistance} \
+				-orient horizontal \
+				-showvalue 0 \
 			] -in $gaussianVMD::bondModif.frame2 -row 0 -column 0 -padx 5 -sticky news
 
 
         grid [ttk::frame $gaussianVMD::bondModif.frame1] -row 2 -column 0 -padx 5 -pady 5 -sticky news
             grid [ttk::label $gaussianVMD::bondModif.frame1.distanceLabel \
-		        -text {Distance (Angstrom): } \
+				-text {Bond (A): } \
 		        ] -in $gaussianVMD::bondModif.frame1 -row 0 -column 0 -padx 2 -pady 2 -sticky news
 
-                grid [ttk::entry $gaussianVMD::bondModif.frame1.distance \
+                grid [spinbox $gaussianVMD::bondModif.frame1.distance \
+					-from 0.01 \
+					-to 15.00 \
+					-increment 0.01 \
 					-textvariable {gaussianVMD::BondDistance} \
-                    -width 10 \
+					-command {gaussianVMD::calcBondDistance $gaussianVMD::BondDistance} \
+					-width 5 \
                     ] -in $gaussianVMD::bondModif.frame1 -row 0 -column 1 -padx 2 -pady 2 -sticky news
                 
                 grid [ttk::button $gaussianVMD::bondModif.frame1.apply \
 		            -text "Apply" \
-		            -command {} \
+		            -command {gaussianVMD::bondGuiCloseSave} \
 		            ] -in $gaussianVMD::bondModif.frame1 -row 0 -column 2 -sticky news
+				
+				grid [ttk::button $gaussianVMD::bondModif.frame1.cancel \
+		            -text "Cancel" \
+		            -command {gaussianVMD::bondGuiCloseNotSave} \
+		            ] -in $gaussianVMD::bondModif.frame1 -row 0 -column 3 -sticky news
 
 
+	bind $gaussianVMD::bondModif.frame1.distance <KeyPress> {gaussianVMD::calcBondDistance $gaussianVMD::BondDistance}
+	bind $gaussianVMD::bondModif.frame1.distance <Leave> {gaussianVMD::calcBondDistance $gaussianVMD::BondDistance}
 
-
-	#### Run the initial procedure
-	gaussianVMD::guiBondModifInitialProc
+	
 
 }
