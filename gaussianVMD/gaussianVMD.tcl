@@ -1,7 +1,6 @@
 package provide gaussianVMD 1.0
 
 #### Load Packages ###################################################
-#lappend auto_path /Users/nunomac/Documents/Dropbox/Code/VMDplugins/vmdGame/Final
 # Nota o lappned temn de estar no vmdRC
 
 
@@ -12,6 +11,7 @@ namespace eval gaussianVMD:: {
 		#### Load Packages				
 		package require gui 									1.0
 		package require guiBondModif							1.0
+		package require guiAngleModif							1.0
 		
 		package require inputFile 								1.0
 		package require getStructure							1.0
@@ -40,6 +40,7 @@ namespace eval gaussianVMD:: {
 		variable version	    	"0.1.8 (alpha)"
         variable topGui         	".gaussianVMD"
 		variable bondModif         	".gaussianVMD.bondModif"
+		variable angleModif        	".gaussianVMD.angleModif"
 		global path
 		variable path 				"/"
 		variable fileName			""
@@ -90,12 +91,24 @@ namespace eval gaussianVMD:: {
 		variable atom2BondSel	"none"
 		variable atom1BondOpt	"Fixed Atom"
 		variable atom2BondOpt	"Move Atom"
+		variable atom1AngleSel	"none"
+		variable atom2AngleSel	"none"
+		variable atom3AngleSel	"none"
+		variable atom1AngleOpt	"Fixed Atom"
+		variable atom2AngleOpt	"Move Atom"
+		variable atom3AngleOpt	"Move Atom"
+		variable AngleValue		"0.00"
+		variable initialAngleValue		"0.00"
 		variable BondDistance	"0.01"
 		variable initialBondDistance	"0.01"
 		variable initialSelection {}
 		variable initialSelectionX {}
 		variable initialSelectionY {}
 		variable initialSelectionZ {}
+		variable pos1
+		variable pos2
+		variable pos3
+		variable normvec
 
 		#### Images
 		variable images 		"logo.gif"

@@ -430,7 +430,7 @@ proc gaussianVMD::buildGui {} {
 
 			grid [ttk::button $gaussianVMD::topGui.frame3.tabsAtomList.tab5.frame.angleEdit \
 				    -text "Angle" \
-					-command {} \
+					-command {gaussianVMD::angleModifInitialProc} \
 					-width 9 \
 				    ] -in $gaussianVMD::topGui.frame3.tabsAtomList.tab5.frame -row 1 -column 2 -sticky news
 
@@ -441,9 +441,9 @@ proc gaussianVMD::buildGui {} {
 				    ] -in $gaussianVMD::topGui.frame3.tabsAtomList.tab5.frame -row 1 -column 3 -sticky news
 
 			grid [ttk::label $gaussianVMD::topGui.frame3.tabsAtomList.tab5.frame.energyLabel \
-							-text {Energy (available for files with multi structures:} \
+							-text {Energy (available for files with "All optimized structures" option:} \
 							-style gaussianVMD.TLabel
-						    ] -in $gaussianVMD::topGui.frame3.tabsAtomList.tab5.frame -row 2 -column 0 -padx 2 -pady 5 -sticky news -columnspan 3
+						    ] -in $gaussianVMD::topGui.frame3.tabsAtomList.tab5.frame -row 2 -column 0 -padx 2 -pady 5 -sticky news -columnspan 4
 
 			grid [ttk::button $gaussianVMD::topGui.frame3.tabsAtomList.tab5.frame.energyGraph\
 				    -text "Energy Graph" \

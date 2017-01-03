@@ -9,7 +9,7 @@ proc gaussianVMD::guiBondModif {} {
 	toplevel $::gaussianVMD::bondModif
 
 	#### Title of the windows
-	wm title $gaussianVMD::bondModif "Modify Bond" ;# titulo da pagina
+	wm title $gaussianVMD::bondModif "Bond Editor" ;# titulo da pagina
 
 	#### Change the location of window
 	# screen width and height
