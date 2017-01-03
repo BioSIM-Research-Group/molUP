@@ -203,10 +203,10 @@ proc gaussianVMD::calcBondDistance {bondlength} {
         set curval [veclength [vecsub $pos2 $pos1]]
         
         
-        if {$gaussianVMD::atom1BondOpt == "Fixed Atom" && $gaussianVMD::atom2BondOpt == "Fixed Atom"} {
+        if {$gaussianVMD::atom1AngleOpt == "Fixed Atom" && $gaussianVMD::atom3AngleOpt == "Fixed Atom"} {
             set alert [tk_messageBox -message "At least one atom must be free to move." -type ok -icon error]
 
-        } elseif {$gaussianVMD::atom1BondOpt == "Fixed Atom" && $gaussianVMD::atom2BondOpt == "Move Atom"} {
+        } elseif {$gaussianVMD::atom1AngleOpt == "Fixed Atom" && $gaussianVMD::atom3AngleOpt == "Move Atom"} {
 
             set atomsToBeMoved2 1
 
@@ -221,7 +221,7 @@ proc gaussianVMD::calcBondDistance {bondlength} {
             #$selection1 delete
             $selection2 delete
             
-        } elseif {$gaussianVMD::atom1BondOpt == "Move Atom" && $gaussianVMD::atom2BondOpt == "Fixed Atom"} {
+        } elseif {$gaussianVMD::atom1AngleOpt == "Move Atom" && $gaussianVMD::atom3AngleOpt == "Fixed Atom"} {
 
             set atomsToBeMoved1 1
 
@@ -236,7 +236,7 @@ proc gaussianVMD::calcBondDistance {bondlength} {
             $selection1 delete
             #$selection2 delete
             
-        } elseif {$gaussianVMD::atom1BondOpt == "Move Atom" && $gaussianVMD::atom2BondOpt == "Move Atom"} {
+        } elseif {$gaussianVMD::atom1AngleOpt == "Move Atom" && $gaussianVMD::atom3AngleOpt == "Move Atom"} {
 
             set atomsToBeMoved1 1
             set atomsToBeMoved2 1
@@ -252,7 +252,7 @@ proc gaussianVMD::calcBondDistance {bondlength} {
             $selection1 delete
             $selection2 delete
             
-        } elseif {$gaussianVMD::atom1BondOpt == "Move Atom" && $gaussianVMD::atom2BondOpt == "Move Atoms"} {
+        } elseif {$gaussianVMD::atom1AngleOpt == "Move Atom" && $gaussianVMD::atom3AngleOpt == "Move Atoms"} {
 
             set atomsToBeMoved1 1
 
@@ -267,7 +267,7 @@ proc gaussianVMD::calcBondDistance {bondlength} {
             $selection1 delete
             $selection2 delete
             
-        } elseif {$gaussianVMD::atom1BondOpt == "Move Atoms" && $gaussianVMD::atom2BondOpt == "Move Atom"} {
+        } elseif {$gaussianVMD::atom1AngleOpt == "Move Atoms" && $gaussianVMD::atom3AngleOpt == "Move Atom"} {
 
             set atomsToBeMoved2 1
 
@@ -282,7 +282,7 @@ proc gaussianVMD::calcBondDistance {bondlength} {
             $selection1 delete
             $selection2 delete
             
-        } elseif {$gaussianVMD::atom1BondOpt == "Move Atoms" && $gaussianVMD::atom2BondOpt == "Move Atoms"} {
+        } elseif {$gaussianVMD::atom1AngleOpt == "Move Atoms" && $gaussianVMD::atom3AngleOpt == "Move Atoms"} {
 
             ## Atoms to be moved
             set indexes1 [join [::util::bondedsel top $gaussianVMD::atom2BondSel $gaussianVMD::atom1BondSel]]
@@ -295,7 +295,7 @@ proc gaussianVMD::calcBondDistance {bondlength} {
             $selection1 delete
             $selection2 delete
             
-        } elseif {$gaussianVMD::atom1BondOpt == "Fixed Atom" && $gaussianVMD::atom2BondOpt == "Move Atoms"} {
+        } elseif {$gaussianVMD::atom1AngleOpt == "Fixed Atom" && $gaussianVMD::atom3AngleOpt == "Move Atoms"} {
 
             ## Atoms to be moved
             #set indexes1 [join [::util::bondedsel top $gaussianVMD::atom2BondSel $gaussianVMD::atom1BondSel -maxdepth $atomsToBeMoved1]]
@@ -308,7 +308,7 @@ proc gaussianVMD::calcBondDistance {bondlength} {
             #$selection1 delete
             $selection2 delete
             
-        } elseif {$gaussianVMD::atom1BondOpt == "Move Atoms" && $gaussianVMD::atom2BondOpt == "Fixed Atom"} {
+        } elseif {$gaussianVMD::atom1AngleOpt == "Move Atoms" && $gaussianVMD::atom3AngleOpt == "Fixed Atom"} {
 
             ## Atoms to be moved
             set indexes1 [join [::util::bondedsel top $gaussianVMD::atom2BondSel $gaussianVMD::atom1BondSel]]
@@ -362,7 +362,7 @@ proc gaussianVMD::calcAngleDistance {newangle} {
             $selection3 move [trans bond $gaussianVMD::pos2 [vecadd $gaussianVMD::normvec $gaussianVMD::pos2] $delta deg]
             $selection3 delete
             
-        } elseif {$gaussianVMD::atom1BondOpt == "Move Atom" && $gaussianVMD::atom2BondOpt == "Fixed Atom"} {
+        } elseif {$gaussianVMD::atom1AngleOpt == "Move Atom" && $gaussianVMD::atom3AngleOpt == "Fixed Atom"} {
 
             set atomsToBeMoved1 1
 
@@ -373,7 +373,7 @@ proc gaussianVMD::calcAngleDistance {newangle} {
             $selection1 move [trans bond $gaussianVMD::pos2 [vecadd $gaussianVMD::normvec $gaussianVMD::pos2] $delta deg]
             $selection1 delete
             
-        } elseif {$gaussianVMD::atom1BondOpt == "Move Atom" && $gaussianVMD::atom2BondOpt == "Move Atom"} {
+        } elseif {$gaussianVMD::atom1AngleOpt == "Move Atom" && $gaussianVMD::atom3AngleOpt == "Move Atom"} {
 
             set atomsToBeMoved1 1
             set atomsToBeMoved2 1
@@ -389,7 +389,7 @@ proc gaussianVMD::calcAngleDistance {newangle} {
             $selection1 delete
             $selection3 delete
             
-        } elseif {$gaussianVMD::atom1BondOpt == "Move Atom" && $gaussianVMD::atom2BondOpt == "Move Atoms"} {
+        } elseif {$gaussianVMD::atom1AngleOpt == "Move Atom" && $gaussianVMD::atom3AngleOpt == "Move Atoms"} {
 
             set atomsToBeMoved1 1
 
@@ -404,7 +404,7 @@ proc gaussianVMD::calcAngleDistance {newangle} {
             $selection1 delete
             $selection3 delete
             
-        } elseif {$gaussianVMD::atom1BondOpt == "Move Atoms" && $gaussianVMD::atom2BondOpt == "Move Atom"} {
+        } elseif {$gaussianVMD::atom1AngleOpt == "Move Atoms" && $gaussianVMD::atom3AngleOpt == "Move Atom"} {
 
             set atomsToBeMoved2 1
 
@@ -419,7 +419,7 @@ proc gaussianVMD::calcAngleDistance {newangle} {
             $selection1 delete
             $selection3 delete
             
-        } elseif {$gaussianVMD::atom1BondOpt == "Move Atoms" && $gaussianVMD::atom2BondOpt == "Move Atoms"} {
+        } elseif {$gaussianVMD::atom1AngleOpt == "Move Atoms" && $gaussianVMD::atom3AngleOpt == "Move Atoms"} {
 
             ## Atoms to be moved
             set indexes1 [join [::util::bondedsel top $gaussianVMD::atom3AngleSel $gaussianVMD::atom1AngleSel]]
@@ -432,7 +432,7 @@ proc gaussianVMD::calcAngleDistance {newangle} {
             $selection1 delete
             $selection3 delete
             
-        } elseif {$gaussianVMD::atom1BondOpt == "Fixed Atom" && $gaussianVMD::atom2BondOpt == "Move Atoms"} {
+        } elseif {$gaussianVMD::atom1AngleOpt == "Fixed Atom" && $gaussianVMD::atom3AngleOpt == "Move Atoms"} {
 
             ## Atoms to be moved
             set indexes3 [join [::util::bondedsel top $gaussianVMD::atom1AngleSel $gaussianVMD::atom3AngleSel]]
@@ -441,7 +441,7 @@ proc gaussianVMD::calcAngleDistance {newangle} {
             $selection3 move [trans bond $gaussianVMD::pos2 [vecadd $gaussianVMD::normvec $gaussianVMD::pos2] $delta deg]
             $selection3 delete
             
-        } elseif {$gaussianVMD::atom1BondOpt == "Move Atoms" && $gaussianVMD::atom2BondOpt == "Fixed Atom"} {
+        } elseif {$gaussianVMD::atom1AngleOpt == "Move Atoms" && $gaussianVMD::atom3AngleOpt == "Fixed Atom"} {
 
             ## Atoms to be moved
             set indexes1 [join [::util::bondedsel top $gaussianVMD::atom3AngleSel $gaussianVMD::atom1AngleSel]]
