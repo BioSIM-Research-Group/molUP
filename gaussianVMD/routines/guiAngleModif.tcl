@@ -30,7 +30,7 @@ proc gaussianVMD::guiAngleModif {} {
     grid [ttk::frame $gaussianVMD::angleModif.frame0] -row 0 -column 0 -padx 5 -pady 2 -sticky news
         
         grid [ttk::label $gaussianVMD::angleModif.frame0.title \
-		    -text {Select three atoms...} \
+		    -text {Three atoms were selected. You can adjust the angle.} \
 		    ] -in $gaussianVMD::angleModif.frame0 -row 0 -column 0 -padx 2 -pady 8 -sticky news -columnspan 4
 
         grid [ttk::label $gaussianVMD::angleModif.frame0.atom1 \
@@ -141,7 +141,5 @@ proc gaussianVMD::guiAngleModif {} {
 
 	bind $gaussianVMD::angleModif.frame1.distance <KeyPress> {gaussianVMD::calcAngleDistance $gaussianVMD::AngleValue}
 	bind $gaussianVMD::angleModif.frame1.distance <Leave> {gaussianVMD::calcAngleDistance $gaussianVMD::AngleValue}
-
-	
 
 }

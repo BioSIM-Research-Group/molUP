@@ -12,6 +12,7 @@ namespace eval gaussianVMD:: {
 		package require gui 									1.0
 		package require guiBondModif							1.0
 		package require guiAngleModif							1.0
+		package require guiDihedModif							1.0
 		
 		package require inputFile 								1.0
 		package require getStructure							1.0
@@ -38,9 +39,13 @@ namespace eval gaussianVMD:: {
 
 		## General
 		variable version	    	"0.1.8 (alpha)"
+
+		#GUI
         variable topGui         	".gaussianVMD"
 		variable bondModif         	".gaussianVMD.bondModif"
 		variable angleModif        	".gaussianVMD.angleModif"
+		variable dihedModif        	".gaussianVMD.dihedModif"
+
 		global path
 		variable path 				"/"
 		variable fileName			""
@@ -95,12 +100,22 @@ namespace eval gaussianVMD:: {
 		variable atom2AngleSel	"none"
 		variable atom3AngleSel	"none"
 		variable atom1AngleOpt	"Fixed Atom"
-		variable atom2AngleOpt	"Move Atom"
+		variable atom2AngleOpt	""
 		variable atom3AngleOpt	"Move Atom"
-		variable AngleValue		"0.00"
-		variable initialAngleValue		"0.00"
-		variable BondDistance	"0.01"
+		variable atom1DihedSel	"none"
+		variable atom2DihedSel	"none"
+		variable atom3DihedSel	"none"
+		variable atom4DihedSel	"none"
+		variable atom1DihedOpt	"Fixed Atom"
+		variable atom2DihedOpt	""
+		variable atom3DihedOpt	""
+		variable atom4DihedOpt	"Move Atom"
+		variable BondDistance			"0.01"
 		variable initialBondDistance	"0.01"
+		variable AngleValue				"0.00"
+		variable initialAngleValue		"0.00"
+		variable DihedValue				"0.00"
+		variable initialDihedValue		"0.00"
 		variable initialSelection {}
 		variable initialSelectionX {}
 		variable initialSelectionY {}
@@ -108,6 +123,7 @@ namespace eval gaussianVMD:: {
 		variable pos1
 		variable pos2
 		variable pos3
+		variable pos4
 		variable normvec
 
 		#### Images

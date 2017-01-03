@@ -14,6 +14,7 @@ set dir [exec pwd]
 package ifneeded gui        	                            1.0 [list source [file join $dir/routines/gui.tcl]]
 package ifneeded guiBondModif  	                            1.0 [list source [file join $dir/routines/guiBondModif.tcl]]
 package ifneeded guiAngleModif  	                        1.0 [list source [file join $dir/routines/guiAngleModif.tcl]]
+package ifneeded guiDihedModif  	                        1.0 [list source [file join $dir/routines/guiDihedModif.tcl]]
 
 #lib
 package ifneeded inputFile   	                            1.0 [list source [file join $dir/lib/inputFile.tcl]]

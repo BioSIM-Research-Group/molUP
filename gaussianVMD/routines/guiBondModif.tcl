@@ -30,7 +30,7 @@ proc gaussianVMD::guiBondModif {} {
     grid [ttk::frame $gaussianVMD::bondModif.frame0] -row 0 -column 0 -padx 5 -pady 2 -sticky news
         
         grid [ttk::label $gaussianVMD::bondModif.frame0.title \
-		    -text {Select two atoms...} \
+		    -text {Two atoms were selected. You can adjust the bond distance.} \
 		    ] -in $gaussianVMD::bondModif.frame0 -row 0 -column 0 -padx 2 -pady 8 -sticky news -columnspan 4
 
         grid [ttk::label $gaussianVMD::bondModif.frame0.atom1 \

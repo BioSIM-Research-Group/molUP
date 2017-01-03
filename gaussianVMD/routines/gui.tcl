@@ -436,7 +436,7 @@ proc gaussianVMD::buildGui {} {
 
 			grid [ttk::button $gaussianVMD::topGui.frame3.tabsAtomList.tab5.frame.dihedralEdit \
 				    -text "Dihedral" \
-					-command {} \
+					-command {gaussianVMD::dihedModifInitialProc} \
 					-width 9 \
 				    ] -in $gaussianVMD::topGui.frame3.tabsAtomList.tab5.frame -row 1 -column 3 -sticky news
 

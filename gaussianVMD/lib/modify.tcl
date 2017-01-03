@@ -21,6 +21,16 @@ proc gaussianVMD::angleModifInitialProc {} {
 	## Activate atom pick
 	mouse mode pick
 }
+
+#### Initial procedute DihedGui
+proc gaussianVMD::dihedModifInitialProc {} {
+    ## Clear the pickedAtoms variable
+	set gaussianVMD::pickedAtoms {}
+	## Trace the variable to run a command each time a atom is picked
+    trace variable ::vmd_pick_atom w gaussianVMD::atomPickedDihed
+	## Activate atom pick
+	mouse mode pick
+}
 ##############################################################################
 
 ##############################################################################
@@ -49,7 +59,21 @@ proc gaussianVMD::guiAngleModifInitialProc {} {
     set gaussianVMD::initialSelectionX [$atomSelect get {x y z}]
 
     ## Deactivate the atom pick
-    trace remove variable ::vmd_pick_atom write gaussianVMD::atomPicked
+    trace remove variable ::vmd_pick_atom write gaussianVMD::atomPickedAngle
+    mouse mode rotate
+}
+
+#### Initial procedure DihedGui
+proc gaussianVMD::guiDihedModifInitialProc {} {
+    ## Get the index of the atoms picked
+    set indexes1 [join [::util::bondedsel top $gaussianVMD::atom2DihedSel $gaussianVMD::atom1DihedSel]]
+    set indexes4 [join [::util::bondedsel top $gaussianVMD::atom3DihedSel $gaussianVMD::atom4DihedSel]]
+    set atomSelect [atomselect top "index $indexes1 $indexes4"]
+    set gaussianVMD::initialSelection [$atomSelect get index]
+    set gaussianVMD::initialSelectionX [$atomSelect get {x y z}]
+
+    ## Deactivate the atom pick
+    trace remove variable ::vmd_pick_atom write gaussianVMD::atomPickedDihed
     mouse mode rotate
 }
 ##############################################################################
@@ -66,8 +90,6 @@ proc gaussianVMD::revertInitialStructure {} {
     }
 
     set gaussianVMD::initialSelectionX []
-    set gaussianVMD::initialSelectionY []
-    set gaussianVMD::initialSelectionZ []
 
 }
 ##############################################################################
@@ -176,6 +198,69 @@ proc gaussianVMD::atomPickedAngle {args} {
 
     #### Run the initial procedure
 	gaussianVMD::guiAngleModifInitialProc
+}
+
+#### Run this everytime an atom is picked - Dihed
+proc gaussianVMD::atomPickedDihed {args} {
+    global vmd_pick_atom
+    global vmd_pick_shift_state
+
+    set numberPickedAtoms [llength $gaussianVMD::pickedAtoms]
+    set gaussianVMD::DihedValue "0.00"
+
+    if {$numberPickedAtoms > 3 } {
+
+        set gaussianVMD::pickedAtoms {}
+
+        lappend gaussianVMD::pickedAtoms $vmd_pick_atom
+
+        mol modselect 10 top index $gaussianVMD::pickedAtoms
+
+        set gaussianVMD::atom1DihedSel [lindex $gaussianVMD::pickedAtoms 0]
+        set gaussianVMD::atom2DihedSel [lindex $gaussianVMD::pickedAtoms 1]
+        set gaussianVMD::atom3DihedSel [lindex $gaussianVMD::pickedAtoms 2]
+        set gaussianVMD::atom4DihedSel [lindex $gaussianVMD::pickedAtoms 3]
+        set gaussianVMD::DihedValue [measure dihed [list [list $gaussianVMD::atom1DihedSel 0] [list $gaussianVMD::atom2DihedSel 0] [list $gaussianVMD::atom3DihedSel 0] [list $gaussianVMD::atom4DihedSel 0]]]
+        set gaussianVMD::initialDihedValue $gaussianVMD::DihedValue
+    
+
+    } else {
+        
+        lappend gaussianVMD::pickedAtoms $vmd_pick_atom
+
+        mol modselect 10 top index $gaussianVMD::pickedAtoms
+
+        set gaussianVMD::atom1DihedSel [lindex $gaussianVMD::pickedAtoms 0]
+        set gaussianVMD::atom2DihedSel [lindex $gaussianVMD::pickedAtoms 1]
+        set gaussianVMD::atom3DihedSel [lindex $gaussianVMD::pickedAtoms 2]
+        set gaussianVMD::atom4DihedSel [lindex $gaussianVMD::pickedAtoms 3]
+        set gaussianVMD::DihedValue [measure dihed [list [list $gaussianVMD::atom1DihedSel 0] [list $gaussianVMD::atom2DihedSel 0] [list $gaussianVMD::atom3DihedSel 0] [list $gaussianVMD::atom4DihedSel 0]]]
+        set gaussianVMD::initialDihedValue $gaussianVMD::DihedValue
+    }
+
+    ## Set the selections for the desired atoms
+    set selection1 [atomselect top "index $gaussianVMD::atom1DihedSel"]
+    set selection2 [atomselect top "index $gaussianVMD::atom2DihedSel"]
+    set selection3 [atomselect top "index $gaussianVMD::atom3DihedSel"]
+    set selection4 [atomselect top "index $gaussianVMD::atom4DihedSel"]
+
+    ## Get atom coordinates
+    set gaussianVMD::pos1 [join [$selection1 get {x y z}]]
+    set gaussianVMD::pos2 [join [$selection2 get {x y z}]]
+    set gaussianVMD::pos3 [join [$selection3 get {x y z}]]
+    set gaussianVMD::pos4 [join [$selection4 get {x y z}]]
+    $selection1 delete
+    $selection2 delete
+    $selection3 delete
+    $selection4 delete
+
+    set gaussianVMD::initialDihedValue [measure dihed [list [list $gaussianVMD::atom1DihedSel 0] [list $gaussianVMD::atom2DihedSel 0] [list $gaussianVMD::atom3DihedSel 0] [list $gaussianVMD::atom4DihedSel 0]]]
+
+    #### Load the GUI
+    gaussianVMD::guiDihedModif
+
+    #### Run the initial procedure
+	gaussianVMD::guiDihedModifInitialProc
 }
 ##############################################################################
 
@@ -463,7 +548,136 @@ proc gaussianVMD::calcAngleDistance {newangle} {
 
 }
 
+#### Procedure to calculate the angle and move the angle
+proc gaussianVMD::calcDihedDistance {newdihed} {
 
+    if {$gaussianVMD::atom4DihedSel != ""} {
+
+        set atomsToBeMoved1 100
+        set atomsToBeMoved3 1
+
+
+        ## Set the delta value
+        set delta [expr $newdihed - $gaussianVMD::initialDihedValue]
+        
+
+        if {$gaussianVMD::atom1DihedOpt == "Fixed Atom" && $gaussianVMD::atom4DihedOpt == "Fixed Atom"} {
+            set alert [tk_messageBox -message "At least one atom must be free to move." -type ok -icon error]
+
+        } elseif {$gaussianVMD::atom1DihedOpt == "Fixed Atom" && $gaussianVMD::atom4DihedOpt == "Move Atom"} {
+
+            set atomsToBeMoved4 1
+
+            ## Atoms to be moved
+            set indexes4 [join [::util::bondedsel top $gaussianVMD::atom1DihedSel $gaussianVMD::atom4DihedSel -maxdepth $atomsToBeMoved4]]
+            set selection4 [atomselect top "index $indexes4 and not index $gaussianVMD::atom1DihedSel $gaussianVMD::atom2DihedSel $gaussianVMD::atom3DihedSel"]
+            ## Move atoms according to distance
+            $selection4 move [trans bond $gaussianVMD::pos2 $gaussianVMD::pos3 $delta deg]
+            $selection4 delete
+            
+        } elseif {$gaussianVMD::atom1DihedOpt == "Move Atom" && $gaussianVMD::atom4DihedOpt == "Fixed Atom"} {
+
+            set atomsToBeMoved1 1
+
+            ## Atoms to be moved
+            set indexes1 [join [::util::bondedsel top $gaussianVMD::atom4DihedSel $gaussianVMD::atom1DihedSel -maxdepth $atomsToBeMoved1]]
+            set selection1 [atomselect top "index $indexes1 and not index $gaussianVMD::atom3DihedSel $gaussianVMD::atom2DihedSel $gaussianVMD::atom4DihedSel"]
+            ## Move atoms according to distance
+            $selection1 move [trans bond $gaussianVMD::pos2 $gaussianVMD::pos3 $delta deg]
+            $selection1 delete
+            
+        } elseif {$gaussianVMD::atom1DihedOpt == "Move Atom" && $gaussianVMD::atom4DihedOpt == "Move Atom"} {
+
+            set atomsToBeMoved1 1
+            set atomsToBeMoved2 1
+
+            ## Atoms to be moved
+            set indexes1 [join [::util::bondedsel top $gaussianVMD::atom4DihedSel $gaussianVMD::atom1DihedSel -maxdepth $atomsToBeMoved1]]
+            set indexes4 [join [::util::bondedsel top $gaussianVMD::atom1DihedSel $gaussianVMD::atom4DihedSel -maxdepth $atomsToBeMoved2]]
+            set selection1 [atomselect top "index $indexes1 and not index $gaussianVMD::atom3DihedSel $gaussianVMD::atom2DihedSel $gaussianVMD::atom4DihedSel"]
+            set selection4 [atomselect top "index $indexes4 and not index $gaussianVMD::atom1DihedSel $gaussianVMD::atom2DihedSel $gaussianVMD::atom3DihedSel"]
+            ## Move atoms according to distance
+            $selection1 move [trans bond $gaussianVMD::pos2 $gaussianVMD::pos3 [expr $delta * -0.5] deg]
+            $selection4 move [trans bond $gaussianVMD::pos2 $gaussianVMD::pos3 [expr $delta * 0.5] deg]
+            $selection1 delete
+            $selection4 delete
+            
+        } elseif {$gaussianVMD::atom1DihedOpt == "Move Atom" && $gaussianVMD::atom4DihedOpt == "Move Atoms"} {
+
+            set atomsToBeMoved1 1
+
+            ## Atoms to be moved
+            set indexes1 [join [::util::bondedsel top $gaussianVMD::atom4DihedSel $gaussianVMD::atom1DihedSel -maxdepth $atomsToBeMoved1]]
+            set indexes4 [join [::util::bondedsel top $gaussianVMD::atom2DihedSel $gaussianVMD::atom4DihedSel]]
+            set selection1 [atomselect top "index $indexes1 and not index $gaussianVMD::atom3DihedSel $gaussianVMD::atom2DihedSel $gaussianVMD::atom4DihedSel"]
+            set selection4 [atomselect top "index $indexes4 and not index $gaussianVMD::atom1DihedSel $gaussianVMD::atom2DihedSel $gaussianVMD::atom3DihedSel"]
+            ## Move atoms according to distance
+            $selection1 move [trans bond $gaussianVMD::pos2 $gaussianVMD::pos3 [expr $delta * -0.5] deg]
+            $selection4 move [trans bond $gaussianVMD::pos2 $gaussianVMD::pos3 [expr $delta * 0.5] deg]
+            $selection1 delete
+            $selection4 delete
+            
+        } elseif {$gaussianVMD::atom1DihedOpt == "Move Atoms" && $gaussianVMD::atom4DihedOpt == "Move Atom"} {
+
+            set atomsToBeMoved2 1
+
+            ## Atoms to be moved
+            set indexes1 [join [::util::bondedsel top $gaussianVMD::atom3DihedSel $gaussianVMD::atom1DihedSel]]
+            set indexes4 [join [::util::bondedsel top $gaussianVMD::atom1DihedSel $gaussianVMD::atom4DihedSel -maxdepth $atomsToBeMoved2]]
+            set selection1 [atomselect top "index $indexes1 and not index $gaussianVMD::atom3DihedSel $gaussianVMD::atom2DihedSel $gaussianVMD::atom4DihedSel"]
+            set selection4 [atomselect top "index $indexes4 and not index $gaussianVMD::atom1DihedSel $gaussianVMD::atom2DihedSel $gaussianVMD::atom3DihedSel"]
+            ## Move atoms according to distance
+            $selection1 move [trans bond $gaussianVMD::pos2 $gaussianVMD::pos3 [expr $delta * -0.5] deg]
+            $selection4 move [trans bond $gaussianVMD::pos2 $gaussianVMD::pos3 [expr $delta * 0.5] deg]
+            $selection1 delete
+            $selection4 delete
+            
+        } elseif {$gaussianVMD::atom1DihedOpt == "Move Atoms" && $gaussianVMD::atom4DihedOpt == "Move Atoms"} {
+
+            ## Atoms to be moved
+            set indexes1 [join [::util::bondedsel top $gaussianVMD::atom3DihedSel $gaussianVMD::atom1DihedSel]]
+            set indexes4 [join [::util::bondedsel top $gaussianVMD::atom2DihedSel $gaussianVMD::atom4DihedSel]]
+            set selection1 [atomselect top "index $indexes1 and not index $gaussianVMD::atom3DihedSel $gaussianVMD::atom2DihedSel $gaussianVMD::atom4DihedSel"]
+            set selection4 [atomselect top "index $indexes4 and not index $gaussianVMD::atom1DihedSel $gaussianVMD::atom2DihedSel $gaussianVMD::atom3DihedSel"]
+            ## Move atoms according to distance
+            $selection1 move [trans bond $gaussianVMD::pos2 $gaussianVMD::pos3 [expr $delta * -0.5] deg]
+            $selection4 move [trans bond $gaussianVMD::pos2 $gaussianVMD::pos3 [expr $delta * 0.5] deg]
+            $selection1 delete
+            $selection4 delete
+            
+        } elseif {$gaussianVMD::atom1DihedOpt == "Fixed Atom" && $gaussianVMD::atom4DihedOpt == "Move Atoms"} {
+
+            ## Atoms to be moved
+            set indexes4 [join [::util::bondedsel top $gaussianVMD::atom2DihedSel $gaussianVMD::atom4DihedSel]]
+            set selection4 [atomselect top "index $indexes4 and not index $gaussianVMD::atom1DihedSel $gaussianVMD::atom2DihedSel $gaussianVMD::atom3DihedSel"]
+            ## Move atoms according to distance
+            $selection4 move [trans bond $gaussianVMD::pos2 $gaussianVMD::pos3 $delta deg]
+            $selection4 delete
+            
+        } elseif {$gaussianVMD::atom1DihedOpt == "Move Atoms" && $gaussianVMD::atom4DihedOpt == "Fixed Atom"} {
+
+            ## Atoms to be moved
+            set indexes1 [join [::util::bondedsel top $gaussianVMD::atom3DihedSel $gaussianVMD::atom1DihedSel]]
+            set selection1 [atomselect top "index $indexes1 and not index $gaussianVMD::atom3DihedSel $gaussianVMD::atom2DihedSel $gaussianVMD::atom4DihedSel"]
+            ## Move atoms according to distance
+            $selection1 move [trans bond $gaussianVMD::pos2 $gaussianVMD::pos3 $delta deg]
+            $selection1 delete
+            
+        } else {
+            set alert [tk_messageBox -message "Unkown error. Please contact the developer." -type ok -icon error]
+        }
+
+
+    } else {
+        
+    }
+
+    set gaussianVMD::initialDihedValue $gaussianVMD::DihedValue
+
+}
+##############################################################################
+
+##############################################################################
 #### Bond - Apply and Cancel button
 proc gaussianVMD::bondGuiCloseSave {} {
     trace remove variable ::vmd_pick_atom write gaussianVMD::atomPicked
@@ -496,7 +710,7 @@ proc gaussianVMD::bondGuiCloseNotSave {} {
 
 #### Angle - Apply and Cancel button
 proc gaussianVMD::angleGuiCloseSave {} {
-    trace remove variable ::vmd_pick_atom write gaussianVMD::atomPicked
+    trace remove variable ::vmd_pick_atom write gaussianVMD::atomPickedAngle
     mouse mode rotate
     
     set molExists [mol list]
@@ -510,7 +724,7 @@ proc gaussianVMD::angleGuiCloseSave {} {
 
 
 proc gaussianVMD::angleGuiCloseNotSave {} {
-    trace remove variable ::vmd_pick_atom write gaussianVMD::atomPicked
+    trace remove variable ::vmd_pick_atom write gaussianVMD::atomPickedAngle
     mouse mode rotate
     
     set molExists [mol list]
@@ -522,3 +736,33 @@ proc gaussianVMD::angleGuiCloseNotSave {} {
     gaussianVMD::revertInitialStructure
     destroy $::gaussianVMD::angleModif
 }
+
+#### Dihed - Apply and Cancel button
+proc gaussianVMD::dihedGuiCloseSave {} {
+    trace remove variable ::vmd_pick_atom write gaussianVMD::atomPickedDihed
+    mouse mode rotate
+    
+    set molExists [mol list]
+    if {$molExists == "ERROR) No molecules loaded."} {
+    } else {
+        mol modselect 10 top "none"
+    }
+
+    destroy $::gaussianVMD::dihedModif
+}
+
+
+proc gaussianVMD::dihedGuiCloseNotSave {} {
+    trace remove variable ::vmd_pick_atom write gaussianVMD::atomPickedDihed
+    mouse mode rotate
+    
+    set molExists [mol list]
+    if {$molExists == "ERROR) No molecules loaded."} {
+    } else {
+        mol modselect 10 top "none"
+    }
+
+    gaussianVMD::revertInitialStructure
+    destroy $::gaussianVMD::dihedModif
+}
+##############################################################################
