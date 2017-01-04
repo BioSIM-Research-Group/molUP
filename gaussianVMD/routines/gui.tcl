@@ -441,7 +441,7 @@ proc gaussianVMD::buildGui {} {
 				    ] -in $gaussianVMD::topGui.frame3.tabsAtomList.tab5.frame -row 1 -column 3 -sticky news
 
 			grid [ttk::label $gaussianVMD::topGui.frame3.tabsAtomList.tab5.frame.energyLabel \
-							-text {Energy (available for files with "All optimized structures" option:} \
+							-text {Energy (available for files with "All optimized structures" option):} \
 							-style gaussianVMD.TLabel
 						    ] -in $gaussianVMD::topGui.frame3.tabsAtomList.tab5.frame -row 2 -column 0 -padx 2 -pady 5 -sticky news -columnspan 4
 
