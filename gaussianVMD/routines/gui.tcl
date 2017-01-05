@@ -506,6 +506,11 @@ proc gaussianVMD::buildGui {} {
 
 ttk::style theme use default
 
+set fontList [font names]
+foreach font $fontList {
+	font configure $font -family fixed -size 12 -weight normal -slant roman -underline 0 -overstrike 0
+}
+
 proc gaussianVMD::loadImages {} {
 	foreach file $gaussianVMD::images keyword $gaussianVMD::imagesNames {
 		variable $keyword [image create photo -format gif -file img/$file] 
