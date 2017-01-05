@@ -226,7 +226,6 @@ proc gaussianVMD::buildGui {} {
 		
 		grid [ttk::label $gaussianVMD::topGui.frame3.tabsAtomList.tab1.frame.toolsLabel \
 							-text {Tools:} \
-							-style gaussianVMD.TLabel
 						    ] -in $gaussianVMD::topGui.frame3.tabsAtomList.tab1.frame -row 4 -column 0 -padx 2 -pady 2 -sticky news
 
 		grid [ttk::button $gaussianVMD::topGui.frame3.tabsAtomList.tab1.frame.resetView \
