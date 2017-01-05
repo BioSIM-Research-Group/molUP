@@ -522,18 +522,13 @@ proc gaussianVMD::buildGui {} {
 
 ####### Style
 
-ttk::style configure gaussianVMD.TLabel \
-	-foreground {steel blue} \
-	-font {Helvetica 14}
+ttk::style configure gaussianVMD.TLabel 
 	
-ttk::style configure gaussianVMD.TButton \
-	-font {Helvetica 12}
+ttk::style configure gaussianVMD.TButton 
 
-ttk::style configure gaussianVMD.QuickRep.TCheckbutton \
-	-font {Helvetica 12}
+ttk::style configure gaussianVMD.QuickRep.TCheckbutton 
 
-ttk::style configure gaussianVMD.edit.TButton \
-	-font {Helvetica 30}
+ttk::style configure gaussianVMD.edit.TButton 
 
 ttk::style theme use default
 
