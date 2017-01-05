@@ -508,7 +508,7 @@ ttk::style theme use default
 
 set fontList [font names]
 foreach font $fontList {
-	font configure $font -family fixed -size 12 -weight normal -slant roman -underline 0 -overstrike 0
+	font configure $font -family Helvetica -size 12 -weight normal -slant roman -underline 0 -overstrike 0
 }
 
 proc gaussianVMD::loadImages {} {
