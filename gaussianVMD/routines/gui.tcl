@@ -103,7 +103,6 @@ proc gaussianVMD::buildGui {} {
 		grid [ttk::entry $gaussianVMD::topGui.frame2.jobTitle \
 			-textvariable gaussianVMD::title \
 		    -width 43 \
-		    -font {Arial 12 } \
 		    ] -in $gaussianVMD::topGui.frame2 -row 0 -column 1 -padx 0 -pady 5 -sticky news
 
 	#### FRAME 3 - Charge/spin and Calculation options
@@ -348,7 +347,6 @@ proc gaussianVMD::buildGui {} {
 							grid [ttk::entry $gaussianVMD::topGui.frame3.tabsAtomList.tab2.frame.selection \
 									-textvariable gaussianVMD::atomSelectionONIOM \
 								    -width 10 \
-								    -font {Arial 12} \
 								    ] -in $gaussianVMD::topGui.frame3.tabsAtomList.tab2.frame -row 3 -column 0 -sticky news -columnspan 3
 													
 							grid [ttk::combobox $gaussianVMD::topGui.frame3.tabsAtomList.tab2.frameselectModificationValue \
@@ -403,7 +401,6 @@ proc gaussianVMD::buildGui {} {
 							grid [ttk::entry $gaussianVMD::topGui.frame3.tabsAtomList.tab3.frame.selection \
 									-textvariable gaussianVMD::atomSelectionFreeze \
 								    -width 45 \
-								    -font {Arial 12} \
 								    ] -in $gaussianVMD::topGui.frame3.tabsAtomList.tab3.frame -row 3 -column 0 -sticky news -columnspan 3
 													
 							grid [ttk::combobox $gaussianVMD::topGui.frame3.tabsAtomList.tab3.frameselectModificationValue \
@@ -511,7 +508,6 @@ proc gaussianVMD::buildGui {} {
 	grid [ttk::frame $gaussianVMD::topGui.frameLast] -row 10 -column 0 -padx 0 -pady 0 -sticky news
 		grid [ttk::label $gaussianVMD::topGui.frameLast.copyright \
 		    -text "Developed by Henrique S. Fernandes - henriquefer11@gmail.com\n2016\n v $gaussianVMD::version" \
-		    -font {Arial 10} \
 		    -foreground {black} \
 		    ] -in $gaussianVMD::topGui.frameLast -row 3 -column 0 -columnspan 2 -padx 5 -pady 10 -sticky ne
 }
