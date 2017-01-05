@@ -125,10 +125,12 @@ namespace eval gaussianVMD:: {
 		variable pos3
 		variable pos4
 		variable normvec
+		variable linkAtomsList		{}
+		variable linkAtomsListIndex	{}
 
 		#### Images
-		variable images 		"logo.gif"
-		variable imagesNames 	"logo"
+		#variable images 		"logo.gif"
+		#variable imagesNames 	"logo"
 		
 
 
@@ -136,6 +138,6 @@ namespace eval gaussianVMD:: {
 
 
 ## Initiate ###
-gaussianVMD::loadImages
+#gaussianVMD::loadImages
 gaussianVMD::buildGui
 

@@ -32,12 +32,31 @@ proc gaussianVMD::buildGui {} {
 
 	###########################################################
     #### FRAME 0 - initial logo
-    grid [ttk::frame $gaussianVMD::topGui.frame0] -row 0 -column 0 -padx 5 -pady 10 -sticky news
+    grid [ttk::frame $gaussianVMD::topGui.frame0] -row 0 -column 0 -padx 0 -pady 0 -sticky news
+		grid [ttk::button $gaussianVMD::topGui.frame0.openButton \
+		    -text "OPEN" \
+			-command {} \
+		    ] -in $gaussianVMD::topGui.frame0 -row 0 -column 0 -padx 10 -pady 8 -sticky news
+
+		grid [ttk::button $gaussianVMD::topGui.frame0.saveButton \
+		    -text "SAVE" \
+			-command {} \
+		    ] -in $gaussianVMD::topGui.frame0 -row 0 -column 1 -padx 10 -pady 8 -sticky news
+
+		grid [ttk::button $gaussianVMD::topGui.frame0.restartButton \
+		    -text "RESTART" \
+			-command {} \
+		    ] -in $gaussianVMD::topGui.frame0 -row 0 -column 2 -padx 10 -pady 8 -sticky news
+
+		grid [ttk::button $gaussianVMD::topGui.frame0.quitButton \
+		    -text "QUIT" \
+			-command {} \
+		    ] -in $gaussianVMD::topGui.frame0 -row 0 -column 3 -padx 10 -pady 8 -sticky news
     
-    grid [canvas $gaussianVMD::topGui.frame0.title -height 90 -width [expr $wWidth * 2 - 10] -bg "white"  -highlightthickness 0] -in $gaussianVMD::topGui.frame0 -row 0 -column 0 -sticky news
-    	$gaussianVMD::topGui.frame0.title create text [expr $wWidth + 30] 45 -text "Gaussian for VMD" -font {Arial 30} -fill "black"
+    #grid [canvas $gaussianVMD::topGui.frame0.title -height 90 -width [expr $wWidth * 2 - 10] -bg "white"  -highlightthickness 0] -in $gaussianVMD::topGui.frame0 -row 0 -column 0 -sticky news
+    	#$gaussianVMD::topGui.frame0.title create text [expr $wWidth + 30] 45 -text "Gaussian for VMD" -font {Arial 30} -fill "black"
 	
-	$gaussianVMD::topGui.frame0.title create image 50 45 -image $gaussianVMD::logo
+	#$gaussianVMD::topGui.frame0.title create image 50 45 -image $gaussianVMD::logo
 
 	###########################################################
     #### FRAME 1 - Load a file

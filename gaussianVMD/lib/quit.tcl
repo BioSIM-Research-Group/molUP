@@ -12,5 +12,5 @@ proc gaussianVMD::quit {} \
 
 proc removeTemporaryFiles {} \
 {
-	exec rm -r .temporary
+	exec rm -rf .temporary
 }

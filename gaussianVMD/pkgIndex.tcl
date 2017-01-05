@@ -8,7 +8,10 @@
 # script is sourced, the variable $dir must contain the
 # full path name of this file's directory.
 
-set dir [exec pwd]
+#set dir $gaussianVMD_directory
+#set dir [exec pwd]
+
+package ifneeded gaussianVMD        	                    1.0 [list source [file join $dir/gaussianVMD.tcl]]
 
 #GUI
 package ifneeded gui        	                            1.0 [list source [file join $dir/routines/gui.tcl]]

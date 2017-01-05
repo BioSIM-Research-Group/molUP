@@ -92,14 +92,94 @@ proc gaussianVMD::writeGaussianFile {path} {
     ## Get Charges Info
     set chargesInfoList [$gaussianVMD::topGui.frame3.tabsAtomList.tab4.frame.tableLayer get anchor end]
 
+    ## Add link atoms (hydrogens)
+    gaussianVMD::linkAtoms
+
     ## Write on the file
+    set i 0
     foreach atomLayer $layerInfoList atomFreeze $freezeInfoList atomCharge $chargesInfoList atomCoord $allCoord {
-        set initialInfo " [string range [lindex $atomCharge 1] 0 0]-[lindex $atomCharge 1]-[lindex $atomCharge 4](PDBName=[lindex $atomLayer 1],Resname=[lindex $atomLayer 2],ResNum=[lindex $atomLayer 3])"
-        puts $file "[format %-60s $initialInfo] [format %-4s [lindex $atomFreeze 4]] [format "%10s" [format %-7s [lindex $atomCoord 0]]] [format "%10s" [format %-7s [lindex $atomCoord 1]]] [format "%10s" [format %-7s [lindex $atomCoord 2]]] [format %-2s [lindex $atomLayer 4]]"
+        set lookForLinkAtom [lsearch $gaussianVMD::linkAtomsListIndex $i]
+
+        set xx [lindex $atomCoord 0]
+        set yy [lindex $atomCoord 1]
+        set zz [lindex $atomCoord 2]
+
+        if {$lookForLinkAtom == -1} {
+            set initialInfo " [string range [lindex $atomCharge 1] 0 0]-[lindex $atomCharge 1]-[lindex $atomCharge 4](PDBName=[lindex $atomLayer 1],ResName=[lindex $atomLayer 2],ResNum=[lindex $atomLayer 3])"
+            puts $file "[format %-60s $initialInfo] [format %-4s [lindex $atomFreeze 4]] [format "%10s" [format "% f" $xx]] [format "%10s" [format "% f" $yy]] [format "%10s" [format "% f" $zz]] [format %-2s [lindex $atomLayer 4]]"
+        } else {
+            set linkAtom [lindex $gaussianVMD::linkAtomsList $lookForLinkAtom]
+
+            set initialInfo " [string range [lindex $atomCharge 1] 0 0]-[lindex $atomCharge 1]-[lindex $atomCharge 4](PDBName=[lindex $atomLayer 1],ResName=[lindex $atomLayer 2],ResNum=[lindex $atomLayer 3])"
+            puts $file "[format %-60s $initialInfo] [format %-4s [lindex $atomFreeze 4]] [format "%10s" [format "% f" $xx]] [format "%10s" [format "% f" $yy]] [format "%10s" [format "% f" $zz]] [format %-2s [lindex $atomLayer 4]]$linkAtom"
+        }
+    
+        incr i
     }
 
-    
+    ## Get and write connectivity
+    gaussianVMD::connectivity $file
 
     close $file
 
+}
+
+
+
+proc gaussianVMD::connectivity {file} {
+    set connectivity [topo getbondlist order]
+
+    puts $file ""
+
+    set i 0
+    puts -nonewline $file " [expr $i + 1]"
+
+    foreach bond $connectivity {
+        if {[lindex $bond 0] == $i } {
+            puts -nonewline $file " [expr [lindex $bond 1] + 1] [lindex $bond 2]"
+        } else {
+            while {[lindex $bond 0] != $i} {
+                incr i
+                puts -nonewline $file "\n [expr $i + 1]"   
+            }
+        }
+    }
+
+    set sel [atomselect top "all"]
+    set numberOfAtoms [$sel num]
+
+    if {$numberOfAtoms > $i} {
+        incr i
+        while {$numberOfAtoms > $i} {
+                puts -nonewline $file "\n [expr $i + 1]"
+                incr i   
+            }
+    }
+}
+
+
+proc gaussianVMD::linkAtoms {} {
+    set connectivity [topo getbondlist]
+    set gaussianVMD::linkAtomsListIndex {}
+    set gaussianVMD::linkAtomsList {}
+
+    foreach bond $connectivity {
+
+        set layer1 [$gaussianVMD::topGui.frame3.tabsAtomList.tab2.frame.tableLayer get [lindex $bond 0]]
+        set layer2 [$gaussianVMD::topGui.frame3.tabsAtomList.tab2.frame.tableLayer get [lindex $bond 1]]
+
+        if {[lindex $layer1 4] == [lindex $layer2 4]} {
+            # Do Nothing
+        } elseif {[lindex $layer1 4] == "L" && [lindex $layer2 4] == "H"} {
+                lappend gaussianVMD::linkAtomsListIndex [lindex $bond 0]
+                set atomSymbol [string range [lindex $layer1 1] 0 0]
+                set atomNumber [lindex $bond 1]
+                lappend gaussianVMD::linkAtomsList "H-H$atomSymbol [expr $atomNumber + 1]"
+        } elseif {[lindex $layer1 4] == "H" && [lindex $layer2 4] == "L"} {
+                lappend gaussianVMD::linkAtomsListIndex [lindex $bond 1]
+                set atomSymbol [string range [lindex $layer1 1] 0 0]
+                set atomNumber [lindex $bond 0]
+                lappend gaussianVMD::linkAtomsList "H-H$atomSymbol [expr $atomNumber + 1]"
+        }
+    }
 }
