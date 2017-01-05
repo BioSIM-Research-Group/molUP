@@ -97,7 +97,6 @@ proc gaussianVMD::buildGui {} {
 		#### Job Title
 		grid [ttk::label $gaussianVMD::topGui.frame2.jobTitleLabel \
 			    -text {Job title:} \
-				-style gaussianVMD.TLabel \
 			    ] -in $gaussianVMD::topGui.frame2 -row 0 -column 0 -padx 10 -pady 0 -sticky nws
 
 		grid [ttk::entry $gaussianVMD::topGui.frame2.jobTitle \
@@ -114,7 +113,6 @@ proc gaussianVMD::buildGui {} {
 
 	grid [ttk::button $gaussianVMD::topGui.chargeCalcOpt.calcOpt \
 		    -text "Gaussian Calculation Setup" \
-			-style gaussianVMD.TButton \
 			-command {} \
 		    ] -in $gaussianVMD::topGui.chargeCalcOpt -row 0 -column 1 -padx 8 -pady 4 -sticky news
 
@@ -161,7 +159,6 @@ proc gaussianVMD::buildGui {} {
 
 		grid [ttk::label $gaussianVMD::topGui.frame3.tabsAtomList.tab1.frame.quickRepLabel \
 							-text {Quick representantion:} \
-							-style gaussianVMD.TLabel
 						    ] -in $gaussianVMD::topGui.frame3.tabsAtomList.tab1.frame -row 0 -column 0 -padx 2 -pady 2 -sticky news
 
 		grid [ttk::checkbutton $gaussianVMD::topGui.frame3.tabsAtomList.tab1.frame.showHL \
@@ -240,7 +237,6 @@ proc gaussianVMD::buildGui {} {
 		grid [ttk::button $gaussianVMD::topGui.frame3.tabsAtomList.tab1.frame.showRepresentantionWindow \
 				    -text "Representantions" \
 					-command {menu graphics on} \
-					-style gaussianVMD.TButton \
 				    ] -in $gaussianVMD::topGui.frame3.tabsAtomList.tab1.frame -row 5 -column 1 -sticky news
 		
 		grid [ttk::button $gaussianVMD::topGui.frame3.tabsAtomList.tab1.frame.deleteAllLabels \
@@ -341,7 +337,6 @@ proc gaussianVMD::buildGui {} {
 							#### FRAME - Atom Selection
 							grid [ttk::label $gaussianVMD::topGui.frame3.tabsAtomList.tab2.frame.selectionLabel \
 										-text {Atom selection (Change ONIOM layer):} \
-										-style gaussianVMD.TLabel
 									    ] -in $gaussianVMD::topGui.frame3.tabsAtomList.tab2.frame -row 2 -column 0 -padx 2 -pady 2 -sticky news -columnspan 4
 									
 							grid [ttk::entry $gaussianVMD::topGui.frame3.tabsAtomList.tab2.frame.selection \
@@ -395,7 +390,6 @@ proc gaussianVMD::buildGui {} {
 							#### FRAME - Atom Selection
 							grid [ttk::label $gaussianVMD::topGui.frame3.tabsAtomList.tab3.frame.selectionLabel \
 										-text {Atom selection (Change freezing state):} \
-										-style gaussianVMD.TLabel
 									    ] -in $gaussianVMD::topGui.frame3.tabsAtomList.tab3.frame -row 2 -column 0 -padx 2 -pady 2 -sticky news -columnspan 3
 									
 							grid [ttk::entry $gaussianVMD::topGui.frame3.tabsAtomList.tab3.frame.selection \
@@ -448,7 +442,6 @@ proc gaussianVMD::buildGui {} {
 		grid [ttk::frame $gaussianVMD::topGui.frame3.tabsAtomList.tab5.frame] -row 0 -column 0  -padx 0 -pady 0
 			grid [ttk::label $gaussianVMD::topGui.frame3.tabsAtomList.tab5.frame.manipulation \
 							-text {Structure manipulation:} \
-							-style gaussianVMD.TLabel
 						    ] -in $gaussianVMD::topGui.frame3.tabsAtomList.tab5.frame -row 0 -column 0 -padx 2 -pady 2 -sticky news -columnspan 3
 
 			grid [ttk::button $gaussianVMD::topGui.frame3.tabsAtomList.tab5.frame.bondEdit \
@@ -471,7 +464,6 @@ proc gaussianVMD::buildGui {} {
 
 			grid [ttk::label $gaussianVMD::topGui.frame3.tabsAtomList.tab5.frame.energyLabel \
 							-text {Energy (available for files with "All optimized structures" option):} \
-							-style gaussianVMD.TLabel
 						    ] -in $gaussianVMD::topGui.frame3.tabsAtomList.tab5.frame -row 2 -column 0 -padx 2 -pady 5 -sticky news -columnspan 4
 
 			grid [ttk::button $gaussianVMD::topGui.frame3.tabsAtomList.tab5.frame.energyGraph\
@@ -484,7 +476,6 @@ proc gaussianVMD::buildGui {} {
 		grid [ttk::frame $gaussianVMD::topGui.frame6] -row 9 -column 0 -padx 5 -pady 4 -sticky news		    
 			grid [ttk::label $gaussianVMD::topGui.frame6.savePDBLabel \
 		    	-text {Save current molecule: } \
-				-style gaussianVMD.TLabel \
 		    	] -in $gaussianVMD::topGui.frame6 -row 0 -column 0 -padx 2 -pady 2 -sticky news -columnspan 3
 
 			grid [ttk::button $gaussianVMD::topGui.frame6.buttonSavePDBFile \
@@ -513,18 +504,6 @@ proc gaussianVMD::buildGui {} {
 }
 
 
-
-
-
-####### Style
-
-ttk::style configure gaussianVMD.TLabel 
-	
-ttk::style configure gaussianVMD.TButton 
-
-ttk::style configure gaussianVMD.QuickRep.TCheckbutton 
-
-ttk::style configure gaussianVMD.edit.TButton 
 
 ttk::style theme use default
 
