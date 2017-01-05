@@ -9,6 +9,15 @@ proc gaussianVMD::quit {} \
 	removeTemporaryFiles
 }
 
+proc gaussianVMD::restart {} \
+{
+	destroy $gaussianVMD::topGui 
+
+	removeTemporaryFiles
+
+	gaussianVMD::buildGui
+}
+
 
 proc removeTemporaryFiles {} \
 {

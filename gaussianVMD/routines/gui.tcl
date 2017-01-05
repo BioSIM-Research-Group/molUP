@@ -26,7 +26,7 @@ proc gaussianVMD::buildGui {} {
 	#wm geometry window $gaussianVMD::topGui 400x590
 	set x [expr $sWidth - 2*($wWidth)]
 
-	wm geometry $::gaussianVMD::topGui 400x${sHeight}+$x+25
+	wm geometry $::gaussianVMD::topGui 400x600+$x+25
 	$::gaussianVMD::topGui configure -background {white}
 	wm resizable $::gaussianVMD::topGui 0 0
 
@@ -36,22 +36,22 @@ proc gaussianVMD::buildGui {} {
 		grid [ttk::button $gaussianVMD::topGui.frame0.openButton \
 		    -text "OPEN" \
 			-command {} \
-		    ] -in $gaussianVMD::topGui.frame0 -row 0 -column 0 -padx 10 -pady 8 -sticky news
+		    ] -in $gaussianVMD::topGui.frame0 -row 0 -column 0 -padx 8 -pady 8 -sticky news
 
 		grid [ttk::button $gaussianVMD::topGui.frame0.saveButton \
 		    -text "SAVE" \
 			-command {} \
-		    ] -in $gaussianVMD::topGui.frame0 -row 0 -column 1 -padx 10 -pady 8 -sticky news
+		    ] -in $gaussianVMD::topGui.frame0 -row 0 -column 1 -padx 8 -pady 8 -sticky news
 
 		grid [ttk::button $gaussianVMD::topGui.frame0.restartButton \
 		    -text "RESTART" \
-			-command {} \
-		    ] -in $gaussianVMD::topGui.frame0 -row 0 -column 2 -padx 10 -pady 8 -sticky news
+			-command {gaussianVMD::restart} \
+		    ] -in $gaussianVMD::topGui.frame0 -row 0 -column 2 -padx 8 -pady 8 -sticky news
 
 		grid [ttk::button $gaussianVMD::topGui.frame0.quitButton \
 		    -text "QUIT" \
-			-command {} \
-		    ] -in $gaussianVMD::topGui.frame0 -row 0 -column 3 -padx 10 -pady 8 -sticky news
+			-command {gaussianVMD::quit} \
+		    ] -in $gaussianVMD::topGui.frame0 -row 0 -column 3 -padx 8 -pady 8 -sticky news
     
     #grid [canvas $gaussianVMD::topGui.frame0.title -height 90 -width [expr $wWidth * 2 - 10] -bg "white"  -highlightthickness 0] -in $gaussianVMD::topGui.frame0 -row 0 -column 0 -sticky news
     	#$gaussianVMD::topGui.frame0.title create text [expr $wWidth + 30] 45 -text "Gaussian for VMD" -font {Arial 30} -fill "black"
@@ -60,76 +60,89 @@ proc gaussianVMD::buildGui {} {
 
 	###########################################################
     #### FRAME 1 - Load a file
-    grid [ttk::frame $gaussianVMD::topGui.frame1] -row 1 -column 0 -padx 5 -pady 2 -sticky news
-		
-		grid [ttk::label $gaussianVMD::topGui.frame1.pathEntryLabel \
-		    -text {Choose a file to load: } \
-			-style gaussianVMD.TLabel \
-		    ] -in $gaussianVMD::topGui.frame1 -row 0 -column 0 -padx 2 -pady 2 -sticky news
-
-		grid [ttk::entry $gaussianVMD::topGui.frame1.pathEntry \
-		    -textvariable gaussianVMD::path \
-		    -width 12 \
-		    ] -in $gaussianVMD::topGui.frame1 -row 0 -column 1 -sticky news
-
-		grid [ttk::button $gaussianVMD::topGui.frame1.buttonBrowseFile \
-		    -text "Browse" \
-		    -command gaussianVMD::onSelect \
-		    ] -in $gaussianVMD::topGui.frame1 -row 0 -column 2 -sticky news
-
-		grid [ttk::button $gaussianVMD::topGui.frame1.buttonLoadFile \
-		    -text "Load" \
-		    -command {gaussianVMD::loadButton $gaussianVMD::fileExtension} \
-		    ] -in $gaussianVMD::topGui.frame1 -row 0 -column 3 -sticky news
-
-		grid [ttk::combobox $gaussianVMD::topGui.frame1.selectLoadMode \
-		    -textvariable $gaussianVMD::loadMode \
-		    -width 45 \
-			-state readonly \
-		    -values "[list "Last Structure" "First Structure" "All optimized structures" "All structures (may take a long time to load)"]"
-		    ] -in $gaussianVMD::topGui.frame1 -row 1 -column 0 -columnspan 4 -sticky news
-		
-		$gaussianVMD::topGui.frame1.selectLoadMode set "Last Structure"
+#    grid [ttk::frame $gaussianVMD::topGui.frame1] -row 1 -column 0 -padx 5 -pady 2 -sticky news
+#		
+#		grid [ttk::label $gaussianVMD::topGui.frame1.pathEntryLabel \
+#		    -text {Choose a file to load: } \
+#			-style gaussianVMD.TLabel \
+#		    ] -in $gaussianVMD::topGui.frame1 -row 0 -column 0 -padx 2 -pady 2 -sticky news
+#
+#		grid [ttk::entry $gaussianVMD::topGui.frame1.pathEntry \
+#		    -textvariable gaussianVMD::path \
+#		    -width 12 \
+#		    ] -in $gaussianVMD::topGui.frame1 -row 0 -column 1 -sticky news
+#
+#		grid [ttk::button $gaussianVMD::topGui.frame1.buttonBrowseFile \
+#		    -text "Browse" \
+#		    -command gaussianVMD::onSelect \
+#		    ] -in $gaussianVMD::topGui.frame1 -row 0 -column 2 -sticky news
+#
+#		grid [ttk::button $gaussianVMD::topGui.frame1.buttonLoadFile \
+#		    -text "Load" \
+#		    -command {gaussianVMD::loadButton $gaussianVMD::fileExtension} \
+#		    ] -in $gaussianVMD::topGui.frame1 -row 0 -column 3 -sticky news
+#
+#		grid [ttk::combobox $gaussianVMD::topGui.frame1.selectLoadMode \
+#		    -textvariable $gaussianVMD::loadMode \
+#		    -width 45 \
+#			-state readonly \
+#		    -values "[list "Last Structure" "First Structure" "All optimized structures" "All structures (may take a long time to load)"]"
+#		    ] -in $gaussianVMD::topGui.frame1 -row 1 -column 0 -columnspan 4 -sticky news
+#		
+#		$gaussianVMD::topGui.frame1.selectLoadMode set "Last Structure"
 
 	###########################################################
 	#### FRAME 2 - Informations abou the file
-	grid [ttk::frame $gaussianVMD::topGui.frame2] -row 3 -column 0 -padx 5 -pady 2 -sticky news
+	grid [ttk::frame $gaussianVMD::topGui.frame2] -row 1 -column 0 -padx 0 -pady 0 -sticky news
 		#### Job Title
 		grid [ttk::label $gaussianVMD::topGui.frame2.jobTitleLabel \
 			    -text {Job title:} \
 				-style gaussianVMD.TLabel \
-			    ] -in $gaussianVMD::topGui.frame2 -row 0 -column 0 -padx 10 -pady 0 -sticky nws -columnspan 2
+			    ] -in $gaussianVMD::topGui.frame2 -row 0 -column 0 -padx 10 -pady 0 -sticky nws
 
 		grid [ttk::entry $gaussianVMD::topGui.frame2.jobTitle \
 			-textvariable gaussianVMD::title \
-		    -width 45 \
-		    -font {Arial 12} \
-		    ] -in $gaussianVMD::topGui.frame2 -row 1 -column 0 -padx 10 -pady 5 -sticky news -columnspan 2
+		    -width 43 \
+		    -font {Arial 12 } \
+		    ] -in $gaussianVMD::topGui.frame2 -row 0 -column 1 -padx 0 -pady 5 -sticky news
 
-		#### Charges and Multiplicty
-		grid [ttk::label $gaussianVMD::topGui.frame2.chargesMultiplictyLabel \
-			    -text {Charge and Multiplicity:} \
-				-style gaussianVMD.TLabel \
-			    ] -in $gaussianVMD::topGui.frame2 -row 3 -column 0 -padx 10 -pady 0 -sticky nws
+	#### FRAME 3 - Charge/spin and Calculation options
+	grid [ttk::frame $gaussianVMD::topGui.chargeCalcOpt] -row 2 -column 0 -padx 0 -pady 0 -sticky news
+		grid [ttk::button $gaussianVMD::topGui.chargeCalcOpt.chargeMulti \
+		    -text "Charge and Multiplicity" \
+			-command {} \
+		    ] -in $gaussianVMD::topGui.chargeCalcOpt -row 0 -column 0 -padx 8 -pady 4 -sticky news
 
-		grid [ttk::entry $gaussianVMD::topGui.frame2.chargesMultiplicty \
-			-textvariable gaussianVMD::chargesMultip \
-		    -width 23\
-		    -font {Arial 12} \
-		    ] -in $gaussianVMD::topGui.frame2 -row 4 -column 0 -padx 10 -pady 5 -sticky news
+	grid [ttk::button $gaussianVMD::topGui.chargeCalcOpt.calcOpt \
+		    -text "Gaussian Calculation Setup" \
+			-style gaussianVMD.TButton \
+			-command {} \
+		    ] -in $gaussianVMD::topGui.chargeCalcOpt -row 0 -column 1 -padx 8 -pady 4 -sticky news
 
-		#### Keywords of the calculations
-		grid [ttk::label $gaussianVMD::topGui.frame2.keywordsCalcLabel \
-			    -text {Keywords:} \
-				-style gaussianVMD.TLabel \
-			    ] -in $gaussianVMD::topGui.frame2 -row 3 -column 1 -padx 10 -pady 0 -sticky nws
-
-		grid [ttk::entry $gaussianVMD::topGui.frame2.keywordsCalc \
-			-textvariable gaussianVMD::keywordsCalc \
-		    -width 23 \
-		    -font {Arial 12} \
-		    ] -in $gaussianVMD::topGui.frame2 -row 4 -column 1 -padx 10 -pady 5 -sticky news
-
+#		#### Charges and Multiplicty
+#		grid [ttk::label $gaussianVMD::topGui.frame2.chargesMultiplictyLabel \
+#			    -text {Charge and Multiplicity:} \
+#				-style gaussianVMD.TLabel \
+#			    ] -in $gaussianVMD::topGui.frame2 -row 3 -column 0 -padx 10 -pady 0 -sticky nws
+#
+#		grid [ttk::entry $gaussianVMD::topGui.frame2.chargesMultiplicty \
+#			-textvariable gaussianVMD::chargesMultip \
+#		    -width 23\
+#		    -font {Arial 12} \
+#		    ] -in $gaussianVMD::topGui.frame2 -row 4 -column 0 -padx 10 -pady 5 -sticky news
+#
+#		#### Keywords of the calculations
+#		grid [ttk::label $gaussianVMD::topGui.frame2.keywordsCalcLabel \
+#			    -text {Keywords:} \
+#				-style gaussianVMD.TLabel \
+#			    ] -in $gaussianVMD::topGui.frame2 -row 3 -column 1 -padx 10 -pady 0 -sticky nws
+#
+#		grid [ttk::entry $gaussianVMD::topGui.frame2.keywordsCalc \
+#			-textvariable gaussianVMD::keywordsCalc \
+#		    -width 23 \
+#		    -font {Arial 12} \
+#		    ] -in $gaussianVMD::topGui.frame2 -row 4 -column 1 -padx 10 -pady 5 -sticky news
+#
 
 	###########################################################
 	#### Tabs to present the atom list
@@ -494,46 +507,13 @@ proc gaussianVMD::buildGui {} {
 
 
 
-#
-	##### Last FRAME - Save The Files
-	grid [ttk::frame $gaussianVMD::topGui.frameLast] -row 10 -column 0 -padx 5 -pady 2 -sticky news
-
-	#	grid [ttk::label $gaussianVMD::topGui.frameLast.savePDBLabel \
-	#		    -text {Save as PDB File:} \
-	#		    -style gaussianVMD.TLabel
-	#		    ] -in $gaussianVMD::topGui.frameLast -row 0 -column 0 -padx 2 -pady 2 -sticky news
-#
-#
-	#	grid [ttk::button $gaussianVMD::topGui.frameLast.savePDB \
-	#	    -text "Save" \
-	#	    -command gaussianVMD::onSelect \
-	#	    ] -in $gaussianVMD::topGui.frameLast -row 0 -column 1 -sticky news
-#
-#
-#
-	#	grid [ttk::label $gaussianVMD::topGui.frameLast.saveGaussianLabel \
-	#		    -text {Save as Gaussian Input (.com) File:} \
-	#			-style gaussianVMD.TLabel
-	#		    ] -in $gaussianVMD::topGui.frameLast -row 1 -column 0 -padx 2 -pady 2 -sticky news
-#
-#
-	#	grid [ttk::button $gaussianVMD::topGui.frameLast.saveGaussian \
-	#	    -text "Save" \
-	#	    -command gaussianVMD::onSelect \
-	#	    ] -in $gaussianVMD::topGui.frameLast -row 1 -column 1 -sticky news
-#
-		grid [ttk::button $gaussianVMD::topGui.frameLast.quit \
-		    -text "Quit" \
-		    -command gaussianVMD::quit \
-		    ] -in $gaussianVMD::topGui.frameLast -row 2 -column 0 -columnspan 2 -pady 10 -sticky news
-
+##### Last FRAME - Save The Files
+	grid [ttk::frame $gaussianVMD::topGui.frameLast] -row 10 -column 0 -padx 0 -pady 0 -sticky news
 		grid [ttk::label $gaussianVMD::topGui.frameLast.copyright \
-		    -text "Developed by Henrique S. Fernandes - henriquefer11@gmail.com - 2016 v $gaussianVMD::version" \
-		    -font {Arial 9} \
+		    -text "Developed by Henrique S. Fernandes - henriquefer11@gmail.com\n2016\n v $gaussianVMD::version" \
+		    -font {Arial 10} \
 		    -foreground {black} \
 		    ] -in $gaussianVMD::topGui.frameLast -row 3 -column 0 -columnspan 2 -padx 5 -pady 10 -sticky ne
-
-
 }
 
 
@@ -544,22 +524,18 @@ proc gaussianVMD::buildGui {} {
 
 ttk::style configure gaussianVMD.TLabel \
 	-foreground {steel blue} \
-	-font {Arial 14} \
-	-background {red}
-
-
+	-font {Helvetica 14}
+	
 ttk::style configure gaussianVMD.TButton \
-	-foreground {black} \
-	-font {Arial 12}
+	-font {Helvetica 12}
 
 ttk::style configure gaussianVMD.QuickRep.TCheckbutton \
-	-foreground {black} \
-	-font {Arial 12}
+	-font {Helvetica 12}
 
 ttk::style configure gaussianVMD.edit.TButton \
-	-font {Arial 30}
+	-font {Helvetica 30}
 
-
+ttk::style theme use default
 
 proc gaussianVMD::loadImages {} {
 	foreach file $gaussianVMD::images keyword $gaussianVMD::imagesNames {

@@ -28,12 +28,10 @@ namespace eval gaussianVMD:: {
 		package	require editStructure							1.0
 		package require modify									1.0
 		package require saveFiles								1.0
-
+		package require openFiles								1.0
 
 		package require Tk
-		package require tablelist 
-		package require Thread
-	
+		package require tablelist 	
 
 		#### Program Variables
 
