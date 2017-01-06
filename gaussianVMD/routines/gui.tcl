@@ -70,10 +70,14 @@ proc gaussianVMD::buildGui {} {
 	#### Job Title
 	pack [canvas $gaussianVMD::topGui.frame0.jobTitle -bg white -width 400 -height 30 -highlightthickness 0] -in $gaussianVMD::topGui.frame0
 	place [label $gaussianVMD::topGui.frame0.jobTitle.labe \
-			-text {Job Title:}] -in $gaussianVMD::topGui.frame0.jobTitle -x 5 -y 5
+			-text {Job Title:} \
+			-background {white}] -in $gaussianVMD::topGui.frame0.jobTitle -x 5 -y 5
 	
 	place [ttk::entry $gaussianVMD::topGui.frame0.jobTitle.entry \
 			-textvariable gaussianVMD::title ] -in $gaussianVMD::topGui.frame0.jobTitle -x 70 -y 5 -width 320
+
+
+
 
 
 
