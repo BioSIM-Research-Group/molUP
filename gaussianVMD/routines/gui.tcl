@@ -100,7 +100,6 @@ proc gaussianVMD::buildGui {} {
 		#### Job Title
 		grid [ttk::label $gaussianVMD::topGui.frame2.jobTitleLabel \
 			    -text {Job title:} \
-				-font {Helvetica 12} \
 			    ] -in $gaussianVMD::topGui.frame2 -row 0 -column 0 -padx 10 -pady 0 -sticky news
 
 		grid [ttk::entry $gaussianVMD::topGui.frame2.jobTitle \
@@ -163,7 +162,6 @@ proc gaussianVMD::buildGui {} {
 
 		grid [ttk::label $gaussianVMD::topGui.frame3.tabsAtomList.tab1.frame.quickRepLabel \
 							-text {Quick representantion:} \
-							-font {Helvetica 12} \
 						    ] -in $gaussianVMD::topGui.frame3.tabsAtomList.tab1.frame -row 0 -column 0 -padx 2 -pady 2 -sticky news
 
 		grid [ttk::checkbutton $gaussianVMD::topGui.frame3.tabsAtomList.tab1.frame.showHL \
