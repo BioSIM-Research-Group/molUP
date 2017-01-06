@@ -24,19 +24,19 @@ namespace eval ttk::theme::clearlooks {
 
     array set colors {
         -frame          "#ffffff"
-        -lighter        "#f5f3f0"
-        -dark           "#cfcdc8"
-        -darker         "#9e9a9e"
+        -lighter        "#f0f4f5"
+        -dark           "#c8cbcf"
+        -darker         "#9a9c9e"
         -darkest        "#d4cfca"
         -selectbg       "#7c99ad"
         -selectfg       "#ffffff"
-        -disabledfg     "#b5b3ac"
+        -disabledfg     "#acafb5"
         -entryfocus     "#6f9dc6"
-        -tabbg          "#c9c1bc"
-        -tabborder      "#b5aca7"
-        -troughcolor    "#d7cbbe"
-        -troughborder   "#ae9e8e"
-        -checklight     "#f5f3f0"
+        -tabbg          "#bcc2c9"
+        -tabborder      "#a7adb5"
+        -troughcolor    "#becbd7"
+        -troughborder   "#8e99ae"
+        -checklight     "#f0f2f5"
     }
 
 

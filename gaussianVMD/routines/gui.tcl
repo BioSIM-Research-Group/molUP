@@ -92,8 +92,8 @@ proc gaussianVMD::buildGui {} {
 
 
 	#### Tabs
-	pack [canvas $gaussianVMD::topGui.frame0.tabs -bg white -width 400 -height 300 -highlightthickness 0] -in $gaussianVMD::topGui.frame0
-	place [ttk::notebook $gaussianVMD::topGui.frame0.tabs.tabsAtomList] -in $gaussianVMD::topGui.frame0.tabs -x 5 -y 5 -width 390 -height 290
+	pack [canvas $gaussianVMD::topGui.frame0.tabs -bg white -width 400 -height 400 -highlightthickness 0] -in $gaussianVMD::topGui.frame0
+	place [ttk::notebook $gaussianVMD::topGui.frame0.tabs.tabsAtomList] -in $gaussianVMD::topGui.frame0.tabs -x 5 -y 5 -width 390 -height 390
 
 	# Tabs Names
 	$gaussianVMD::topGui.frame0.tabs.tabsAtomList add [frame $gaussianVMD::topGui.frame0.tabs.tabsAtomList.tab1 -background white] -text "Visualization"
@@ -109,7 +109,7 @@ proc gaussianVMD::buildGui {} {
 	place [ttk::label $gaussianVMD::topGui.frame0.tabs.tabsAtomList.tab1.quickRepLabel \
 			-text {Quick Representantions} \
 			-style gaussianVMD.centerLabel.TLabel \
-			] -in $gaussianVMD::topGui.frame0.tabs.tabsAtomList.tab1 -x 5 -y 5 -width 390
+			] -in $gaussianVMD::topGui.frame0.tabs.tabsAtomList.tab1 -x 0 -y 5 -width 390
 
 	place [ttk::checkbutton $gaussianVMD::topGui.frame0.tabs.tabsAtomList.tab1.showHL \
 			-text "High Layer" \
@@ -117,5 +117,131 @@ proc gaussianVMD::buildGui {} {
 			-command {gaussianVMD::onOffRepresentation 2} \
 			-style gaussianVMD.QuickRep.TCheckbutton \
 			] -in $gaussianVMD::topGui.frame0.tabs.tabsAtomList.tab1 -x 5 -y 30 -width 123
+
+	place [ttk::checkbutton $gaussianVMD::topGui.frame0.tabs.tabsAtomList.tab1.showML \
+			-text "Medium Layer" \
+			-variable gaussianVMD::MLrep \
+			-command {gaussianVMD::onOffRepresentation 3} \
+			-style gaussianVMD.QuickRep.TCheckbutton \
+			] -in $gaussianVMD::topGui.frame0.tabs.tabsAtomList.tab1 -x 138 -y 30 -width 123
+
+	place [ttk::checkbutton $gaussianVMD::topGui.frame0.tabs.tabsAtomList.tab1.showLL \
+			-text "Low Layer" \
+			-variable gaussianVMD::LLrep \
+			-command {gaussianVMD::onOffRepresentation 4} \
+			-style gaussianVMD.QuickRep.TCheckbutton \
+			] -in $gaussianVMD::topGui.frame0.tabs.tabsAtomList.tab1 -x 271 -y 30 -width 123
+
+	place [ttk::checkbutton $gaussianVMD::topGui.frame0.tabs.tabsAtomList.tab1.unfreeze \
+			-text "Unfreeze" \
+			-variable gaussianVMD::unfreezeRep \
+			-command {gaussianVMD::onOffRepresentation 8} \
+			-style gaussianVMD.QuickRep.TCheckbutton \
+			] -in $gaussianVMD::topGui.frame0.tabs.tabsAtomList.tab1 -x 5 -y 55 -width 123
+
+	place [ttk::checkbutton $gaussianVMD::topGui.frame0.tabs.tabsAtomList.tab1.freezeMinusOne \
+			-text "Freeze" \
+			-variable gaussianVMD::freezeRep \
+			-command {gaussianVMD::onOffRepresentation 9} \
+			-style gaussianVMD.QuickRep.TCheckbutton \
+			] -in $gaussianVMD::topGui.frame0.tabs.tabsAtomList.tab1 -x 138 -y 55 -width 123
+
+	place [ttk::checkbutton $gaussianVMD::topGui.frame0.tabs.tabsAtomList.tab1.all \
+			-text "All" \
+			-variable gaussianVMD::allRep \
+			-command {gaussianVMD::onOffRepresentation 0} \
+			-style gaussianVMD.QuickRep.TCheckbutton \
+			] -in $gaussianVMD::topGui.frame0.tabs.tabsAtomList.tab1 -x 271 -y 55 -width 123
+
+	place [ttk::checkbutton $gaussianVMD::topGui.frame0.tabs.tabsAtomList.tab1.protein \
+			-text "Protein" \
+			-variable gaussianVMD::proteinRep \
+			-command {gaussianVMD::onOffRepresentation 5} \
+			-style gaussianVMD.QuickRep.TCheckbutton \
+			] -in $gaussianVMD::topGui.frame0.tabs.tabsAtomList.tab1 -x 5 -y 80 -width 123
+
+	place [ttk::checkbutton $gaussianVMD::topGui.frame0.tabs.tabsAtomList.tab1.nonProtein \
+			-text "Non-Protein" \
+			-variable gaussianVMD::nonproteinRep \
+			-command {gaussianVMD::onOffRepresentation 6} \
+			-style gaussianVMD.QuickRep.TCheckbutton \
+			] -in $gaussianVMD::topGui.frame0.tabs.tabsAtomList.tab1 -x 138 -y 80 -width 123
+
+	place [ttk::checkbutton $gaussianVMD::topGui.frame0.tabs.tabsAtomList.tab1.water \
+			-text "Water" \
+			-variable gaussianVMD::waterRep \
+			-command {gaussianVMD::onOffRepresentation 7} \
+			-style gaussianVMD.QuickRep.TCheckbutton \
+			] -in $gaussianVMD::topGui.frame0.tabs.tabsAtomList.tab1 -x 271 -y 80 -width 123
+
+	place [ttk::label $gaussianVMD::topGui.frame0.tabs.tabsAtomList.tab1.quickToolsLabel \
+			-text {Quick Tools} \
+			-style gaussianVMD.centerLabel.TLabel \
+			] -in $gaussianVMD::topGui.frame0.tabs.tabsAtomList.tab1 -x 0 -y 120 -width 390
+
+	place [ttk::button $gaussianVMD::topGui.frame0.tabs.tabsAtomList.tab1.resetView \
+			-text "Reset View" \
+			-command {display resetview} \
+			-style gaussianVMD.topButtons.TButton \
+			] -in $gaussianVMD::topGui.frame0.tabs.tabsAtomList.tab1 -x 5 -y 150 -width 180
+
+	place [ttk::button $gaussianVMD::topGui.frame0.tabs.tabsAtomList.tab1.centerAtom \
+			-text "Center on atom" \
+			-command {mouse mode center} \
+			-style gaussianVMD.topButtons.TButton \
+			] -in $gaussianVMD::topGui.frame0.tabs.tabsAtomList.tab1 -x 200 -y 150 -width 180
+
+	place [ttk::button $gaussianVMD::topGui.frame0.tabs.tabsAtomList.tab1.showRepresentantionWindow \
+			-text "Representantions" \
+			-command {menu graphics on} \
+			-style gaussianVMD.topButtons.TButton \
+			] -in $gaussianVMD::topGui.frame0.tabs.tabsAtomList.tab1 -x 5 -y 190 -width 180
+
+	place [ttk::button $gaussianVMD::topGui.frame0.tabs.tabsAtomList.tab1.deleteAllLabels \
+			-text "Delete all labels" \
+			-command {gaussianVMD::deleteAllLabels} \
+			-style gaussianVMD.topButtons.TButton \
+			] -in $gaussianVMD::topGui.frame0.tabs.tabsAtomList.tab1 -x 200 -y 190 -width 180
+
+	place [ttk::button $gaussianVMD::topGui.frame0.tabs.tabsAtomList.tab1.mouseModeRotate \
+			-text "Rotate" \
+			-command {mouse mode rotate} \
+			-style gaussianVMD.topButtons.TButton \
+			] -in $gaussianVMD::topGui.frame0.tabs.tabsAtomList.tab1 -x 5 -y 230 -width 118
+
+	place [ttk::button $gaussianVMD::topGui.frame0.tabs.tabsAtomList.tab1.mouseModeTranslate \
+			-text "Translate" \
+			-command {mouse mode translate} \
+			-style gaussianVMD.topButtons.TButton \
+			] -in $gaussianVMD::topGui.frame0.tabs.tabsAtomList.tab1 -x 133 -y 230 -width 118
+
+	place [ttk::button $gaussianVMD::topGui.frame0.tabs.tabsAtomList.tab1.mouseModeScale \
+			-text "Scale" \
+			-command {mouse mode scale} \
+			-style gaussianVMD.topButtons.TButton \
+			] -in $gaussianVMD::topGui.frame0.tabs.tabsAtomList.tab1 -x 261 -y 230 -width 118
+
+	place [ttk::label $gaussianVMD::topGui.frame0.tabs.tabsAtomList.tab1.editorLabel \
+			-text {Structure Manipulation} \
+			-style gaussianVMD.centerLabel.TLabel \
+			] -in $gaussianVMD::topGui.frame0.tabs.tabsAtomList.tab1 -x 0 -y 270 -width 390
+
+	place [ttk::button $gaussianVMD::topGui.frame0.tabs.tabsAtomList.tab1.bondEdit \
+			-text "Bond" \
+			-command {gaussianVMD::bondModifInitialProc} \
+			-style gaussianVMD.topButtons.TButton \
+			] -in $gaussianVMD::topGui.frame0.tabs.tabsAtomList.tab1 -x 5 -y 300 -width 118
+
+	place [ttk::button $gaussianVMD::topGui.frame0.tabs.tabsAtomList.tab1.angleEdit \
+			-text "Angle" \
+			-command {gaussianVMD::angleModifInitialProc} \
+			-style gaussianVMD.topButtons.TButton \
+			] -in $gaussianVMD::topGui.frame0.tabs.tabsAtomList.tab1 -x 133 -y 300 -width 118
+
+	place [ttk::button $gaussianVMD::topGui.frame0.tabs.tabsAtomList.tab1.dihedralEdit \
+			-text "Dihedral" \
+			-command {gaussianVMD::dihedModifInitialProc} \
+			-style gaussianVMD.topButtons.TButton \
+			] -in $gaussianVMD::topGui.frame0.tabs.tabsAtomList.tab1 -x 261 -y 300 -width 118
 
 }
