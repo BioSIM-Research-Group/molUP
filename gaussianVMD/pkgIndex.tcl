@@ -37,4 +37,4 @@ package ifneeded saveFiles                                 	1.0 [list source [fi
 package ifneeded openFiles                                 	1.0 [list source [file join $dir/lib/openFiles.tcl]]
 
 #Theme
-package ifneeded ttk::theme::Arc                            0.1 [list source [file join $dir/lib/theme/arc.tcl]]
+package ifneeded ttk::theme::clearlooks                     0.1 [list source [file join $dir/lib/theme/clearlooks.tcl]]

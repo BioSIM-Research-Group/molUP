@@ -34,7 +34,7 @@ namespace eval gaussianVMD:: {
 		package require tablelist 	
 
 		# Theme
-		package require ttk::theme::Arc							0.1
+		package require ttk::theme::clearlooks					0.1
 
 		#### Program Variables
 

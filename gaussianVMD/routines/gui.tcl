@@ -31,7 +31,7 @@ proc gaussianVMD::buildGui {} {
 	wm resizable $::gaussianVMD::topGui 0 0
 
 	## Apply theme
-	ttk::style theme use aquablue
+	ttk::style theme use clearlooks
 
 	##########################################################
 	#### FRAME 0 - initial logo
