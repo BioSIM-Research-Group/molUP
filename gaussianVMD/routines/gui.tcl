@@ -36,9 +36,9 @@ proc gaussianVMD::buildGui {} {
 	###########################################################
     
 	#### Styles 
-	ttk::style configure gaussianVMD.TButtonTop \
+	ttk::style configure gaussianVMD.Top.TButton \
 		-font {Arial 11} \
-		-width {12}
+		-width 12
 
 	ttk::style configure gaussianVMD.TLabel \
 		-font {Arial 10}
@@ -51,25 +51,25 @@ proc gaussianVMD::buildGui {} {
     grid [ttk::frame $gaussianVMD::topGui.frame0] -row 0 -column 0 -padx 0 -pady 0 -sticky news
 		grid [ttk::button $gaussianVMD::topGui.frame0.openButton \
 		    -text "OPEN" \
-			-style gaussianVMD.TButtonTop \
+			-style gaussianVMD.Top.TButton \
 			-command {} \
 		    ] -in $gaussianVMD::topGui.frame0 -row 0 -column 0 -padx 8 -pady 8 -sticky news
 
 		grid [ttk::button $gaussianVMD::topGui.frame0.saveButton \
 		    -text "SAVE" \
-			-style gaussianVMD.TButtonTop \
+			-style gaussianVMD.Top.TButton \
 			-command {} \
 		    ] -in $gaussianVMD::topGui.frame0 -row 0 -column 1 -padx 8 -pady 8 -sticky news
 
 		grid [ttk::button $gaussianVMD::topGui.frame0.restartButton \
 		    -text "RESTART" \
-			-style gaussianVMD.TButtonTop \
+			-style gaussianVMD.Top.TButton \
 			-command {gaussianVMD::restart} \
 		    ] -in $gaussianVMD::topGui.frame0 -row 0 -column 2 -padx 8 -pady 8 -sticky news
 
 		grid [ttk::button $gaussianVMD::topGui.frame0.quitButton \
 		    -text "QUIT" \
-			-style gaussianVMD.TButtonTop \
+			-style gaussianVMD.Top.TButton \
 			-command {gaussianVMD::quit} \
 		    ] -in $gaussianVMD::topGui.frame0 -row 0 -column 3 -padx 8 -pady 8 -sticky news
     
