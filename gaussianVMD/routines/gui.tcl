@@ -30,6 +30,9 @@ proc gaussianVMD::buildGui {} {
 	$::gaussianVMD::topGui configure -background {white}
 	wm resizable $::gaussianVMD::topGui 0 0
 
+	## Apply theme
+	ttk::style theme use default
+
 	###########################################################
     #### FRAME 0 - initial logo
     grid [ttk::frame $gaussianVMD::topGui.frame0] -row 0 -column 0 -padx 0 -pady 0 -sticky news
@@ -506,12 +509,12 @@ proc gaussianVMD::buildGui {} {
 
 
 
-ttk::style theme use default
 
-set fontList [font names]
-foreach font $fontList {
-	font configure $font -family Helvetica -size 12 -weight normal -slant roman -underline 0 -overstrike 0
-}
+
+#set fontList [font names]
+#foreach font $fontList {
+#	font configure $font -family Helvetica -size 12 -weight normal -slant roman -underline 0 -overstrike 0
+#}
 
 proc gaussianVMD::loadImages {} {
 	foreach file $gaussianVMD::images keyword $gaussianVMD::imagesNames {
