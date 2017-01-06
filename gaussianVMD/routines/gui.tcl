@@ -34,10 +34,6 @@ proc gaussianVMD::buildGui {} {
 	ttk::style theme use clearlooks
 
 	## Styles
-	ttk::style configure gaussianVMD.jobTitle.TEntry \
-		-font {"Arial Black" 12} \
-		-foreground {blue} \
-
 	ttk::style configure gaussianVMD.topButtons.TButton \
 		-width 7 \
 		-anchor center
@@ -45,28 +41,41 @@ proc gaussianVMD::buildGui {} {
 	##########################################################
 
 
-	#### FRAME 0 - initial logo
+	#### Top Section
 	pack [ttk::frame $gaussianVMD::topGui.frame0]
-	pack [canvas $gaussianVMD::topGui.frame0.topSection -bg blue -border 0  -width 400 -height 50] -in $gaussianVMD::topGui.frame0 
+	pack [canvas $gaussianVMD::topGui.frame0.topSection -bg white -width 400 -height 40 -highlightthickness 0] -in $gaussianVMD::topGui.frame0 
 
 
 	place [ttk::button $gaussianVMD::topGui.frame0.topSection.openButton \
 			-text "OPEN" \
 			-command {} \
-			-style gaussianVMD.topButtons.TButton] -x 5 -y 10
+			-style gaussianVMD.topButtons.TButton] -x 5 -y 5 -in $gaussianVMD::topGui.frame0.topSection
 
 	place [ttk::button $gaussianVMD::topGui.saveButton \
 		    -text "SAVE" \
 			-command {} \
-			-style gaussianVMD.topButtons.TButton] -x 105 -y 10
+			-style gaussianVMD.topButtons.TButton] -x 105 -y 5 -in $gaussianVMD::topGui.frame0.topSection
 
 	place [ttk::button $gaussianVMD::topGui.restartButton \
 		    -text "RESTART" \
 			-command {gaussianVMD::restart} \
-			-style gaussianVMD.topButtons.TButton] -x 205 -y 10
+			-style gaussianVMD.topButtons.TButton] -x 205 -y 5 -in $gaussianVMD::topGui.frame0.topSection
 
 	place [ttk::button $gaussianVMD::topGui.quitButton \
 		    -text "QUIT" \
 			-command {gaussianVMD::quit} \
-			-style gaussianVMD.topButtons.TButton] -x 305 -y 10
+			-style gaussianVMD.topButtons.TButton] -x 305 -y 5 -in $gaussianVMD::topGui.frame0.topSection
+
+
+	#### Job Title
+	pack [canvas $gaussianVMD::topGui.frame0.jobTitle -bg white -width 400 -height 30 -highlightthickness 0] -in $gaussianVMD::topGui.frame0
+	place [label $gaussianVMD::topGui.frame0.jobTitle.labe \
+			-text {Job Title:}] -in $gaussianVMD::topGui.frame0.jobTitle -x 5 -y 5
+	
+	place [ttk::entry $gaussianVMD::topGui.frame0.jobTitle.entry \
+			-textvariable gaussianVMD::title ] -in $gaussianVMD::topGui.frame0.jobTitle -x 70 -y 5 -width 320
+
+
+
+
 }
