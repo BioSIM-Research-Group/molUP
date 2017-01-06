@@ -47,6 +47,11 @@ proc gaussianVMD::buildGui {} {
 	ttk::style configure gaussianVMD.credits.TLabel \
 		-font {"Arial" 11} \
 		-foreground gray
+
+	ttk::style configure gaussianVMD.creditsVersion.TLabel \
+		-font {"Arial" 12} \
+		-foreground black \
+		-anchor center
 	
 	##########################################################
 
@@ -385,15 +390,15 @@ proc gaussianVMD::buildGui {} {
 
 
 	#### Credits
-	pack [canvas $gaussianVMD::topGui.frame0.credits -bg white -width 400 -height 50 -highlightthickness 0] -in $gaussianVMD::topGui.frame0
+	pack [canvas $gaussianVMD::topGui.frame0.credits -bg white -width 400 -height 75 -highlightthickness 0] -in $gaussianVMD::topGui.frame0
 	place [ttk::label $gaussianVMD::topGui.frame0.credits.developedBy \
-			-text {Developed by Henrique S. Fernandes (henrique.fernandes@fc.up.pt)} \
+			-text "Developed by Henrique S. Fernandes\nEmail: henrique.fernandes@fc.up.pt" \
 			-style gaussianVMD.credits.TLabel \
 			] -in $gaussianVMD::topGui.frame0.credits -x 5 -y 15 -width 390
 
 	place [ttk::label $gaussianVMD::topGui.frame0.credits.version \
 			-text "2017 - Version $gaussianVMD::version" \
-			-style gaussianVMD.credits.TLabel \
-			] -in $gaussianVMD::topGui.frame0.credits -x 5 -y 30 -width 390
+			-style gaussianVMD.creditsVersion.TLabel \
+			] -in $gaussianVMD::topGui.frame0.credits -x 5 -y 55 -width 390
 
 }
