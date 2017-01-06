@@ -33,6 +33,9 @@ namespace eval gaussianVMD:: {
 		package require Tk
 		package require tablelist 	
 
+		# Theme
+		package require ttk::theme::aquablue					0.1
+
 		#### Program Variables
 
 		## General

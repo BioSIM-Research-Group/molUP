@@ -35,3 +35,6 @@ package ifneeded editStructure                          	1.0 [list source [file 
 package ifneeded modify                                   	1.0 [list source [file join $dir/lib/modify.tcl]]
 package ifneeded saveFiles                                 	1.0 [list source [file join $dir/lib/saveFiles.tcl]]
 package ifneeded openFiles                                 	1.0 [list source [file join $dir/lib/openFiles.tcl]]
+
+#Theme
+package ifneeded ttk::theme::aquablue                       0.1 [list source [file join $dir/lib/theme/aquablue.tcl]]

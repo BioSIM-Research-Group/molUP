@@ -31,44 +31,28 @@ proc gaussianVMD::buildGui {} {
 	wm resizable $::gaussianVMD::topGui 0 0
 
 	## Apply theme
-	ttk::style theme use default
+	ttk::style theme use aquablue
 
-	###########################################################
-    
-	#### Styles 
-	ttk::style configure gaussianVMD.Top.TButton \
-		-width 9
-
-	ttk::style configure gaussianVMD.TLabel \
-		-font {Arial 10}
-
-	ttk::style configure gaussianVMD.TEntry \
-		-font {Arial 10}
-	
-	
+	##########################################################
 	#### FRAME 0 - initial logo
     grid [ttk::frame $gaussianVMD::topGui.frame0] -row 0 -column 0 -padx 0 -pady 0 -sticky news
 		grid [ttk::button $gaussianVMD::topGui.frame0.openButton \
 		    -text "OPEN" \
-			-style gaussianVMD.Top.TButton \
 			-command {} \
 		    ] -in $gaussianVMD::topGui.frame0 -row 0 -column 0 -padx 8 -pady 8 -sticky w
 
 		grid [ttk::button $gaussianVMD::topGui.frame0.saveButton \
 		    -text "SAVE" \
-			-style gaussianVMD.Top.TButton \
 			-command {} \
 		    ] -in $gaussianVMD::topGui.frame0 -row 0 -column 1 -padx 8 -pady 8 -sticky w
 
 		grid [ttk::button $gaussianVMD::topGui.frame0.restartButton \
 		    -text "RESTART" \
-			-style gaussianVMD.Top.TButton \
 			-command {gaussianVMD::restart} \
 		    ] -in $gaussianVMD::topGui.frame0 -row 0 -column 2 -padx 8 -pady 8 -sticky w
 
 		grid [ttk::button $gaussianVMD::topGui.frame0.quitButton \
 		    -text "QUIT" \
-			-style gaussianVMD.Top.TButton \
 			-command {gaussianVMD::quit} \
 		    ] -in $gaussianVMD::topGui.frame0 -row 0 -column 3 -padx 8 -pady 8 -sticky w
     
@@ -116,12 +100,10 @@ proc gaussianVMD::buildGui {} {
 		#### Job Title
 		grid [ttk::label $gaussianVMD::topGui.frame2.jobTitleLabel \
 			    -text {Job title:} \
-				-style gaussianVMD.TLabel \
 			    ] -in $gaussianVMD::topGui.frame2 -row 0 -column 0 -padx 10 -pady 0 -sticky news
 
 		grid [ttk::entry $gaussianVMD::topGui.frame2.jobTitle \
 			-textvariable gaussianVMD::title \
-			-style gaussianVMD.TEntry \
 			-width 40 \
 		    ] -in $gaussianVMD::topGui.frame2 -row 0 -column 1 -padx 0 -pady 0 -sticky news
 
