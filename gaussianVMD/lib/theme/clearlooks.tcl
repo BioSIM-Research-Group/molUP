@@ -23,7 +23,7 @@ namespace eval ttk::theme::clearlooks {
     variable colors
 
     array set colors {
-        -frame          "#efebe7"
+        -frame          "#ffffff"
         -lighter        "#f5f3f0"
         -dark           "#cfcdc8"
         -darker         "#9e9a9e"
