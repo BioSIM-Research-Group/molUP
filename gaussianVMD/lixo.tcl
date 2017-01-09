@@ -1,26 +1,26 @@
 	
-	#place [ttk::button $gaussianVMD::topGui.frame0.top.openButton \
+	place [ttk::button $gaussianVMD::topGui.frame0.top.openButton \
 		-text "OPEN" \
 		-command {} \
 		-style gaussianVMD.topButtons.TButton] -x 10 -y 10
-#
-	#	ttk::button $gaussianVMD::topGui.saveButton \
-	#	    -text "SAVE" \
-	#		-command {} \
-	#		-style gaussianVMD.topButtons.TButton
-	#	pack .gaussianVMD.saveButton -anchor nw -pady 5 -padx 90
-#
-	#	ttk::button $gaussianVMD::topGui.restartButton \
-	#	    -text "RESTART" \
-	#		-command {gaussianVMD::restart} \
-	#		-style gaussianVMD.topButtons.TButton
-	#	pack .gaussianVMD.restartButton -anchor ne -pady 5 -padx 90
-#
-	#	ttk::button $gaussianVMD::topGui.quitButton \
-	#	    -text "QUIT" \
-	#		-command {gaussianVMD::quit} \
-	#		-style gaussianVMD.topButtons.TButton
-	#	pack .gaussianVMD.quitButton -anchor ne -pady 5 -padx 5
+
+		ttk::button $gaussianVMD::topGui.saveButton \
+		    -text "SAVE" \
+			-command {} \
+			-style gaussianVMD.topButtons.TButton
+		pack .gaussianVMD.saveButton -anchor nw -pady 5 -padx 90
+
+		ttk::button $gaussianVMD::topGui.restartButton \
+		    -text "RESTART" \
+			-command {gaussianVMD::restart} \
+			-style gaussianVMD.topButtons.TButton
+		pack .gaussianVMD.restartButton -anchor ne -pady 5 -padx 90
+
+		ttk::button $gaussianVMD::topGui.quitButton \
+		    -text "QUIT" \
+			-command {gaussianVMD::quit} \
+			-style gaussianVMD.topButtons.TButton
+		pack .gaussianVMD.quitButton -anchor ne -pady 5 -padx 5
     
     #grid [canvas $gaussianVMD::topGui.frame0.title -height 90 -width [expr $wWidth * 2 - 10] -bg "white"  -highlightthickness 0] -in $gaussianVMD::topGui.frame0 -row 0 -column 0 -sticky news
     	#$gaussianVMD::topGui.frame0.title create text [expr $wWidth + 30] 45 -text "Gaussian for VMD" -font {Arial 30} -fill "black"

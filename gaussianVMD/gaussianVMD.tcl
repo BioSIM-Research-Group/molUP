@@ -13,6 +13,7 @@ namespace eval gaussianVMD:: {
 		package require guiBondModif							1.0
 		package require guiAngleModif							1.0
 		package require guiDihedModif							1.0
+		package require guiOpenFile								1.0
 		
 		package require inputFile 								1.0
 		package require getStructure							1.0
@@ -22,13 +23,13 @@ namespace eval gaussianVMD:: {
 		package require quit									1.0
 		package require loadGaussianInputFile					1.0
 		package require loadGaussianOutputFile					1.0
-		package require loadGaussianOutputFileFirstStructure	1.0
-		package require loadGaussianOutputFileLastStructure		1.0
-		package require applyToStructure						1.0
+		#package require loadGaussianOutputFileFirstStructure	1.0
+		#package require loadGaussianOutputFileLastStructure		1.0
+		#package require applyToStructure						1.0
 		package	require editStructure							1.0
 		package require modify									1.0
 		package require saveFiles								1.0
-		package require openFiles								1.0
+		#package require openFiles								1.0
 
 		package require Tk
 		package require tablelist 	
@@ -46,6 +47,7 @@ namespace eval gaussianVMD:: {
 		variable bondModif         	".gaussianVMD.bondModif"
 		variable angleModif        	".gaussianVMD.angleModif"
 		variable dihedModif        	".gaussianVMD.dihedModif"
+		variable openFile        	".gaussianVMD.openFile"
 
 		global path
 		variable path 				"/"

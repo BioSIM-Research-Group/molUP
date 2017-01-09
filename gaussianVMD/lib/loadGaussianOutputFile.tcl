@@ -60,7 +60,7 @@ proc gaussianVMD::loadGaussianOutputFile {option} {
                 
     			puts $gaussianVMD::temporaryPDBFile "[format %-4s "ATOM"] [format %6s $i] [format %-4s $pdbAtomType][format %4s $resname] [format %-1s $column5] [format %-7s $resid] [format %7s $x] [format %7s $y] [format %7s $z] [format %5s "1.00"] [format %-8s "00.00"] [format %8s $atomicSymbol]"
             
-    			$gaussianVMD::topGui.frame3.tabsAtomList.tab4.frame.tableLayer insert end [list \
+    			$gaussianVMD::topGui.frame0.tabs.tabsAtomList.tab4.tableLayer insert end [list \
     	   			"$i" \
     	   			"[lindex [split $gaussianAtomType "-"] 0]" \
     	   			"$resname" \
@@ -68,7 +68,7 @@ proc gaussianVMD::loadGaussianOutputFile {option} {
     	   			"$charge"\
     	   			]
                     
-    			$gaussianVMD::topGui.frame3.tabsAtomList.tab2.frame.tableLayer insert end [list \
+    			$gaussianVMD::topGui.frame0.tabs.tabsAtomList.tab2.tableLayer insert end [list \
     	   			"$i" \
     	   			"$pdbAtomType" \
     	   			"$resname" \
@@ -76,7 +76,7 @@ proc gaussianVMD::loadGaussianOutputFile {option} {
     	   			"$column5"\
     	   			]
                     
-    			$gaussianVMD::topGui.frame3.tabsAtomList.tab3.frame.tableLayer insert end [list \
+    			$gaussianVMD::topGui.frame0.tabs.tabsAtomList.tab3.tableLayer insert end [list \
     	   			"$i" \
     	   			"$pdbAtomType" \
     	   			"$resname" \
@@ -84,15 +84,6 @@ proc gaussianVMD::loadGaussianOutputFile {option} {
     	   			"$column1"\
     	   			]
                     
-    			#$gaussianVMD::topGui.frame3.tabsAtomList.tab5.frame.tableLayer insert end [list \
-    	   			"$i" \
-    	   			"$pdbAtomType" \
-    	   			"$resname" \
-    	   			"$resid" \
-    	   			"$x" \
-    	   			"$y" \
-    	   			"$z"\
-    	   			]
                     
     			set atomicSymbol 		""
     			set gaussianAtomType 	"" 
@@ -173,7 +164,7 @@ proc gaussianVMD::loadGaussianOutputFile {option} {
                 
     			puts $gaussianVMD::temporaryPDBFile "[format %-4s "ATOM"] [format %6s $i] [format %-4s $pdbAtomType][format %4s $resname] [format %-1s $column5] [format %-7s $resid] [format %7s $x] [format %7s $y] [format %7s $z] [format %5s "1.00"] [format %-8s "00.00"] [format %8s $atomicSymbol]"
             
-    			$gaussianVMD::topGui.frame3.tabsAtomList.tab4.frame.tableLayer insert end [list \
+    			$gaussianVMD::topGui.frame0.tabs.tabsAtomList.tab4.tableLayer insert end [list \
     	   			"$i" \
     	   			"[lindex [split $gaussianAtomType "-"] 0]" \
     	   			"$resname" \
@@ -181,7 +172,7 @@ proc gaussianVMD::loadGaussianOutputFile {option} {
     	   			"$charge"\
     	   			]
                     
-    			$gaussianVMD::topGui.frame3.tabsAtomList.tab2.frame.tableLayer insert end [list \
+    			$gaussianVMD::topGui.frame0.tabs.tabsAtomList.tab2.tableLayer insert end [list \
     	   			"$i" \
     	   			"$pdbAtomType" \
     	   			"$resname" \
@@ -189,7 +180,7 @@ proc gaussianVMD::loadGaussianOutputFile {option} {
     	   			"$column5"\
     	   			]
                     
-    			$gaussianVMD::topGui.frame3.tabsAtomList.tab3.frame.tableLayer insert end [list \
+    			$gaussianVMD::topGui.frame0.tabs.tabsAtomList.tab3.tableLayer insert end [list \
     	   			"$i" \
     	   			"$pdbAtomType" \
     	   			"$resname" \
@@ -197,15 +188,6 @@ proc gaussianVMD::loadGaussianOutputFile {option} {
     	   			"$column1"\
     	   			]
                     
-    			#$gaussianVMD::topGui.frame3.tabsAtomList.tab5.frame.tableLayer insert end [list \
-    	   		#	"$i" \
-    	   		#	"$pdbAtomType" \
-    	   		#	"$resname" \
-    	   		#	"$resid" \
-    	   		#	"$x" \
-    	   		#	"$y" \
-    	   		#	"$z"\
-    	   		#	]
                     
     			set atomicSymbol 		""
     			set gaussianAtomType 	"" 
@@ -305,7 +287,7 @@ proc gaussianVMD::loadGaussianOutputFile {option} {
 					 
     					puts $gaussianVMD::temporaryPDBFile "[format %-4s "ATOM"] [format %6s $i] [format %-4s $pdbAtomType][format %4s $resname] [format %-1s $column5] [format %-7s $resid] [format %7s $x] [format %7s $y] [format %7s $z] [format %5s "1.00"] [format %-8s "00.00"] [format %8s 	$atomicSymbol]"
 					
-    					$gaussianVMD::topGui.frame3.tabsAtomList.tab4.frame.tableLayer insert end [list \
+    					$gaussianVMD::topGui.frame0.tabs.tabsAtomList.tab4.tableLayer insert end [list \
     			   			"$i" \
     			   			"[lindex [split $gaussianAtomType "-"] 0]" \
     			   			"$resname" \
@@ -313,7 +295,7 @@ proc gaussianVMD::loadGaussianOutputFile {option} {
     			   			"$charge"\
     			   			]
 						   
-    					$gaussianVMD::topGui.frame3.tabsAtomList.tab2.frame.tableLayer insert end [list \
+    					$gaussianVMD::topGui.frame0.tabs.tabsAtomList.tab2.tableLayer insert end [list \
     			   			"$i" \
     			   			"$pdbAtomType" \
     			   			"$resname" \
@@ -321,23 +303,13 @@ proc gaussianVMD::loadGaussianOutputFile {option} {
     			   			"$column5"\
     			   			]
 						   
-    					$gaussianVMD::topGui.frame3.tabsAtomList.tab3.frame.tableLayer insert end [list \
+    					$gaussianVMD::topGui.frame0.tabs.tabsAtomList.tab3.tableLayer insert end [list \
     			   			"$i" \
     			   			"$pdbAtomType" \
     			   			"$resname" \
     			   			"$resid" \
     			   			"$column1"\
     			   			]
-						   
-    					#$gaussianVMD::topGui.frame3.tabsAtomList.tab5.frame.tableLayer insert end [list \
-    			   		#	"$i" \
-    			   		#	"$pdbAtomType" \
-    			   		#	"$resname" \
-    			   		#	"$resid" \
-    			   		#	"$x" \
-    			   		#	"$y" \
-    			   		#	"$z"\
-    			   		#	]
 						   
     					set atomicSymbol 		""
     					set gaussianAtomType 	"" 
@@ -479,7 +451,7 @@ proc gaussianVMD::loadGaussianOutputFile {option} {
 					 
     					puts $gaussianVMD::temporaryPDBFile "[format %-4s "ATOM"] [format %6s $i] [format %-4s $pdbAtomType][format %4s $resname] [format %-1s $column5] [format %-7s $resid] [format %7s $x] [format %7s $y] [format %7s $z] [format %5s "1.00"] [format %-8s "00.00"] [format %8s 	$atomicSymbol]"
 					
-    					$gaussianVMD::topGui.frame3.tabsAtomList.tab4.frame.tableLayer insert end [list \
+    					$gaussianVMD::topGui.frame0.tabs.tabsAtomList.tab4.tableLayer insert end [list \
     			   			"$i" \
     			   			"[lindex [split $gaussianAtomType "-"] 0]" \
     			   			"$resname" \
@@ -487,7 +459,7 @@ proc gaussianVMD::loadGaussianOutputFile {option} {
     			   			"$charge"\
     			   			]
 						   
-    					$gaussianVMD::topGui.frame3.tabsAtomList.tab2.frame.tableLayer insert end [list \
+    					$gaussianVMD::topGui.frame0.tabs.tabsAtomList.tab2.tableLayer insert end [list \
     			   			"$i" \
     			   			"$pdbAtomType" \
     			   			"$resname" \
@@ -495,7 +467,7 @@ proc gaussianVMD::loadGaussianOutputFile {option} {
     			   			"$column5"\
     			   			]
 						   
-    					$gaussianVMD::topGui.frame3.tabsAtomList.tab3.frame.tableLayer insert end [list \
+    					$gaussianVMD::topGui.frame0.tabs.tabsAtomList.tab3.tableLayer insert end [list \
     			   			"$i" \
     			   			"$pdbAtomType" \
     			   			"$resname" \
@@ -503,15 +475,6 @@ proc gaussianVMD::loadGaussianOutputFile {option} {
     			   			"$column1"\
     			   			]
 						   
-    					#$gaussianVMD::topGui.frame3.tabsAtomList.tab5.frame.tableLayer insert end [list \
-    			   		#	"$i" \
-    			   		#	"$pdbAtomType" \
-    			   		#	"$resname" \
-    			   		#	"$resid" \
-    			   		#	"$x" \
-    			   		#	"$y" \
-    			   		#	"$z"\
-    			   		#	]
 						   
     					set atomicSymbol 		""
     					set gaussianAtomType 	"" 

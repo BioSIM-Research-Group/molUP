@@ -8,23 +8,23 @@ proc gaussianVMD::oniomLayer {tbl row col text} {
 }
 
 proc gaussianVMD::oniomLayerEnd {} {
-    set highLayerIndex [$gaussianVMD::topGui.frame3.tabsAtomList.tab2.frame.tableLayer searchcolumn 4 "H" -all]
+    set highLayerIndex [$gaussianVMD::topGui.frame0.tabs.tabsAtomList.tab2.tableLayer searchcolumn 4 "H" -all]
     mol modselect 2 top index [gaussianVMD::optimizeIndexList $highLayerIndex]
 
-    set mediumLayerIndex [$gaussianVMD::topGui.frame3.tabsAtomList.tab2.frame.tableLayer searchcolumn 4 "M" -all]
+    set mediumLayerIndex [$gaussianVMD::topGui.frame0.tabs.tabsAtomList.tab2.tableLayer searchcolumn 4 "M" -all]
     mol modselect 3 top index [gaussianVMD::optimizeIndexList $mediumLayerIndex]
 
-    set lowLayerIndex [$gaussianVMD::topGui.frame3.tabsAtomList.tab2.frame.tableLayer searchcolumn 4 "L" -all]
+    set lowLayerIndex [$gaussianVMD::topGui.frame0.tabs.tabsAtomList.tab2.tableLayer searchcolumn 4 "L" -all]
     mol modselect 4 top index [gaussianVMD::optimizeIndexList $lowLayerIndex]
 }
 
 proc gaussianVMD::freezeEnd {} {
-    set highLayerIndex [$gaussianVMD::topGui.frame3.tabsAtomList.tab3.frame.tableLayer searchcolumn 4 "0" -all]
+    set highLayerIndex [$gaussianVMD::topGui.frame0.tabs.tabsAtomList.tab3.tableLayer searchcolumn 4 "0" -all]
     mol modselect 8 top index [gaussianVMD::optimizeIndexList $highLayerIndex]
 
-    set mediumLayerIndex [$gaussianVMD::topGui.frame3.tabsAtomList.tab3.frame.tableLayer searchcolumn 4 "-1" -all]
-    append mediumLayerIndex [$gaussianVMD::topGui.frame3.tabsAtomList.tab3.frame.tableLayer searchcolumn 4 "-2" -all]
-    append mediumLayerIndex [$gaussianVMD::topGui.frame3.tabsAtomList.tab3.frame.tableLayer searchcolumn 4 "-3" -all]
+    set mediumLayerIndex [$gaussianVMD::topGui.frame0.tabs.tabsAtomList.tab3.tableLayer searchcolumn 4 "-1" -all]
+    append mediumLayerIndex [$gaussianVMD::topGui.frame0.tabs.tabsAtomList.tab3.tableLayer searchcolumn 4 "-2" -all]
+    append mediumLayerIndex [$gaussianVMD::topGui.frame0.tabs.tabsAtomList.tab3.tableLayer searchcolumn 4 "-3" -all]
     mol modselect 9 top index [gaussianVMD::optimizeIndexList $mediumLayerIndex]
 
 }
@@ -63,7 +63,7 @@ proc gaussianVMD::addSelectionRep {} {
 	mol addrep top
 
     #### Representantion of High layer
-    set highLayerIndex [$gaussianVMD::topGui.frame3.tabsAtomList.tab2.frame.tableLayer searchcolumn 4 "H" -all]
+    set highLayerIndex [$gaussianVMD::topGui.frame0.tabs.tabsAtomList.tab2.tableLayer searchcolumn 4 "H" -all]
     mol selection index [gaussianVMD::optimizeIndexList $highLayerIndex]
     mol color Name
     mol material Diffuse
@@ -72,7 +72,7 @@ proc gaussianVMD::addSelectionRep {} {
     mol showrep top 2 $gaussianVMD::HLrep
 
     #### Representantion of Medium layer
-    set mediumLayerIndex [$gaussianVMD::topGui.frame3.tabsAtomList.tab2.frame.tableLayer searchcolumn 4 "M" -all]
+    set mediumLayerIndex [$gaussianVMD::topGui.frame0.tabs.tabsAtomList.tab2.tableLayer searchcolumn 4 "M" -all]
     mol selection index [gaussianVMD::optimizeIndexList $mediumLayerIndex]
     mol color Name
     mol material Diffuse
@@ -81,7 +81,7 @@ proc gaussianVMD::addSelectionRep {} {
     mol showrep top 3 $gaussianVMD::MLrep
 
     #### Representantion of Low layer
-    set lowLayerIndex [$gaussianVMD::topGui.frame3.tabsAtomList.tab2.frame.tableLayer searchcolumn 4 "L" -all]
+    set lowLayerIndex [$gaussianVMD::topGui.frame0.tabs.tabsAtomList.tab2.tableLayer searchcolumn 4 "L" -all]
     mol selection index [gaussianVMD::optimizeIndexList $lowLayerIndex]
     mol color Name
     mol material Diffuse
@@ -114,7 +114,7 @@ proc gaussianVMD::addSelectionRep {} {
     mol showrep top 7 $gaussianVMD::waterRep
 
     #### Representantion Unfreeze
-    set unfreezeAtomIndex [$gaussianVMD::topGui.frame3.tabsAtomList.tab3.frame.tableLayer searchcolumn 4 "0" -all]
+    set unfreezeAtomIndex [$gaussianVMD::topGui.frame0.tabs.tabsAtomList.tab3.tableLayer searchcolumn 4 "0" -all]
     
     mol selection index [gaussianVMD::optimizeIndexList $unfreezeAtomIndex]
     mol color Name
@@ -152,16 +152,16 @@ proc gaussianVMD::changeRepCurSelection {option} {
         set alert [tk_messageBox -message "No structure was loaded." -type ok -icon error]
     } else {
         if {$option == "charges"} {
-            set indexSelectedAtoms [$gaussianVMD::topGui.frame3.tabsAtomList.tab4.frame.tableLayer curselection]
+            set indexSelectedAtoms [$gaussianVMD::topGui.frame0.tabs.tabsAtomList.tab4.tableLayer curselection]
             mol modselect 1 top index $indexSelectedAtoms
         
         } elseif {$option == "oniom"} {
-            set indexSelectedAtoms [$gaussianVMD::topGui.frame3.tabsAtomList.tab2.frame.tableLayer curselection]
+            set indexSelectedAtoms [$gaussianVMD::topGui.frame0.tabs.tabsAtomList.tab2.tableLayer curselection]
             mol modselect 1 top index $indexSelectedAtoms
             set gaussianVMD::atomSelectionONIOM "index $indexSelectedAtoms"
         
         } elseif {$option == "freeze"} {
-            set indexSelectedAtoms [$gaussianVMD::topGui.frame3.tabsAtomList.tab3.frame.tableLayer curselection]
+            set indexSelectedAtoms [$gaussianVMD::topGui.frame0.tabs.tabsAtomList.tab3.tableLayer curselection]
             mol modselect 1 top index $indexSelectedAtoms
             set gaussianVMD::atomSelectionFreeze "index $indexSelectedAtoms"
         } else {
@@ -175,14 +175,14 @@ proc gaussianVMD::applyToStructure {option} {
     if {$option == "oniom"} {
         set listIndexAtoms [[atomselect top $gaussianVMD::atomSelectionONIOM] get {index}]
         foreach atom $listIndexAtoms {
-            $gaussianVMD::topGui.frame3.tabsAtomList.tab2.frame.tableLayer configcells [subst $atom],4 -text [subst $gaussianVMD::selectionModificationValueOniom]
+            $gaussianVMD::topGui.frame0.tabs.tabsAtomList.tab2.tableLayer configcells [subst $atom],4 -text [subst $gaussianVMD::selectionModificationValueOniom]
         }
         gaussianVMD::oniomLayerEnd
 
     } elseif {$option == "freeze"} {
        set listIndexAtoms [[atomselect top $gaussianVMD::atomSelectionFreeze] get {index}]
         foreach atom $listIndexAtoms {
-            $gaussianVMD::topGui.frame3.tabsAtomList.tab3.frame.tableLayer configcells [subst $atom],4 -text [subst $gaussianVMD::selectionModificationValueFreeze]
+            $gaussianVMD::topGui.frame0.tabs.tabsAtomList.tab3.tableLayer configcells [subst $atom],4 -text [subst $gaussianVMD::selectionModificationValueFreeze]
         }
         gaussianVMD::freezeEnd
 

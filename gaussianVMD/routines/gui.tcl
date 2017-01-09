@@ -30,6 +30,9 @@ proc gaussianVMD::buildGui {} {
 	$::gaussianVMD::topGui configure -background {white}
 	wm resizable $::gaussianVMD::topGui 0 0
 
+	# Procedure when the window is closed
+	wm protocol $::gaussianVMD::topGui WM_DELETE_WINDOW {gaussianVMD::quit}
+
 	## Apply theme
 	ttk::style theme use clearlooks
 
@@ -63,7 +66,7 @@ proc gaussianVMD::buildGui {} {
 
 	place [ttk::button $gaussianVMD::topGui.frame0.topSection.openButton \
 			-text "OPEN" \
-			-command {} \
+			-command {gaussianVMD::guiOpenFile} \
 			-style gaussianVMD.topButtons.TButton] -x 5 -y 5 -in $gaussianVMD::topGui.frame0.topSection -width 90
 
 	place [ttk::button $gaussianVMD::topGui.saveButton \
@@ -339,6 +342,10 @@ proc gaussianVMD::buildGui {} {
 			-style gaussianVMD.topButtons.TButton \
 			] -in $gaussianVMD::topGui.frame0.tabs.tabsAtomList.tab2 -x 261 -y 320 -width 118
 
+	$gaussianVMD::topGui.frame0.tabs.tabsAtomList.tab2.tableLayer configcolumns 4 -editable true
+
+	bind $gaussianVMD::topGui.frame0.tabs.tabsAtomList.tab2.tableLayer <<TablelistSelect>> {gaussianVMD::changeRepCurSelection oniom}
+
 	
 	# Freeze Tab
 	place [tablelist::tablelist $gaussianVMD::topGui.frame0.tabs.tabsAtomList.tab3.tableLayer\
@@ -387,6 +394,10 @@ proc gaussianVMD::buildGui {} {
 			-command {gaussianVMD::clearSelection oniom} \
 			-style gaussianVMD.topButtons.TButton \
 			] -in $gaussianVMD::topGui.frame0.tabs.tabsAtomList.tab3 -x 261 -y 320 -width 118
+
+	$gaussianVMD::topGui.frame0.tabs.tabsAtomList.tab3.tableLayer configcolumns 4 -editable true
+
+	bind $gaussianVMD::topGui.frame0.tabs.tabsAtomList.tab3.tableLayer <<TablelistSelect>> {gaussianVMD::changeRepCurSelection freeze}
 
 
 	#### Credits
