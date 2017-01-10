@@ -13,13 +13,25 @@ proc gaussianVMD::oniomLayerEnd {} {
     set lowLayerIndex ""
     
     set highLayerIndex [$gaussianVMD::topGui.frame0.tabs.tabsAtomList.tab2.tableLayer searchcolumn 4 "H" -all]
-    mol modselect 2 top index [gaussianVMD::optimizeIndexList $highLayerIndex]
+    if {$highLayerIndex != ""} {
+        mol modselect 2 top index [gaussianVMD::optimizeIndexList $highLayerIndex]
+    } else {
+        mol modselect 2 top none
+    }
 
     set mediumLayerIndex [$gaussianVMD::topGui.frame0.tabs.tabsAtomList.tab2.tableLayer searchcolumn 4 "M" -all]
-    mol modselect 3 top index [gaussianVMD::optimizeIndexList $mediumLayerIndex]
+    if {$mediumLayerIndex != ""} {
+        mol modselect 3 top index [gaussianVMD::optimizeIndexList $mediumLayerIndex]
+    } else {
+        mol modselect 3 top none
+    }
 
     set lowLayerIndex [$gaussianVMD::topGui.frame0.tabs.tabsAtomList.tab2.tableLayer searchcolumn 4 "L" -all]
-    mol modselect 4 top index [gaussianVMD::optimizeIndexList $lowLayerIndex]
+    if {$lowLayerIndex != ""} {
+        mol modselect 4 top index [gaussianVMD::optimizeIndexList $lowLayerIndex]
+    } else {
+        mol modselect 4 top none
+    }
 }
 
 proc gaussianVMD::freezeEnd {} {
