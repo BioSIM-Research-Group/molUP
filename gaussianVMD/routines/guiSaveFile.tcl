@@ -40,7 +40,7 @@ proc gaussianVMD::guiSaveFile {} {
             ] -in $gaussianVMD::saveFile.frame.back -x 10 -y 13 -width 150
 
     place [ttk::combobox $gaussianVMD::saveFile.frame.back.selectLoadMode \
-		    -textvariable $gaussianVMD::saveOptions \
+		    -textvariable gaussianVMD::saveOptions \
 			-state readonly \
 		    -values "[list "Gaussian Input File (.com)" "Protein Data Bank (.pdb)" "Coordinates XYZ (.xyz)"]"
             ] -in $gaussianVMD::saveFile.frame.back -x 170 -y 10 -width 220
