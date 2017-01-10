@@ -130,7 +130,7 @@ namespace eval gaussianVMD:: {
 		variable normvec
 		variable linkAtomsList		{}
 		variable linkAtomsListIndex	{}
-		variable saveOptions
+		variable saveOptions	"Gaussian Input File (.com)"
 
 		#### Images
 		#variable images 		"logo.gif"
