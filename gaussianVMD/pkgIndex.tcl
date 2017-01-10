@@ -19,6 +19,8 @@ package ifneeded guiBondModif  	                            1.0 [list source [fi
 package ifneeded guiAngleModif  	                        1.0 [list source [file join $dir/routines/guiAngleModif.tcl]]
 package ifneeded guiDihedModif  	                        1.0 [list source [file join $dir/routines/guiDihedModif.tcl]]
 package ifneeded guiOpenFile      	                        1.0 [list source [file join $dir/routines/guiOpenFile.tcl]]
+package ifneeded guiSaveFile      	                        1.0 [list source [file join $dir/routines/guiSaveFile.tcl]]
+package ifneeded guiError         	                        1.0 [list source [file join $dir/routines/guiError.tcl]]
 
 #lib
 package ifneeded inputFile   	                            1.0 [list source [file join $dir/lib/inputFile.tcl]]
@@ -29,13 +31,9 @@ package ifneeded loadMoleculeVMD 	                        1.0 [list source [file
 package ifneeded timeControl     	                        1.0 [list source [file join $dir/lib/timeControl.tcl]]
 package ifneeded loadGaussianInputFile     	                1.0 [list source [file join $dir/lib/loadGaussianInputFile.tcl]]
 package ifneeded loadGaussianOutputFile     	            1.0 [list source [file join $dir/lib/loadGaussianOutputFile.tcl]]
-#package ifneeded loadGaussianOutputFileFirstStructure     	1.0 [list source [file join $dir/lib/loadGaussianOutputFileFirstStructure.tcl]]
-#package ifneeded loadGaussianOutputFileLastStructure     	1.0 [list source [file join $dir/lib/loadGaussianOutputFileLastStructure.tcl]]
-#package ifneeded applyToStructure                        	1.0 [list source [file join $dir/lib/applyToStructure.tcl]]
 package ifneeded editStructure                          	1.0 [list source [file join $dir/lib/editStructure.tcl]]
 package ifneeded modify                                   	1.0 [list source [file join $dir/lib/modify.tcl]]
 package ifneeded saveFiles                                 	1.0 [list source [file join $dir/lib/saveFiles.tcl]]
-#package ifneeded openFiles                                 	1.0 [list source [file join $dir/lib/openFiles.tcl]]
 
 #Theme
 package ifneeded ttk::theme::clearlooks                     0.1 [list source [file join $dir/lib/theme/clearlooks.tcl]]

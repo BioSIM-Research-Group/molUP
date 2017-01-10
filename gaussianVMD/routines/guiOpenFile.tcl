@@ -28,7 +28,7 @@ proc gaussianVMD::guiOpenFile {} {
     ## Styles
 	ttk::style configure gaussianVMD.button.TButton \
 		-anchor center
-
+ 
 
     #### Draw the GUI
     # Frame

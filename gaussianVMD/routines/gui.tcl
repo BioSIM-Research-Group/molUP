@@ -71,7 +71,7 @@ proc gaussianVMD::buildGui {} {
 
 	place [ttk::button $gaussianVMD::topGui.saveButton \
 		    -text "SAVE" \
-			-command {} \
+			-command {gaussianVMD::guiSaveFile} \
 			-style gaussianVMD.topButtons.TButton] -x 105 -y 5 -in $gaussianVMD::topGui.frame0.topSection -width 90
 
 	place [ttk::button $gaussianVMD::topGui.restartButton \

@@ -14,6 +14,8 @@ namespace eval gaussianVMD:: {
 		package require guiAngleModif							1.0
 		package require guiDihedModif							1.0
 		package require guiOpenFile								1.0
+		package require guiSaveFile								1.0
+		package require guiError								1.0
 		
 		package require inputFile 								1.0
 		package require getStructure							1.0
@@ -23,13 +25,9 @@ namespace eval gaussianVMD:: {
 		package require quit									1.0
 		package require loadGaussianInputFile					1.0
 		package require loadGaussianOutputFile					1.0
-		#package require loadGaussianOutputFileFirstStructure	1.0
-		#package require loadGaussianOutputFileLastStructure		1.0
-		#package require applyToStructure						1.0
 		package	require editStructure							1.0
 		package require modify									1.0
 		package require saveFiles								1.0
-		#package require openFiles								1.0
 
 		package require Tk
 		package require tablelist 	
@@ -40,7 +38,7 @@ namespace eval gaussianVMD:: {
 		#### Program Variables
 
 		## General
-		variable version	    	"0.1.8 (alpha)"
+		variable version	    	"0.3 (beta)"
 
 		#GUI
         variable topGui         	".gaussianVMD"
@@ -48,6 +46,8 @@ namespace eval gaussianVMD:: {
 		variable angleModif        	".gaussianVMD.angleModif"
 		variable dihedModif        	".gaussianVMD.dihedModif"
 		variable openFile        	".gaussianVMD.openFile"
+		variable saveFile        	".gaussianVMD.saveFile"
+		variable error	        	".gaussianVMD.error"
 
 		global path
 		variable path 				"/"
@@ -130,6 +130,7 @@ namespace eval gaussianVMD:: {
 		variable normvec
 		variable linkAtomsList		{}
 		variable linkAtomsListIndex	{}
+		variable saveOptions
 
 		#### Images
 		#variable images 		"logo.gif"
