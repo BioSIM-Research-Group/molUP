@@ -45,14 +45,11 @@ proc gaussianVMD::buildGui {} {
 
 	ttk::style configure gaussianVMD.centerLabel.TLabel \
 		-anchor center \
-		-font {14}
 
 	ttk::style configure gaussianVMD.credits.TLabel \
-		-font {11} \
 		-foreground gray
 
 	ttk::style configure gaussianVMD.creditsVersion.TLabel \
-		-font {12} \
 		-foreground black \
 		-anchor center
 	
