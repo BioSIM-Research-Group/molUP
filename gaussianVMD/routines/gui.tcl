@@ -45,14 +45,14 @@ proc gaussianVMD::buildGui {} {
 
 	ttk::style configure gaussianVMD.centerLabel.TLabel \
 		-anchor center \
-		-font {"Arial" 14}
+		-font {14}
 
 	ttk::style configure gaussianVMD.credits.TLabel \
-		-font {"Arial" 11} \
+		-font {11} \
 		-foreground gray
 
 	ttk::style configure gaussianVMD.creditsVersion.TLabel \
-		-font {"Arial" 12} \
+		-font {12} \
 		-foreground black \
 		-anchor center
 	
@@ -374,24 +374,24 @@ proc gaussianVMD::buildGui {} {
 			] -in $gaussianVMD::topGui.frame0.tabs.tabsAtomList.tab3 -x 5 -y 265 -width 380
 
 	place [ttk::entry $gaussianVMD::topGui.frame0.tabs.tabsAtomList.tab3.selection \
-			-textvariable gaussianVMD::atomSelectionONIOM \
+			-textvariable gaussianVMD::atomSelectionFreeze\
 			] -in $gaussianVMD::topGui.frame0.tabs.tabsAtomList.tab3 -x 5 -y 290 -width 375
 
 	place [ttk::combobox $gaussianVMD::topGui.frame0.tabs.tabsAtomList.tab3.selectModificationValue \
-			-textvariable gaussianVMD::selectionModificationValueOniom \
+			-textvariable gaussianVMD::selectionModificationValueFreeze \
 			-style gaussianVMD.comboBox.TCombobox \
 			-values "[list "0" "-1" "-2" "-3"]" \
 			] -in $gaussianVMD::topGui.frame0.tabs.tabsAtomList.tab3 -x 5 -y 320 -width 118
 
 	place [ttk::button $gaussianVMD::topGui.frame0.tabs.tabsAtomList.tab3.selectionApply \
 			-text "Apply" \
-			-command {gaussianVMD::applyToStructure oniom} \
+			-command {gaussianVMD::applyToStructure freeze} \
 			-style gaussianVMD.topButtons.TButton \
 			] -in $gaussianVMD::topGui.frame0.tabs.tabsAtomList.tab3 -x 133 -y 320 -width 118
 
 	place [ttk::button $gaussianVMD::topGui.frame0.tabs.tabsAtomList.tab3.clearSelection \
 			-text "Clear Selection" \
-			-command {gaussianVMD::clearSelection oniom} \
+			-command {gaussianVMD::clearSelection freeze} \
 			-style gaussianVMD.topButtons.TButton \
 			] -in $gaussianVMD::topGui.frame0.tabs.tabsAtomList.tab3 -x 261 -y 320 -width 118
 

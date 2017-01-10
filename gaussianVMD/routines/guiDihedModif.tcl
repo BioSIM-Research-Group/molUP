@@ -16,103 +16,94 @@ proc gaussianVMD::guiDihedModif {} {
 	set sWidth [expr [winfo vrootwidth  $::gaussianVMD::dihedModif] -0]
 	set sHeight [expr [winfo vrootheight $::gaussianVMD::dihedModif] -50]
 
-	#window wifth and height
-	set wWidth [winfo reqwidth $::gaussianVMD::dihedModif]
-	set wHeight [winfo reqheight $::gaussianVMD::dihedModif]
+	#### Change the location of window
+    wm geometry $::gaussianVMD::dihedModif 400x200+[expr $sWidth - 400]+100
 	$::gaussianVMD::dihedModif configure -background {white}
 	wm resizable $::gaussianVMD::dihedModif 0 0
+
+	## Apply theme
+	ttk::style theme use clearlooks
+
+    ## Styles
+	ttk::style configure gaussianVMD.button.TButton \
+		-anchor center
+
+	ttk::style configure gaussianVMD.label.TLabel \
+		-anchor center
 
 	wm protocol $::gaussianVMD::dihedModif WM_DELETE_WINDOW {gaussianVMD::bondGuiCloseSave}
 
 	
 
     #### Information
-    grid [ttk::frame $gaussianVMD::dihedModif.frame0] -row 0 -column 0 -padx 5 -pady 2 -sticky news
+    pack [ttk::frame $gaussianVMD::dihedModif.frame0]
+	pack [canvas $gaussianVMD::dihedModif.frame0.frame -bg white -width 400 -height 200 -highlightthickness 0] -in $gaussianVMD::dihedModif.frame0 
         
-        grid [ttk::label $gaussianVMD::dihedModif.frame0.title \
+    place [ttk::label $gaussianVMD::dihedModif.frame0.frame.title \
 		    -text {Four atoms were selected.} \
-		    ] -in $gaussianVMD::dihedModif.frame0 -row 0 -column 0 -padx 2 -pady 8 -sticky news -columnspan 4
+		    ] -in $gaussianVMD::dihedModif.frame0.frame -x 10 -y 10 -width 380
 
-        grid [ttk::label $gaussianVMD::dihedModif.frame0.atom1 \
+    place [ttk::label $gaussianVMD::dihedModif.frame0.frame.atom1 \
 		    -text {Atom 1:} \
-		    ] -in $gaussianVMD::dihedModif.frame0 -row 1 -column 0 -padx 2 -pady 0 -sticky news -columnspan 4
+		    ] -in $gaussianVMD::dihedModif.frame0.frame -x 10 -y 30 -width 60 
 
-        grid [ttk::label $gaussianVMD::dihedModif.frame0.atom1IndexLabel \
-		    -text {Index: } \
-		    ] -in $gaussianVMD::dihedModif.frame0 -row 2 -column 0 -padx 2 -pady 0 -sticky news
-
-            grid [ttk::entry $gaussianVMD::dihedModif.frame0.atom1Index \
+    place [ttk::entry $gaussianVMD::dihedModif.frame0.frame.atom1Index \
 		        -textvariable {gaussianVMD::atom1DihedSel} \
-		        -width 12 \
 				-state readonly \
-		        ] -in $gaussianVMD::dihedModif.frame0 -row 2 -column 1 -sticky news
+		        ] -in $gaussianVMD::dihedModif.frame0.frame -x 60 -y 30 -width 100
 
-            grid [ttk::label $gaussianVMD::dihedModif.frame0.atom1OptionsLabel \
+    place [ttk::label $gaussianVMD::dihedModif.frame0.frame.atom1OptionsLabel \
 		        -text {Options: } \
-		        ] -in $gaussianVMD::dihedModif.frame0 -row 2 -column 2 -padx 2 -pady 0 -sticky news
+		        ] -in $gaussianVMD::dihedModif.frame0.frame -x 190 -y 30 -width 50
             
-            grid [ttk::combobox $gaussianVMD::dihedModif.frame0.atom1Options \
+    place [ttk::combobox $gaussianVMD::dihedModif.frame0.frame.atom1Options \
 		        -textvariable {gaussianVMD::atom1DihedOpt} \
-		        -width 10 \
 			    -state readonly \
 		        -values "[list "Fixed Atom" "Move Atom" "Move Atoms"]"
-		        ] -in $gaussianVMD::dihedModif.frame0 -row 2 -column 3 -sticky news
+		        ] -in $gaussianVMD::dihedModif.frame0.frame -x 250 -y 30 -width 140
 
         
-        grid [ttk::label $gaussianVMD::dihedModif.frame0.atom2 \
-		    -text {Bond:} \
-		    ] -in $gaussianVMD::dihedModif.frame0 -row 3 -column 0 -padx 2 -pady 0 -sticky news -columnspan 4
+    place [ttk::label $gaussianVMD::dihedModif.frame0.frame.atom2 \
+		    -text {Bond between atom} \
+		    ] -in $gaussianVMD::dihedModif.frame0.frame -x 10 -y 60 -width 110
 
-        grid [ttk::label $gaussianVMD::dihedModif.frame0.atom2IndexLabel \
-		    -text {Index: } \
-		    ] -in $gaussianVMD::dihedModif.frame0 -row 4 -column 0 -padx 2 -pady 0 -sticky news
-
-            grid [ttk::entry $gaussianVMD::dihedModif.frame0.atom2Index \
+    place [ttk::entry $gaussianVMD::dihedModif.frame0.frame.atom2Index \
 		        -textvariable {gaussianVMD::atom2DihedSel} \
-		        -width 12 \
 				-state readonly \
-		        ] -in $gaussianVMD::dihedModif.frame0 -row 4 -column 1 -sticky news
+		        ] -in $gaussianVMD::dihedModif.frame0.frame -x 130 -y 60 -width 100
 
-        grid [ttk::label $gaussianVMD::dihedModif.frame0.atom3IndexLabel \
-		    -text {Index: } \
-		    ] -in $gaussianVMD::dihedModif.frame0 -row 4 -column 2 -padx 2 -pady 0 -sticky news
+	place [ttk::label $gaussianVMD::dihedModif.frame0.frame.andLabel \
+		    -text {and} \
+			-style gaussianVMD.label.TLabel \
+		    ] -in $gaussianVMD::dihedModif.frame0.frame -x 240 -y 60 -width 40
 
-            grid [ttk::entry $gaussianVMD::dihedModif.frame0.atom3Index \
+    place [ttk::entry $gaussianVMD::dihedModif.frame0.frame.atom3Index \
 		        -textvariable {gaussianVMD::atom3DihedSel} \
-		        -width 12 \
 				-state readonly \
-		        ] -in $gaussianVMD::dihedModif.frame0 -row 4 -column 3 -sticky news
+		        ] -in $gaussianVMD::dihedModif.frame0.frame -x 290 -y 60 -width 100
 
 
-        grid [ttk::label $gaussianVMD::dihedModif.frame0.atom4 \
+    place [ttk::label $gaussianVMD::dihedModif.frame0.frame.atom4 \
 		    -text {Atom 4:} \
-		    ] -in $gaussianVMD::dihedModif.frame0 -row 5 -column 0 -padx 2 -pady 0 -sticky news -columnspan 4
+		    ] -in $gaussianVMD::dihedModif.frame0.frame -x 10 -y 90 -width 60
 
-        grid [ttk::label $gaussianVMD::dihedModif.frame0.atom4IndexLabel \
-		    -text {Index: } \
-		    ] -in $gaussianVMD::dihedModif.frame0 -row 6 -column 0 -padx 2 -pady 0 -sticky news
-
-            grid [ttk::entry $gaussianVMD::dihedModif.frame0.atom4Index \
+    place [ttk::entry $gaussianVMD::dihedModif.frame0.frame.atom4Index \
 		        -textvariable {gaussianVMD::atom4DihedSel} \
-		        -width 12 \
 				-state readonly \
-		        ] -in $gaussianVMD::dihedModif.frame0 -row 6 -column 1 -sticky news
+		        ] -in $gaussianVMD::dihedModif.frame0.frame -x 60 -y 90 -width 100
 
-            grid [ttk::label $gaussianVMD::dihedModif.frame0.atom4OptionsLabel \
+    place [ttk::label $gaussianVMD::dihedModif.frame0.frame.atom4OptionsLabel \
 		        -text {Options: } \
-		        ] -in $gaussianVMD::dihedModif.frame0 -row 6 -column 2 -padx 2 -pady 0 -sticky news
+		        ] -in $gaussianVMD::dihedModif.frame0.frame -x 190 -y 90 -width 50
             
-            grid [ttk::combobox $gaussianVMD::dihedModif.frame0.atom3Options \
+    place [ttk::combobox $gaussianVMD::dihedModif.frame0.frame.atom3Options \
 		        -textvariable {gaussianVMD::atom4DihedOpt} \
-		        -width 10 \
 			    -state readonly \
 		        -values "[list "Fixed Atom" "Move Atom" "Move Atoms"]"
-		        ] -in $gaussianVMD::dihedModif.frame0 -row 6 -column 3 -sticky news
+		        ] -in $gaussianVMD::dihedModif.frame0.frame -x 250 -y 90 -width 140
 
 
-
-        grid [ttk::frame $gaussianVMD::dihedModif.frame2] -row 1 -column 0 -padx 5 -pady 5 -sticky news
-			grid [scale $gaussianVMD::dihedModif.frame2.scaleBondDistance \
+	place [scale $gaussianVMD::dihedModif.frame0.frame.scaleBondDistance \
 				-length 280 \
 				-from {-180.00} \
 				-to 180.00 \
@@ -121,35 +112,33 @@ proc gaussianVMD::guiDihedModif {} {
 				-command {gaussianVMD::calcDihedDistance} \
 				-orient horizontal \
 				-showvalue 0 \
-			] -in $gaussianVMD::dihedModif.frame2 -row 0 -column 0 -padx 5 -sticky news
+			] -in $gaussianVMD::dihedModif.frame0.frame -x 10 -y 120 -width 380
 
 
-        grid [ttk::frame $gaussianVMD::dihedModif.frame1] -row 2 -column 0 -padx 5 -pady 5 -sticky news
-            grid [ttk::label $gaussianVMD::dihedModif.frame1.distanceLabel \
+    place [ttk::label $gaussianVMD::dihedModif.frame0.frame.distanceLabel \
 				-text {Dihedral (°): } \
-		        ] -in $gaussianVMD::dihedModif.frame1 -row 0 -column 0 -padx 2 -pady 2 -sticky news
+		        ] -in $gaussianVMD::dihedModif.frame0.frame -x 10 -y 153 -width 60
 
-                grid [spinbox $gaussianVMD::dihedModif.frame1.distance \
+    place [spinbox $gaussianVMD::dihedModif.frame0.frame.distance \
 					-from {-180.00} \
 					-to {180.00} \
 					-increment 0.01 \
 					-textvariable {gaussianVMD::DihedValue} \
 					-command {gaussianVMD::calcDihedDistance $gaussianVMD::DihedValue} \
-					-width 5 \
-                    ] -in $gaussianVMD::dihedModif.frame1 -row 0 -column 1 -padx 2 -pady 2 -sticky news
+                    ] -in $gaussianVMD::dihedModif.frame0.frame -x 80 -y 150 -width 100
                 
-                grid [ttk::button $gaussianVMD::dihedModif.frame1.apply \
+    place [ttk::button $gaussianVMD::dihedModif.frame0.frame.apply \
 		            -text "Apply" \
 		            -command {gaussianVMD::dihedGuiCloseSave} \
-		            ] -in $gaussianVMD::dihedModif.frame1 -row 0 -column 2 -sticky news
+		            ] -in $gaussianVMD::dihedModif.frame0.frame -x 230 -y 150 -width 75
 				
-				grid [ttk::button $gaussianVMD::dihedModif.frame1.cancel \
+	place [ttk::button $gaussianVMD::dihedModif.frame0.frame.cancel \
 		            -text "Cancel" \
 		            -command {gaussianVMD::dihedGuiCloseNotSave} \
-		            ] -in $gaussianVMD::dihedModif.frame1 -row 0 -column 3 -sticky news
+		            ] -in $gaussianVMD::dihedModif.frame0.frame -x 315 -y 150 -width 75
 
 
-	bind $gaussianVMD::dihedModif.frame1.distance <KeyPress> {gaussianVMD::calcDihedDistance $gaussianVMD::DihedValue}
-	bind $gaussianVMD::dihedModif.frame1.distance <Leave> {gaussianVMD::calcDihedDistance $gaussianVMD::DihedValue}
+	bind $gaussianVMD::dihedModif.frame0.frame.distance <KeyPress> {gaussianVMD::calcDihedDistance $gaussianVMD::DihedValue}
+	bind $gaussianVMD::dihedModif.frame0.frame.distance <Leave> {gaussianVMD::calcDihedDistance $gaussianVMD::DihedValue}
 
 }

@@ -8,6 +8,10 @@ proc gaussianVMD::oniomLayer {tbl row col text} {
 }
 
 proc gaussianVMD::oniomLayerEnd {} {
+    set highLayerIndex ""
+    set mediumLayerIndex ""
+    set lowLayerIndex ""
+    
     set highLayerIndex [$gaussianVMD::topGui.frame0.tabs.tabsAtomList.tab2.tableLayer searchcolumn 4 "H" -all]
     mol modselect 2 top index [gaussianVMD::optimizeIndexList $highLayerIndex]
 
@@ -19,13 +23,17 @@ proc gaussianVMD::oniomLayerEnd {} {
 }
 
 proc gaussianVMD::freezeEnd {} {
-    set highLayerIndex [$gaussianVMD::topGui.frame0.tabs.tabsAtomList.tab3.tableLayer searchcolumn 4 "0" -all]
-    mol modselect 8 top index [gaussianVMD::optimizeIndexList $highLayerIndex]
+    set unfreeze ""
 
-    set mediumLayerIndex [$gaussianVMD::topGui.frame0.tabs.tabsAtomList.tab3.tableLayer searchcolumn 4 "-1" -all]
-    append mediumLayerIndex [$gaussianVMD::topGui.frame0.tabs.tabsAtomList.tab3.tableLayer searchcolumn 4 "-2" -all]
-    append mediumLayerIndex [$gaussianVMD::topGui.frame0.tabs.tabsAtomList.tab3.tableLayer searchcolumn 4 "-3" -all]
-    mol modselect 9 top index [gaussianVMD::optimizeIndexList $mediumLayerIndex]
+    set unfreeze [$gaussianVMD::topGui.frame0.tabs.tabsAtomList.tab3.tableLayer searchcolumn 4 "0" -all]
+    if {$unfreeze != ""} {
+        set selection [gaussianVMD::optimizeIndexList $unfreeze]
+        mol modselect 8 top index $selection
+        mol modselect 9 top all and not index $selection
+    } else {
+        mol modselect 8 top none
+        mol modselect 9 top all
+    }
 
 }
 
