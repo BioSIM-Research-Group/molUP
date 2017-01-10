@@ -84,7 +84,11 @@ proc gaussianVMD::addSelectionRep {} {
 
     #### Representantion of High layer
     set highLayerIndex [$gaussianVMD::topGui.frame0.tabs.tabsAtomList.tab2.tableLayer searchcolumn 4 "H" -all]
-    mol selection index [gaussianVMD::optimizeIndexList $highLayerIndex]
+    if {$highLayerIndex != ""} {
+        mol selection index [gaussianVMD::optimizeIndexList $highLayerIndex]
+    } else {
+        mol selection "none"
+    }
     mol color Name
     mol material Diffuse
     mol representation Licorice 0.300000 50.000000 50.000000
@@ -93,7 +97,11 @@ proc gaussianVMD::addSelectionRep {} {
 
     #### Representantion of Medium layer
     set mediumLayerIndex [$gaussianVMD::topGui.frame0.tabs.tabsAtomList.tab2.tableLayer searchcolumn 4 "M" -all]
+    if {$mediumLayerIndex != ""} {
     mol selection index [gaussianVMD::optimizeIndexList $mediumLayerIndex]
+    } else {
+        mol selection "none"
+    }
     mol color Name
     mol material Diffuse
     mol representation Licorice 0.100000 50.000000 50.000000
@@ -102,7 +110,11 @@ proc gaussianVMD::addSelectionRep {} {
 
     #### Representantion of Low layer
     set lowLayerIndex [$gaussianVMD::topGui.frame0.tabs.tabsAtomList.tab2.tableLayer searchcolumn 4 "L" -all]
+    if {$lowLayerIndex != ""} {
     mol selection index [gaussianVMD::optimizeIndexList $lowLayerIndex]
+    } else {
+        mol selection "none"
+    }
     mol color Name
     mol material Diffuse
     mol representation Lines 1.000000
@@ -135,8 +147,11 @@ proc gaussianVMD::addSelectionRep {} {
 
     #### Representantion Unfreeze
     set unfreezeAtomIndex [$gaussianVMD::topGui.frame0.tabs.tabsAtomList.tab3.tableLayer searchcolumn 4 "0" -all]
-    
-    mol selection index [gaussianVMD::optimizeIndexList $unfreezeAtomIndex]
+    if {$unfreezeAtomIndex != ""} {
+        mol selection index [gaussianVMD::optimizeIndexList $unfreezeAtomIndex]
+    } else {
+        mol selection "none"
+    }
     mol color Name
     mol material Diffuse
     mol representation Licorice 0.200000 50.000000 50.000000
@@ -144,7 +159,11 @@ proc gaussianVMD::addSelectionRep {} {
     mol showrep top 8 $gaussianVMD::unfreezeRep
 
     #### Representantion Freeze
-    mol selection all and not index [gaussianVMD::optimizeIndexList $unfreezeAtomIndex]
+    if {$unfreezeAtomIndex == ""} {
+        mol selection all
+    else {
+        mol selection all and not index [gaussianVMD::optimizeIndexList $unfreezeAtomIndex]
+    }
     mol color Name
     mol material Diffuse
     mol representation Licorice 0.100000 50.000000 50.000000
