@@ -84,13 +84,13 @@ proc gaussianVMD::writeGaussianFile {path} {
     set allCoord [$allSelection get {x y z}]
 
     ## Get Layer Info
-    set layerInfoList [$gaussianVMD::topGui.frame3.tabsAtomList.tab2.frame.tableLayer get anchor end]
+    set layerInfoList [$gaussianVMD::topGui.frame0.tabs.tabsAtomList.tab2.tableLayer get anchor end]
 
     ## Get Freeze Info
-    set freezeInfoList [$gaussianVMD::topGui.frame3.tabsAtomList.tab3.frame.tableLayer get anchor end]
+    set freezeInfoList [$gaussianVMD::topGui.frame0.tabs.tabsAtomList.tab3.tableLayer get anchor end]
     
     ## Get Charges Info
-    set chargesInfoList [$gaussianVMD::topGui.frame3.tabsAtomList.tab4.frame.tableLayer get anchor end]
+    set chargesInfoList [$gaussianVMD::topGui.frame0.tabs.tabsAtomList.tab4.tableLayer get anchor end]
 
     ## Add link atoms (hydrogens)
     gaussianVMD::linkAtoms
@@ -165,8 +165,8 @@ proc gaussianVMD::linkAtoms {} {
 
     foreach bond $connectivity {
 
-        set layer1 [$gaussianVMD::topGui.frame3.tabsAtomList.tab2.frame.tableLayer get [lindex $bond 0]]
-        set layer2 [$gaussianVMD::topGui.frame3.tabsAtomList.tab2.frame.tableLayer get [lindex $bond 1]]
+        set layer1 [$gaussianVMD::topGui.frame0.tabs.tabsAtomList.tab2.tableLayer get [lindex $bond 0]]
+        set layer2 [$gaussianVMD::topGui.frame0.tabs.tabsAtomList.tab2.tableLayer get [lindex $bond 1]]
 
         if {[lindex $layer1 4] == [lindex $layer2 4]} {
             # Do Nothing
