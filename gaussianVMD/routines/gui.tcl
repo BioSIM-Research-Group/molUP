@@ -100,7 +100,7 @@ proc gaussianVMD::buildGui {} {
 	place [ttk::button $gaussianVMD::topGui.frame0.multiChargeGaussianCalc.chargeMulti \
 		    -text "Charge and Multiplicity" \
 			-style gaussianVMD.topButtons.TButton \
-			-command {}] -in $gaussianVMD::topGui.frame0.multiChargeGaussianCalc -x 5 -y 5 -width 190
+			-command {gaussianVMD::guiChargeMulti}] -in $gaussianVMD::topGui.frame0.multiChargeGaussianCalc -x 5 -y 5 -width 190
 
 	place [ttk::button $gaussianVMD::topGui.frame0.multiChargeGaussianCalc.gaussianCalc \
 		    -text "Calculation Setup" \

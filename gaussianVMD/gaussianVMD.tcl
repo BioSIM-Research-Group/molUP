@@ -20,7 +20,7 @@ namespace eval gaussianVMD:: {
 		
 		package require inputFile 								1.0
 		package require getStructure							1.0
-		package require convertToPDB							1.0
+		#package require convertToPDB							1.0
 		package require loadMoleculeVMD							1.0
 		package require timeControl								1.0
 		package require quit									1.0
