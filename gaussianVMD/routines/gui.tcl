@@ -71,25 +71,19 @@ proc gaussianVMD::buildGui {} {
 	$gaussianVMD::topGui.frame0.topSection.topMenu.file.menu add command -label "Restart" -command {gaussianVMD::restart}
 	$gaussianVMD::topGui.frame0.topSection.topMenu.file.menu add command -label "Quit" -command {gaussianVMD::quit}
 
-	#place [ttk::button $gaussianVMD::topGui.frame0.topSection.openButton \
-			-text "OPEN" \
-			-command {gaussianVMD::guiOpenFile} \
-			-style gaussianVMD.topButtons.TButton] -x 5 -y 5 -in $gaussianVMD::topGui.frame0.topSection -width 90
+	place [ttk::menubutton $gaussianVMD::topGui.frame0.topSection.topMenu.import -text "Import" -menu $gaussianVMD::topGui.frame0.topSection.topMenu.import.menu \
+			] -in $gaussianVMD::topGui.frame0.topSection.topMenu -x 54 -y 5 -height 25 -width 70
+	
+	menu $gaussianVMD::topGui.frame0.topSection.topMenu.import.menu -tearoff 0
+	$gaussianVMD::topGui.frame0.topSection.topMenu.import.menu add command -label "Import AMBER parameters and connectivity (.prmtop)" -command {}
+	$gaussianVMD::topGui.frame0.topSection.topMenu.import.menu add command -label "Import connectivity from Gaussian Input File (.com)" -command {}
 
-	#place [ttk::button $gaussianVMD::topGui.saveButton \
-		    -text "SAVE" \
-			-command {gaussianVMD::guiSaveFile} \
-			-style gaussianVMD.topButtons.TButton] -x 105 -y 5 -in $gaussianVMD::topGui.frame0.topSection -width 90
+	place [ttk::menubutton $gaussianVMD::topGui.frame0.topSection.topMenu.about -text "About" -menu $gaussianVMD::topGui.frame0.topSection.topMenu.about.menu \
+			] -in $gaussianVMD::topGui.frame0.topSection.topMenu -x 320 -y 5 -height 25 -width 70
 
-	#place [ttk::button $gaussianVMD::topGui.restartButton \
-		    -text "RESTART" \
-			-command {gaussianVMD::restart} \
-			-style gaussianVMD.topButtons.TButton] -x 205 -y 5 -in $gaussianVMD::topGui.frame0.topSection -width 90
-
-	#place [ttk::button $gaussianVMD::topGui.quitButton \
-		    -text "QUIT" \
-			-command {gaussianVMD::quit} \
-			-style gaussianVMD.topButtons.TButton] -x 305 -y 5 -in $gaussianVMD::topGui.frame0.topSection -width 90
+	menu $gaussianVMD::topGui.frame0.topSection.topMenu.about.menu -tearoff 0
+	$gaussianVMD::topGui.frame0.topSection.topMenu.about.menu add command -label "Help" -command {}
+	$gaussianVMD::topGui.frame0.topSection.topMenu.about.menu add command -label "Credits" -command {}
 
 
 	#### Job Title
@@ -130,7 +124,7 @@ proc gaussianVMD::buildGui {} {
 
 	# Tab Visualization
 	place [ttk::label $gaussianVMD::topGui.frame0.tabs.tabsAtomList.tab1.quickRepLabel \
-			-text {Quick Representantions} \
+			-text {Representantions} \
 			-style gaussianVMD.centerLabel.TLabel \
 			] -in $gaussianVMD::topGui.frame0.tabs.tabsAtomList.tab1 -x 0 -y 5 -width 390
 
@@ -198,7 +192,7 @@ proc gaussianVMD::buildGui {} {
 			] -in $gaussianVMD::topGui.frame0.tabs.tabsAtomList.tab1 -x 271 -y 80 -width 123
 
 	place [ttk::label $gaussianVMD::topGui.frame0.tabs.tabsAtomList.tab1.quickToolsLabel \
-			-text {Quick Tools} \
+			-text {Tools} \
 			-style gaussianVMD.centerLabel.TLabel \
 			] -in $gaussianVMD::topGui.frame0.tabs.tabsAtomList.tab1 -x 0 -y 120 -width 390
 
@@ -408,13 +402,13 @@ proc gaussianVMD::buildGui {} {
 
 
 	#### Credits
-	pack [canvas $gaussianVMD::topGui.frame0.credits -bg white -width 400 -height 75 -highlightthickness 0] -in $gaussianVMD::topGui.frame0
-	place [ttk::label $gaussianVMD::topGui.frame0.credits.developedBy \
+	#pack [canvas $gaussianVMD::topGui.frame0.credits -bg white -width 400 -height 75 -highlightthickness 0] -in $gaussianVMD::topGui.frame0
+	#place [ttk::label $gaussianVMD::topGui.frame0.credits.developedBy \
 			-text "Developed by Henrique S. Fernandes\nEmail: henrique.fernandes@fc.up.pt" \
 			-style gaussianVMD.credits.TLabel \
 			] -in $gaussianVMD::topGui.frame0.credits -x 5 -y 15 -width 390
 
-	place [ttk::label $gaussianVMD::topGui.frame0.credits.version \
+	#place [ttk::label $gaussianVMD::topGui.frame0.credits.version \
 			-text "2017 - Version $gaussianVMD::version" \
 			-style gaussianVMD.creditsVersion.TLabel \
 			] -in $gaussianVMD::topGui.frame0.credits -x 5 -y 55 -width 390
