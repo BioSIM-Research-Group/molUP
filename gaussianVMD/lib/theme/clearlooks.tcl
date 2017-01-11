@@ -147,22 +147,22 @@ namespace eval ttk::theme::clearlooks {
 
         ## Menubuttons.
         #
-        #ttk::style configure TMenubutton -relief raised -padding {10 2}
-# 	ttk::style element create Menubutton.border image $I(toolbutton-n) \
-# 	    -map [list \
-#                       pressed $I(toolbutton-p) \
-#                       selected $I(toolbutton-p) \
-#                       active $I(toolbutton-a) \
-#                       disabled $I(toolbutton-n)] \
-# 	    -border {4 7 4 7} -sticky nsew
+ #       ttk::style configure TMenubutton -relief raised -padding {10 2}
+ #	ttk::style element create Menubutton.border image $I(toolbutton-n) \
+ #	    -map [list \
+ #                      pressed $I(toolbutton-p) \
+ #                      selected $I(toolbutton-p) \
+ #                      active $I(toolbutton-a) \
+ #                      disabled $I(toolbutton-n)] \
+ #	    -border {4 7 4 7} -sticky nsew
 
         ttk::style element create Menubutton.border image \
-             [list $I(button-n) \
-                  selected $I(button-p) \
-                  disabled $I(button-d) \
-                  active $I(button-a) \
+             [list $I(menubutton-n) \
+                  selected $I(menubutton-p) \
+                  disabled $I(menubutton-d) \
+                  active $I(menubutton-a) \
                  ] \
-            -border 4 -sticky ew
+            -border 4 -sticky news
 
 
         ## Toolbar buttons.

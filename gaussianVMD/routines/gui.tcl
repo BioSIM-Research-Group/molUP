@@ -60,23 +60,33 @@ proc gaussianVMD::buildGui {} {
 	pack [ttk::frame $gaussianVMD::topGui.frame0]
 	pack [canvas $gaussianVMD::topGui.frame0.topSection -bg white -width 400 -height 50 -highlightthickness 0] -in $gaussianVMD::topGui.frame0 
 
+	place [ttk::frame $gaussianVMD::topGui.frame0.topSection.topMenu -width 400] -in $gaussianVMD::topGui.frame0.topSection -x 0 -y 0 -width 400 -height 30
 
-	place [ttk::button $gaussianVMD::topGui.frame0.topSection.openButton \
+	place [ttk::menubutton $gaussianVMD::topGui.frame0.topSection.topMenu.file -text "File" -menu $gaussianVMD::topGui.frame0.topSection.topMenu.file.menu \
+			] -in $gaussianVMD::topGui.frame0.topSection.topMenu -x 5 -y 5 -height 25 -width 50
+    
+	menu $gaussianVMD::topGui.frame0.topSection.topMenu.file.menu -tearoff 0
+	$gaussianVMD::topGui.frame0.topSection.topMenu.file.menu add command -label "Open" -command {gaussianVMD::guiOpenFile}
+	$gaussianVMD::topGui.frame0.topSection.topMenu.file.menu add command -label "Save" -command {gaussianVMD::guiSaveFile}
+	$gaussianVMD::topGui.frame0.topSection.topMenu.file.menu add command -label "Restart" -command {gaussianVMD::restart}
+	$gaussianVMD::topGui.frame0.topSection.topMenu.file.menu add command -label "Quit" -command {gaussianVMD::quit}
+
+	#place [ttk::button $gaussianVMD::topGui.frame0.topSection.openButton \
 			-text "OPEN" \
 			-command {gaussianVMD::guiOpenFile} \
 			-style gaussianVMD.topButtons.TButton] -x 5 -y 5 -in $gaussianVMD::topGui.frame0.topSection -width 90
 
-	place [ttk::button $gaussianVMD::topGui.saveButton \
+	#place [ttk::button $gaussianVMD::topGui.saveButton \
 		    -text "SAVE" \
 			-command {gaussianVMD::guiSaveFile} \
 			-style gaussianVMD.topButtons.TButton] -x 105 -y 5 -in $gaussianVMD::topGui.frame0.topSection -width 90
 
-	place [ttk::button $gaussianVMD::topGui.restartButton \
+	#place [ttk::button $gaussianVMD::topGui.restartButton \
 		    -text "RESTART" \
 			-command {gaussianVMD::restart} \
 			-style gaussianVMD.topButtons.TButton] -x 205 -y 5 -in $gaussianVMD::topGui.frame0.topSection -width 90
 
-	place [ttk::button $gaussianVMD::topGui.quitButton \
+	#place [ttk::button $gaussianVMD::topGui.quitButton \
 		    -text "QUIT" \
 			-command {gaussianVMD::quit} \
 			-style gaussianVMD.topButtons.TButton] -x 305 -y 5 -in $gaussianVMD::topGui.frame0.topSection -width 90
