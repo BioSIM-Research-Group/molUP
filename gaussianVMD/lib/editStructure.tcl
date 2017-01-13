@@ -197,7 +197,7 @@ proc gaussianVMD::addSelectionRep {} {
     mol material Transparent
 	mol representation QuickSurf 0.500000 0.500000 0.250000 2.000000
 	mol addrep top
-    mol showrep top 11 $gaussianVMD::showChargedResidues
+    mol showrep top 11 $gaussianVMD::showPosChargedResidues
 
     # Negative
     mol selection "none"
@@ -205,7 +205,7 @@ proc gaussianVMD::addSelectionRep {} {
     mol material Transparent
 	mol representation QuickSurf 0.500000 0.500000 0.250000 2.000000
 	mol addrep top
-    mol showrep top 12 $gaussianVMD::showChargedResidues
+    mol showrep top 12 $gaussianVMD::showNegChargedResidues
 
 }
 
