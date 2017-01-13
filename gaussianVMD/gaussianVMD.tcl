@@ -31,7 +31,7 @@ namespace eval gaussianVMD:: {
 		package require saveFiles								1.0
 
 		package require Tk
-		package require tablelist 	
+		package require tablelist 								5.13
 
 		# Theme
 		package require ttk::theme::clearlooks					0.1
