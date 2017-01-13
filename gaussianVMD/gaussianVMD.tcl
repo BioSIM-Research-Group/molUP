@@ -20,7 +20,6 @@ namespace eval gaussianVMD:: {
 		
 		package require inputFile 								1.0
 		package require getStructure							1.0
-		#package require convertToPDB							1.0
 		package require loadMoleculeVMD							1.0
 		package require timeControl								1.0
 		package require quit									1.0
@@ -91,6 +90,7 @@ namespace eval gaussianVMD:: {
 		variable MLrep		"0"
 		variable LLrep		"0"
 		variable unfreezeRep	"0"
+		variable showChargedResidues	"0"
 		variable freezeRep		"0"
 		variable allRep			"1"
 		variable proteinRep		"0"
@@ -133,6 +133,12 @@ namespace eval gaussianVMD:: {
 		variable linkAtomsList		{}
 		variable linkAtomsListIndex	{}
 		variable saveOptions	"Gaussian Input File (.com)"
+
+		variable chargeAll	0
+		variable chargeHL	0
+		variable chargeML	0
+		variable chargeLL	0
+		variable multiplicityValue	1
 
 		#### Images
 		#variable images 		"logo.gif"

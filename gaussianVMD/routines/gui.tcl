@@ -26,7 +26,7 @@ proc gaussianVMD::buildGui {} {
 	#wm geometry window $gaussianVMD::topGui 400x590
 	set x [expr $sWidth - 2*($wWidth)]
 
-	wm geometry $::gaussianVMD::topGui 400x600+$x+25
+	wm geometry $::gaussianVMD::topGui 400x530+$x+25
 	$::gaussianVMD::topGui configure -background {white}
 	wm resizable $::gaussianVMD::topGui 0 0
 

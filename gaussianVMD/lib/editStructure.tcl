@@ -189,6 +189,24 @@ proc gaussianVMD::addSelectionRep {} {
 	mol representation VDW 0.400000 50.000000
 	mol addrep top
 
+
+    #### Representantion of positive and negative residues
+    # Positive
+    mol selection "none"
+	mol color ColorID 0
+    mol material Transparent
+	mol representation QuickSurf 0.500000 0.500000 0.250000 2.000000
+	mol addrep top
+    mol showrep top 11 $gaussianVMD::showChargedResidues
+
+    # Negative
+    mol selection "none"
+	mol color ColorID 1
+    mol material Transparent
+	mol representation QuickSurf 0.500000 0.500000 0.250000 2.000000
+	mol addrep top
+    mol showrep top 12 $gaussianVMD::showChargedResidues
+
 }
 
 #### Representantion of current selection

@@ -26,7 +26,6 @@ package ifneeded guiChargeMulti    	                        1.0 [list source [fi
 #lib
 package ifneeded inputFile   	                            1.0 [list source [file join $dir/lib/inputFile.tcl]]
 package ifneeded getStructure  	                            1.0 [list source [file join $dir/lib/getStructure.tcl]]
-#package ifneeded convertToPDB  	                            1.0 [list source [file join $dir/lib/convertToPDB.tcl]]
 package ifneeded quit		  	                            1.0 [list source [file join $dir/lib/quit.tcl]]
 package ifneeded loadMoleculeVMD 	                        1.0 [list source [file join $dir/lib/loadMoleculeVMD.tcl]]
 package ifneeded timeControl     	                        1.0 [list source [file join $dir/lib/timeControl.tcl]]
