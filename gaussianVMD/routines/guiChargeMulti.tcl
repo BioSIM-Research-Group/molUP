@@ -34,15 +34,12 @@ proc gaussianVMD::guiChargeMulti {} {
 
     #### Information
     pack [ttk::frame $gaussianVMD::chargeMulti.frame0]
-	pack [canvas $gaussianVMD::chargeMulti.frame0.frame -bg white -width 400 -height 200 -highlightthickness 0] -in $gaussianVMD::chargeMulti.frame0 
+	pack [canvas $gaussianVMD::chargeMulti.frame0.frame -bg white -width 400 -height 260 -highlightthickness 0] -in $gaussianVMD::chargeMulti.frame0 
 
     #Evaluate a possible ONIOM System
     set highLayerIndex [$gaussianVMD::topGui.frame0.tabs.tabsAtomList.tab2.tableLayer searchcolumn 4 "H" -all]
     set mediumLayerIndex [$gaussianVMD::topGui.frame0.tabs.tabsAtomList.tab2.tableLayer searchcolumn 4 "M" -all]
     set lowLayerIndex [$gaussianVMD::topGui.frame0.tabs.tabsAtomList.tab2.tableLayer searchcolumn 4 "L" -all]
-
-
-
 
 
 
@@ -104,7 +101,7 @@ proc gaussianVMD::guiChargeMulti {} {
 
         place [ttk::button $gaussianVMD::chargeMulti.frame0.frame.apply \
             -text {Apply} \
-            -command {gaussianVMD::applyChargeMultiGUI} \
+            -command {gaussianVMD::applyChargeMultiGUI $highLayerIndex $mediumLayerIndex $lowLayerIndex} \
             -style gaussianVMD.button.TButton \
             ] -in $gaussianVMD::chargeMulti.frame0.frame -x 10 -y 140 -width 185
 
@@ -198,7 +195,7 @@ proc gaussianVMD::guiChargeMulti {} {
         # Apply Cancel Buttons
         place [ttk::button $gaussianVMD::chargeMulti.frame0.frame.apply \
             -text {Apply} \
-            -command {gaussianVMD::applyChargeMultiGUI} \
+            -command {gaussianVMD::applyChargeMultiGUI $highLayerIndex $mediumLayerIndex $lowLayerIndex} \
             -style gaussianVMD.button.TButton \
             ] -in $gaussianVMD::chargeMulti.frame0.frame -x 10 -y 200 -width 185
 
@@ -290,7 +287,7 @@ proc gaussianVMD::guiChargeMulti {} {
         # Apply Cancel Buttons
         place [ttk::button $gaussianVMD::chargeMulti.frame0.frame.apply \
             -text {Apply} \
-            -command {gaussianVMD::applyChargeMultiGUI} \
+            -command {gaussianVMD::applyChargeMultiGUI $highLayerIndex $mediumLayerIndex $lowLayerIndex} \
             -style gaussianVMD.button.TButton \
             ] -in $gaussianVMD::chargeMulti.frame0.frame -x 10 -y 200 -width 185
 
@@ -381,7 +378,7 @@ proc gaussianVMD::guiChargeMulti {} {
         # Apply Cancel Buttons
         place [ttk::button $gaussianVMD::chargeMulti.frame0.frame.apply \
             -text {Apply} \
-            -command {gaussianVMD::applyChargeMultiGUI} \
+            -command {gaussianVMD::applyChargeMultiGUI $highLayerIndex $mediumLayerIndex $lowLayerIndex} \
             -style gaussianVMD.button.TButton \
             ] -in $gaussianVMD::chargeMulti.frame0.frame -x 10 -y 200 -width 185
 
@@ -486,7 +483,7 @@ proc gaussianVMD::guiChargeMulti {} {
         # Apply Cancel Buttons
         place [ttk::button $gaussianVMD::chargeMulti.frame0.frame.apply \
             -text {Apply} \
-            -command {gaussianVMD::applyChargeMultiGUI} \
+            -command {gaussianVMD::applyChargeMultiGUI $highLayerIndex $mediumLayerIndex $lowLayerIndex} \
             -style gaussianVMD.button.TButton \
             ] -in $gaussianVMD::chargeMulti.frame0.frame -x 10 -y 230 -width 185
 
@@ -516,7 +513,7 @@ proc gaussianVMD::getChargesSum {layer} {
         set list [$gaussianVMD::topGui.frame0.tabs.tabsAtomList.tab4.tableLayer get anchor end]
         set charge 0
         foreach atom $list {
-            set charge [expr $charge + [format %f [lindex $atom 4]]]
+            set charge [expr $charge + [lindex $atom 4]]
         }
         set gaussianVMD::chargeAll [format %.4f $charge]
 
@@ -530,13 +527,13 @@ proc gaussianVMD::getChargesSum {layer} {
 
         set charge 0
         foreach atom $listHL {
-            set charge [expr $charge + [format %f [lindex $atom 4]]]
+            set charge [expr $charge + [lindex $atom 4]]
         }
         set gaussianVMD::chargeHL [format %.4f $charge]
 
         set charge 0
         foreach atom $listML {
-            set charge [expr $charge + [format %f [lindex $atom 4]]]
+            set charge [expr $charge + [lindex $atom 4]]
         }
         set gaussianVMD::chargeML [format %.4f $charge]
 
@@ -544,7 +541,7 @@ proc gaussianVMD::getChargesSum {layer} {
         set list [$gaussianVMD::topGui.frame0.tabs.tabsAtomList.tab4.tableLayer get anchor end]
         set charge 0
         foreach atom $list {
-            set charge [expr $charge + [format %f [lindex $atom 4]]]
+            set charge [expr $charge + [lindex $atom 4]]
         }
         set gaussianVMD::chargeLL [format %.4f $charge]
 
@@ -564,7 +561,9 @@ proc gaussianVMD::showNegPosResidues {} {
         set list [$gaussianVMD::topGui.frame0.tabs.tabsAtomList.tab4.tableLayer get $indexes]
         set charge 0
         foreach atom $list {
-            set charge [expr $charge + [format %f [lindex $atom 4]]]
+            if {[lindex $atom 4] != ""} {
+                set charge [expr $charge + [lindex $atom 4]]
+            }
         }
         if {$charge > 0.7} {
             append listResidPos "$index "
@@ -579,7 +578,8 @@ proc gaussianVMD::showNegPosResidues {} {
 
 }
 
-proc gaussianVMD::applyChargeMultiGUI {
+proc gaussianVMD::applyChargeMultiGUI {highLayerIndex mediumLayerIndex lowLayerIndex} {
+    
     if {($highLayerIndex != "" && $mediumLayerIndex == "" && $lowLayerIndex == "") || \
         $highLayerIndex == "" && $mediumLayerIndex != "" && $lowLayerIndex == "" || \
         $highLayerIndex == "" && $mediumLayerIndex == "" && $lowLayerIndex != ""} {
@@ -605,13 +605,13 @@ proc gaussianVMD::applyChargeMultiGUI {
     } else {
 
             # Do nothing
-
     }
 
     destroy $gaussianVMD::chargeMulti
 }
 
-proc gaussianVMD::cancelChargeMultiGUI {
+
+proc gaussianVMD::cancelChargeMultiGUI {} {
     destroy $gaussianVMD::chargeMulti
 }
 
