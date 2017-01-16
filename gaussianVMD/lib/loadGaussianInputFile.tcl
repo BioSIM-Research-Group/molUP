@@ -37,6 +37,9 @@ proc gaussianVMD::loadGaussianInputFile {} {
 
     #### Organize the structure info
     set allAtoms [split $gaussianVMD::structureGaussian \n]
+
+	#puts [llength [lindex $allAtoms 0]]
+
 	set i 0
 	foreach atom $allAtoms {
 			

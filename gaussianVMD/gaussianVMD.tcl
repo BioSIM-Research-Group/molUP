@@ -17,6 +17,8 @@ namespace eval gaussianVMD:: {
 		package require guiSaveFile								1.0
 		package require guiError								1.0
 		package require guiChargeMulti							1.0
+		package require guiCalcSetup							1.0
+		package require guiCredits								1.0
 		
 		package require inputFile 								1.0
 		package require getStructure							1.0
@@ -49,6 +51,8 @@ namespace eval gaussianVMD:: {
 		variable saveFile        	".gaussianVMD.saveFile"
 		variable error	        	".gaussianVMD.error"
 		variable chargeMulti	    ".gaussianVMD.chargeMulti"
+		variable calcSetup			".gaussianVMD.calcSetup"
+		variable credits			".gaussianVMD.credits"
 
 		global path
 		variable path 				"/"
@@ -134,6 +138,8 @@ namespace eval gaussianVMD:: {
 		variable linkAtomsList		{}
 		variable linkAtomsListIndex	{}
 		variable saveOptions	"Gaussian Input File (.com)"
+
+
 
 		variable chargeAll	0
 		variable chargeHL	0

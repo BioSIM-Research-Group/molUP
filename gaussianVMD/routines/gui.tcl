@@ -75,15 +75,15 @@ proc gaussianVMD::buildGui {} {
 			] -in $gaussianVMD::topGui.frame0.topSection.topMenu -x 54 -y 5 -height 25 -width 70
 	
 	menu $gaussianVMD::topGui.frame0.topSection.topMenu.import.menu -tearoff 0
-	$gaussianVMD::topGui.frame0.topSection.topMenu.import.menu add command -label "Import AMBER parameters and connectivity (.prmtop)" -command {}
-	$gaussianVMD::topGui.frame0.topSection.topMenu.import.menu add command -label "Import connectivity from Gaussian Input File (.com)" -command {}
+	$gaussianVMD::topGui.frame0.topSection.topMenu.import.menu add command -label "Import AMBER parameters and connectivity (.prmtop)" -command {gaussianVMD::guiError "This feature is not available yet."}
+	$gaussianVMD::topGui.frame0.topSection.topMenu.import.menu add command -label "Import connectivity from Gaussian Input File (.com)" -command {gaussianVMD::guiError "This feature is not available yet."}
 
 	place [ttk::menubutton $gaussianVMD::topGui.frame0.topSection.topMenu.about -text "About" -menu $gaussianVMD::topGui.frame0.topSection.topMenu.about.menu \
 			] -in $gaussianVMD::topGui.frame0.topSection.topMenu -x 320 -y 5 -height 25 -width 70
 
 	menu $gaussianVMD::topGui.frame0.topSection.topMenu.about.menu -tearoff 0
-	$gaussianVMD::topGui.frame0.topSection.topMenu.about.menu add command -label "Help" -command {}
-	$gaussianVMD::topGui.frame0.topSection.topMenu.about.menu add command -label "Credits" -command {}
+	$gaussianVMD::topGui.frame0.topSection.topMenu.about.menu add command -label "Help" -command {gaussianVMD::guiError "This feature is not available yet."}
+	$gaussianVMD::topGui.frame0.topSection.topMenu.about.menu add command -label "Credits" -command {gaussianVMD::guiCredits}
 
 
 	#### Job Title
@@ -105,7 +105,7 @@ proc gaussianVMD::buildGui {} {
 	place [ttk::button $gaussianVMD::topGui.frame0.multiChargeGaussianCalc.gaussianCalc \
 		    -text "Calculation Setup" \
 			-style gaussianVMD.topButtons.TButton \
-			-command {}] -in $gaussianVMD::topGui.frame0.multiChargeGaussianCalc -x 205 -y 5 -width 190
+			-command {gaussianVMD::guiError "This feature is not available yet."}] -in $gaussianVMD::topGui.frame0.multiChargeGaussianCalc -x 205 -y 5 -width 190
 
 
 	#### Tabs

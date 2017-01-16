@@ -6,7 +6,7 @@ proc gaussianVMD::oniomLayer {tbl row col text} {
     set values {"H" "M" "L"}
     $w configure -values $values -state readonly
 }
-
+ 
 proc gaussianVMD::oniomLayerEnd {} {
     set highLayerIndex ""
     set mediumLayerIndex ""

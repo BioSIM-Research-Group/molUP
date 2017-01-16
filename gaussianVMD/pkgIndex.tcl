@@ -22,6 +22,8 @@ package ifneeded guiOpenFile      	                        1.0 [list source [fil
 package ifneeded guiSaveFile      	                        1.0 [list source [file join $dir/routines/guiSaveFile.tcl]]
 package ifneeded guiError         	                        1.0 [list source [file join $dir/routines/guiError.tcl]]
 package ifneeded guiChargeMulti    	                        1.0 [list source [file join $dir/routines/guiChargeMulti.tcl]]
+package ifneeded guiCalcSetup    	                        1.0 [list source [file join $dir/routines/guiCalcSetup.tcl]]
+package ifneeded guiCredits     	                        1.0 [list source [file join $dir/routines/guiCredits.tcl]]
 
 #lib
 package ifneeded inputFile   	                            1.0 [list source [file join $dir/lib/inputFile.tcl]]
