@@ -175,7 +175,7 @@ proc gaussianVMD::addSelectionRep {} {
 
     mol color Name
     mol material Diffuse
-    mol representation Licorice 0.100000 50.000000 50.000000
+    mol representation Lines 3.000000
     mol addrep top
     mol showrep top 9 $gaussianVMD::freezeRep
 

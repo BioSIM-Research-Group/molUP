@@ -42,12 +42,23 @@ proc gaussianVMD::guiChargeMulti {} {
     set lowLayerIndex [$gaussianVMD::topGui.frame0.tabs.tabsAtomList.tab2.tableLayer searchcolumn 4 "L" -all]
 
 
+
+
+
+
+
+########################################################################################
+
     if {($highLayerIndex != "" && $mediumLayerIndex == "" && $lowLayerIndex == "") || \
         $highLayerIndex == "" && $mediumLayerIndex != "" && $lowLayerIndex == "" || \
         $highLayerIndex == "" && $mediumLayerIndex == "" && $lowLayerIndex != ""} {        
         
+        # Resize window
+        wm geometry $::gaussianVMD::chargeMulti 400x180+[expr $sWidth - 400]+100
+
         # Evaluate the negative and positve amino acids 
         gaussianVMD::showNegPosResidues
+
 
         # Place common items to all possibilities
         place [ttk::label $gaussianVMD::chargeMulti.frame0.frame.initialLabel \
@@ -66,335 +77,195 @@ proc gaussianVMD::guiChargeMulti {} {
             -command {gaussianVMD::onOffRepresentation 12} \
             ] -in $gaussianVMD::chargeMulti.frame0.frame -x 210 -y 40 -width 180
 
-        # Resize window
-        wm geometry $::gaussianVMD::chargeMulti 400x150+[expr $sWidth - 400]+100
 
-        # Place Elements
-        #place [ttk::label $gaussianVMD::chargeMulti.frame0.frame.chargeLabel \
+
+
+        place [ttk::label $gaussianVMD::chargeMulti.frame0.frame.chargeLabel \
             -text {Charge:} \
-            ] -in $gaussianVMD::chargeMulti.frame0.frame -x 10 -y 40 -width 50
+            ] -in $gaussianVMD::chargeMulti.frame0.frame -x 10 -y 70 -width 50
         
-        #place [ttk::entry $gaussianVMD::chargeMulti.frame0.frame.charge \
+        place [ttk::entry $gaussianVMD::chargeMulti.frame0.frame.charge \
             -textvariable {gaussianVMD::chargeAll}\
-            ] -in $gaussianVMD::chargeMulti.frame0.frame -x 60 -y 40 -width 90
+            ] -in $gaussianVMD::chargeMulti.frame0.frame -x 60 -y 70 -width 90
 
-        #place [ttk::label $gaussianVMD::chargeMulti.frame0.frame.multiLabel \
+        place [ttk::label $gaussianVMD::chargeMulti.frame0.frame.multiLabel \
             -text {Multiplicity:} \
-            ] -in $gaussianVMD::chargeMulti.frame0.frame -x 200 -y 40 -width 60
+            ] -in $gaussianVMD::chargeMulti.frame0.frame -x 200 -y 70 -width 60
         
-        #place [ttk::entry $gaussianVMD::chargeMulti.frame0.frame.multi \
+        place [ttk::entry $gaussianVMD::chargeMulti.frame0.frame.multi \
             -textvariable {gaussianVMD::multiplicityValue}\
-            ] -in $gaussianVMD::chargeMulti.frame0.frame -x 270 -y 40 -width 90
+            ] -in $gaussianVMD::chargeMulti.frame0.frame -x 270 -y 70 -width 90
 
         place [ttk::button $gaussianVMD::chargeMulti.frame0.frame.calculateCharges \
             -text {Calculate charge based on available MM charges} \
             -command {gaussianVMD::getChargesSum all} \
             -style gaussianVMD.button.TButton \
-            ] -in $gaussianVMD::chargeMulti.frame0.frame -x 10 -y 70 -width 380
+            ] -in $gaussianVMD::chargeMulti.frame0.frame -x 10 -y 100 -width 380
 
         place [ttk::button $gaussianVMD::chargeMulti.frame0.frame.apply \
             -text {Apply} \
-            -command {} \
+            -command {gaussianVMD::applyChargeMultiGUI} \
             -style gaussianVMD.button.TButton \
-            ] -in $gaussianVMD::chargeMulti.frame0.frame -x 10 -y 110 -width 185
+            ] -in $gaussianVMD::chargeMulti.frame0.frame -x 10 -y 140 -width 185
 
         place [ttk::button $gaussianVMD::chargeMulti.frame0.frame.cancel \
             -text {Cancel} \
-            -command {} \
+            -command {gaussianVMD::cancelChargeMultiGUI} \
             -style gaussianVMD.button.TButton \
-            ] -in $gaussianVMD::chargeMulti.frame0.frame -x 205 -y 110 -width 185
+            ] -in $gaussianVMD::chargeMulti.frame0.frame -x 205 -y 140 -width 185
 
 
     } elseif {$highLayerIndex != "" && $mediumLayerIndex != "" && $lowLayerIndex == ""} {
-         wm geometry $::gaussianVMD::chargeMulti 400x210+[expr $sWidth - 400]+100
+         
+         
+        wm geometry $::gaussianVMD::chargeMulti 400x250+[expr $sWidth - 400]+100
 
+        # Evaluate the negative and positve amino acids 
+        gaussianVMD::showNegPosResidues
+
+
+        # Place common items to all possibilities
+        place [ttk::label $gaussianVMD::chargeMulti.frame0.frame.initialLabel \
+            -text {Adjust the charge and spin multiplicity for this stytem.} \
+            ] -in $gaussianVMD::chargeMulti.frame0.frame -x 10 -y 10 -width 380
+
+        place [ttk::checkbutton $gaussianVMD::chargeMulti.frame0.frame.showPositiveResidues \
+            -text {Show Positive Residues} \
+            -variable {showPosChargedResidues} \
+            -command {gaussianVMD::onOffRepresentation 11} \
+            ] -in $gaussianVMD::chargeMulti.frame0.frame -x 10 -y 40 -width 180
+
+        place [ttk::checkbutton $gaussianVMD::chargeMulti.frame0.frame.showNegativeResidues \
+            -text {Show Negative Residues} \
+            -variable {showNegChargedResidues} \
+            -command {gaussianVMD::onOffRepresentation 12} \
+            ] -in $gaussianVMD::chargeMulti.frame0.frame -x 210 -y 40 -width 180
+
+
+
+        # Table Header
         place [ttk::label $gaussianVMD::chargeMulti.frame0.frame.layer \
             -text {Layer} \
             -style gaussianVMD.label.TLabel \
-            ] -in $gaussianVMD::chargeMulti.frame0.frame -x 10 -y 40 -width 120
+            ] -in $gaussianVMD::chargeMulti.frame0.frame -x 10 -y 70 -width 120
 
         place [ttk::label $gaussianVMD::chargeMulti.frame0.frame.charge \
             -text {Charge} \
             -style gaussianVMD.label.TLabel \
-            ] -in $gaussianVMD::chargeMulti.frame0.frame -x 140 -y 40 -width 75
+            ] -in $gaussianVMD::chargeMulti.frame0.frame -x 140 -y 70 -width 120
 
         place [ttk::label $gaussianVMD::chargeMulti.frame0.frame.multi \
             -text {Multiplicity} \
             -style gaussianVMD.label.TLabel \
-            ] -in $gaussianVMD::chargeMulti.frame0.frame -x 235 -y 40 -width 75
+            ] -in $gaussianVMD::chargeMulti.frame0.frame -x 270 -y 70 -width 120
 
-        place [ttk::label $gaussianVMD::chargeMulti.frame0.frame.showCharged \
-            -text {Show} \
-            -style gaussianVMD.label.TLabel \
-            ] -in $gaussianVMD::chargeMulti.frame0.frame -x 320 -y 40 -width 70
-
+        # Line 1
         place [ttk::label $gaussianVMD::chargeMulti.frame0.frame.hllayerLabel \
             -text {High Level Layer} \
             -style gaussianVMD.label.TLabel \
-            ] -in $gaussianVMD::chargeMulti.frame0.frame -x 10 -y 70 -width 120
+            ] -in $gaussianVMD::chargeMulti.frame0.frame -x 10 -y 100 -width 120
 
         place [ttk::entry $gaussianVMD::chargeMulti.frame0.frame.hllayerCharge \
             -textvariable {gaussianVMD::chargeHL}\
-            ] -in $gaussianVMD::chargeMulti.frame0.frame -x 140 -y 70 -width 75
+            ] -in $gaussianVMD::chargeMulti.frame0.frame -x 140 -y 100 -width 120
 
         place [ttk::entry $gaussianVMD::chargeMulti.frame0.frame.hllayerMulti \
             -textvariable {gaussianVMD::multiplicityValue}\
-            ] -in $gaussianVMD::chargeMulti.frame0.frame -x 235 -y 70 -width 75
+            ] -in $gaussianVMD::chargeMulti.frame0.frame -x 270 -y 100 -width 120
 
-        place [ttk::checkbutton $gaussianVMD::chargeMulti.frame0.frame.hllayerShow \
-            -text {} \
-            -variable {} \
-            ] -in $gaussianVMD::chargeMulti.frame0.frame -x 345 -y 70 -width 20
-
+        # Line 2
         place [ttk::label $gaussianVMD::chargeMulti.frame0.frame.mllayerLabel \
             -text {Medium Level Layer} \
             -style gaussianVMD.label.TLabel \
-            ] -in $gaussianVMD::chargeMulti.frame0.frame -x 10 -y 100 -width 120
+            ] -in $gaussianVMD::chargeMulti.frame0.frame -x 10 -y 130 -width 120
 
         place [ttk::entry $gaussianVMD::chargeMulti.frame0.frame.mllayerCharge \
             -textvariable {gaussianVMD::chargeML}\
-            ] -in $gaussianVMD::chargeMulti.frame0.frame -x 140 -y 100 -width 75
+            ] -in $gaussianVMD::chargeMulti.frame0.frame -x 140 -y 130 -width 120
 
         place [ttk::entry $gaussianVMD::chargeMulti.frame0.frame.mllayerMulti \
-            -textvariable {gaussianVMD::multiplicityValue}\
-            ] -in $gaussianVMD::chargeMulti.frame0.frame -x 235 -y 100 -width 75
+            -textvariable {gaussianVMD::multiplicityValue1}\
+            ] -in $gaussianVMD::chargeMulti.frame0.frame -x 270 -y 130 -width 120
 
-        place [ttk::checkbutton $gaussianVMD::chargeMulti.frame0.frame.mllayerShow \
-            -text {} \
-            -variable {} \
-            ] -in $gaussianVMD::chargeMulti.frame0.frame -x 345 -y 100 -width 20
 
+        # Calculate Button
         place [ttk::button $gaussianVMD::chargeMulti.frame0.frame.calculateCharges \
             -text {Calculate charge based on available MM charges} \
             -command {gaussianVMD::getChargesSum none} \
             -style gaussianVMD.button.TButton \
-            ] -in $gaussianVMD::chargeMulti.frame0.frame -x 10 -y 130 -width 380
+            ] -in $gaussianVMD::chargeMulti.frame0.frame -x 10 -y 160 -width 380
 
+        # Apply Cancel Buttons
         place [ttk::button $gaussianVMD::chargeMulti.frame0.frame.apply \
             -text {Apply} \
-            -command {} \
+            -command {gaussianVMD::applyChargeMultiGUI} \
             -style gaussianVMD.button.TButton \
-            ] -in $gaussianVMD::chargeMulti.frame0.frame -x 10 -y 170 -width 185
+            ] -in $gaussianVMD::chargeMulti.frame0.frame -x 10 -y 200 -width 185
 
         place [ttk::button $gaussianVMD::chargeMulti.frame0.frame.cancel \
             -text {Cancel} \
-            -command {} \
+            -command {gaussianVMD::cancelChargeMultiGUI} \
             -style gaussianVMD.button.TButton \
-            ] -in $gaussianVMD::chargeMulti.frame0.frame -x 205 -y 170 -width 185
+            ] -in $gaussianVMD::chargeMulti.frame0.frame -x 205 -y 200 -width 185
 
     } elseif {$highLayerIndex != "" && $mediumLayerIndex == "" && $lowLayerIndex != ""} {
-         wm geometry $::gaussianVMD::chargeMulti 400x210+[expr $sWidth - 400]+100
 
+        wm geometry $::gaussianVMD::chargeMulti 400x250+[expr $sWidth - 400]+100
+
+        # Evaluate the negative and positve amino acids 
+        gaussianVMD::showNegPosResidues
+
+
+        # Place common items to all possibilities
+        place [ttk::label $gaussianVMD::chargeMulti.frame0.frame.initialLabel \
+            -text {Adjust the charge and spin multiplicity for this stytem.} \
+            ] -in $gaussianVMD::chargeMulti.frame0.frame -x 10 -y 10 -width 380
+
+        place [ttk::checkbutton $gaussianVMD::chargeMulti.frame0.frame.showPositiveResidues \
+            -text {Show Positive Residues} \
+            -variable {showPosChargedResidues} \
+            -command {gaussianVMD::onOffRepresentation 11} \
+            ] -in $gaussianVMD::chargeMulti.frame0.frame -x 10 -y 40 -width 180
+
+        place [ttk::checkbutton $gaussianVMD::chargeMulti.frame0.frame.showNegativeResidues \
+            -text {Show Negative Residues} \
+            -variable {showNegChargedResidues} \
+            -command {gaussianVMD::onOffRepresentation 12} \
+            ] -in $gaussianVMD::chargeMulti.frame0.frame -x 210 -y 40 -width 180
+
+
+
+        # Table Header
         place [ttk::label $gaussianVMD::chargeMulti.frame0.frame.layer \
             -text {Layer} \
             -style gaussianVMD.label.TLabel \
-            ] -in $gaussianVMD::chargeMulti.frame0.frame -x 10 -y 40 -width 120
+            ] -in $gaussianVMD::chargeMulti.frame0.frame -x 10 -y 70 -width 120
 
         place [ttk::label $gaussianVMD::chargeMulti.frame0.frame.charge \
             -text {Charge} \
             -style gaussianVMD.label.TLabel \
-            ] -in $gaussianVMD::chargeMulti.frame0.frame -x 140 -y 40 -width 75
+            ] -in $gaussianVMD::chargeMulti.frame0.frame -x 140 -y 70 -width 120
 
         place [ttk::label $gaussianVMD::chargeMulti.frame0.frame.multi \
             -text {Multiplicity} \
             -style gaussianVMD.label.TLabel \
-            ] -in $gaussianVMD::chargeMulti.frame0.frame -x 235 -y 40 -width 75
+            ] -in $gaussianVMD::chargeMulti.frame0.frame -x 270 -y 70 -width 120
 
-        place [ttk::label $gaussianVMD::chargeMulti.frame0.frame.showCharged \
-            -text {Show} \
-            -style gaussianVMD.label.TLabel \
-            ] -in $gaussianVMD::chargeMulti.frame0.frame -x 320 -y 40 -width 70
-
+        # Line 1
         place [ttk::label $gaussianVMD::chargeMulti.frame0.frame.hllayerLabel \
             -text {High Level Layer} \
             -style gaussianVMD.label.TLabel \
-            ] -in $gaussianVMD::chargeMulti.frame0.frame -x 10 -y 70 -width 120
+            ] -in $gaussianVMD::chargeMulti.frame0.frame -x 10 -y 100 -width 120
 
         place [ttk::entry $gaussianVMD::chargeMulti.frame0.frame.hllayerCharge \
             -textvariable {gaussianVMD::chargeHL}\
-            ] -in $gaussianVMD::chargeMulti.frame0.frame -x 140 -y 70 -width 75
+            ] -in $gaussianVMD::chargeMulti.frame0.frame -x 140 -y 100 -width 120
 
         place [ttk::entry $gaussianVMD::chargeMulti.frame0.frame.hllayerMulti \
             -textvariable {gaussianVMD::multiplicityValue}\
-            ] -in $gaussianVMD::chargeMulti.frame0.frame -x 235 -y 70 -width 75
+            ] -in $gaussianVMD::chargeMulti.frame0.frame -x 270 -y 100 -width 120
 
-        place [ttk::checkbutton $gaussianVMD::chargeMulti.frame0.frame.hllayerShow \
-            -text {} \
-            -variable {} \
-            ] -in $gaussianVMD::chargeMulti.frame0.frame -x 345 -y 70 -width 20
-
-        place [ttk::label $gaussianVMD::chargeMulti.frame0.frame.lllayerLabel \
-            -text {Low Level Layer} \
-            -style gaussianVMD.label.TLabel \
-            ] -in $gaussianVMD::chargeMulti.frame0.frame -x 10 -y 100 -width 120
-
-        place [ttk::entry $gaussianVMD::chargeMulti.frame0.frame.lllayerCharge \
-            -textvariable {gaussianVMD::chargeLL}\
-            ] -in $gaussianVMD::chargeMulti.frame0.frame -x 140 -y 100 -width 75
-
-        place [ttk::entry $gaussianVMD::chargeMulti.frame0.frame.lllayerMulti \
-            -textvariable {gaussianVMD::multiplicityValue}\
-            ] -in $gaussianVMD::chargeMulti.frame0.frame -x 235 -y 100 -width 75
-
-        place [ttk::checkbutton $gaussianVMD::chargeMulti.frame0.frame.lllayerShow \
-            -text {} \
-            -variable {} \
-            ] -in $gaussianVMD::chargeMulti.frame0.frame -x 345 -y 100 -width 20
-
-        place [ttk::button $gaussianVMD::chargeMulti.frame0.frame.calculateCharges \
-            -text {Calculate charge based on available MM charges} \
-            -command {gaussianVMD::getChargesSum none} \
-            -style gaussianVMD.button.TButton \
-            ] -in $gaussianVMD::chargeMulti.frame0.frame -x 10 -y 130 -width 380
-
-        place [ttk::button $gaussianVMD::chargeMulti.frame0.frame.apply \
-            -text {Apply} \
-            -command {} \
-            -style gaussianVMD.button.TButton \
-            ] -in $gaussianVMD::chargeMulti.frame0.frame -x 10 -y 170 -width 185
-
-        place [ttk::button $gaussianVMD::chargeMulti.frame0.frame.cancel \
-            -text {Cancel} \
-            -command {} \
-            -style gaussianVMD.button.TButton \
-            ] -in $gaussianVMD::chargeMulti.frame0.frame -x 205 -y 170 -width 185
-
-    } elseif {$highLayerIndex == "" && $mediumLayerIndex != "" && $lowLayerIndex != ""} {
-         wm geometry $::gaussianVMD::chargeMulti 400x210+[expr $sWidth - 400]+100
-
-        place [ttk::label $gaussianVMD::chargeMulti.frame0.frame.layer \
-            -text {Layer} \
-            -style gaussianVMD.label.TLabel \
-            ] -in $gaussianVMD::chargeMulti.frame0.frame -x 10 -y 40 -width 120
-
-        place [ttk::label $gaussianVMD::chargeMulti.frame0.frame.charge \
-            -text {Charge} \
-            -style gaussianVMD.label.TLabel \
-            ] -in $gaussianVMD::chargeMulti.frame0.frame -x 140 -y 40 -width 75
-
-        place [ttk::label $gaussianVMD::chargeMulti.frame0.frame.multi \
-            -text {Multiplicity} \
-            -style gaussianVMD.label.TLabel \
-            ] -in $gaussianVMD::chargeMulti.frame0.frame -x 235 -y 40 -width 75
-
-        place [ttk::label $gaussianVMD::chargeMulti.frame0.frame.showCharged \
-            -text {Show} \
-            -style gaussianVMD.label.TLabel \
-            ] -in $gaussianVMD::chargeMulti.frame0.frame -x 320 -y 40 -width 70
-
-        place [ttk::label $gaussianVMD::chargeMulti.frame0.frame.mllayerLabel \
-            -text {Medium Level Layer} \
-            -style gaussianVMD.label.TLabel \
-            ] -in $gaussianVMD::chargeMulti.frame0.frame -x 10 -y 70 -width 120
-
-        place [ttk::entry $gaussianVMD::chargeMulti.frame0.frame.mllayerCharge \
-            -textvariable {gaussianVMD::chargeML}\
-            ] -in $gaussianVMD::chargeMulti.frame0.frame -x 140 -y 70 -width 75
-
-        place [ttk::entry $gaussianVMD::chargeMulti.frame0.frame.mllayerMulti \
-            -textvariable {gaussianVMD::multiplicityValue}\
-            ] -in $gaussianVMD::chargeMulti.frame0.frame -x 235 -y 70 -width 75
-
-        place [ttk::checkbutton $gaussianVMD::chargeMulti.frame0.frame.mllayerShow \
-            -text {} \
-            -variable {} \
-            ] -in $gaussianVMD::chargeMulti.frame0.frame -x 345 -y 70 -width 20
-
-        place [ttk::label $gaussianVMD::chargeMulti.frame0.frame.lllayerLabel \
-            -text {Low Level Layer} \
-            -style gaussianVMD.label.TLabel \
-            ] -in $gaussianVMD::chargeMulti.frame0.frame -x 10 -y 100 -width 120
-
-        place [ttk::entry $gaussianVMD::chargeMulti.frame0.frame.lllayerCharge \
-            -textvariable {gaussianVMD::chargeLL}\
-            ] -in $gaussianVMD::chargeMulti.frame0.frame -x 140 -y 100 -width 75
-
-        place [ttk::entry $gaussianVMD::chargeMulti.frame0.frame.lllayerMulti \
-            -textvariable {gaussianVMD::multiplicityValue}\
-            ] -in $gaussianVMD::chargeMulti.frame0.frame -x 235 -y 100 -width 75
-
-        place [ttk::checkbutton $gaussianVMD::chargeMulti.frame0.frame.lllayerShow \
-            -text {} \
-            -variable {} \
-            ] -in $gaussianVMD::chargeMulti.frame0.frame -x 345 -y 100 -width 20
-
-        place [ttk::button $gaussianVMD::chargeMulti.frame0.frame.calculateCharges \
-            -text {Calculate charge based on available MM charges} \
-            -command {gaussianVMD::getChargesSum none} \
-            -style gaussianVMD.button.TButton \
-            ] -in $gaussianVMD::chargeMulti.frame0.frame -x 10 -y 130 -width 380
-
-        place [ttk::button $gaussianVMD::chargeMulti.frame0.frame.apply \
-            -text {Apply} \
-            -command {} \
-            -style gaussianVMD.button.TButton \
-            ] -in $gaussianVMD::chargeMulti.frame0.frame -x 10 -y 170 -width 185
-
-        place [ttk::button $gaussianVMD::chargeMulti.frame0.frame.cancel \
-            -text {Cancel} \
-            -command {} \
-            -style gaussianVMD.button.TButton \
-            ] -in $gaussianVMD::chargeMulti.frame0.frame -x 205 -y 170 -width 185
-
-    } elseif {$highLayerIndex != "" && $mediumLayerIndex != "" && $lowLayerIndex != ""} {
-         wm geometry $::gaussianVMD::chargeMulti 400x250+[expr $sWidth - 400]+100
-
-        place [ttk::label $gaussianVMD::chargeMulti.frame0.frame.layer \
-            -text {Layer} \
-            -style gaussianVMD.label.TLabel \
-            ] -in $gaussianVMD::chargeMulti.frame0.frame -x 10 -y 40 -width 120
-
-        place [ttk::label $gaussianVMD::chargeMulti.frame0.frame.charge \
-            -text {Charge} \
-            -style gaussianVMD.label.TLabel \
-            ] -in $gaussianVMD::chargeMulti.frame0.frame -x 140 -y 40 -width 75
-
-        place [ttk::label $gaussianVMD::chargeMulti.frame0.frame.multi \
-            -text {Multiplicity} \
-            -style gaussianVMD.label.TLabel \
-            ] -in $gaussianVMD::chargeMulti.frame0.frame -x 235 -y 40 -width 75
-
-        place [ttk::label $gaussianVMD::chargeMulti.frame0.frame.showCharged \
-            -text {Show} \
-            -style gaussianVMD.label.TLabel \
-            ] -in $gaussianVMD::chargeMulti.frame0.frame -x 320 -y 40 -width 70
-
-        place [ttk::label $gaussianVMD::chargeMulti.frame0.frame.hllayerLabel \
-            -text {High Level Layer} \
-            -style gaussianVMD.label.TLabel \
-            ] -in $gaussianVMD::chargeMulti.frame0.frame -x 10 -y 70 -width 120
-
-        place [ttk::entry $gaussianVMD::chargeMulti.frame0.frame.hllayerCharge \
-            -textvariable {gaussianVMD::chargeHL}\
-            ] -in $gaussianVMD::chargeMulti.frame0.frame -x 140 -y 70 -width 75
-
-        place [ttk::entry $gaussianVMD::chargeMulti.frame0.frame.hllayerMulti \
-            -textvariable {gaussianVMD::multiplicityValue}\
-            ] -in $gaussianVMD::chargeMulti.frame0.frame -x 235 -y 70 -width 75
-
-        place [ttk::checkbutton $gaussianVMD::chargeMulti.frame0.frame.hllayerShow \
-            -text {} \
-            -variable {} \
-            ] -in $gaussianVMD::chargeMulti.frame0.frame -x 345 -y 70 -width 20
-
-        place [ttk::label $gaussianVMD::chargeMulti.frame0.frame.mllayerLabel \
-            -text {Medium Level Layer} \
-            -style gaussianVMD.label.TLabel \
-            ] -in $gaussianVMD::chargeMulti.frame0.frame -x 10 -y 100 -width 120
-
-        place [ttk::entry $gaussianVMD::chargeMulti.frame0.frame.mllayerCharge \
-            -textvariable {gaussianVMD::chargeML}\
-            ] -in $gaussianVMD::chargeMulti.frame0.frame -x 140 -y 100 -width 75
-
-        place [ttk::entry $gaussianVMD::chargeMulti.frame0.frame.mllayerMulti \
-            -textvariable {gaussianVMD::multiplicityValue}\
-            ] -in $gaussianVMD::chargeMulti.frame0.frame -x 235 -y 100 -width 75
-
-        place [ttk::checkbutton $gaussianVMD::chargeMulti.frame0.frame.mllayerShow \
-            -text {} \
-            -variable {} \
-            ] -in $gaussianVMD::chargeMulti.frame0.frame -x 345 -y 100 -width 20
-
+        # Line 2
         place [ttk::label $gaussianVMD::chargeMulti.frame0.frame.lllayerLabel \
             -text {Low Level Layer} \
             -style gaussianVMD.label.TLabel \
@@ -402,42 +273,236 @@ proc gaussianVMD::guiChargeMulti {} {
 
         place [ttk::entry $gaussianVMD::chargeMulti.frame0.frame.lllayerCharge \
             -textvariable {gaussianVMD::chargeLL}\
-            ] -in $gaussianVMD::chargeMulti.frame0.frame -x 140 -y 130 -width 75
+            ] -in $gaussianVMD::chargeMulti.frame0.frame -x 140 -y 130 -width 120
 
         place [ttk::entry $gaussianVMD::chargeMulti.frame0.frame.lllayerMulti \
-            -textvariable {gaussianVMD::multiplicityValue}\
-            ] -in $gaussianVMD::chargeMulti.frame0.frame -x 235 -y 130 -width 75
+            -textvariable {gaussianVMD::multiplicityValue1}\
+            ] -in $gaussianVMD::chargeMulti.frame0.frame -x 270 -y 130 -width 120
 
-        place [ttk::checkbutton $gaussianVMD::chargeMulti.frame0.frame.lllayerShow \
-            -text {} \
-            -variable {} \
-            ] -in $gaussianVMD::chargeMulti.frame0.frame -x 345 -y 130 -width 20
 
+        # Calculate Button
         place [ttk::button $gaussianVMD::chargeMulti.frame0.frame.calculateCharges \
             -text {Calculate charge based on available MM charges} \
             -command {gaussianVMD::getChargesSum none} \
             -style gaussianVMD.button.TButton \
-            ] -in $gaussianVMD::chargeMulti.frame0.frame -x 10 -y 170 -width 380
+            ] -in $gaussianVMD::chargeMulti.frame0.frame -x 10 -y 160 -width 380
 
+        # Apply Cancel Buttons
         place [ttk::button $gaussianVMD::chargeMulti.frame0.frame.apply \
             -text {Apply} \
-            -command {} \
+            -command {gaussianVMD::applyChargeMultiGUI} \
             -style gaussianVMD.button.TButton \
-            ] -in $gaussianVMD::chargeMulti.frame0.frame -x 10 -y 210 -width 185
+            ] -in $gaussianVMD::chargeMulti.frame0.frame -x 10 -y 200 -width 185
 
         place [ttk::button $gaussianVMD::chargeMulti.frame0.frame.cancel \
             -text {Cancel} \
-            -command {} \
+            -command {gaussianVMD::cancelChargeMultiGUI} \
             -style gaussianVMD.button.TButton \
-            ] -in $gaussianVMD::chargeMulti.frame0.frame -x 205 -y 210 -width 185
+            ] -in $gaussianVMD::chargeMulti.frame0.frame -x 205 -y 200 -width 185
+
+    } elseif {$highLayerIndex == "" && $mediumLayerIndex != "" && $lowLayerIndex != ""} {
+         wm geometry $::gaussianVMD::chargeMulti 400x250+[expr $sWidth - 400]+100
+
+        # Evaluate the negative and positve amino acids 
+        gaussianVMD::showNegPosResidues
+
+
+        # Place common items to all possibilities
+        place [ttk::label $gaussianVMD::chargeMulti.frame0.frame.initialLabel \
+            -text {Adjust the charge and spin multiplicity for this stytem.} \
+            ] -in $gaussianVMD::chargeMulti.frame0.frame -x 10 -y 10 -width 380
+
+        place [ttk::checkbutton $gaussianVMD::chargeMulti.frame0.frame.showPositiveResidues \
+            -text {Show Positive Residues} \
+            -variable {showPosChargedResidues} \
+            -command {gaussianVMD::onOffRepresentation 11} \
+            ] -in $gaussianVMD::chargeMulti.frame0.frame -x 10 -y 40 -width 180
+
+        place [ttk::checkbutton $gaussianVMD::chargeMulti.frame0.frame.showNegativeResidues \
+            -text {Show Negative Residues} \
+            -variable {showNegChargedResidues} \
+            -command {gaussianVMD::onOffRepresentation 12} \
+            ] -in $gaussianVMD::chargeMulti.frame0.frame -x 210 -y 40 -width 180
+
+
+
+        # Table Header
+        place [ttk::label $gaussianVMD::chargeMulti.frame0.frame.layer \
+            -text {Layer} \
+            -style gaussianVMD.label.TLabel \
+            ] -in $gaussianVMD::chargeMulti.frame0.frame -x 10 -y 70 -width 120
+
+        place [ttk::label $gaussianVMD::chargeMulti.frame0.frame.charge \
+            -text {Charge} \
+            -style gaussianVMD.label.TLabel \
+            ] -in $gaussianVMD::chargeMulti.frame0.frame -x 140 -y 70 -width 120
+
+        place [ttk::label $gaussianVMD::chargeMulti.frame0.frame.multi \
+            -text {Multiplicity} \
+            -style gaussianVMD.label.TLabel \
+            ] -in $gaussianVMD::chargeMulti.frame0.frame -x 270 -y 70 -width 120
+
+        # Line 1
+        place [ttk::label $gaussianVMD::chargeMulti.frame0.frame.mllayerLabel \
+            -text {Medium Level Layer} \
+            -style gaussianVMD.label.TLabel \
+            ] -in $gaussianVMD::chargeMulti.frame0.frame -x 10 -y 100 -width 120
+
+        place [ttk::entry $gaussianVMD::chargeMulti.frame0.frame.mllayerCharge \
+            -textvariable {gaussianVMD::chargeML}\
+            ] -in $gaussianVMD::chargeMulti.frame0.frame -x 140 -y 100 -width 120
+
+        place [ttk::entry $gaussianVMD::chargeMulti.frame0.frame.mllayerMulti \
+            -textvariable {gaussianVMD::multiplicityValue}\
+            ] -in $gaussianVMD::chargeMulti.frame0.frame -x 270 -y 100 -width 120
+
+        # Line 2
+        place [ttk::label $gaussianVMD::chargeMulti.frame0.frame.lllayerLabel \
+            -text {Low Level Layer} \
+            -style gaussianVMD.label.TLabel \
+            ] -in $gaussianVMD::chargeMulti.frame0.frame -x 10 -y 130 -width 120
+
+        place [ttk::entry $gaussianVMD::chargeMulti.frame0.frame.lllayerCharge \
+            -textvariable {gaussianVMD::chargeLL}\
+            ] -in $gaussianVMD::chargeMulti.frame0.frame -x 140 -y 130 -width 120
+
+        place [ttk::entry $gaussianVMD::chargeMulti.frame0.frame.lllayerMulti \
+            -textvariable {gaussianVMD::multiplicityValue1}\
+            ] -in $gaussianVMD::chargeMulti.frame0.frame -x 270 -y 130 -width 120
+
+
+        # Calculate Button
+        place [ttk::button $gaussianVMD::chargeMulti.frame0.frame.calculateCharges \
+            -text {Calculate charge based on available MM charges} \
+            -command {gaussianVMD::getChargesSum none} \
+            -style gaussianVMD.button.TButton \
+            ] -in $gaussianVMD::chargeMulti.frame0.frame -x 10 -y 160 -width 380
+
+        # Apply Cancel Buttons
+        place [ttk::button $gaussianVMD::chargeMulti.frame0.frame.apply \
+            -text {Apply} \
+            -command {gaussianVMD::applyChargeMultiGUI} \
+            -style gaussianVMD.button.TButton \
+            ] -in $gaussianVMD::chargeMulti.frame0.frame -x 10 -y 200 -width 185
+
+        place [ttk::button $gaussianVMD::chargeMulti.frame0.frame.cancel \
+            -text {Cancel} \
+            -command {gaussianVMD::cancelChargeMultiGUI} \
+            -style gaussianVMD.button.TButton \
+            ] -in $gaussianVMD::chargeMulti.frame0.frame -x 205 -y 200 -width 185
+
+    } elseif {$highLayerIndex != "" && $mediumLayerIndex != "" && $lowLayerIndex != ""} {
+        wm geometry $::gaussianVMD::chargeMulti 400x280+[expr $sWidth - 400]+100
+
+        # Evaluate the negative and positve amino acids 
+        gaussianVMD::showNegPosResidues
+
+
+        # Place common items to all possibilities
+        place [ttk::label $gaussianVMD::chargeMulti.frame0.frame.initialLabel \
+            -text {Adjust the charge and spin multiplicity for this stytem.} \
+            ] -in $gaussianVMD::chargeMulti.frame0.frame -x 10 -y 10 -width 380
+
+        place [ttk::checkbutton $gaussianVMD::chargeMulti.frame0.frame.showPositiveResidues \
+            -text {Show Positive Residues} \
+            -variable {showPosChargedResidues} \
+            -command {gaussianVMD::onOffRepresentation 11} \
+            ] -in $gaussianVMD::chargeMulti.frame0.frame -x 10 -y 40 -width 180
+
+        place [ttk::checkbutton $gaussianVMD::chargeMulti.frame0.frame.showNegativeResidues \
+            -text {Show Negative Residues} \
+            -variable {showNegChargedResidues} \
+            -command {gaussianVMD::onOffRepresentation 12} \
+            ] -in $gaussianVMD::chargeMulti.frame0.frame -x 210 -y 40 -width 180
+
+
+
+        # Table Header
+        place [ttk::label $gaussianVMD::chargeMulti.frame0.frame.layer \
+            -text {Layer} \
+            -style gaussianVMD.label.TLabel \
+            ] -in $gaussianVMD::chargeMulti.frame0.frame -x 10 -y 70 -width 120
+
+        place [ttk::label $gaussianVMD::chargeMulti.frame0.frame.charge \
+            -text {Charge} \
+            -style gaussianVMD.label.TLabel \
+            ] -in $gaussianVMD::chargeMulti.frame0.frame -x 140 -y 70 -width 120
+
+        place [ttk::label $gaussianVMD::chargeMulti.frame0.frame.multi \
+            -text {Multiplicity} \
+            -style gaussianVMD.label.TLabel \
+            ] -in $gaussianVMD::chargeMulti.frame0.frame -x 270 -y 70 -width 120
+
+        # Line 1
+        place [ttk::label $gaussianVMD::chargeMulti.frame0.frame.hllayerLabel \
+            -text {High Level Layer} \
+            -style gaussianVMD.label.TLabel \
+            ] -in $gaussianVMD::chargeMulti.frame0.frame -x 10 -y 100 -width 120
+
+        place [ttk::entry $gaussianVMD::chargeMulti.frame0.frame.hllayerCharge \
+            -textvariable {gaussianVMD::chargeHL}\
+            ] -in $gaussianVMD::chargeMulti.frame0.frame -x 140 -y 100 -width 120
+
+        place [ttk::entry $gaussianVMD::chargeMulti.frame0.frame.hllayerMulti \
+            -textvariable {gaussianVMD::multiplicityValue}\
+            ] -in $gaussianVMD::chargeMulti.frame0.frame -x 270 -y 100 -width 120
+
+        # Line 2
+        place [ttk::label $gaussianVMD::chargeMulti.frame0.frame.mllayerLabel \
+            -text {Medium Level Layer} \
+            -style gaussianVMD.label.TLabel \
+            ] -in $gaussianVMD::chargeMulti.frame0.frame -x 10 -y 130 -width 120
+
+        place [ttk::entry $gaussianVMD::chargeMulti.frame0.frame.mllayerCharge \
+            -textvariable {gaussianVMD::chargeML}\
+            ] -in $gaussianVMD::chargeMulti.frame0.frame -x 140 -y 130 -width 120
+
+        place [ttk::entry $gaussianVMD::chargeMulti.frame0.frame.mllayerMulti \
+            -textvariable {gaussianVMD::multiplicityValue1}\
+            ] -in $gaussianVMD::chargeMulti.frame0.frame -x 270 -y 130 -width 120
+
+        # Line 3
+        place [ttk::label $gaussianVMD::chargeMulti.frame0.frame.lllayerLabel \
+            -text {Low Level Layer} \
+            -style gaussianVMD.label.TLabel \
+            ] -in $gaussianVMD::chargeMulti.frame0.frame -x 10 -y 160 -width 120
+
+        place [ttk::entry $gaussianVMD::chargeMulti.frame0.frame.lllayerCharge \
+            -textvariable {gaussianVMD::chargeLL}\
+            ] -in $gaussianVMD::chargeMulti.frame0.frame -x 140 -y 160 -width 120
+
+        place [ttk::entry $gaussianVMD::chargeMulti.frame0.frame.lllayerMulti \
+            -textvariable {gaussianVMD::multiplicityValue2}\
+            ] -in $gaussianVMD::chargeMulti.frame0.frame -x 270 -y 160 -width 120
+
+
+        # Calculate Button
+        place [ttk::button $gaussianVMD::chargeMulti.frame0.frame.calculateCharges \
+            -text {Calculate charge based on available MM charges} \
+            -command {gaussianVMD::getChargesSum none} \
+            -style gaussianVMD.button.TButton \
+            ] -in $gaussianVMD::chargeMulti.frame0.frame -x 10 -y 190 -width 380
+
+        # Apply Cancel Buttons
+        place [ttk::button $gaussianVMD::chargeMulti.frame0.frame.apply \
+            -text {Apply} \
+            -command {gaussianVMD::applyChargeMultiGUI} \
+            -style gaussianVMD.button.TButton \
+            ] -in $gaussianVMD::chargeMulti.frame0.frame -x 10 -y 230 -width 185
+
+        place [ttk::button $gaussianVMD::chargeMulti.frame0.frame.cancel \
+            -text {Cancel} \
+            -command {gaussianVMD::cancelChargeMultiGUI} \
+            -style gaussianVMD.button.TButton \
+            ] -in $gaussianVMD::chargeMulti.frame0.frame -x 205 -y 230 -width 185
 
     } else {
-        wm geometry $::gaussianVMD::chargeMulti 400x80+[expr $sWidth - 400]+100
+        wm geometry $::gaussianVMD::chargeMulti 400x60+[expr $sWidth - 400]+100
 
         place [ttk::label $gaussianVMD::chargeMulti.frame0.frame.noMol \
             -text "No molecule was loaded. \nTherefore, you cannot adjust the carge and spin multiplicity." \
             -style gaussianVMD.label.TLabel \
-            ] -in $gaussianVMD::chargeMulti.frame0.frame -x 10 -y 40 -width 380
+            ] -in $gaussianVMD::chargeMulti.frame0.frame -x 10 -y 10 -width 380
 
     }
 
@@ -513,3 +578,40 @@ proc gaussianVMD::showNegPosResidues {} {
     mol modselect 12 0 "residue $listResidNeg"
 
 }
+
+proc gaussianVMD::applyChargeMultiGUI {
+    if {($highLayerIndex != "" && $mediumLayerIndex == "" && $lowLayerIndex == "") || \
+        $highLayerIndex == "" && $mediumLayerIndex != "" && $lowLayerIndex == "" || \
+        $highLayerIndex == "" && $mediumLayerIndex == "" && $lowLayerIndex != ""} {
+
+            set gaussianVMD::chargesMultip "[format %.0f $gaussianVMD::chargeAll] [format %.0f $gaussianVMD::multiplicityValue]"
+
+    } elseif {$highLayerIndex != "" && $mediumLayerIndex != "" && $lowLayerIndex == ""} {
+
+            set gaussianVMD::chargesMultip "[format %.0f $gaussianVMD::chargeML] [format %.0f $gaussianVMD::multiplicityValue1] [format %.0f $gaussianVMD::chargeHL] [format %.0f $gaussianVMD::multiplicityValue] [format %.0f $gaussianVMD::chargeHL] [format %.0f $gaussianVMD::multiplicityValue]"
+    
+    } elseif {$highLayerIndex != "" && $mediumLayerIndex == "" && $lowLayerIndex != ""} {
+
+            set gaussianVMD::chargesMultip "[format %.0f $gaussianVMD::chargeLL] [format %.0f $gaussianVMD::multiplicityValue1] [format %.0f $gaussianVMD::chargeHL] [format %.0f $gaussianVMD::multiplicityValue] [format %.0f $gaussianVMD::chargeHL] [format %.0f $gaussianVMD::multiplicityValue]"
+
+    } elseif {$highLayerIndex == "" && $mediumLayerIndex != "" && $lowLayerIndex != ""} {
+
+            set gaussianVMD::chargesMultip "[format %.0f $gaussianVMD::chargeLL] [format %.0f $gaussianVMD::multiplicityValue1] [format %.0f $gaussianVMD::chargeML] [format %.0f $gaussianVMD::multiplicityValue] [format %.0f $gaussianVMD::chargeML] [format %.0f $gaussianVMD::multiplicityValue]"
+
+    } elseif {$highLayerIndex != "" && $mediumLayerIndex != "" && $lowLayerIndex != ""} {
+
+            set gaussianVMD::chargesMultip "[format %.0f $gaussianVMD::chargeLL] [format %.0f $gaussianVMD::multiplicityValue2] [format %.0f $gaussianVMD::chargeML] [format %.0f $gaussianVMD::multiplicityValue1] [format %.0f $gaussianVMD::chargeML] [format %.0f $gaussianVMD::multiplicityValue1] [format %.0f $gaussianVMD::chargeHL] [format %.0f $gaussianVMD::multiplicityValue] [format %.0f $gaussianVMD::chargeHL] [format %.0f $gaussianVMD::multiplicityValue] [format %.0f $gaussianVMD::chargeHL] [format %.0f $gaussianVMD::multiplicityValue]"
+
+    } else {
+
+            # Do nothing
+
+    }
+
+    destroy $gaussianVMD::chargeMulti
+}
+
+proc gaussianVMD::cancelChargeMultiGUI {
+    destroy $gaussianVMD::chargeMulti
+}
+

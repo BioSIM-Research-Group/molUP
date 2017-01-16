@@ -265,7 +265,7 @@ proc gaussianVMD::buildGui {} {
 	# Charges Tab
 	place [tablelist::tablelist $gaussianVMD::topGui.frame0.tabs.tabsAtomList.tab4.tableLayer \
 			-showeditcursor true \
-			-columns {0 "# Atom" center 0 "Atom" center 0 "Resname" center 0 "Resid" center 0 "Charges" center} \
+			-columns {0 "#" center 0 "Gaussian Atom" center 0 "Resname" center 0 "Resid" center 0 "Charges" center} \
 			-stretch all \
 			-background white \
 			-yscrollcommand [list $gaussianVMD::topGui.frame0.tabs.tabsAtomList.tab4.yscb set] \
@@ -298,7 +298,7 @@ proc gaussianVMD::buildGui {} {
 	# Layer Tab
 	place [tablelist::tablelist $gaussianVMD::topGui.frame0.tabs.tabsAtomList.tab2.tableLayer\
 			-showeditcursor true \
-			-columns {0 "# Atom" center 0 "Atom" center 0 "Resname" center 0 "Resid" center 0 "Layer" center} \
+			-columns {0 "#" center 0 "PDB Atom" center 0 "Resname" center 0 "Resid" center 0 "Layer" center} \
 			-stretch all \
 			-background white \
 			-yscrollcommand [list $gaussianVMD::topGui.frame0.tabs.tabsAtomList.tab2.yscb set] \
@@ -351,7 +351,7 @@ proc gaussianVMD::buildGui {} {
 	# Freeze Tab
 	place [tablelist::tablelist $gaussianVMD::topGui.frame0.tabs.tabsAtomList.tab3.tableLayer\
 			-showeditcursor true \
-			-columns {0 "# Atom" center 0 "Atom" center 0 "Resname" center 0 "Resid" center 0 "Freeze" center} \
+			-columns {0 "# Atom" center 0 "PDB Atom" center 0 "Resname" center 0 "Resid" center 0 "Freeze" center} \
 			-stretch all \
 			-background white \
 			-yscrollcommand [list $gaussianVMD::topGui.frame0.tabs.tabsAtomList.tab3.yscb set] \

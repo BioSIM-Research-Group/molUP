@@ -140,6 +140,8 @@ namespace eval gaussianVMD:: {
 		variable chargeML	0
 		variable chargeLL	0
 		variable multiplicityValue	1
+		variable multiplicityValue1	1
+		variable multiplicityValue2	1
 
 		#### Images
 		#variable images 		"logo.gif"
