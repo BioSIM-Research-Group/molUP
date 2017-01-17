@@ -20,23 +20,80 @@ proc gaussianVMD::readFreq {} {
 			-xscrollcommand [list $gaussianVMD::topGui.frame0.tabs.tabsAtomList.tab5.xscb set] \
 			-selectmode single \
 			-height 14 \
-			] -in $gaussianVMD::topGui.frame0.tabs.tabsAtomList.tab5 -x 0 -y 0 -width 370 -height 300
+			] -in $gaussianVMD::topGui.frame0.tabs.tabsAtomList.tab5 -x 0 -y 0 -width 370 -height 200
 
 	place [ttk::scrollbar $gaussianVMD::topGui.frame0.tabs.tabsAtomList.tab5.yscb \
 			-orient vertical \
 			-command [list $gaussianVMD::topGui.frame0.tabs.tabsAtomList.tab5.tableLayer yview]\
-			] -in $gaussianVMD::topGui.frame0.tabs.tabsAtomList.tab5 -x 370 -y 0 -width 20 -height 300
+			] -in $gaussianVMD::topGui.frame0.tabs.tabsAtomList.tab5 -x 370 -y 0 -width 20 -height 200
 
 	place [ttk::scrollbar $gaussianVMD::topGui.frame0.tabs.tabsAtomList.tab5.xscb \
 			-orient horizontal \
 			-command [list $gaussianVMD::topGui.frame0.tabs.tabsAtomList.tab5.tableLayer xview]\
-			] -in $gaussianVMD::topGui.frame0.tabs.tabsAtomList.tab5 -x 0 -y 300 -height 20 -width 370
+			] -in $gaussianVMD::topGui.frame0.tabs.tabsAtomList.tab5 -x 0 -y 200 -height 20 -width 370
 
 	place [ttk::button $gaussianVMD::topGui.frame0.tabs.tabsAtomList.tab5.clearSelection \
 			-text "Clear Selection" \
 			-command {gaussianVMD::clearSelectionFreq} \
 			-style gaussianVMD.topButtons.TButton \
-			] -in $gaussianVMD::topGui.frame0.tabs.tabsAtomList.tab5 -x 5 -y 325 -width 380
+			] -in $gaussianVMD::topGui.frame0.tabs.tabsAtomList.tab5 -x 5 -y 225 -width 380
+
+	place [ttk::label $gaussianVMD::topGui.frame0.tabs.tabsAtomList.tab5.animFreq \
+			-text "Animation Frequency: " \
+			] -in $gaussianVMD::topGui.frame0.tabs.tabsAtomList.tab5 -x 5 -y 265 -width 120
+
+	variable animationFreq 3
+	variable displacement 0.015
+	variable freqVectorsList {}
+	place [scale $gaussianVMD::topGui.frame0.tabs.tabsAtomList.tab5.animFreqSlider \
+				-from 1 \
+				-to 10 \
+				-resolution 1 \
+				-variable {gaussianVMD::animationFreq} \
+				-command {gaussianVMD::animateFreq $gaussianVMD::freqVectorsList $gaussianVMD::animationFreq $gaussianVMD::displacement} \
+				-orient horizontal \
+				-showvalue 0 \
+				] -in $gaussianVMD::topGui.frame0.tabs.tabsAtomList.tab5 -x 130 -y 265 -width 255
+
+	place [ttk::label $gaussianVMD::topGui.frame0.tabs.tabsAtomList.tab5.displacement \
+			-text "Displacement: " \
+			] -in $gaussianVMD::topGui.frame0.tabs.tabsAtomList.tab5 -x 5 -y 300 -width 80
+
+	place [scale $gaussianVMD::topGui.frame0.tabs.tabsAtomList.tab5.displacementSlided \
+				-from 0.001 \
+				-to 0.050 \
+				-resolution 0.001 \
+				-variable {gaussianVMD::displacement} \
+				-command {gaussianVMD::animateFreq $gaussianVMD::freqVectorsList $gaussianVMD::animationFreq $gaussianVMD::displacement} \
+				-orient horizontal \
+				-showvalue 0 \
+				] -in $gaussianVMD::topGui.frame0.tabs.tabsAtomList.tab5 -x 90 -y 300 -width 295
+
+	variable showVectors 0
+	variable vectorDrawScale 3
+	place [ttk::checkbutton $gaussianVMD::topGui.frame0.tabs.tabsAtomList.tab5.showVector \
+			-text "Show vectors" \
+			-variable {gaussianVMD::showVectors} \
+			-command {gaussianVMD::drawVectors $gaussianVMD::freqVectorsList none} \
+			-style gaussianVMD.QuickRep.TCheckbutton \
+			] -in $gaussianVMD::topGui.frame0.tabs.tabsAtomList.tab5 -x 5 -y 335 -width 165
+
+	place [ttk::label $gaussianVMD::topGui.frame0.tabs.tabsAtomList.tab5.vectorScaleLabel \
+			-text "Scale: " \
+			] -in $gaussianVMD::topGui.frame0.tabs.tabsAtomList.tab5 -x 180 -y 335 -width 40
+
+	place [scale $gaussianVMD::topGui.frame0.tabs.tabsAtomList.tab5.vectorScale \
+				-from 0.1 \
+				-to 10.0 \
+				-resolution 0.1 \
+				-variable {gaussianVMD::vectorDrawScale} \
+				-command {gaussianVMD::drawVectors $gaussianVMD::freqVectorsList} \
+				-orient horizontal \
+				-showvalue 0 \
+				] -in $gaussianVMD::topGui.frame0.tabs.tabsAtomList.tab5 -x 220 -y 335 -width 165
+
+
+
 
 	## Add each frequency to the table 
 	set freqIndex 0
@@ -105,7 +162,7 @@ proc gaussianVMD::extractFreqVectors {file where} {
 return $freq_vector
 }
 
-proc gaussianVMD::animateFreq {freqList} {
+proc gaussianVMD::animateFreq {freqList animationFreq displacement a} {
 	# Delete previous animation
 	animate delete beg 1 end 9999999 top
 
@@ -114,12 +171,12 @@ proc gaussianVMD::animateFreq {freqList} {
 
 	#Animate Speed
 	animate speed 1.00
-	animate skip 3
-	
-	# Displacemente Factor
-	set factor 0.015
+	animate skip $gaussianVMD::animationFreq
 
-	for {set index 0} { $index < 80 } { incr index } {
+	set factor $gaussianVMD::displacement
+
+
+	for {set index 0} { $index < 40 } { incr index } {
 		animate dup top
 		foreach freq $freqList {
 			set displacement $factor
@@ -127,7 +184,7 @@ proc gaussianVMD::animateFreq {freqList} {
 			$sel moveby [list "[expr $displacement * [lindex $freq 1]]" "[expr $displacement * [lindex $freq 2]]" "[expr $displacement * [lindex $freq 3]]"]
 		}
 	}
-	for {set index 0} { $index < 160 } { incr index } {
+	for {set index 0} { $index < 80 } { incr index } {
 		animate dup top
 		foreach freq $freqList {
 			set displacement -$factor
@@ -135,7 +192,7 @@ proc gaussianVMD::animateFreq {freqList} {
 			$sel moveby [list "[expr $displacement * [lindex $freq 1]]" "[expr $displacement * [lindex $freq 2]]" "[expr $displacement * [lindex $freq 3]]"]
 		}
 	}
-	for {set index 0} { $index < 80 } { incr index } {
+	for {set index 0} { $index < 40 } { incr index } {
 		animate dup top
 		foreach freq $freqList {
 			set displacement $factor
@@ -156,13 +213,13 @@ proc gaussianVMD::selectFreq {} {
 	set answer [gaussianVMD::searchFreq $freqToSearch $gaussianVMD::freqList $gaussianVMD::freqLine]
 
 	## Get the list of freq vectors
-	set freqVectorsList [gaussianVMD::extractFreqVectors $gaussianVMD::path $answer]
+	set gaussianVMD::freqVectorsList [gaussianVMD::extractFreqVectors $gaussianVMD::path $answer]
 	
 	## Draw vectors
-	gaussianVMD::drawVectors $freqVectorsList
+	gaussianVMD::drawVectors $gaussianVMD::freqVectorsList none
 
 	## Animate Frequency
-	gaussianVMD::animateFreq $freqVectorsList
+	gaussianVMD::animateFreq $gaussianVMD::freqVectorsList $gaussianVMD::animationFreq $gaussianVMD::displacement "none"
 
 
 	
@@ -179,14 +236,21 @@ proc gaussianVMD::clearSelectionFreq {} {
 	graphics top delete all
 }
 
-proc gaussianVMD::drawVectors {freqList} {
+proc gaussianVMD::drawVectors {freqList none} {
+
+	if {$gaussianVMD::showVectors == 0} {
+		graphics top delete all
+		
+	} else {
+
+	
+
 	# Delete all vectors
 	graphics top delete all
 
 	graphics top color red
 	
-	set factor 3
-	set displacement $factor
+	set displacement $gaussianVMD::vectorDrawScale
 	
 	foreach freq $freqList {
 			set sel [atomselect top "index [expr [lindex $freq 0] -1 ]"]
@@ -206,16 +270,15 @@ proc gaussianVMD::drawVectors {freqList} {
 			} else {
 				set factorCone [expr 0.2 / $vectorSize]
 			}
-			#puts $factorCone
-			#puts $$vectorToScale
 			
 			set vectorCone [vecscale $factorCone $vectorToScale]
-			#puts $vectorCone
 			set lastPointCone [vecadd $lastPoint $vectorCone]
 			
 			graphics top cone $lastPoint $lastPointCone radius 0.10 resolution 10
 
 		}
+
+	}
 }
 
 
