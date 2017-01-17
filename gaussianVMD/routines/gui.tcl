@@ -117,7 +117,6 @@ proc gaussianVMD::buildGui {} {
 	$gaussianVMD::topGui.frame0.tabs.tabsAtomList add [frame $gaussianVMD::topGui.frame0.tabs.tabsAtomList.tab2] -text "Layer"
 	$gaussianVMD::topGui.frame0.tabs.tabsAtomList add [frame $gaussianVMD::topGui.frame0.tabs.tabsAtomList.tab3] -text "Freeze"
 	$gaussianVMD::topGui.frame0.tabs.tabsAtomList add [frame $gaussianVMD::topGui.frame0.tabs.tabsAtomList.tab4] -text "Charges"
-	#$gaussianVMD::topGui.frame0.tabs.tabsAtomList add [frame $gaussianVMD::topGui.frame0.tabs.tabsAtomList.tab5] -text "Tools"
 
 	# Choose active tab
 	$gaussianVMD::topGui.frame0.tabs.tabsAtomList select $gaussianVMD::topGui.frame0.tabs.tabsAtomList.tab1

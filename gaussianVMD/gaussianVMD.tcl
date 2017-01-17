@@ -30,6 +30,7 @@ namespace eval gaussianVMD:: {
 		package	require editStructure							1.0
 		package require modify									1.0
 		package require saveFiles								1.0
+		package require readFreq								1.0
 
 		package require Tk
 		package require tablelist

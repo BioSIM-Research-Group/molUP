@@ -3,8 +3,17 @@ package provide loadGaussianOutputFile 1.0
 ### This procedure load a gaussian input file and converts it to PDB
 proc gaussianVMD::loadGaussianOutputFile {option} {
     
-    # option tells the procedure to get the first, the last, the optimizred or all structures
+	#### Evaluate if a freq calculation was performed
+	set freqCalcTrue [exec grep frequencies $gaussianVMD::path]
 
+	if {$freqCalcTrue != ""} {
+		gaussianVMD::readFreq
+		
+	} else {}
+
+
+
+    # option tells the procedure to get the first, the last, the optimizred or all structures
 	gaussianVMD::globalInfoOutputFile
 
 	#### Number of Atoms
@@ -860,8 +869,8 @@ proc gaussianVMD::loadGaussianOutputFile {option} {
 
 
     } else {
-        
-    }
+
+	}	
 
 }
     
