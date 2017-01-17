@@ -33,7 +33,45 @@ proc gaussianVMD::guiCredits {} {
 
     #### Information
     pack [ttk::frame $gaussianVMD::credits.frame0]
-	pack [canvas $gaussianVMD::credits.frame0.frame -bg white -width 400 -height 200 -highlightthickness 0] -in $gaussianVMD::credits.frame0 
+	pack [canvas $gaussianVMD::credits.frame0.frame -bg white -width 400 -height 200 -highlightthickness 0] -in $gaussianVMD::credits.frame0
+
+	#place [ttk::label $gaussianVMD::credits.frame0.frame.label1 \
+		-text "Gaussian for VMD is a user friendly vmd plugin that reads \n any output or input file from Gaussian09. Several quick representations, \n tools, and options were included to a perfect user environment. \n Gaussian for VMD was developed by Henrique S. Fernandes and Nuno M.F.S.A. Cerqueira \n at the Computational Biochemistry Group of the Faculty of Sciences of the University \n of Porto. \n Gaussian for VMD is free and can be used with any porpose. However, if you use \n Gaussian for VMD, you should cite us. \n All rights reserved - 2017" \
+	] -in $gaussianVMD::credits.frame0.frame -x 10 -y 10 -width 380 -height 180
+
+	place [message $gaussianVMD::credits.frame0.frame.label1 \
+		-text "Gaussian for VMD is a user friendly vmd plugin that reads any output or input file from Gaussian09. Several quick representations, tools, and options were included to a perfect user environment. \n Gaussian for VMD was developed by Henrique S. Fernandes and Nuno M.F.S.A. Cerqueira at the Computational Biochemistry Group of the Faculty of Sciences of the University of Porto. \n Gaussian for VMD is free and can be used with any porpose. However, if you use Gaussian for VMD, you should cite us. \n All rights reserved - 2017" \
+		-width 380 \
+	] -in $gaussianVMD::credits.frame0.frame -x 10 -y 10 -width 380 -height 180 -anchor nw -bordermode ignore
+
+	place [ttk::button $gaussianVMD::credits.frame0.frame.visitWebsite \
+		-text {Web Page} \
+		-command {invokeBrowser "https://henriquefernandesblog.wordpress.com"} \
+		-style gaussianVMD.button.TButton \
+		] -in $gaussianVMD::credits.frame0.frame -x 290 -y 165 -width 100
 
 
+}
+
+
+proc invokeBrowser {url} {
+  # open is the OS X equivalent to xdg-open on Linux, start is used on Windows
+  set commands {xdg-open open start}
+  foreach browser $commands {
+    if {$browser eq "start"} {
+      set command [list {*}[auto_execok start] {}]
+    } else {
+      set command [auto_execok $browser]
+    }
+    if {[string length $command]} {
+      break
+    }
+  }
+
+  if {[string length $command] == 0} {
+    return -code error "couldn't find browser"
+  }
+  if {[catch {exec {*}$command $url &} error]} {
+    return -code error "couldn't execute '$command': $error"
+  }
 }

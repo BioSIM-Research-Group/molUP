@@ -4,12 +4,17 @@ package provide loadGaussianOutputFile 1.0
 proc gaussianVMD::loadGaussianOutputFile {option} {
     
 	#### Evaluate if a freq calculation was performed
-	set freqCalcTrue [exec grep frequencies $gaussianVMD::path]
+	
+	set freqCalcTrue [catch {exec grep "frequencies" $gaussianVMD::path}]
 
-	if {$freqCalcTrue != ""} {
+	puts $freqCalcTrue
+
+	if {$freqCalcTrue == "0"} {
 		gaussianVMD::readFreq
-		
-	} else {}
+
+	} else {
+		# Do nothing
+	}
 
 
 
@@ -382,6 +387,9 @@ proc gaussianVMD::loadGaussianOutputFile {option} {
 
         
     } elseif {$option == "optimizedStructures"} {
+
+		#### Read Energies
+		gaussianVMD::energy
 
 		#### Create a temporary file PDB
 		set gaussianVMD::temporaryXYZFile [open ".temporary/[subst $gaussianVMD::actualTime]/[subst $gaussianVMD::fileName].xyz" w]
