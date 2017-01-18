@@ -389,7 +389,7 @@ proc gaussianVMD::loadGaussianOutputFile {option} {
     } elseif {$option == "optimizedStructures"} {
 
 		#### Read Energies
-		gaussianVMD::energy
+		#gaussianVMD::energy
 
 		#### Create a temporary file PDB
 		set gaussianVMD::temporaryXYZFile [open ".temporary/[subst $gaussianVMD::actualTime]/[subst $gaussianVMD::fileName].xyz" w]
