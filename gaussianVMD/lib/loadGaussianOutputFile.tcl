@@ -137,7 +137,7 @@ proc gaussianVMD::loadGaussianOutputFile {option} {
     			if {[string match "*--*" $column0]==1} {
     				set charge [expr $charge * -1] } else {
     			 }
-                
+                set charge [format %.6f $charge]
                 
     			puts $gaussianVMD::temporaryPDBFile "[format %-4s "ATOM"] [format %6s $i] [format %-4s $pdbAtomType][format %4s $resname] [format %-1s $column5] [format %-7s $resid] [format %7s $x] [format %7s $y] [format %7s $z] [format %5s "1.00"] [format %-8s "00.00"] [format %8s $atomicSymbol]"
             
@@ -322,7 +322,7 @@ proc gaussianVMD::loadGaussianOutputFile {option} {
     			if {[string match "*--*" $column0]==1} {
     				set charge [expr $charge * -1] } else {
     			 }
-                
+                set charge [format %.6f $charge]
                 
     			puts $gaussianVMD::temporaryPDBFile "[format %-4s "ATOM"] [format %6s $i] [format %-4s $pdbAtomType][format %4s $resname] [format %-1s $column5] [format %-7s $resid] [format %7s $x] [format %7s $y] [format %7s $z] [format %5s "1.00"] [format %-8s "00.00"] [format %8s $atomicSymbol]"
             
@@ -531,7 +531,7 @@ proc gaussianVMD::loadGaussianOutputFile {option} {
     					if {[string match "*--*" $column0]==1} {
     						set charge [expr $charge * -1] } else {
     					 }
-					 
+						set charge [format %.6f $charge]
 					 
     					puts $gaussianVMD::temporaryPDBFile "[format %-4s "ATOM"] [format %6s $i] [format %-4s $pdbAtomType][format %4s $resname] [format %-1s $column5] [format %-7s $resid] [format %7s $x] [format %7s $y] [format %7s $z] [format %5s "1.00"] [format %-8s "00.00"] [format %8s 	$atomicSymbol]"
 					
@@ -778,7 +778,7 @@ proc gaussianVMD::loadGaussianOutputFile {option} {
     					if {[string match "*--*" $column0]==1} {
     						set charge [expr $charge * -1] } else {
     					 }
-					 
+						set charge [format %.6f $charge]
 					 
     					puts $gaussianVMD::temporaryPDBFile "[format %-4s "ATOM"] [format %6s $i] [format %-4s $pdbAtomType][format %4s $resname] [format %-1s $column5] [format %-7s $resid] [format %7s $x] [format %7s $y] [format %7s $z] [format %5s "1.00"] [format %-8s "00.00"] [format %8s 	$atomicSymbol]"
 					
