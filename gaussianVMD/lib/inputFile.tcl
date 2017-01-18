@@ -69,7 +69,7 @@ proc gaussianVMD::loadButton {fileExtension} {
 
 #### Get Blank Lines Numbers
 proc gaussianVMD::getBlankLines {path numberLine} {
-	set blankLines [exec grep -n -e "^$\|^ \+$" $path]
+	catch {exec egrep -n -e "^ \+$" -e "^$" $path} blankLines
 	set eachBlankLine [split $blankLines ":"]
 	set lineNumber [lindex $eachBlankLine $numberLine]
 	return $lineNumber

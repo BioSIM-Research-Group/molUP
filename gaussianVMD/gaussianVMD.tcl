@@ -140,7 +140,7 @@ namespace eval gaussianVMD:: {
 		variable linkAtomsList		{}
 		variable linkAtomsListIndex	{}
 		variable saveOptions	"Gaussian Input File (.com)"
-
+		variable connectivityInputFile ""
 
 
 		variable chargeAll	0

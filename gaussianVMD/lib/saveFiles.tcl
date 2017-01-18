@@ -17,6 +17,8 @@ proc gaussianVMD::savePDB {} {
             animate write pdb [list $path] beg 0 end 0 skip 1 top
         } else {}
     }
+
+    destroy $::gaussianVMD::saveFile
 }
 
 
@@ -37,6 +39,8 @@ proc gaussianVMD::saveXYZ {} {
             animate write xyz [list $path] beg 0 end 0 skip 1 top
         } else {}
     }
+
+    destroy $::gaussianVMD::saveFile
 }
 
 proc gaussianVMD::saveGaussian {} {
@@ -57,6 +61,8 @@ proc gaussianVMD::saveGaussian {} {
         } else {}
 
     }
+
+    destroy $::gaussianVMD::saveFile
 
 }
 
@@ -117,8 +123,13 @@ proc gaussianVMD::writeGaussianFile {path} {
         incr i
     }
 
-    ## Get and write connectivity
-    gaussianVMD::connectivity $file
+
+    if {$gaussianVMD::connectivityInputFile == ""} {
+        ## Get and write connectivity
+        gaussianVMD::connectivity $file
+    } else {
+        puts $file $gaussianVMD::connectivityInputFile
+    }
 
     close $file
 

@@ -19,8 +19,13 @@ proc gaussianVMD::loadGaussianInputFile {} {
 	set lineNumberFirst [expr [gaussianVMD::getBlankLines $gaussianVMD::path 1] + 2]
 	set lineNumberLast [expr [gaussianVMD::getBlankLines $gaussianVMD::path 2] - 1]
 	set gaussianVMD::numberAtoms [expr $lineNumberLast - $lineNumberFirst + 1]
-		## Get the Initial Structure
-	set gaussianVMD::structureGaussian [exec sed -n "$lineNumberFirst,$lineNumberLast p" $gaussianVMD::path]
+	
+	## Get the Initial Structure
+	catch {exec sed -n "$lineNumberFirst,$lineNumberLast p" $gaussianVMD::path} gaussianVMD::structureGaussian
+
+	## Get connectivity information about structure
+	set lineNumberConnect [expr $lineNumberLast + 1]
+	catch {exec sed -n "$lineNumberConnect,$ p" $gaussianVMD::path} gaussianVMD::connectivityInputFile
 
 	## Set actual time
 	set gaussianVMD::actualTime [clock seconds]
@@ -128,7 +133,7 @@ proc gaussianVMD::loadGaussianInputFile {} {
 				if {[string match "*--*" $column0]==1} {
 					set charge [expr $charge * -1] } else {
 				 }
-			 
+				set charge [format %.6f $charge]
 
 				puts $gaussianVMD::temporaryPDBFile "[format %-4s "ATOM"] [format %6s $i] [format %-4s $pdbAtomType][format %4s $resname] [format %-1s $column5] [format %-7s $resid] [format %7s $x] [format %7s $y] [format %7s $z] [format %5s "1.00"] [format %-8s "00.00"] [format %8s $atomicSymbol]"
 
