@@ -88,6 +88,7 @@ proc gaussianVMD::writeGaussianFile {path} {
     ## Get coordinates
     set allSelection [atomselect top "all"]
     set allCoord [$allSelection get {x y z}]
+    set elementInfo [$allSelection get element]
 
     ## Get Layer Info
     set layerInfoList [$gaussianVMD::topGui.frame0.tabs.tabsAtomList.tab2.tableLayer get anchor end]
@@ -103,7 +104,7 @@ proc gaussianVMD::writeGaussianFile {path} {
 
     ## Write on the file
     set i 0
-    foreach atomLayer $layerInfoList atomFreeze $freezeInfoList atomCharge $chargesInfoList atomCoord $allCoord {
+    foreach atomLayer $layerInfoList atomFreeze $freezeInfoList atomCharge $chargesInfoList atomCoord $allCoord element $elementInfo {
         set lookForLinkAtom [lsearch $gaussianVMD::linkAtomsListIndex $i]
 
         set xx [lindex $atomCoord 0]
@@ -111,7 +112,7 @@ proc gaussianVMD::writeGaussianFile {path} {
         set zz [lindex $atomCoord 2]
 
         if {$lookForLinkAtom == -1} {
-            set initialInfo " [string range [lindex $atomCharge 1] 0 0]-[lindex $atomCharge 1]-[lindex $atomCharge 4](PDBName=[lindex $atomLayer 1],ResName=[lindex $atomLayer 2],ResNum=[lindex $atomLayer 3])"
+            set initialInfo " $element-[lindex $atomCharge 1]-[lindex $atomCharge 4](PDBName=[lindex $atomLayer 1],ResName=[lindex $atomLayer 2],ResNum=[lindex $atomLayer 3])"
             puts $file "[format %-60s $initialInfo] [format %-4s [lindex $atomFreeze 4]] [format "%10s" [format "% f" $xx]] [format "%10s" [format "% f" $yy]] [format "%10s" [format "% f" $zz]] [format %-2s [lindex $atomLayer 4]]"
         } else {
             set linkAtom [lindex $gaussianVMD::linkAtomsList $lookForLinkAtom]
