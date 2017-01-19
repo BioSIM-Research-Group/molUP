@@ -1,4 +1,5 @@
 package provide energy 1.0
+package require multiplot
 
 proc gaussianVMD::energy {} {
 
@@ -58,7 +59,7 @@ proc gaussianVMD::drawGraph {} {
 	$gaussianVMD::topGui.frame0.tabs.tabsAtomList add [frame $gaussianVMD::topGui.frame0.tabs.tabsAtomList.tab6] -text "Energies"
 
     place [ttk::frame $gaussianVMD::topGui.frame0.tabs.tabsAtomList.tab6.graph \
-			] -in $gaussianVMD::topGui.frame0.tabs.tabsAtomList.tab6 -x 0 -y 0 -width 370 -height 200
+			] -in $gaussianVMD::topGui.frame0.tabs.tabsAtomList.tab6 -x 5 -y 5 -width 380 -height 250
 
     ## Create a list for each variable
     set structure {}
@@ -72,12 +73,37 @@ proc gaussianVMD::drawGraph {} {
         lappend llE [lindex $list 3]
     }
 
-    puts "$structure \n $totalE \n $hlE \n $llE"
+    set plot [multiplot embed $gaussianVMD::topGui.frame0.tabs.tabsAtomList.tab6.graph -xsize 340 -ysize 200]
 
-    #multiplot embed $gaussianVMD::topGui.frame0.tabs.tabsAtomList.tab6.graph
+    set sortedList [lsort $totalE]
+    set ymax [expr [format %.2f [lindex $sortedList 0]] + 0.01]
+    set ymin [expr [format %.2f [lindex $sortedList end]] - 0.01]
+    set xmax [expr [lindex $structure end]]
 
     ## Add variables to Plot
-    set plothandle [multiplot -x $structure -y $totalE -title "Energetic Profile" -lines -linewidth 5 -marker circle -autoscale -plot]
+    $plot configure \
+        -x $structure \
+        -y $totalE \
+        -marker circle \
+        -radius 4 \
+        -fillcolor black \
+        -dash . \
+        -linewidth 2 \
+        -linecolor black \
+        -xsize 340 \
+        -ysize 200 \
+        -title "Energetic Profile" \
+        -xmin "1" \
+        -xmax "$xmax" \
+        -xmajortics 1 \
+        -xmasminortics 0 \
+        -ymin "$ymin" \
+        -ymax "$ymax" \
+        ]
+    
+    $plot replot
+   
+
     #$plothandle add $x $hlE
     #$plothandle add $x $llE
 

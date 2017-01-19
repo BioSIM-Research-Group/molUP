@@ -31,11 +31,12 @@ proc gaussianVMD::loadGaussianInputFile {} {
 	set gaussianVMD::actualTime [clock seconds]
 
 	## Create a temporary folder
-	exec mkdir -p .temporary/[subst $gaussianVMD::actualTime]
+	catch {exec mktemp -d} gaussianVMD::tmpFolder
+	exec mkdir -p $gaussianVMD::tmpFolder/[subst $gaussianVMD::actualTime]
 
 
 	## Create a temporary file PDB
-	set gaussianVMD::temporaryPDBFile [open ".temporary/[subst $gaussianVMD::actualTime]/[subst $gaussianVMD::fileName].pdb" w]
+	set gaussianVMD::temporaryPDBFile [open "$gaussianVMD::tmpFolder/[subst $gaussianVMD::actualTime]/[subst $gaussianVMD::fileName].pdb" w]
 
 	## Add a header to the file
 	puts $gaussianVMD::temporaryPDBFile "HEADER\n $gaussianVMD::title"
@@ -192,5 +193,10 @@ proc gaussianVMD::loadGaussianInputFile {} {
 
     #### Close the temporary file
 	  close $gaussianVMD::temporaryPDBFile
+
+
+
+	## Deactivate the ability to load a new molecule
+	set gaussianVMD::openNewFileMode "NO"
 }
     

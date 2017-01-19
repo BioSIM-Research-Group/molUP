@@ -11,7 +11,12 @@ proc gaussianVMD::quit {} \
 
 proc gaussianVMD::restart {} \
 {
+
+	set gaussianVMD::openNewFileMode "YES"
+	
 	destroy $gaussianVMD::topGui 
+
+	mol off all
 
 	removeTemporaryFiles
 
@@ -21,5 +26,5 @@ proc gaussianVMD::restart {} \
 
 proc removeTemporaryFiles {} \
 {
-	exec rm -rf .temporary
+	exec rm -rf $gaussianVMD::tmpFolder
 }

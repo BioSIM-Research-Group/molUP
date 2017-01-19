@@ -5,6 +5,13 @@ package require Tk
 #### GUI ############################################################
 proc gaussianVMD::guiOpenFile {} {
 
+    #### Contidition to evaluate if a new molecule can or not be loaded.
+    if {$gaussianVMD::openNewFileMode == "NO"} {
+        gaussianVMD::guiError "One molecule has already been loaded on Gaussian for VMD. \n Please click File-Restart to load a new molecule."
+    } else {
+
+    
+
     #### Check if the window exists
 	if {[winfo exists $::gaussianVMD::openFile]} {wm deiconify $::gaussianVMD::openFile ;return $::gaussianVMD::openFile}
 	toplevel $::gaussianVMD::openFile
@@ -17,7 +24,7 @@ proc gaussianVMD::guiOpenFile {} {
 	set sHeight [expr [winfo vrootheight $::gaussianVMD::topGui] -50]
 
 	#### Change the location of window
-    wm geometry $::gaussianVMD::openFile 400x160+[expr ($sWidth - 400) / 2]+[expr ($sHeight -200) / 2]
+    wm geometry $::gaussianVMD::openFile 400x190+[expr ($sWidth - 400) / 2]+[expr ($sHeight -200) / 2]
 	$::gaussianVMD::openFile configure -background {white}
 	wm resizable $::gaussianVMD::openFile 0 0
 
@@ -33,7 +40,7 @@ proc gaussianVMD::guiOpenFile {} {
     #### Draw the GUI
     # Frame
     pack [ttk::frame $gaussianVMD::openFile.frame]
-    pack [canvas $gaussianVMD::openFile.frame.back -bg white -width 400 -height 160 -highlightthickness 0] -in $gaussianVMD::openFile.frame
+    pack [canvas $gaussianVMD::openFile.frame.back -bg white -width 400 -height 190 -highlightthickness 0] -in $gaussianVMD::openFile.frame
 
     place [ttk::label $gaussianVMD::openFile.frame.back.label1 \
 			-text {Choose a Gaussian Output (.log) or Input (.com) file...} \
@@ -73,5 +80,12 @@ proc gaussianVMD::guiOpenFile {} {
             -command {destroy $::gaussianVMD::openFile} \
             -style gaussianVMD.button.TButton \
             ] -in $gaussianVMD::openFile.frame.back -x 205 -y 120 -width 185
+
+    place [ttk::label $gaussianVMD::openFile.frame.back.labelFinal \
+			-text {This window will close automatically when the structure loads.} \
+            ] -in $gaussianVMD::openFile.frame.back -x 10 -y 160 -width 380
+
+    
+    }
 
 }

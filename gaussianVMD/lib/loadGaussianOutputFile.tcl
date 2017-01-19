@@ -35,10 +35,11 @@ proc gaussianVMD::loadGaussianOutputFile {option} {
 	set gaussianVMD::actualTime [clock seconds]
 
 	## Create a temporary folder
-	exec mkdir -p .temporary/[subst $gaussianVMD::actualTime]
+	catch {exec mktemp -d} gaussianVMD::tmpFolder
+	exec mkdir -p $gaussianVMD::tmpFolder/[subst $gaussianVMD::actualTime]
 
 	## Create a temporary file PDB
-	set gaussianVMD::temporaryPDBFile [open ".temporary/[subst $gaussianVMD::actualTime]/[subst $gaussianVMD::fileName].pdb" w]
+	set gaussianVMD::temporaryPDBFile [open "$gaussianVMD::tmpFolder/[subst $gaussianVMD::actualTime]/[subst $gaussianVMD::fileName].pdb" w]
 
 	## Add a header to the file
 	puts $gaussianVMD::temporaryPDBFile "HEADER\n $gaussianVMD::title"
@@ -388,11 +389,9 @@ proc gaussianVMD::loadGaussianOutputFile {option} {
         
     } elseif {$option == "optimizedStructures"} {
 
-		#### Read Energies
-		#gaussianVMD::energy
 
 		#### Create a temporary file PDB
-		set gaussianVMD::temporaryXYZFile [open ".temporary/[subst $gaussianVMD::actualTime]/[subst $gaussianVMD::fileName].xyz" w]
+		set gaussianVMD::temporaryXYZFile [open "$gaussianVMD::tmpFolder/[subst $gaussianVMD::actualTime]/[subst $gaussianVMD::fileName].xyz" w]
 
 		#### Get the lines of all structures and optimized tag
 		set structuresAndOptimized [split [exec grep -n -e "Optimized Parameters" -e " Number     Number       Type             X           Y           Z" $gaussianVMD::path] \n]
@@ -641,12 +640,13 @@ proc gaussianVMD::loadGaussianOutputFile {option} {
 		}
 		
 
-
+		#### Read Energies
+		gaussianVMD::energy
         
     } elseif {$option == "allStructures"} {
         
 		## Create a temporary file PDB
-		set gaussianVMD::temporaryXYZFile [open ".temporary/[subst $gaussianVMD::actualTime]/[subst $gaussianVMD::fileName].xyz" w]
+		set gaussianVMD::temporaryXYZFile [open "$gaussianVMD::tmpFolder/[subst $gaussianVMD::actualTime]/[subst $gaussianVMD::fileName].xyz" w]
 
 		#### Get the coordinates of the last structure
 		#### Number of Atoms
@@ -879,6 +879,10 @@ proc gaussianVMD::loadGaussianOutputFile {option} {
     } else {
 
 	}	
+
+
+	## Deactivate the ability to load a new molecule
+	set gaussianVMD::openNewFileMode "NO"
 
 }
     
