@@ -59,6 +59,8 @@ proc gaussianVMD::drawGraph {} {
 	$gaussianVMD::topGui.frame0.tabs.tabsAtomList add [frame $gaussianVMD::topGui.frame0.tabs.tabsAtomList.tab6] -text "Energies"
 
     place [ttk::frame $gaussianVMD::topGui.frame0.tabs.tabsAtomList.tab6.graph \
+            -width 380 \
+            -height 250 \
 			] -in $gaussianVMD::topGui.frame0.tabs.tabsAtomList.tab6 -x 5 -y 5 -width 380 -height 250
 
 
@@ -74,44 +76,8 @@ proc gaussianVMD::drawGraph {} {
         lappend llE [lindex $list 3]
     }
 
-    set plot [multiplot embed $gaussianVMD::topGui.frame0.tabs.tabsAtomList.tab6.graph -xsize 340 -ysize 200]
 
-    set sortedList [lsort $totalE]
-    set ymax [expr [format %.2f [lindex $sortedList 0]] + 0.01]
-    set ymin [expr [format %.2f [lindex $sortedList end]] - 0.01]
-    set xmax [expr [lindex $structure end]]
+    ## Draw the graph
+    gaussianVMD::drawPlot "$gaussianVMD::topGui.frame0.tabs.tabsAtomList.tab6.graph" $structure $totalE "Energetic Profile" black 16 oval blue black 8
 
-    ## Add variables to Plot
-    $plot configure \
-        -x $structure \
-        -y $totalE \
-        -marker circle \
-        -radius 4 \
-        -fillcolor black \
-        -dash . \
-        -linewidth 1 \
-        -linecolor black \
-        -xsize 380 \
-        -ysize 180 \
-        -title "Energetic Profile" \
-        -xmin "1" \
-        -xmax "$xmax" \
-        -xmajortics 1 \
-        -xmasminortics 0 \
-        -ymin "$ymin" \
-        -ymax "$ymax" \
-        -callback gaussianVMD::clickTotalE
-    
-    $plot replot
-   
-    $gaussianVMD::topGui.frame0.tabs.tabsAtomList.tab6.graph.plotwindow0.f.cf configure -yscrollcommand {} -xscrollcommand {}
-    destroy $gaussianVMD::topGui.frame0.tabs.tabsAtomList.tab6.graph.plotwindow0.f.y
-    destroy $gaussianVMD::topGui.frame0.tabs.tabsAtomList.tab6.graph.plotwindow0.f.x
-    destroy $gaussianVMD::topGui.frame0.tabs.tabsAtomList.tab6.graph.plotwindow0.menubar
-
-}
-
-
-proc gaussianVMD::clickTotalE {index x y color marker} {
-    animate goto $index
 }

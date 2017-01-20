@@ -1,16 +1,4 @@
-#package provide plot 1.0
-
-if {[winfo exists .window]} {wm deiconify .window ;return .window}
-	toplevel .window
-
-wm geometry .window 400x300
-pack [ttk::frame .window.frame -width 400 -height 300]
-
-set x {1 2 3 4 5 6}
-set y {-99.346 -12 -10 -9 1 19.354}
-
-set title "Que lindo gráfico!"
-
+package provide plot 1.0
 
 ## frame        - give a frame where the graph should be embed to
 ## x            - list of x values
@@ -19,12 +7,12 @@ set title "Que lindo gráfico!"
 ## titleColor   - color of title (Ex: red, blue, black, #ffffff, etc...)
 ## titleSize    - any integer value (Ex: 10, 12, 14, etc...)
 ## markerFormat - format of marker (Ex: rectangle, circle)
-## markerColor
-## markerSize
-## markerColorLine
+## markerColor      -
+## markerSize       - 
+## markerColorLine  - 
 
 
-proc drawPlot {frame x y title titleColor titleSize markerFormat markerColor markerColorLine markerSize} {
+proc gaussianVMD::drawPlot {frame x y title titleColor titleSize markerFormat markerColor markerColorLine markerSize} {
 
     set width [$frame cget -width]
     set height [$frame cget -height]
@@ -161,5 +149,3 @@ proc drawPlot {frame x y title titleColor titleSize markerFormat markerColor mar
 
 
 }
-
-drawPlot ".window.frame" $x $y $title red 16 oval blue black 8
