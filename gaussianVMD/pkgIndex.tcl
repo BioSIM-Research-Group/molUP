@@ -23,6 +23,7 @@ package ifneeded loadMoleculeVMD 	                        1.0 [list source [file
 package ifneeded timeControl     	                        1.0 [list source [file join $dir/lib/timeControl.tcl]]
 package ifneeded loadGaussianInputFile     	                1.0 [list source [file join $dir/lib/loadGaussianInputFile.tcl]]
 package ifneeded loadGaussianOutputFile     	            1.0 [list source [file join $dir/lib/loadGaussianOutputFile.tcl]]
+package ifneeded loadGaussianOutputFile     	            2.0 [list source [file join $dir/lib/loadGaussianOutputFile.1.tcl]]
 package ifneeded editStructure                          	1.0 [list source [file join $dir/lib/editStructure.tcl]]
 package ifneeded modify                                   	1.0 [list source [file join $dir/lib/modify.tcl]]
 package ifneeded saveFiles                                 	1.0 [list source [file join $dir/lib/saveFiles.tcl]]
