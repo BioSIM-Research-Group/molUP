@@ -9,12 +9,22 @@ pack [ttk::frame .window.frame -width 400 -height 300]
 set x {1 2 3 4 5 6}
 set y {-99.346 -12 -10 -9 1 19.354}
 
-set title "Energetic Profile XPTO"
+set title "Que lindo gráfico!"
 
 
+## frame        - give a frame where the graph should be embed to
+## x            - list of x values
+## y            - list of y values
+## title        - string with title (Ex: "Energetic Profile")
+## titleColor   - color of title (Ex: red, blue, black, #ffffff, etc...)
+## titleSize    - any integer value (Ex: 10, 12, 14, etc...)
+## markerFormat - format of marker (Ex: rectangle, circle)
+## markerColor
+## markerSize
+## markerColorLine
 
 
-proc drawPlot {frame x y title} {
+proc drawPlot {frame x y title titleColor titleSize markerFormat markerColor markerColorLine markerSize} {
 
     set width [$frame cget -width]
     set height [$frame cget -height]
@@ -27,8 +37,8 @@ proc drawPlot {frame x y title} {
     $frame.plotBackground create text \
         [expr ($width - 60) / 2 + 50 ] 15 \
         -text "$title" \
-        -font {Helvetica 14} \
-        -fill Blue \
+        -font "Helvetica -$titleSize bold" \
+        -fill $titleColor \
         -tag title
 
     ## Draw Y axis
@@ -49,14 +59,14 @@ proc drawPlot {frame x y title} {
     $frame.plotBackground create text \
         5 37 \
         -text "E/Hartree" \
-        -font {Helvetica 12} \
+        -font {Helvetica -12 bold} \
         -anchor w
 
     ## Axis X Label
     $frame.plotBackground create text \
         [expr ($width - 60) / 2 + 50 ] [expr $height - 20] \
         -text "Reaction Coordinate" \
-        -font {Helvetica 12}
+        -font {Helvetica -12 bold}
 
     ## Gaps Axis X
     set xSorted [lsort $x]
@@ -108,33 +118,48 @@ proc drawPlot {frame x y title} {
 
     #################
     ## Place Points
-    set dotSize 6
+    set dotSize $markerSize
 
+    set i 0
     foreach xValue $x yValue $y {
+        ## Draw Lines
+        if {[lindex $x [expr $i + 1]] != ""} {
+            set xActual [expr 50 + (($xValue - $xMin)* (1 / $pixelValueX))]
+            set yActual [expr ($height - 50) - (($yValue - $yMin)* (1 / $pixelValueY))]
+
+            set xNext [expr 50 + (([lindex $x [expr $i + 1]] - $xMin)* (1 / $pixelValueX))]
+            set yNext [expr ($height - 50) - (([lindex $y [expr $i + 1]] - $yMin)* (1 / $pixelValueY))]
+
+            $frame.plotBackground create line \
+                    $xActual $yActual \
+                    $xNext $yNext \
+                    -dash 2 
+        }
+
+
+        ## Draw points
         set x1 [expr 50 + (($xValue - $xMin)* (1 / $pixelValueX)) - ($dotSize/2)]
         set y1 [expr ($height - 50) - (($yValue - $yMin)* (1 / $pixelValueY)) - ($dotSize/2)]
 
         set x2 [expr 50 + (($xValue - $xMin)* (1 / $pixelValueX)) + ($dotSize/2)]
         set y2 [expr ($height - 50) - (($yValue - $yMin)* (1 /$pixelValueY)) + ($dotSize/2)]
 
-
-        $frame.plotBackground create oval \
+        $frame.plotBackground create $markerFormat \
                 $x1 $y1 \
                 $x2 $y2 \
-                -outline red \
-                -fill blue \
+                -outline $markerColorLine \
+                -fill $markerColor \
                 -state normal \
                 -tags point$xValue$yValue
 
-        $frame.plotBackground bind point$xValue$yValue <Button-1> "puts \"$xValue $yValue\""
+        $frame.plotBackground bind point$xValue$yValue <Button-1> "animate goto [expr $xValue - 1]; puts \"$xValue $yValue\""
 
+
+
+        incr i
     }
 
 
 }
 
-proc teste {value} {
-    puts $value
-}
-
-drawPlot ".window.frame" $x $y $title
+drawPlot ".window.frame" $x $y $title red 16 oval blue black 8
