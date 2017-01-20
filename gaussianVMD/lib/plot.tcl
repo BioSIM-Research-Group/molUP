@@ -6,8 +6,8 @@ if {[winfo exists .window]} {wm deiconify .window ;return .window}
 wm geometry .window 400x300
 pack [ttk::frame .window.frame -width 400 -height 300]
 
-set x {1 2 3 4 5}
-set y {-12 -10 -9 1 19.354}
+set x {1 2 3 4 5 6}
+set y {-99.346 -12 -10 -9 1 19.354}
 
 set title "Energetic Profile XPTO"
 
@@ -28,7 +28,8 @@ proc drawPlot {frame x y title} {
         [expr ($width - 60) / 2 + 50 ] 15 \
         -text "$title" \
         -font {Helvetica 14} \
-        -fill Blue
+        -fill Blue \
+        -tag title
 
     ## Draw Y axis
     # Axis
@@ -108,6 +109,7 @@ proc drawPlot {frame x y title} {
     #################
     ## Place Points
     set dotSize 6
+
     foreach xValue $x yValue $y {
         set x1 [expr 50 + (($xValue - $xMin)* (1 / $pixelValueX)) - ($dotSize/2)]
         set y1 [expr ($height - 50) - (($yValue - $yMin)* (1 / $pixelValueY)) - ($dotSize/2)]
@@ -116,17 +118,23 @@ proc drawPlot {frame x y title} {
         set y2 [expr ($height - 50) - (($yValue - $yMin)* (1 /$pixelValueY)) + ($dotSize/2)]
 
 
-    $frame.plotBackground create oval \
-            $x1 $y1 \
-            $x2 $y2 \
-            -outline Black \
-            -activeoutline Yellow \
-            -fill blue
+        $frame.plotBackground create oval \
+                $x1 $y1 \
+                $x2 $y2 \
+                -outline red \
+                -fill blue \
+                -state normal \
+                -tags point$xValue$yValue
+
+        $frame.plotBackground bind point$xValue$yValue <Button-1> "puts \"$xValue $yValue\""
+
     }
 
 
+}
 
-
+proc teste {value} {
+    puts $value
 }
 
 drawPlot ".window.frame" $x $y $title
