@@ -28,6 +28,7 @@ package ifneeded modify                                   	1.0 [list source [fil
 package ifneeded saveFiles                                 	1.0 [list source [file join $dir/lib/saveFiles.tcl]]
 package ifneeded readFreq                                 	1.0 [list source [file join $dir/lib/readFreq.tcl]]
 package ifneeded energy                                 	1.0 [list source [file join $dir/lib/energy.tcl]]
+#package ifneeded plot                                    	1.0 [list source [file join $dir/lib/plot.tcl]]
 
 #Theme
 package ifneeded ttk::theme::clearlooks                     0.1 [list source [file join $dir/lib/theme/clearlooks.tcl]]

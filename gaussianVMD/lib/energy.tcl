@@ -61,6 +61,7 @@ proc gaussianVMD::drawGraph {} {
     place [ttk::frame $gaussianVMD::topGui.frame0.tabs.tabsAtomList.tab6.graph \
 			] -in $gaussianVMD::topGui.frame0.tabs.tabsAtomList.tab6 -x 5 -y 5 -width 380 -height 250
 
+
     ## Create a list for each variable
     set structure {}
     set totalE {}
@@ -88,10 +89,10 @@ proc gaussianVMD::drawGraph {} {
         -radius 4 \
         -fillcolor black \
         -dash . \
-        -linewidth 2 \
+        -linewidth 1 \
         -linecolor black \
-        -xsize 340 \
-        -ysize 200 \
+        -xsize 380 \
+        -ysize 180 \
         -title "Energetic Profile" \
         -xmin "1" \
         -xmax "$xmax" \
@@ -99,14 +100,18 @@ proc gaussianVMD::drawGraph {} {
         -xmasminortics 0 \
         -ymin "$ymin" \
         -ymax "$ymax" \
-        ]
+        -callback gaussianVMD::clickTotalE
     
     $plot replot
    
+    $gaussianVMD::topGui.frame0.tabs.tabsAtomList.tab6.graph.plotwindow0.f.cf configure -yscrollcommand {} -xscrollcommand {}
+    destroy $gaussianVMD::topGui.frame0.tabs.tabsAtomList.tab6.graph.plotwindow0.f.y
+    destroy $gaussianVMD::topGui.frame0.tabs.tabsAtomList.tab6.graph.plotwindow0.f.x
+    destroy $gaussianVMD::topGui.frame0.tabs.tabsAtomList.tab6.graph.plotwindow0.menubar
 
-    #$plothandle add $x $hlE
-    #$plothandle add $x $llE
+}
 
-    ## Place Plot
 
+proc gaussianVMD::clickTotalE {index x y color marker} {
+    animate goto $index
 }

@@ -32,6 +32,7 @@ namespace eval gaussianVMD:: {
 		package require saveFiles								1.0
 		package require readFreq								1.0
 		package require energy									1.0
+		#package require plot									1.0
 
 		package require Tk
 		package require tablelist
@@ -42,7 +43,7 @@ namespace eval gaussianVMD:: {
 		#### Program Variables
 
 		## General
-		variable version	    	"0.3 (beta)"
+		variable version	    	"0.5 (beta)"
 
 		#GUI
         variable topGui         	".gaussianVMD"

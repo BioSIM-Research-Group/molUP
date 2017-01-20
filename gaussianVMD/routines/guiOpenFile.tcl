@@ -85,7 +85,6 @@ proc gaussianVMD::guiOpenFile {} {
 			-text {This window will close automatically when the structure loads.} \
             ] -in $gaussianVMD::openFile.frame.back -x 10 -y 160 -width 380
 
-    
     }
 
 }
