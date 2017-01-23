@@ -24,9 +24,7 @@ proc gaussianVMD::numberAtomsFirstStructure {} {
 
 proc gaussianVMD::readOniomStructure {} {
 		set i 0
-
 		set gaussianVMD::structureReadyToLoad {}
-
     	foreach atom $gaussianVMD::structureGaussian {
     		lassign $atom column0 column1 column2 column3 column4 column5 column6 column7 column8
             
@@ -37,13 +35,6 @@ proc gaussianVMD::readOniomStructure {} {
     		regexp {(\S+)[-](\S+)[-](\S+)[(]PDBName=(\S+),ResName=(\S+),ResNum=(\S+)[)]} $column0 -> \
     		atomicSymbol gaussianAtomType charge pdbAtomType resname resid
             
-    			regexp {(\S+)\.+(\S+)} $column2 -> xbefore xafter
-    	    	set x $xbefore\.[format %.3s $xafter]
-    	    	regexp {(\S+)\.+(\S+)} $column3 -> ybefore yafter
-    	    	set y $ybefore\.[format %.3s $yafter]
-    	    	regexp {(\S+)\.+(\S+)} $column4 -> zbefore zafter
-    	    	set z $zbefore\.[format %.3s $zafter]
-            
 			## Correction for charge signal
     		if {[string match "*--*" $column0]==1} {
     			set charge [expr $charge * -1] } else {
@@ -51,12 +42,11 @@ proc gaussianVMD::readOniomStructure {} {
             set charge [format %.6f $charge]
             
 			## Add information about atom
-    		lappend atomInfo [format %.6f $column2] [format %.6f $column3] [format %.6f $column4] $atomicSymbol $pdbAtomType $pdbAtomType $resname $resid
+    		lappend atomInfo [format %.6f $column2] [format %.6f $column3] [format %.6f $column4] $atomicSymbol $pdbAtomType $gaussianAtomType $resname $resid $column5 $column1 $charge
             
 			## Add Atom information to structure
 			lappend gaussianVMD::structureReadyToLoad $atomInfo
-            
-    	}  
+    	}
 }
 
 
@@ -89,7 +79,7 @@ proc gaussianVMD::loadGaussianOutputFile {option} {
 		#### Load and prepara structure on VMD
 		mol new atoms $gaussianVMD::numberAtoms
 		animate dup top
-		[atomselect top all] set {x y z element name type resname resid} $gaussianVMD::structureReadyToLoad
+		[atomselect top all] set {x y z element name type resname resid user user2 charge} $gaussianVMD::structureReadyToLoad
 		
 		mol selection all
 		mol color Name
