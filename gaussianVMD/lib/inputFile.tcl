@@ -32,7 +32,7 @@ proc gaussianVMD::loadButton {fileExtension} {
 	#### Open a .com file
 	if {$gaussianVMD::fileExtension == ".com"} {
 		gaussianVMD::loadGaussianInputFile
-		#gaussianVMD::loadMolecule $gaussianVMD::fileName $gaussianVMD::actualTime normal
+		gaussianVMD::loadMolecule $gaussianVMD::fileName $gaussianVMD::actualTime normal
 		gaussianVMD::addSelectionRep
 
 	#### Open a .log file
