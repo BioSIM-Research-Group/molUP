@@ -44,7 +44,7 @@ namespace eval gaussianVMD:: {
 		#### Program Variables
 
 		## General
-		variable version	    	"0.6 (beta)"
+		variable version	    	"0.8 (beta)"
 
 		#GUI
         variable topGui         	".gaussianVMD"

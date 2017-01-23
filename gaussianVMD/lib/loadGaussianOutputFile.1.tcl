@@ -36,7 +36,29 @@ proc gaussianVMD::loadGaussianOutputFile {option} {
 		} else {
 			gaussianVMD::guiError "The file has a strange structure. The file cannot be openned."
 
-		}	
+		}
+
+		#### Load and prepara structure on VMD
+		## Create a new Molecule
+		mol new atoms $gaussianVMD::numberAtoms
+		## Change the name
+		mol rename top "[subst $gaussianVMD::fileName]"
+		## Create a frame
+		animate dup top
+		## Add the info
+		[atomselect top all] set $gaussianVMD::attributes $gaussianVMD::structureReadyToLoad
+		## Create the first representantion
+		mol selection all
+		mol color Name
+		mol addrep top
+		## Place connectivity
+		mol ssrecalc top
+		mol bondsrecalc top
+		mol reanalyze top
+		display resetview
+
+		#### Add Representations
+		gaussianVMD::addSelectionRep	
 		
 
 
@@ -63,7 +85,8 @@ proc gaussianVMD::loadGaussianOutputFile {option} {
 		set numberColumns [llength [lindex $gaussianVMD::structureGaussian 0]]
 
 		if {$numberColumns == 4} {
-
+			gaussianVMD::readSmallModelStructureLastStructure $allAtomsLastStructureCoord
+			variable attributes [list "x" "y" "z" "element" "name" "type" "resname" "resid"]
 		} elseif {$numberColumns > 4} {
 			gaussianVMD::readOniomStructureLastStructure $allAtomsLastStructureCoord
 			variable attributes [list "x" "y" "z" "element" "name" "type" "resname" "resid" "altloc" "user" "charge"]
@@ -73,9 +96,36 @@ proc gaussianVMD::loadGaussianOutputFile {option} {
 
 		}
 
+		#### Load and prepara structure on VMD
+		## Create a new Molecule
+		mol new atoms $gaussianVMD::numberAtoms
+		## Change the name
+		mol rename top "[subst $gaussianVMD::fileName]"
+		## Create a frame
+		animate dup top
+		## Add the info
+		[atomselect top all] set $gaussianVMD::attributes $gaussianVMD::structureReadyToLoad
+		## Create the first representantion
+		mol selection all
+		mol color Name
+		mol addrep top
+		## Place connectivity
+		mol ssrecalc top
+		mol bondsrecalc top
+		mol reanalyze top
+		display resetview
+
+		#### Add Representations
+		gaussianVMD::addSelectionRep
+
+
+
+
 		
 
-        
+		##############################################################
+		##############################################################
+		##### Get optimized structures    
     } elseif {$option == "optimizedStructures"} {
 
 		#### Get the lines of all structures and optimized tag
@@ -84,9 +134,11 @@ proc gaussianVMD::loadGaussianOutputFile {option} {
 		#### Search for optimized Lines
 		set optimizedLines [lsearch -all $structuresAndOptimized "*Optimized Parameters*"]
 
+		#### Evaluate the presence of optimized structures
 		if {$optimizedLines != ""} {
+			
 			#### Create a list with the first line of each optimized structures
-			set optimizedStructuresFirstLines []
+			set optimizedStructuresFirstLines {}
 			foreach optimizedLine $optimizedLines {
 				set optBeforeFirstLine [lindex $structuresAndOptimized [expr $optimizedLine + 1]]
 				set optFirstLine [split $optBeforeFirstLine ":"]
@@ -96,7 +148,6 @@ proc gaussianVMD::loadGaussianOutputFile {option} {
 			}
 
 			set numberOfStructures [llength $optimizedStructuresFirstLines]
-
 			set structureNumber 0
 
 			foreach structure $optimizedStructuresFirstLines {
@@ -104,204 +155,69 @@ proc gaussianVMD::loadGaussianOutputFile {option} {
 				set lastLineLastStructure [expr $firstLineLastStructure - 1 + $gaussianVMD::numberAtoms]
 			
 				## Read all information about the last structure
-				set structureLastGaussian [exec sed -n "$firstLineLastStructure,$lastLineLastStructure p" $gaussianVMD::path]
+				catch {exec sed -n "$firstLineLastStructure,$lastLineLastStructure p" $gaussianVMD::path} structureLastGaussian
 			
 				#### Organize the structure info
     			set allAtomsLastStructureCoord [split $structureLastGaussian \n]
 
 				if {$structureNumber == "0"} {
+					incr structureNumber
+					set numberColumns [llength [lindex $gaussianVMD::structureGaussian 0]]
+
+					if {$numberColumns == 4} {
+						gaussianVMD::readSmallModelStructureLastStructure $allAtomsLastStructureCoord
+						variable attributes [list "x" "y" "z" "element" "name" "type" "resname" "resid"]
+					} elseif {$numberColumns > 4} { 
+						gaussianVMD::readOniomStructureLastStructure $allAtomsLastStructureCoord
+						variable attributes [list "x" "y" "z" "element" "name" "type" "resname" "resid" "altloc" "user" "charge"]
+					} else {
+						gaussianVMD::guiError "The file has a strange structure. The file cannot be openned."
+					}
+
+					#### Load and prepara structure on VMD
+					## Create a new Molecule
+					mol new atoms $gaussianVMD::numberAtoms
+					## Change the name
+					mol rename top "[subst $gaussianVMD::fileName]"
+					## Create a frame
+					animate dup top
+					## Add the info
+					[atomselect top all] set $gaussianVMD::attributes $gaussianVMD::structureReadyToLoad
+					## Create the first representantion
+					mol selection all
+					mol color Name
+					mol addrep top
+					## Place connectivity
+					mol ssrecalc top
+					mol bondsrecalc top
+					mol reanalyze top
+					display resetview
 				
-				#### Organize the structure info
-        		set allAtoms [split $gaussianVMD::structureGaussian \n]
+					#### Add Representations
+					gaussianVMD::addSelectionRep
 
-				set numberColumns [llength [lindex $allAtoms 0]]
-
-				if {$numberColumns == 4} {
-
-				#### Read an input file that has 4 columns
-					set i 0
-    			foreach atom $allAtoms atomCoord $allAtomsLastStructureCoord {
-				
-    					lassign $atom column0 column1 column2 column3
-						lassign $atomCoord columnCoord0 columnCoord1 columnCoord2 columnCoord3 columnCoord4 columnCoord5
-					
-    			    	#### Condition to distinguish between ONIOM and simple calculations
-    					incr i
-    					
-						set resname "XXX"
-						set resid "1"
-						set pdbAtomType $column0
-						set column5 "A"
-						set atomicSymbol $column0
-					
-    					regexp {(\S+)\.+(\S+)} $columnCoord3 -> xbefore xafter
-    			    	set x $xbefore\.[format %.3s $xafter]
-    			    	regexp {(\S+)\.+(\S+)} $columnCoord4 -> ybefore yafter
-    			    	set y $ybefore\.[format %.3s $yafter]
-    			    	regexp {(\S+)\.+(\S+)} $columnCoord5 -> zbefore zafter
-    			    	set z $zbefore\.[format %.3s $zafter]
-					 
-					 
-    					puts $gaussianVMD::temporaryPDBFile "[format %-4s "ATOM"] [format %6s $i] [format %-4s $pdbAtomType][format %4s $resname] [format %-1s $column5] [format %-7s $resid] [format %7s $x] [format %7s $y] [format %7s $z] [format %5s "1.00"] [format %-8s "00.00"] [format %8s 	$atomicSymbol]"
-					
-						$gaussianVMD::topGui.frame0.tabs.tabsAtomList.tab4.tableLayer insert end [list \
-		   						"$i" \
-		   						"$column0" \
-		   						"X" \
-		   						"0" \
-		   						""\
-		   						]
-							   
-							$gaussianVMD::topGui.frame0.tabs.tabsAtomList.tab2.tableLayer insert end [list \
-		   						"$i" \
-		   						"$column0" \
-		   						"X" \
-		   						"0" \
-		   						"L"\
-		   						]
-							   
-							$gaussianVMD::topGui.frame0.tabs.tabsAtomList.tab3.tableLayer insert end [list \
-		   						"$i" \
-		   						"$column0" \
-		   						"X" \
-		   						"0" \
-		   						"0"\
-		   						]
-						   
-    					set atomicSymbol 		""
-    					set gaussianAtomType 	"" 
-    					set charge				""
-    					set pdbAtomType			""
-    					set resname				""
-    					set resid				""
-    					set x					""
-    					set y					""
-    					set z					""
-    					set column0				""
-    					set column1				""
-    					set column2				""
-    					set column3				""
-    					set column4				""
-    					set column5				""
-    					set column6				""
-    					set column7				""
-    					set column8				""
-					
-    			}	
-
-
-				} elseif {$numberColumns > 4} {
+				} else {
+					#### Write the remaining structures
+					gaussianVMD::readRemainingStructuresOpt $allAtomsLastStructureCoord
+				}
 		
-				#### Read an input file that has 9 columns
-
-    			set i 0
-    			foreach atom $allAtoms atomCoord $allAtomsLastStructureCoord {
-				
-    					lassign $atom column0 column1 column2 column3 column4 column5 column6 column7 column8
-						lassign $atomCoord columnCoord0 columnCoord1 columnCoord2 columnCoord3 columnCoord4 columnCoord5
-					
-    			    	#### Condition to distinguish between ONIOM and simple calculations
-    					incr i
-    					regexp {(\S+)[-](\S+)[-](\S+)[(]PDBName=(\S+),ResName=(\S+),ResNum=(\S+)[)]} $column0 -> \
-    					atomicSymbol gaussianAtomType charge pdbAtomType resname resid
-					
-    					regexp {(\S+)\.+(\S+)} $columnCoord3 -> xbefore xafter
-    			    	set x $xbefore\.[format %.3s $xafter]
-    			    	regexp {(\S+)\.+(\S+)} $columnCoord4 -> ybefore yafter
-    			    	set y $ybefore\.[format %.3s $yafter]
-    			    	regexp {(\S+)\.+(\S+)} $columnCoord5 -> zbefore zafter
-    			    	set z $zbefore\.[format %.3s $zafter]
-					
-    					if {[string match "*--*" $column0]==1} {
-    						set charge [expr $charge * -1] } else {
-    					 }
-						set charge [format %.6f $charge]
-					 
-    					puts $gaussianVMD::temporaryPDBFile "[format %-4s "ATOM"] [format %6s $i] [format %-4s $pdbAtomType][format %4s $resname] [format %-1s $column5] [format %-7s $resid] [format %7s $x] [format %7s $y] [format %7s $z] [format %5s "1.00"] [format %-8s "00.00"] [format %8s 	$atomicSymbol]"
-					
-    					$gaussianVMD::topGui.frame0.tabs.tabsAtomList.tab4.tableLayer insert end [list \
-    			   			"$i" \
-    			   			"[lindex [split $gaussianAtomType "-"] 0]" \
-    			   			"$resname" \
-    			   			"$resid" \
-    			   			"$charge"\
-    			   			]
-						   
-    					$gaussianVMD::topGui.frame0.tabs.tabsAtomList.tab2.tableLayer insert end [list \
-    			   			"$i" \
-    			   			"$pdbAtomType" \
-    			   			"$resname" \
-    			   			"$resid" \
-    			   			"$column5"\
-    			   			]
-						   
-    					$gaussianVMD::topGui.frame0.tabs.tabsAtomList.tab3.tableLayer insert end [list \
-    			   			"$i" \
-    			   			"$pdbAtomType" \
-    			   			"$resname" \
-    			   			"$resid" \
-    			   			"$column1"\
-    			   			]
-						   
-    					set atomicSymbol 		""
-    					set gaussianAtomType 	"" 
-    					set charge				""
-    					set pdbAtomType			""
-    					set resname				""
-    					set resid				""
-    					set x					""
-    					set y					""
-    					set z					""
-    					set column0				""
-    					set column1				""
-    					set column2				""
-    					set column3				""
-    					set column4				""
-    					set column5				""
-    					set column6				""
-    					set column7				""
-    					set column8				""
-					
-    			}	  
-			
-
-		} else {
-			gaussianVMD::guiError "The file has a strange structure. The file cannot be openned."
-		}
-
-    			## Add a footer to the file
-    			  puts $gaussianVMD::temporaryPDBFile "END"
-
-				  set linesBeforeAllStructures ""
-				  set firstLinesAllStructures ""
-
-				  incr structureNumber
-
-				  #### Close the temporary file
-    	 		  close $gaussianVMD::temporaryPDBFile
-
-				  gaussianVMD::loadMolecule $gaussianVMD::fileName $gaussianVMD::actualTime normal
-
-			} else {
-				#### Write the remaining structures
-				
-				
-				gaussianVMD::teste $allAtomsLastStructureCoord
-
 			}
-		
-		}
-
-
-
-		} else {
-			#### Put the last structure
-			gaussianVMD::loadGaussianOutputFile lastStructure
-		}
 
 		#### Read Energies
 		gaussianVMD::energy
+		
+		} else {
+			#### Put the last structure if no optimized structure was found
+			gaussianVMD::loadGaussianOutputFile lastStructure
+			gaussianVMD::guiError "No optimized structure found, therefore the last structure was loaded."
+		}
+
         
+
+
+
+
+
     } elseif {$option == "allStructures"} {
         
 		## Create a temporary file PDB
@@ -539,29 +455,6 @@ proc gaussianVMD::loadGaussianOutputFile {option} {
 
 	}	
 
-
-		#### Load and prepara structure on VMD
-		## Create a new Molecule
-		mol new atoms $gaussianVMD::numberAtoms
-		## Change the name
-		mol rename top "[subst $gaussianVMD::fileName]"
-		## Create a frame
-		animate dup top
-		## Add the info
-		[atomselect top all] set $gaussianVMD::attributes $gaussianVMD::structureReadyToLoad
-		## Create the first representantion
-		mol selection all
-		mol color Name
-		mol addrep top
-		## Place connectivity
-		mol ssrecalc top
-		mol bondsrecalc top
-		mol reanalyze top
-		display resetview
-
-		#### Add Representations
-		gaussianVMD::addSelectionRep
-
 	## Deactivate the ability to load a new molecule
 	set gaussianVMD::openNewFileMode "NO"
 
@@ -595,20 +488,20 @@ proc gaussianVMD::globalInfoOutputFile {} {
 }
 
 
-proc gaussianVMD::teste {allAtomsLastStructureCoord} {
-				set i 0
-				animate dup top
-				#update
+proc gaussianVMD::readRemainingStructuresOpt {allAtomsLastStructureCoord} {
+	animate dup top
 
-				foreach atomCoord $allAtomsLastStructureCoord {
-					lassign $atomCoord columnCoord0 columnCoord1 columnCoord2 columnCoord3 columnCoord4 columnCoord5
+	set structure {}
+	foreach atomCoord $allAtomsLastStructureCoord {
+		set coord {}
+		lassign $atomCoord columnCoord0 columnCoord1 columnCoord2 columnCoord3 columnCoord4 columnCoord5
 
-					[atomselect top "index $i"] moveto [list $columnCoord3 $columnCoord4 $columnCoord5]
-					[lindex [atomselect list] end] delete
+		lappend coord $columnCoord3 $columnCoord4 $columnCoord5
+		lappend structure $coord
+	}
 
-					incr i
-				}
-
+	[atomselect top all] set {x y z} $structure
+	
 }
 
 proc gaussianVMD::evaluateFreqCalc {} {
@@ -633,6 +526,10 @@ proc gaussianVMD::numberAtomsFirstStructure {} {
 	return $numberAtoms
 }
 
+
+############################################################################
+################## First Structure #########################################
+############################################################################
 proc gaussianVMD::readOniomStructure {} {
 		set i 0
 		set gaussianVMD::structureReadyToLoad {}
@@ -685,6 +582,12 @@ proc gaussianVMD::readSmallModelStructure {} {
     	}
 }
 
+
+
+
+############################################################################
+################### Last Structure #########################################
+############################################################################
 proc gaussianVMD::readOniomStructureLastStructure {lastStructure} {
 		set i 0
 		set gaussianVMD::structureReadyToLoad {}
@@ -707,6 +610,32 @@ proc gaussianVMD::readOniomStructureLastStructure {lastStructure} {
             
 			## Add information about atom
     		lappend atomInfo [format %.6f $columnCoord3] [format %.6f $columnCoord4] [format %.6f $columnCoord5] $atomicSymbol $pdbAtomType $gaussianAtomType $resname $resid $column5 $column1 $charge
+            
+			## Add Atom information to structure
+			lappend gaussianVMD::structureReadyToLoad $atomInfo
+    	}
+}
+
+proc gaussianVMD::readSmallModelStructureLastStructure {lastStructure} {
+		set i 0
+		set gaussianVMD::structureReadyToLoad {}
+    	foreach atom $gaussianVMD::structureGaussian coord $lastStructure {
+    		lassign $atom column0 column1 column2 column3
+			lassign $coord columnCoord0 columnCoord1 columnCoord2 columnCoord3 columnCoord4 columnCoord5
+            
+			## Atom information
+			set atomInfo {}
+
+    		incr i
+
+			set resname "XXX"
+			set resid "1"
+			set pdbAtomType $column0
+			set gaussianAtomType $column0
+			set atomicSymbol $column0
+            
+			## Add information about atom
+    		lappend atomInfo [format %.6f $columnCoord3] [format %.6f $columnCoord4] [format %.6f $columnCoord5] $atomicSymbol $pdbAtomType $gaussianAtomType $resname $resid
             
 			## Add Atom information to structure
 			lappend gaussianVMD::structureReadyToLoad $atomInfo
