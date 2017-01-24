@@ -289,6 +289,10 @@ proc gaussianVMD::loadGaussianOutputFile {option} {
 
     } else {}
 
+	#### Select top Molecule
+	gaussianVMD::getMolinfoList
+	gaussianVMD::activateMolecule
+
 }
     
 
@@ -381,7 +385,7 @@ proc gaussianVMD::readOniomStructure {} {
             set charge [format %.6f $charge]
             
 			## Add information about atom
-    		lappend atomInfo [format %.6f $column2] [format %.6f $column3] [format %.6f $column4] $atomicSymbol $pdbAtomType $gaussianAtomType $resname $resid $column5 $column1 $charge
+			lappend atomInfo [format %.6f $column2] [format %.6f $column3] [format %.6f $column4] $atomicSymbol $pdbAtomType [string trim $gaussianAtomType "-"] $resname $resid $column5 $column1 $charge
             
 			## Add Atom information to structure
 			lappend gaussianVMD::structureReadyToLoad $atomInfo
@@ -406,7 +410,7 @@ proc gaussianVMD::readSmallModelStructure {} {
 			set atomicSymbol $column0
             
 			## Add information about atom
-    		lappend atomInfo [format %.6f $column1] [format %.6f $column2] [format %.6f $column3] $atomicSymbol $pdbAtomType $gaussianAtomType $resname $resid
+    		lappend atomInfo [format %.6f $column1] [format %.6f $column2] [format %.6f $column3] $atomicSymbol $pdbAtomType [string trim $gaussianAtomType "-"] $resname $resid
             
 			## Add Atom information to structure
 			lappend gaussianVMD::structureReadyToLoad $atomInfo
@@ -440,7 +444,7 @@ proc gaussianVMD::readOniomStructureLastStructure {lastStructure} {
             set charge [format %.6f $charge]
             
 			## Add information about atom
-    		lappend atomInfo [format %.6f $columnCoord3] [format %.6f $columnCoord4] [format %.6f $columnCoord5] $atomicSymbol $pdbAtomType $gaussianAtomType $resname $resid $column5 $column1 $charge
+    		lappend atomInfo [format %.6f $columnCoord3] [format %.6f $columnCoord4] [format %.6f $columnCoord5] $atomicSymbol $pdbAtomType [string trim $gaussianAtomType "-"] $resname $resid $column5 $column1 $charge
             
 			## Add Atom information to structure
 			lappend gaussianVMD::structureReadyToLoad $atomInfo
@@ -466,7 +470,7 @@ proc gaussianVMD::readSmallModelStructureLastStructure {lastStructure} {
 			set atomicSymbol $column0
             
 			## Add information about atom
-    		lappend atomInfo [format %.6f $columnCoord3] [format %.6f $columnCoord4] [format %.6f $columnCoord5] $atomicSymbol $pdbAtomType $gaussianAtomType $resname $resid
+    		lappend atomInfo [format %.6f $columnCoord3] [format %.6f $columnCoord4] [format %.6f $columnCoord5] $atomicSymbol $pdbAtomType [string trim $gaussianAtomType "-"] $resname $resid
             
 			## Add Atom information to structure
 			lappend gaussianVMD::structureReadyToLoad $atomInfo

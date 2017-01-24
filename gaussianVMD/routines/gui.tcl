@@ -26,7 +26,7 @@ proc gaussianVMD::buildGui {} {
 	#wm geometry window $gaussianVMD::topGui 400x590
 	set x [expr $sWidth - 2*($wWidth)]
 
-	wm geometry $::gaussianVMD::topGui 400x530+$x+25
+	wm geometry $::gaussianVMD::topGui 400x560+$x+25
 	$::gaussianVMD::topGui configure -background {white}
 	wm resizable $::gaussianVMD::topGui 0 0
 
@@ -86,6 +86,21 @@ proc gaussianVMD::buildGui {} {
 	$gaussianVMD::topGui.frame0.topSection.topMenu.about.menu add command -label "Credits" -command {gaussianVMD::guiCredits}
 
 
+	#### Molecule Selection
+	pack [canvas $gaussianVMD::topGui.frame0.molSelection -bg white -width 400 -height 30 -highlightthickness 0] -in $gaussianVMD::topGui.frame0
+
+	variable topMolecule "No molecule"
+	variable molinfoList {}
+	place [ttk::combobox $gaussianVMD::topGui.frame0.molSelection.combo \
+			-textvariable gaussianVMD::topMolecule \
+			-style gaussianVMD.comboBox.TCombobox \
+			-values "$gaussianVMD::molinfoList" \
+			-postcommand {gaussianVMD::getMolinfoList} \
+			-state readonly \
+			] -in $gaussianVMD::topGui.frame0.molSelection -x 5 -y 5 -width 390
+	bind $gaussianVMD::topGui.frame0.molSelection.combo <<ComboboxSelected>> {gaussianVMD::activateMolecule}
+	
+	
 	#### Job Title
 	pack [canvas $gaussianVMD::topGui.frame0.jobTitle -bg white -width 400 -height 30 -highlightthickness 0] -in $gaussianVMD::topGui.frame0
 	place [ttk::label $gaussianVMD::topGui.frame0.jobTitle.labe \
@@ -264,13 +279,14 @@ proc gaussianVMD::buildGui {} {
 	# Charges Tab
 	place [tablelist::tablelist $gaussianVMD::topGui.frame0.tabs.tabsAtomList.tab4.tableLayer \
 			-showeditcursor true \
-			-columns {0 "#" center 0 "Gaussian Atom" center 0 "Resname" center 0 "Resid" center 0 "Charges" center} \
+			-columns {0 "Index" center 0 "Gaussian Atom" center 0 "Resname" center 0 "Resid" center 0 "Charges" center} \
 			-stretch all \
 			-background white \
 			-yscrollcommand [list $gaussianVMD::topGui.frame0.tabs.tabsAtomList.tab4.yscb set] \
 			-xscrollcommand [list $gaussianVMD::topGui.frame0.tabs.tabsAtomList.tab4.xscb set] \
 			-selectmode extended \
 			-height 14 \
+			-state normal \
 			] -in $gaussianVMD::topGui.frame0.tabs.tabsAtomList.tab4 -x 0 -y 0 -width 370 -height 300
 
 	place [ttk::scrollbar $gaussianVMD::topGui.frame0.tabs.tabsAtomList.tab4.yscb \
@@ -297,13 +313,14 @@ proc gaussianVMD::buildGui {} {
 	# Layer Tab
 	place [tablelist::tablelist $gaussianVMD::topGui.frame0.tabs.tabsAtomList.tab2.tableLayer\
 			-showeditcursor true \
-			-columns {0 "#" center 0 "PDB Atom" center 0 "Resname" center 0 "Resid" center 0 "Layer" center} \
+			-columns {0 "Index" center 0 "PDB Atom" center 0 "Resname" center 0 "Resid" center 0 "Layer" center} \
 			-stretch all \
 			-background white \
 			-yscrollcommand [list $gaussianVMD::topGui.frame0.tabs.tabsAtomList.tab2.yscb set] \
 			-xscrollcommand [list $gaussianVMD::topGui.frame0.tabs.tabsAtomList.tab2.xscb set] \
 			-selectmode extended \
 			-height 14 \
+			-state normal \
 			] -in $gaussianVMD::topGui.frame0.tabs.tabsAtomList.tab2 -x 0 -y 0 -width 370 -height 240
 
 	place [ttk::scrollbar $gaussianVMD::topGui.frame0.tabs.tabsAtomList.tab2.yscb \
@@ -350,13 +367,14 @@ proc gaussianVMD::buildGui {} {
 	# Freeze Tab
 	place [tablelist::tablelist $gaussianVMD::topGui.frame0.tabs.tabsAtomList.tab3.tableLayer\
 			-showeditcursor true \
-			-columns {0 "# Atom" center 0 "PDB Atom" center 0 "Resname" center 0 "Resid" center 0 "Freeze" center} \
+			-columns {0 "Index" center 0 "PDB Atom" center 0 "Resname" center 0 "Resid" center 0 "Freeze" center} \
 			-stretch all \
 			-background white \
 			-yscrollcommand [list $gaussianVMD::topGui.frame0.tabs.tabsAtomList.tab3.yscb set] \
 			-xscrollcommand [list $gaussianVMD::topGui.frame0.tabs.tabsAtomList.tab3.xscb set] \
 			-selectmode extended \
 			-height 14 \
+			-state normal \
 			] -in $gaussianVMD::topGui.frame0.tabs.tabsAtomList.tab3 -x 0 -y 0 -width 370 -height 240
 
 	place [ttk::scrollbar $gaussianVMD::topGui.frame0.tabs.tabsAtomList.tab3.yscb \
@@ -412,4 +430,70 @@ proc gaussianVMD::buildGui {} {
 			-style gaussianVMD.creditsVersion.TLabel \
 			] -in $gaussianVMD::topGui.frame0.credits -x 5 -y 55 -width 390
 
+}
+
+
+proc gaussianVMD::getMolinfoList {} {
+	set gaussianVMD::molinfoList {}
+	
+	set a [molinfo top]
+
+	if {$a == -1} {
+		set gaussianVMD::topMolecule "No molecule"
+	} else {
+		set gaussianVMD::topMolecule "[molinfo top] : [molinfo top get name]"
+
+		set list [molinfo list]
+		foreach mol $list {
+			set molDetails "$mol : [molinfo $mol get name]"
+			lappend gaussianVMD::molinfoList $molDetails
+		}
+	}
+
+	$gaussianVMD::topGui.frame0.molSelection.combo configure -values $gaussianVMD::molinfoList
+}
+
+
+proc gaussianVMD::activateMolecule {} {
+	## Set molecule to top
+	mol top [lindex $gaussianVMD::topMolecule 0]
+
+	## Delete previous info
+	$gaussianVMD::topGui.frame0.tabs.tabsAtomList.tab4.tableLayer delete 0 end
+	$gaussianVMD::topGui.frame0.tabs.tabsAtomList.tab2.tableLayer delete 0 end
+	$gaussianVMD::topGui.frame0.tabs.tabsAtomList.tab3.tableLayer delete 0 end
+
+	## Add info to tables
+	set sel [atomselect top all]
+	set index [$sel get index]
+	set type [$sel get type]
+	set name [$sel get name]
+	set resname [$sel get resname]
+	set resid [$sel get resid]
+
+
+	# Index
+	$gaussianVMD::topGui.frame0.tabs.tabsAtomList.tab4.tableLayer insertlist end $index
+	$gaussianVMD::topGui.frame0.tabs.tabsAtomList.tab2.tableLayer insertlist end $index
+	$gaussianVMD::topGui.frame0.tabs.tabsAtomList.tab3.tableLayer insertlist end $index
+
+	# Atom Type
+	$gaussianVMD::topGui.frame0.tabs.tabsAtomList.tab4.tableLayer columnconfigure 1 -text $type
+	$gaussianVMD::topGui.frame0.tabs.tabsAtomList.tab2.tableLayer columnconfigure 1 -text $name
+	$gaussianVMD::topGui.frame0.tabs.tabsAtomList.tab3.tableLayer columnconfigure 1 -text $name
+
+	# Resname
+	$gaussianVMD::topGui.frame0.tabs.tabsAtomList.tab4.tableLayer columnconfigure 2 -text $resname
+	$gaussianVMD::topGui.frame0.tabs.tabsAtomList.tab2.tableLayer columnconfigure 2 -text $resname
+	$gaussianVMD::topGui.frame0.tabs.tabsAtomList.tab3.tableLayer columnconfigure 2 -text $resname
+	
+	# Resid
+	$gaussianVMD::topGui.frame0.tabs.tabsAtomList.tab4.tableLayer columnconfigure 3 -text $resid
+	$gaussianVMD::topGui.frame0.tabs.tabsAtomList.tab2.tableLayer columnconfigure 3 -text $resid
+	$gaussianVMD::topGui.frame0.tabs.tabsAtomList.tab3.tableLayer columnconfigure 3 -text $resid
+
+	# Specific
+	$gaussianVMD::topGui.frame0.tabs.tabsAtomList.tab4.tableLayer columnconfigure 4 -text [$sel get charge] -formatcommand {format %.8s}
+	$gaussianVMD::topGui.frame0.tabs.tabsAtomList.tab2.tableLayer columnconfigure 4 -text [$sel get altloc]
+	$gaussianVMD::topGui.frame0.tabs.tabsAtomList.tab3.tableLayer columnconfigure 4 -text [$sel get user]
 }
