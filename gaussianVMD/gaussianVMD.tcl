@@ -37,7 +37,7 @@ namespace eval gaussianVMD:: {
 		package require tablelist
 
 		# Theme
-		package require ttk::theme::clearlooks					0.1
+		package require gaussianTheme							1.0
 
 		#### Program Variables
 
@@ -153,13 +153,7 @@ namespace eval gaussianVMD:: {
 		variable multiplicityValue		1
 		variable multiplicityValue1		1
 		variable multiplicityValue2		1
-
-		#### Images
-		#variable images 		"logo.gif"
-		#variable imagesNames 	"logo"
 		
-
-
 }
 
 

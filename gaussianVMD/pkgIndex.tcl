@@ -31,4 +31,4 @@ package ifneeded energy                                 	1.0 [list source [file 
 package ifneeded plot                                    	1.0 [list source [file join $dir/lib/plot.tcl]]
 
 #Theme
-package ifneeded ttk::theme::clearlooks                     0.1 [list source [file join $dir/lib/theme/clearlooks.tcl]]
+package ifneeded gaussianTheme                              1.0 [list source [file join $dir/lib/theme/theme.tcl]]

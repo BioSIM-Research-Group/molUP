@@ -146,7 +146,7 @@ proc gaussianVMD::changeRepCurSelection {option} {
     set evaluateLoadedMol [mol list]
 
     if {$evaluateLoadedMol == "ERROR) No molecules loaded."} {
-        gaussianVMD::guiError "No structure was loaded." -type ok -icon error]
+        gaussianVMD::guiError "No structure was loaded."
     } else {
         if {$option == "charges"} {
             set indexSelectedAtoms [$gaussianVMD::topGui.frame0.tabs.tabsAtomList.tab4.tableLayer curselection]
