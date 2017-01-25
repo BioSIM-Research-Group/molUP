@@ -289,10 +289,6 @@ proc gaussianVMD::loadGaussianOutputFile {option} {
 
     } else {}
 
-	#### Select top Molecule
-	gaussianVMD::getMolinfoList
-	gaussianVMD::activateMolecule
-
 }
     
 

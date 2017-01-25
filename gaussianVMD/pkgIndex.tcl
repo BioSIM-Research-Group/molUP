@@ -17,9 +17,7 @@ package ifneeded guiCredits     	                        1.0 [list source [file 
 
 #lib
 package ifneeded inputFile   	                            1.0 [list source [file join $dir/lib/inputFile.tcl]]
-package ifneeded getStructure  	                            1.0 [list source [file join $dir/lib/getStructure.tcl]]
 package ifneeded quit		  	                            1.0 [list source [file join $dir/lib/quit.tcl]]
-package ifneeded loadMoleculeVMD 	                        1.0 [list source [file join $dir/lib/loadMoleculeVMD.tcl]]
 package ifneeded timeControl     	                        1.0 [list source [file join $dir/lib/timeControl.tcl]]
 package ifneeded loadGaussianInputFile     	                1.0 [list source [file join $dir/lib/loadGaussianInputFile.tcl]]
 package ifneeded loadGaussianInputFile     	                2.0 [list source [file join $dir/lib/loadGaussianInputFile.1.tcl]]

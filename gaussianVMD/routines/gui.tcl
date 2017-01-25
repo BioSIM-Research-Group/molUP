@@ -91,11 +91,11 @@ proc gaussianVMD::buildGui {} {
 
 	variable topMolecule "No molecule"
 	variable molinfoList {}
+	trace variable ::vmd_initialize_structure w gaussianVMD::updateStructures
 	place [ttk::combobox $gaussianVMD::topGui.frame0.molSelection.combo \
 			-textvariable gaussianVMD::topMolecule \
 			-style gaussianVMD.comboBox.TCombobox \
 			-values "$gaussianVMD::molinfoList" \
-			-postcommand {gaussianVMD::getMolinfoList} \
 			-state readonly \
 			] -in $gaussianVMD::topGui.frame0.molSelection -x 5 -y 5 -width 390
 	bind $gaussianVMD::topGui.frame0.molSelection.combo <<ComboboxSelected>> {gaussianVMD::activateMolecule}
@@ -180,7 +180,7 @@ proc gaussianVMD::buildGui {} {
 	place [ttk::checkbutton $gaussianVMD::topGui.frame0.tabs.tabsAtomList.tab1.all \
 			-text "All" \
 			-variable gaussianVMD::allRep \
-			-command {gaussianVMD::onOffRepresentation 0} \
+			-command {gaussianVMD::onOffRepresentation 13} \
 			-style gaussianVMD.QuickRep.TCheckbutton \
 			] -in $gaussianVMD::topGui.frame0.tabs.tabsAtomList.tab1 -x 271 -y 55 -width 123
 
@@ -417,19 +417,6 @@ proc gaussianVMD::buildGui {} {
 
 	bind $gaussianVMD::topGui.frame0.tabs.tabsAtomList.tab3.tableLayer <<TablelistSelect>> {gaussianVMD::changeRepCurSelection freeze}
 
-
-	#### Credits
-	#pack [canvas $gaussianVMD::topGui.frame0.credits -bg white -width 400 -height 75 -highlightthickness 0] -in $gaussianVMD::topGui.frame0
-	#place [ttk::label $gaussianVMD::topGui.frame0.credits.developedBy \
-			-text "Developed by Henrique S. Fernandes\nEmail: henrique.fernandes@fc.up.pt" \
-			-style gaussianVMD.credits.TLabel \
-			] -in $gaussianVMD::topGui.frame0.credits -x 5 -y 15 -width 390
-
-	#place [ttk::label $gaussianVMD::topGui.frame0.credits.version \
-			-text "2017 - Version $gaussianVMD::version" \
-			-style gaussianVMD.creditsVersion.TLabel \
-			] -in $gaussianVMD::topGui.frame0.credits -x 5 -y 55 -width 390
-
 }
 
 
@@ -496,4 +483,12 @@ proc gaussianVMD::activateMolecule {} {
 	$gaussianVMD::topGui.frame0.tabs.tabsAtomList.tab4.tableLayer columnconfigure 4 -text [$sel get charge] -formatcommand {format %.8s}
 	$gaussianVMD::topGui.frame0.tabs.tabsAtomList.tab2.tableLayer columnconfigure 4 -text [$sel get altloc]
 	$gaussianVMD::topGui.frame0.tabs.tabsAtomList.tab3.tableLayer columnconfigure 4 -text [$sel get user]
+}
+
+proc gaussianVMD::updateStructures {args} {
+	set gaussianVMD::allRep "1"
+	
+	gaussianVMD::getMolinfoList
+	gaussianVMD::activateMolecule
+	gaussianVMD::addSelectionRep
 }

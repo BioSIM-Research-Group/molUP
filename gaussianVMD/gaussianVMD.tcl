@@ -21,8 +21,6 @@ namespace eval gaussianVMD:: {
 		package require guiCredits								1.0
 		
 		package require inputFile 								1.0
-		#package require getStructure							1.0
-		#package require loadMoleculeVMD							1.0
 		package require timeControl								1.0
 		package require quit									1.0
 		package require loadGaussianInputFile					2.0

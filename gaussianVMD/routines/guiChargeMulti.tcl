@@ -573,9 +573,13 @@ proc gaussianVMD::showNegPosResidues {} {
 
     }
 
-    mol modselect 11 0 "residue $listResidPos"
-    mol modselect 12 0 "residue $listResidNeg"
+    if {$listResidPos != ""} {
+        mol modselect 11 0 "residue $listResidPos"
+    } else {}
 
+    if {$listResidNeg != ""} {
+        mol modselect 12 0 "residue $listResidNeg"
+    } else {}
 }
 
 proc gaussianVMD::applyChargeMultiGUI {highLayerIndex mediumLayerIndex lowLayerIndex} {

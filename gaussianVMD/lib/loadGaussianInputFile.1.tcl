@@ -60,14 +60,6 @@ proc gaussianVMD::loadGaussianInputFile {} {
 	mol ssrecalc top
 	mol bondsrecalc top
 	mol reanalyze top
-	display resetview
-	
-	#### Add Representations
-	gaussianVMD::addSelectionRep	
-
-
-	#### Select top Molecule
-	gaussianVMD::getMolinfoList
-	gaussianVMD::activateMolecule
+	display resetview	
 }
     

@@ -62,102 +62,10 @@ proc gaussianVMD::loadButton {fileExtension} {
 
 }
 
-
-
-
-
 #### Get Blank Lines Numbers
 proc gaussianVMD::getBlankLines {path numberLine} {
 	catch {exec egrep -n -e "^ \+$" -e "^$" $path} blankLines
 	set eachBlankLine [split $blankLines ":"]
 	set lineNumber [lindex $eachBlankLine $numberLine]
 	return $lineNumber
-}
-
-
-#### Load all structure of the Output file
-proc gaussianVMD::loadGaussianOutputFileAllStructures {path} {
-	#### Number of Atoms
-	set lineBeforeStructure [split [exec grep -n " Charge =" $path | tail -n 1] ":"]
-	set firstLineStructure [expr [lindex $lineBeforeStructure 0] + 1]
-	set lineAfterStructure [split [exec egrep -n -B 1 "^ $" $path | tail -n 1] ":"]
-	set lastLineStructure [expr [lindex $lineAfterStructure 0] - 1]
-
-	#### Grep the initial structure
-	set gaussianVMD::structureGaussian [exec sed -n "$firstLineStructure,$lastLineStructure p" $path]
-
-	#### Get Information about the structure of the system
-	gaussianVMD::organizeStructureData
-
-	#### Convert the file to PDB
-	gaussianVMD::convertToPDB
-
-	#### Get the remaining spatial coordinates from the output file
-	set gaussianVMD::numberAtoms [expr $lastLineStructure - $firstLineStructure + 1]
-	set lineIntiateAllStructures [exec egrep -n " Number     Number       Type             X           Y           Z" $path | cut -f1 -d:]
-	set gaussianVMD::numberStructures [llength $lineIntiateAllStructures]
-
-	for {set i 1} { $i <= $gaussianVMD::numberStructures } { incr i } {
-		#### Clean the coordinates lists
-		set gaussianVMD::xxList ""
-		set gaussianVMD::yyList ""
-		set gaussianVMD::zzList ""
-
-		#### Get the spatial coordinates
-		set firstLineStructure [expr [lindex $lineIntiateAllStructures $i] + 2]
-		set lastLineStructure [expr $firstLineStructure + $gaussianVMD::numberAtoms]
-		set coordinatesStructure [exec sed -n "$firstLineStructure,$lastLineStructure p" $path]
-		set allAtoms [split $coordinatesStructure \n]
-		foreach atom $allAtoms {
-			lassign $atom column0 column1 column2 columnxx columnyy columnzz	
-			lappend gaussianVMD::xxList $columnxx
-			lappend gaussianVMD::yyList $columnyy
-			lappend gaussianVMD::zzList $columnzz
-		}
-
-		#### Convert to a PDB file
-		gaussianVMD::convertToPDBMultiStructures
-	}
-}
-
-
-#### Load the last structure of a PDB file
-proc gaussianVMD::loadGaussianOutputFileLastStructure {path} {
-	#### Number of Atoms
-	set lineBeforeStructure [split [exec grep -n " Charge =" $path | tail -n 1] ":"]
-	set firstLineStructure [expr [lindex $lineBeforeStructure 0] + 1]
-	set lineAfterStructure [split [exec egrep -n -B 1 "^ $" $path | tail -n 1] ":"]
-	set lastLineStructure [expr [lindex $lineAfterStructure 0] - 1]
-
-	#### Grep the initial structure
-	set gaussianVMD::structureGaussian [exec sed -n "$firstLineStructure,$lastLineStructure p" $path]
-
-	#### Get Information about the structure of the system
-	gaussianVMD::organizeStructureData
-
-	#### Get the last spatial coordinates from the output file
-	set gaussianVMD::numberAtoms [expr $lastLineStructure - $firstLineStructure + 1]
-	set lineIntiateAllStructures [exec egrep -n " Number     Number       Type             X           Y           Z" $path | cut -f1 -d:]
-	set gaussianVMD::numberStructures [llength $lineIntiateAllStructures]
-
-	#### Clean the coordinates lists
-	set gaussianVMD::xxList ""
-	set gaussianVMD::yyList ""
-	set gaussianVMD::zzList ""
-
-	#### Get the spatial coordinates
-	set firstLineStructure [expr [lindex $lineIntiateAllStructures $gaussianVMD::numberStructures] + 2]
-	set lastLineStructure [expr $firstLineStructure + $gaussianVMD::numberAtoms]
-	set coordinatesStructure [exec sed -n "$firstLineStructure,$lastLineStructure p" $path]
-	set allAtoms [split $coordinatesStructure \n]
-	foreach atom $allAtoms {
-		lassign $atom column0 column1 column2 columnxx columnyy columnzz	
-		lappend gaussianVMD::xxList $columnxx
-		lappend gaussianVMD::yyList $columnyy
-		lappend gaussianVMD::zzList $columnzz
-	}
-
-	#### Convert to a PDB file
-	gaussianVMD::convertToPDBLastStructure
-
 }

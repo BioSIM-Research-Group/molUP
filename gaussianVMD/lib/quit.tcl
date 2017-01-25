@@ -6,25 +6,16 @@ proc gaussianVMD::quit {} \
 {
 	destroy $gaussianVMD::topGui 
 
-	removeTemporaryFiles
+	trace remove variable ::vmd_initialize_structure write gaussianVMD::updateStructures
 }
 
 proc gaussianVMD::restart {} \
-{
-
-	set gaussianVMD::openNewFileMode "YES"
-	
+{	
 	destroy $gaussianVMD::topGui 
 
 	mol off all
 
-	removeTemporaryFiles
-
 	gaussianVMD::buildGui
-}
 
-
-proc removeTemporaryFiles {} \
-{
-	exec rm -rf $gaussianVMD::tmpFolder
+	trace remove variable ::vmd_initialize_structure write gaussianVMD::updateStructures
 }
