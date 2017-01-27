@@ -341,7 +341,7 @@ proc gaussianVMD::buildGui {} {
 	variable tableFreeze $tResults.tabs.tab3.tableLayer
 	place [tablelist::tablelist $tResults.tabs.tab3.tableLayer\
 			-showeditcursor true \
-			-columns {0 "Index" center 0 "PDB Atom" center 0 "Resname" center 0 "Resid" center 0 "Freeze" center} \
+			-columns {0 "Index" center 0 "PDB Atom Type" center 0 "Resname" center 0 "Resid" center 0 "Freeze" center} \
 			-stretch all \
 			-background white \
 			-yscrollcommand [list $tResults.tabs.tab3.yscb set] \
