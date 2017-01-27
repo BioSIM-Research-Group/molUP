@@ -56,12 +56,12 @@ proc gaussianVMD::gettingEnergy {File} {
 
 proc gaussianVMD::drawGraph {} {
     #### Create a new tab - Energies
-	$gaussianVMD::topGui.frame0.tabs.tabsAtomList add [frame $gaussianVMD::topGui.frame0.tabs.tabsAtomList.tab6] -text "Energies"
+	$gaussianVMD::topGui.frame0.major.tabs.tabResults.tabs add [frame $gaussianVMD::topGui.frame0.major.tabs.tabResults.tabs.tab6] -text "Energies"
 
-    place [ttk::frame $gaussianVMD::topGui.frame0.tabs.tabsAtomList.tab6.graph \
+    place [ttk::frame $gaussianVMD::topGui.frame0.major.tabs.tabResults.tabs.tab6.graph \
             -width 380 \
             -height 250 \
-			] -in $gaussianVMD::topGui.frame0.tabs.tabsAtomList.tab6 -x 5 -y 5 -width 380 -height 250
+			] -in $gaussianVMD::topGui.frame0.major.tabs.tabResults.tabs.tab6 -x 5 -y 5 -width 380 -height 250
 
 
     ## Create a list for each variable
@@ -78,6 +78,6 @@ proc gaussianVMD::drawGraph {} {
 
 
     ## Draw the graph
-    gaussianVMD::drawPlot "$gaussianVMD::topGui.frame0.tabs.tabsAtomList.tab6.graph" $structure $totalE "Energetic Profile" black 16 oval blue black 8
+    gaussianVMD::drawPlot "$gaussianVMD::topGui.frame0.major.tabs.tabResults.tabs.tab6.graph" $structure $totalE "Energetic Profile" black 16 oval blue black 8
 
 }

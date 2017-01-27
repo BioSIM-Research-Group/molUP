@@ -128,22 +128,85 @@ proc gaussianVMD::buildGui {} {
 	set tInput $major.tabs.tabInput
 	place [ttk::label $tInput.jobTitleLabel \
 		-style gaussianVMD.cyan.TLabel \
-		-text {Job Title:} ] -in $tInput -x 5 -y 5
+		-text {Job Title} ] -in $tInput -x 5 -y 5
 	
 	place [ttk::entry $tInput.jobTitleEntry \
 		-style gaussianVMD.TEntry \
-		-textvariable gaussianVMD::title ] -in $tInput -x 70 -y 5 -width 320
+		-textvariable gaussianVMD::title ] -in $tInput -x 5 -y 30 -width 390
+
+	place [ttk::label $tInput.keywordsLabel \
+		-style gaussianVMD.cyan.TLabel \
+		-text {Keyword calculations} ] -in $tInput -x 5 -y 60
+
+	place [text $tInput.keywordsText \
+		-yscrollcommand "$tInput.yscb set" \
+		-bd 1 \
+		-highlightcolor #017aff \
+		-highlightthickness 1 \
+		] -in $tInput -x 5 -y 85 -width 375 -height 80
+	$tInput.keywordsText insert end $gaussianVMD::keywordsCalc
+	gaussianVMD::checkTags $tInput.keywordsText
+	bind $tInput.keywordsText <KeyPress> "gaussianVMD::checkTags $tInput.keywordsText"
+
+
+	place [ttk::scrollbar $tInput.yscb \
+			-orient vertical \
+			-command [list $tInput.keywordsText yview]\
+			] -in $tInput -x 380 -y 85 -width 15 -height 80
+
+	#set gaussianVMD::keywordsCalc [$tInput.keywordsText get 1.0 end]
+			
+	
+	#### Charge and Multiplicity
+	place [ttk::frame $tInput.chargeMulti] -in $tInput -x 0 -y 170 -width 400 -height 200
+
+	set resultsHeight [expr $majorHeight - 30 - 30]
+	set heightBox [expr ($resultsHeight - 405 - 25 - 10) / 2]
+
+	#### Connectivity 
+	place [ttk::label $tInput.connectLabel \
+		-style gaussianVMD.cyan.TLabel \
+		-text {Connectivity} ] -in $tInput -x 5 -y 380
+
+	place [text $tInput.connect \
+		-yscrollcommand "$tInput.yscb1 set" \
+		-bd 1 \
+		-highlightcolor #017aff \
+		-highlightthickness 1 \
+		] -in $tInput -x 5 -y 405 -width 375 -height $heightBox
+
+	place [ttk::scrollbar $tInput.yscb1 \
+			-orient vertical \
+			-command [list $tInput.connect yview]\
+			] -in $tInput -x 380 -y 405 -width 15 -height $heightBox
+
+	#### Parameters 
+	place [ttk::label $tInput.paramLabel \
+		-style gaussianVMD.cyan.TLabel \
+		-text {Parameters} ] -in $tInput -x 5 -y [expr 405 + $heightBox + 10]
+
+	place [text $tInput.param \
+		-yscrollcommand "$tInput.yscb2 set" \
+		-bd 1 \
+		-highlightcolor #017aff \
+		-highlightthickness 1 \
+		] -in $tInput -x 5 -y [expr 405 + $heightBox + 10 + 25] -width 375 -height $heightBox
+
+	place [ttk::scrollbar $tInput.yscb2 \
+			-orient vertical \
+			-command [list $tInput.connect yview]\
+			] -in $tInput -x 380 -y [expr 405 + $heightBox + 10 + 25] -width 15 -height $heightBox
 
 	#### Multiplicity and Gaussian Calculations Setup
-	place [ttk::button $tInput.chargeMulti \
+	#place [ttk::button $tInput.chargeMulti \
 		    -text "Charge and Multiplicity" \
 			-style gaussianVMD.TButton \
-			-command {gaussianVMD::guiChargeMulti}] -in $tInput -x 5 -y 35 -width 190
+			-command {gaussianVMD::guiChargeMulti}] -in $tInput -x 5 -y 120 -width 190
 
-	place [ttk::button $tInput.calcSetup \
+	#place [ttk::button $tInput.calcSetup \
 		    -text "Calculation Setup" \
 			-style gaussianVMD.TButton \
-			-command {gaussianVMD::guiError "This feature is not available yet."} ] -in $tInput -x 205 -y 35 -width 190
+			-command {gaussianVMD::guiError "This feature is not available yet."} ] -in $tInput -x 205 -y 120 -width 190
 
 
 
@@ -152,8 +215,6 @@ proc gaussianVMD::buildGui {} {
 	################# TAB RESULTS #######################
 	#####################################################
 	#####################################################
-
-	set resultsHeight [expr $majorHeight - 30 - 30]
 
 	set tResults $major.tabs.tabResults
 	place [ttk::notebook $tResults.tabs \
@@ -517,9 +578,9 @@ proc gaussianVMD::activateMolecule {} {
 	mol top [lindex $gaussianVMD::topMolecule 0]
 
 	## Delete previous info
-	$gaussianVMD::topGui.frame0.tabs.tabsAtomList.tab4.tableLayer delete 0 end
-	$gaussianVMD::topGui.frame0.tabs.tabsAtomList.tab2.tableLayer delete 0 end
-	$gaussianVMD::topGui.frame0.tabs.tabsAtomList.tab3.tableLayer delete 0 end
+	$gaussianVMD::tableCharges delete 0 end
+	$gaussianVMD::tableLayer delete 0 end
+	$gaussianVMD::tableFreeze delete 0 end
 
 	## Add info to tables
 	set sel [atomselect top all]
@@ -531,29 +592,29 @@ proc gaussianVMD::activateMolecule {} {
 
 
 	# Index
-	$gaussianVMD::topGui.frame0.tabs.tabsAtomList.tab4.tableLayer insertlist end $index
-	$gaussianVMD::topGui.frame0.tabs.tabsAtomList.tab2.tableLayer insertlist end $index
-	$gaussianVMD::topGui.frame0.tabs.tabsAtomList.tab3.tableLayer insertlist end $index
+	$gaussianVMD::tableCharges insertlist end $index
+	$gaussianVMD::tableLayer insertlist end $index
+	$gaussianVMD::tableFreeze insertlist end $index
 
 	# Atom Type
-	$gaussianVMD::topGui.frame0.tabs.tabsAtomList.tab4.tableLayer columnconfigure 1 -text $type
-	$gaussianVMD::topGui.frame0.tabs.tabsAtomList.tab2.tableLayer columnconfigure 1 -text $name
-	$gaussianVMD::topGui.frame0.tabs.tabsAtomList.tab3.tableLayer columnconfigure 1 -text $name
+	$gaussianVMD::tableCharges columnconfigure 1 -text $type
+	$gaussianVMD::tableLayer columnconfigure 1 -text $name
+	$gaussianVMD::tableFreeze columnconfigure 1 -text $name
 
 	# Resname
-	$gaussianVMD::topGui.frame0.tabs.tabsAtomList.tab4.tableLayer columnconfigure 2 -text $resname
-	$gaussianVMD::topGui.frame0.tabs.tabsAtomList.tab2.tableLayer columnconfigure 2 -text $resname
-	$gaussianVMD::topGui.frame0.tabs.tabsAtomList.tab3.tableLayer columnconfigure 2 -text $resname
+	$gaussianVMD::tableCharges columnconfigure 2 -text $resname
+	$gaussianVMD::tableLayer columnconfigure 2 -text $resname
+	$gaussianVMD::tableFreeze columnconfigure 2 -text $resname
 	
 	# Resid
-	$gaussianVMD::topGui.frame0.tabs.tabsAtomList.tab4.tableLayer columnconfigure 3 -text $resid
-	$gaussianVMD::topGui.frame0.tabs.tabsAtomList.tab2.tableLayer columnconfigure 3 -text $resid
-	$gaussianVMD::topGui.frame0.tabs.tabsAtomList.tab3.tableLayer columnconfigure 3 -text $resid
+	$gaussianVMD::tableCharges columnconfigure 3 -text $resid
+	$gaussianVMD::tableLayer columnconfigure 3 -text $resid
+	$gaussianVMD::tableFreeze columnconfigure 3 -text $resid
 
 	# Specific
-	$gaussianVMD::topGui.frame0.tabs.tabsAtomList.tab4.tableLayer columnconfigure 4 -text [$sel get charge] -formatcommand {format %.8s}
-	$gaussianVMD::topGui.frame0.tabs.tabsAtomList.tab2.tableLayer columnconfigure 4 -text [$sel get altloc]
-	$gaussianVMD::topGui.frame0.tabs.tabsAtomList.tab3.tableLayer columnconfigure 4 -text [$sel get user]
+	$gaussianVMD::tableCharges columnconfigure 4 -text [$sel get charge] -formatcommand {format %.8s}
+	$gaussianVMD::tableLayer columnconfigure 4 -text [$sel get altloc]
+	$gaussianVMD::tableFreeze columnconfigure 4 -text [$sel get user]
 }
 
 proc gaussianVMD::updateStructures {args} {
@@ -562,4 +623,62 @@ proc gaussianVMD::updateStructures {args} {
 	gaussianVMD::getMolinfoList
 	gaussianVMD::activateMolecule
 	gaussianVMD::addSelectionRep
+}
+
+
+
+
+proc gaussianVMD::textSearch {w string tag} {
+   $w tag remove search 0.0 end
+   if {$string == ""} {
+	return
+   }
+   set cur 1.0
+   while 1 {
+	set cur [$w search -nocase -count length $string $cur end]
+	if {$cur == ""} {
+	    break
+	}
+	$w tag add $tag $cur "$cur + $length char"
+	set cur [$w index "$cur + $length char"]
+   }
+}
+
+proc gaussianVMD::checkTags {pathName} {
+	set calcTypes [list opt freq irc scf]
+	foreach word $calcTypes {
+		gaussianVMD::textSearch $pathName $word calcTypes
+	}
+	$pathName tag configure calcTypes -foreground red
+
+	set oniom [list oniom]
+	foreach word $oniom {
+		gaussianVMD::textSearch $pathName $word oniom
+	}
+	$pathName tag configure oniom -foreground blue
+
+	set functional [list uff dreiding amber]
+	foreach word $functional {
+		gaussianVMD::textSearch $pathName $word functional
+	}
+	$pathName tag configure functional -foreground yellow -background black
+
+	set functionalSE [list pm6 am1 pddg pm3 pm3mm pm7 indo cndo]
+	foreach word $functionalSE {
+		gaussianVMD::textSearch $pathName $word functionalSE
+	}
+	$pathName tag configure functionalSE -foreground green -background black
+
+	set functionalDFT [list hf b3lyp lsda bpv86 b3pw91 mpw1pw91 pbepbe hseh1pbe hcth tpsstpss wb97xd mp2 mp4 ccsd bd casscf]
+	foreach word $functionalDFT {
+		gaussianVMD::textSearch $pathName $word functionalDFT
+	}
+	$pathName tag configure functionalDFT -foreground orange -background black
+
+	set basisset [list sto-3g * ** + ++ 3-21 6-31g 6-31+g 6-31++g (d (2d (3d (df (2df (3df ,p ,2p ,3p ,pd ,2pd ,3pd 6-311g 6-311+g 6-311++g cc-pvdz cc-pvtz cc-pvqz lanl2dz lanl2mb sdd dgdzvp dgdzvp2 dgdzvp gen genecp]
+	foreach word $basisset {
+		gaussianVMD::textSearch $pathName $word basisset
+	}
+	$pathName tag configure basisset -foreground #b3dbff -background black
+
 }

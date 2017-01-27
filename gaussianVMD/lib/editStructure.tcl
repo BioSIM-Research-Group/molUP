@@ -149,16 +149,16 @@ proc gaussianVMD::changeRepCurSelection {option} {
         gaussianVMD::guiError "No structure was loaded."
     } else {
         if {$option == "charges"} {
-            set indexSelectedAtoms [$gaussianVMD::topGui.frame0.tabs.tabsAtomList.tab4.tableLayer curselection]
+            set indexSelectedAtoms [$gaussianVMD::tableCharges curselection]
             mol modselect 1 top index $indexSelectedAtoms
         
         } elseif {$option == "oniom"} {
-            set indexSelectedAtoms [$gaussianVMD::topGui.frame0.tabs.tabsAtomList.tab2.tableLayer curselection]
+            set indexSelectedAtoms [$gaussianVMD::tableLayer curselection]
             mol modselect 1 top index $indexSelectedAtoms
             set gaussianVMD::atomSelectionONIOM "index $indexSelectedAtoms"
         
         } elseif {$option == "freeze"} {
-            set indexSelectedAtoms [$gaussianVMD::topGui.frame0.tabs.tabsAtomList.tab3.tableLayer curselection]
+            set indexSelectedAtoms [$gaussianVMD::tableFreeze curselection]
             mol modselect 1 top index $indexSelectedAtoms
             set gaussianVMD::atomSelectionFreeze "index $indexSelectedAtoms"
         } else {

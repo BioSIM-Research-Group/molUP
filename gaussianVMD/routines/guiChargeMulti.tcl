@@ -30,9 +30,9 @@ proc gaussianVMD::guiChargeMulti {} {
 	pack [canvas $gaussianVMD::chargeMulti.frame0.frame -bg white -width 400 -height 260 -highlightthickness 0] -in $gaussianVMD::chargeMulti.frame0 
 
     #Evaluate a possible ONIOM System
-    set highLayerIndex [$gaussianVMD::topGui.frame0.tabs.tabsAtomList.tab2.tableLayer searchcolumn 4 "H" -all]
-    set mediumLayerIndex [$gaussianVMD::topGui.frame0.tabs.tabsAtomList.tab2.tableLayer searchcolumn 4 "M" -all]
-    set lowLayerIndex [$gaussianVMD::topGui.frame0.tabs.tabsAtomList.tab2.tableLayer searchcolumn 4 "L" -all]
+    set highLayerIndex [$gaussianVMD::tableLayer searchcolumn 4 "H" -all]
+    set mediumLayerIndex [$gaussianVMD::tableLayer searchcolumn 4 "M" -all]
+    set lowLayerIndex [$gaussianVMD::tableLayer searchcolumn 4 "L" -all]
 
 
 
@@ -532,7 +532,7 @@ proc gaussianVMD::guiChargeMulti {} {
 proc gaussianVMD::getChargesSum {layer} {
     
     if {$layer == "all"} {
-        set list [$gaussianVMD::topGui.frame0.tabs.tabsAtomList.tab4.tableLayer get anchor end]
+        set list [$gaussianVMD::tableCharges get anchor end]
         set charge 0
         foreach atom $list {
             set charge [expr $charge + [lindex $atom 4]]
@@ -541,11 +541,11 @@ proc gaussianVMD::getChargesSum {layer} {
 
 
     } else {
-        set hl [$gaussianVMD::topGui.frame0.tabs.tabsAtomList.tab2.tableLayer searchcolumn 4 "H" -all]
-        set ml [$gaussianVMD::topGui.frame0.tabs.tabsAtomList.tab2.tableLayer searchcolumn 4 "M" -all]
+        set hl [$gaussianVMD::tableLayer searchcolumn 4 "H" -all]
+        set ml [$gaussianVMD::tableLayer searchcolumn 4 "M" -all]
 
-        set listHL [$gaussianVMD::topGui.frame0.tabs.tabsAtomList.tab4.tableLayer get $hl]
-        set listML [$gaussianVMD::topGui.frame0.tabs.tabsAtomList.tab4.tableLayer get $ml]
+        set listHL [$gaussianVMD::tableCharges get $hl]
+        set listML [$gaussianVMD::tableCharges get $ml]
 
         set charge 0
         foreach atom $listHL {
@@ -560,7 +560,7 @@ proc gaussianVMD::getChargesSum {layer} {
         set gaussianVMD::chargeML [format %.4f $charge]
 
 
-        set list [$gaussianVMD::topGui.frame0.tabs.tabsAtomList.tab4.tableLayer get anchor end]
+        set list [$gaussianVMD::tableCharges get anchor end]
         set charge 0
         foreach atom $list {
             set charge [expr $charge + [lindex $atom 4]]
@@ -580,7 +580,7 @@ proc gaussianVMD::showNegPosResidues {} {
     for {set index 0} { $index <= $lastResid } { incr index } {
         set sel [atomselect top "residue $index"]
         set indexes [$sel list]
-        set list [$gaussianVMD::topGui.frame0.tabs.tabsAtomList.tab4.tableLayer get $indexes]
+        set list [$gaussianVMD::tableCharges get $indexes]
         set charge 0
         foreach atom $list {
             if {[lindex $atom 4] != ""} {

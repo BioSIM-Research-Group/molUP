@@ -63,7 +63,7 @@ namespace eval gaussianVMD:: {
 		variable fileExtension		""
 		variable title 				"Gaussian for VMD is a very good plugin :)"
 		variable chargesMultip		""
-		variable keywordsCalc		"# "
+		variable keywordsCalc		"%mem=7000MB\n%NProc=4\n%chk=name.chk\n\n# "
 		variable structureGaussian	""
 		variable loadingProgress	"0.0"
 		variable atomicSymbolList 		
