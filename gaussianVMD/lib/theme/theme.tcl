@@ -371,4 +371,25 @@ ttk::style theme create gaussianVMDTheme -parent clam -settings {
     }
 
 
+    ttk::style element create gaussianVMD.white.Entry.field \
+        image [list $gaussianVMD::images(button-n) \
+                 pressed $gaussianVMD::images(button-n) \
+                 {selected active} $gaussianVMD::images(button-n) \
+                 selected $gaussianVMD::images(button-n) \
+                 active $gaussianVMD::images(button-a) \
+                 disabled $gaussianVMD::images(button-n) \
+                ] \
+                -border 4 -sticky ew
+
+    ttk::style configure gaussianVMD.white.TEntry \
+        -selectbackground white \
+        -selectforeground black
+
+    ttk::style layout gaussianVMD.white.TEntry {
+        Entry.gaussianVMD.white.Entry.field -children {
+            Entry.gaussianVMD.white.Entry.textarea
+        }
+    }
+
+
 }

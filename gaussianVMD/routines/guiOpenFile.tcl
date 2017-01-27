@@ -45,7 +45,7 @@ proc gaussianVMD::guiOpenFile {} {
 
     place [ttk::entry $gaussianVMD::openFile.frame.back.pathEntry \
 		    -textvariable gaussianVMD::path \
-            -style gaussianVMD.TEntry \
+            -style gaussianVMD.white.TEntry \
             ] -in $gaussianVMD::openFile.frame.back -x 10 -y 40 -width 295 -height 28
 
     place [ttk::button $gaussianVMD::openFile.frame.back.buttonBrowseFile \
