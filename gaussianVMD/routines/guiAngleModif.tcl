@@ -22,11 +22,7 @@ proc gaussianVMD::guiAngleModif {} {
 	wm resizable $::gaussianVMD::angleModif 0 0
 
 	## Apply theme
-	ttk::style theme use clearlooks
-
-    ## Styles
-	ttk::style configure gaussianVMD.button.TButton \
-		-anchor center
+	ttk::style theme use gaussianVMDTheme
 
 	wm protocol $::gaussianVMD::angleModif WM_DELETE_WINDOW {gaussianVMD::bondGuiCloseSave}
 
@@ -38,54 +34,65 @@ proc gaussianVMD::guiAngleModif {} {
         
     place [ttk::label $gaussianVMD::angleModif.frame0.frame.title \
 		    -text {Three atoms were selected. You can adjust the angle.} \
+			-style gaussianVMD.white.TLabel \
 		    ] -in $gaussianVMD::angleModif.frame0.frame -x 10 -y 10 -width 380
 
     place [ttk::label $gaussianVMD::angleModif.frame0.frame.atom1 \
 		    -text {Atom 1:} \
+			-style gaussianVMD.white.TLabel \
 		    ] -in $gaussianVMD::angleModif.frame0.frame -x 10 -y 30 -width 60       
 
     place [ttk::entry $gaussianVMD::angleModif.frame0.frame.atom1Index \
 		        -textvariable {gaussianVMD::atom1AngleSel} \
 				-state readonly \
+				-style gaussianVMD.TEntry \
 		        ] -in $gaussianVMD::angleModif.frame0.frame -x 60 -y 30 -width 100
 
     place [ttk::label $gaussianVMD::angleModif.frame0.frame.atom1OptionsLabel \
 		        -text {Options: } \
+				-style gaussianVMD.white.TLabel \
 		        ] -in $gaussianVMD::angleModif.frame0.frame -x 190 -y 30 -width 50
             
     place [ttk::combobox $gaussianVMD::angleModif.frame0.frame.atom1Options \
 		        -textvariable {gaussianVMD::atom1AngleOpt} \
 			    -state readonly \
+				-style gaussianVMD.white.TCombobox \
 		        -values "[list "Fixed Atom" "Move Atom" "Move Atoms"]"
 		        ] -in $gaussianVMD::angleModif.frame0.frame -x 250 -y 30 -width 140
 
         
     place [ttk::label $gaussianVMD::angleModif.frame0.frame.atom2 \
 		    -text {Atom 2:} \
+			-style gaussianVMD.white.TLabel \
 		    ] -in $gaussianVMD::angleModif.frame0.frame -x 10 -y 60 -width 60
 
     place [ttk::entry $gaussianVMD::angleModif.frame0.frame.atom2Index \
 		        -textvariable {gaussianVMD::atom2AngleSel} \
 				-state readonly \
+				-style gaussianVMD.TEntry \
 		        ] -in $gaussianVMD::angleModif.frame0.frame -x 60 -y 60 -width 100
 
 
     place [ttk::label $gaussianVMD::angleModif.frame0.frame.atom3 \
 		    -text {Atom 3:} \
+			-style gaussianVMD.white.TLabel \
 		    ] -in $gaussianVMD::angleModif.frame0.frame -x 10 -y 90 -width 60
 
     place [ttk::entry $gaussianVMD::angleModif.frame0.frame.atom3Index \
 		        -textvariable {gaussianVMD::atom3AngleSel} \
 				-state readonly \
+				-style gaussianVMD.TEntry \
 		        ] -in $gaussianVMD::angleModif.frame0.frame -x 60 -y 90 -width 100
 
     place [ttk::label $gaussianVMD::angleModif.frame0.frame.atom3OptionsLabel \
 		        -text {Options: } \
+				-style gaussianVMD.white.TLabel \
 		        ] -in $gaussianVMD::angleModif.frame0.frame -x 190 -y 90 -width 50
             
     place [ttk::combobox $gaussianVMD::angleModif.frame0.frame.atom3Options \
 		        -textvariable {gaussianVMD::atom3AngleOpt} \
 			    -state readonly \
+				-style gaussianVMD.white.TCombobox \
 		        -values "[list "Fixed Atom" "Move Atom" "Move Atoms"]"
 		        ] -in $gaussianVMD::angleModif.frame0.frame -x 250 -y 90 -width 140
 
@@ -104,6 +111,7 @@ proc gaussianVMD::guiAngleModif {} {
 
     place [ttk::label $gaussianVMD::angleModif.frame0.frame.distanceLabel \
 				-text {Angle (°): } \
+				-style gaussianVMD.white.TLabel \
 		        ] -in $gaussianVMD::angleModif.frame0.frame -x 10 -y 153 -width 60
 
     place [spinbox $gaussianVMD::angleModif.frame0.frame.distance \
@@ -116,11 +124,13 @@ proc gaussianVMD::guiAngleModif {} {
                 
     place [ttk::button $gaussianVMD::angleModif.frame0.frame.apply \
 		            -text "Apply" \
+					-style gaussianVMD.TButton \
 		            -command {gaussianVMD::angleGuiCloseSave} \
 		            ] -in $gaussianVMD::angleModif.frame0.frame -x 230 -y 150 -width 75
 				
 	place [ttk::button $gaussianVMD::angleModif.frame0.frame.cancel \
 		            -text "Cancel" \
+					-style gaussianVMD.TButton \
 		            -command {gaussianVMD::angleGuiCloseNotSave} \
 		            ] -in $gaussianVMD::angleModif.frame0.frame -x 315 -y 150 -width 75
 

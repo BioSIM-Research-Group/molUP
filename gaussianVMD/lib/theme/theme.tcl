@@ -125,6 +125,19 @@ ttk::style theme create gaussianVMDTheme -parent clam -settings {
     ttk::style configure gaussianVMD.gray.TLabel \
         -background $gray
 
+    ttk::style configure gaussianVMD.white.TLabel \
+        -background white
+
+    ttk::style configure gaussianVMD.yellow.TLabel \
+        -background #ffe87a        
+
+    ttk::style configure gaussianVMD.whiteCenter.TLabel \
+        -background white \
+        -anchor center
+
+    ttk::style configure gaussianVMD.lightGreen.TLabel \
+        -background $lightGreen
+
     ttk::style configure gaussianVMD.grayCenter.TLabel \
         -background $gray \
         -anchor center
@@ -134,7 +147,9 @@ ttk::style theme create gaussianVMDTheme -parent clam -settings {
 
     #### Combobox
     ttk::style configure gaussianVMD.TCombobox \
-        -background $gray
+        -background $gray \
+        -selectbackground $cyan \
+        -selectforeground black
 
     ttk::style element create gaussianVMD.Combobox.downarrow image \
          [list $gaussianVMD::images(comboarrow-n) \
@@ -154,6 +169,63 @@ ttk::style theme create gaussianVMDTheme -parent clam -settings {
         Combobox.gaussianVMD.Combobox.field -children {
             Combobox.gaussianVMD.Combobox.padding -children {
                 Combobox.gaussianVMD.Combobox.textarea -expand true
+            }
+        }
+    }
+
+
+    ttk::style configure gaussianVMD.green.TCombobox \
+        -background $lightGreen \
+        -anchor center \
+        -selectbackground $cyan \
+        -selectforeground black
+
+    ttk::style element create gaussianVMD.green.Combobox.downarrow image \
+         [list $gaussianVMD::images(comboarrow-n) \
+         disabled $gaussianVMD::images(comboarrow-d) \
+         pressed $gaussianVMD::images(comboarrow-p) \
+         active $gaussianVMD::images(comboarrow-a) \
+         ] \
+         -border 1 -sticky {}
+
+    ttk::style element create gaussianVMD.green.Combobox.field image \
+         [list $gaussianVMD::images(combo-n) \
+         ] \
+         -sticky ew -border 4
+    
+    ttk::style layout gaussianVMD.green.TCombobox {
+        Combobox.gaussianVMD.green.Combobox.downarrow -side right
+        Combobox.gaussianVMD.green.Combobox.field -children {
+            Combobox.gaussianVMD.green.Combobox.padding -children {
+                Combobox.gaussianVMD.green.Combobox.textarea -expand true
+            }
+        }
+    }
+
+    ttk::style configure gaussianVMD.white.TCombobox \
+        -background white \
+        -anchor center \
+        -selectbackground $cyan \
+        -selectforeground black
+
+    ttk::style element create gaussianVMD.white.Combobox.downarrow image \
+         [list $gaussianVMD::images(comboarrow-n) \
+         disabled $gaussianVMD::images(comboarrow-d) \
+         pressed $gaussianVMD::images(comboarrow-p) \
+         active $gaussianVMD::images(comboarrow-a) \
+         ] \
+         -border 1 -sticky {}
+
+    ttk::style element create gaussianVMD.white.Combobox.field image \
+         [list $gaussianVMD::images(combo-n) \
+         ] \
+         -sticky ew -border 4
+    
+    ttk::style layout gaussianVMD.white.TCombobox {
+        Combobox.gaussianVMD.white.Combobox.downarrow -side right
+        Combobox.gaussianVMD.white.Combobox.field -children {
+            Combobox.gaussianVMD.white.Combobox.padding -children {
+                Combobox.gaussianVMD.white.Combobox.textarea -expand true
             }
         }
     }
@@ -273,5 +345,30 @@ ttk::style theme create gaussianVMDTheme -parent clam -settings {
             Button.gaussianVMD.blue.Button.label
         }
     }
+
+
+
+
+    #### Entry
+    ttk::style element create gaussianVMD.Entry.field \
+        image [list $gaussianVMD::images(button-n) \
+                 pressed $gaussianVMD::images(button-n) \
+                 {selected active} $gaussianVMD::images(button-n) \
+                 selected $gaussianVMD::images(button-n) \
+                 active $gaussianVMD::images(button-a) \
+                 disabled $gaussianVMD::images(button-n) \
+                ] \
+                -border 4 -sticky ew
+
+    ttk::style configure gaussianVMD.TEntry \
+        -selectbackground $cyan \
+        -selectforeground black
+
+    ttk::style layout gaussianVMD.TEntry {
+        Entry.gaussianVMD.Entry.field -children {
+            Entry.gaussianVMD.Entry.textarea
+        }
+    }
+
 
 }

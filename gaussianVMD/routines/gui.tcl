@@ -53,14 +53,14 @@ proc gaussianVMD::buildGui {} {
 	$gaussianVMD::topGui.frame0.topSection.topMenu.file.menu add command -label "Open" -command {gaussianVMD::guiOpenFile}
 	$gaussianVMD::topGui.frame0.topSection.topMenu.file.menu add command -label "Save" -command {gaussianVMD::guiSaveFile}
 	$gaussianVMD::topGui.frame0.topSection.topMenu.file.menu add command -label "Restart" -command {gaussianVMD::restart}
-	$gaussianVMD::topGui.frame0.topSection.topMenu.file.menu add command -label "Quit" -command {gaussianVMD::quit}
+	$gaussianVMD::topGui.frame0.topSection.topMenu.file.menu add command -label "Close" -command {gaussianVMD::quit}
 
 	place [ttk::menubutton $gaussianVMD::topGui.frame0.topSection.topMenu.tools -text "Tools" -menu $gaussianVMD::topGui.frame0.topSection.topMenu.tools.menu \
 			-style gaussianVMD.menuBar.TMenubutton \
 			] -in $gaussianVMD::topGui.frame0.topSection.topMenu -x 54 -y 5 -height 25 -width 60
 	
 	menu $gaussianVMD::topGui.frame0.topSection.topMenu.tools.menu -tearoff 0
-	$gaussianVMD::topGui.frame0.topSection.topMenu.tools.menu add command -label "Reset view" -command {display reset view}
+	$gaussianVMD::topGui.frame0.topSection.topMenu.tools.menu add command -label "Reset view" -command {display resetview}
 	$gaussianVMD::topGui.frame0.topSection.topMenu.tools.menu add command -label "Center atom" -command {mouse mode center}
 	$gaussianVMD::topGui.frame0.topSection.topMenu.tools.menu add command -label "Delete all labels" -command {gaussianVMD::deleteAllLabels}
 	$gaussianVMD::topGui.frame0.topSection.topMenu.tools.menu add command -label "Mouse mode: Rotate" -command {mouse mode rotate}
@@ -84,6 +84,7 @@ proc gaussianVMD::buildGui {} {
 	menu $gaussianVMD::topGui.frame0.topSection.topMenu.about.menu -tearoff 0
 	$gaussianVMD::topGui.frame0.topSection.topMenu.about.menu add command -label "Help" -command {gaussianVMD::guiError "This feature is not available yet."}
 	$gaussianVMD::topGui.frame0.topSection.topMenu.about.menu add command -label "Credits" -command {gaussianVMD::guiCredits}
+	$gaussianVMD::topGui.frame0.topSection.topMenu.about.menu add command -label "Check for updates" -command {gaussianVMD::guiError "No updates available."}
 
 
 	#### Molecule Selection
@@ -136,10 +137,12 @@ proc gaussianVMD::buildGui {} {
 	#### Multiplicity and Gaussian Calculations Setup
 	place [ttk::button $tInput.chargeMulti \
 		    -text "Charge and Multiplicity" \
+			-style gaussianVMD.TButton \
 			-command {gaussianVMD::guiChargeMulti}] -in $tInput -x 5 -y 35 -width 190
 
 	place [ttk::button $tInput.calcSetup \
 		    -text "Calculation Setup" \
+			-style gaussianVMD.TButton \
 			-command {gaussianVMD::guiError "This feature is not available yet."} ] -in $tInput -x 205 -y 35 -width 190
 
 
@@ -167,9 +170,10 @@ proc gaussianVMD::buildGui {} {
 
 	
 	# Charges Tab
+	variable tableCharges $tResults.tabs.tab4.tableLayer
 	place [tablelist::tablelist $tResults.tabs.tab4.tableLayer \
 			-showeditcursor true \
-			-columns {0 "Index" center 0 "Gaussian Atom" center 0 "Resname" center 0 "Resid" center 0 "Charges" center} \
+			-columns {0 "Index" center 0 "Gaussian Atom Type" center 0 "Resname" center 0 "Resid" center 0 "Charges" center} \
 			-stretch all \
 			-background white \
 			-yscrollcommand [list $tResults.tabs.tab4.yscb set] \
@@ -204,116 +208,142 @@ proc gaussianVMD::buildGui {} {
 	$tResults.tabs.tab4.tableLayer configcolumns 4 -editable true 4 -labelrelief raised 4 -labelbackground #b3dbff 4 -labelbd 1
 
 	bind $tResults.tabs.tab4.tableLayer <<TablelistSelect>> {gaussianVMD::changeRepCurSelection charges}
-#
-#	# Layer Tab
-#	place [tablelist::tablelist $gaussianVMD::topGui.frame0.tabs.tabsAtomList.tab2.tableLayer\
-#			-showeditcursor true \
-#			-columns {0 "Index" center 0 "PDB Atom" center 0 "Resname" center 0 "Resid" center 0 "Layer" center} \
-#			-stretch all \
-#			-background white \
-#			-yscrollcommand [list $gaussianVMD::topGui.frame0.tabs.tabsAtomList.tab2.yscb set] \
-#			-xscrollcommand [list $gaussianVMD::topGui.frame0.tabs.tabsAtomList.tab2.xscb set] \
-#			-selectmode extended \
-#			-height 14 \
-#			-state normal \
-#			] -in $gaussianVMD::topGui.frame0.tabs.tabsAtomList.tab2 -x 0 -y 0 -width 370 -height 240
-#
-#	place [ttk::scrollbar $gaussianVMD::topGui.frame0.tabs.tabsAtomList.tab2.yscb \
-#			-orient vertical \
-#			-command [list $gaussianVMD::topGui.frame0.tabs.tabsAtomList.tab2.tableLayer yview]\
-#			] -in $gaussianVMD::topGui.frame0.tabs.tabsAtomList.tab2 -x 370 -y 0 -width 20 -height 240
-#
-#	place [ttk::scrollbar $gaussianVMD::topGui.frame0.tabs.tabsAtomList.tab2.xscb \
-#			-orient horizontal \
-#			-command [list $gaussianVMD::topGui.frame0.tabs.tabsAtomList.tab2.tableLayer xview]\
-#			] -in $gaussianVMD::topGui.frame0.tabs.tabsAtomList.tab2 -x 0 -y 240 -height 20 -width 370
-#
-#	place [ttk::label $gaussianVMD::topGui.frame0.tabs.tabsAtomList.tab2.selectionLabel \
-#			-text {Atom selection (Change ONIOM layer):} \
-#			] -in $gaussianVMD::topGui.frame0.tabs.tabsAtomList.tab2 -x 5 -y 265 -width 380
-#
-#	place [ttk::entry $gaussianVMD::topGui.frame0.tabs.tabsAtomList.tab2.selection \
-#			-textvariable gaussianVMD::atomSelectionONIOM \
-#			-style gaussianVMD.TEntry \
-#			] -in $gaussianVMD::topGui.frame0.tabs.tabsAtomList.tab2 -x 5 -y 290 -width 375
-#
-#	place [ttk::combobox $gaussianVMD::topGui.frame0.tabs.tabsAtomList.tab2.selectModificationValue \
-#			-textvariable gaussianVMD::selectionModificationValueOniom \
-#			-style gaussianVMD.comboBox.TCombobox \
-#			-values "[list "H" "M" "L"]" \
-#			] -in $gaussianVMD::topGui.frame0.tabs.tabsAtomList.tab2 -x 5 -y 320 -width 118
-#
-#	place [ttk::button $gaussianVMD::topGui.frame0.tabs.tabsAtomList.tab2.selectionApply \
-#			-text "Apply" \
-#			-command {gaussianVMD::applyToStructure oniom} \
-#			-style gaussianVMD.TButton \
-#			] -in $gaussianVMD::topGui.frame0.tabs.tabsAtomList.tab2 -x 133 -y 320 -width 118
-#
-#	place [ttk::button $gaussianVMD::topGui.frame0.tabs.tabsAtomList.tab2.clearSelection \
-#			-text "Clear Selection" \
-#			-command {gaussianVMD::clearSelection oniom} \
-#			-style gaussianVMD.TButton \
-#			] -in $gaussianVMD::topGui.frame0.tabs.tabsAtomList.tab2 -x 261 -y 320 -width 118
-#
-#	$gaussianVMD::topGui.frame0.tabs.tabsAtomList.tab2.tableLayer configcolumns 4 -editable true
-#
-#	bind $gaussianVMD::topGui.frame0.tabs.tabsAtomList.tab2.tableLayer <<TablelistSelect>> {gaussianVMD::changeRepCurSelection oniom}
-#
-#	
-#	# Freeze Tab
-#	place [tablelist::tablelist $gaussianVMD::topGui.frame0.tabs.tabsAtomList.tab3.tableLayer\
-#			-showeditcursor true \
-#			-columns {0 "Index" center 0 "PDB Atom" center 0 "Resname" center 0 "Resid" center 0 "Freeze" center} \
-#			-stretch all \
-#			-background white \
-#			-yscrollcommand [list $gaussianVMD::topGui.frame0.tabs.tabsAtomList.tab3.yscb set] \
-#			-xscrollcommand [list $gaussianVMD::topGui.frame0.tabs.tabsAtomList.tab3.xscb set] \
-#			-selectmode extended \
-#			-height 14 \
-#			-state normal \
-#			] -in $gaussianVMD::topGui.frame0.tabs.tabsAtomList.tab3 -x 0 -y 0 -width 370 -height 240
-#
-#	place [ttk::scrollbar $gaussianVMD::topGui.frame0.tabs.tabsAtomList.tab3.yscb \
-#			-orient vertical \
-#			-command [list $gaussianVMD::topGui.frame0.tabs.tabsAtomList.tab3.tableLayer yview]\
-#			] -in $gaussianVMD::topGui.frame0.tabs.tabsAtomList.tab3 -x 370 -y 0 -width 20 -height 240
-#
-#	place [ttk::scrollbar $gaussianVMD::topGui.frame0.tabs.tabsAtomList.tab3.xscb \
-#			-orient horizontal \
-#			-command [list $gaussianVMD::topGui.frame0.tabs.tabsAtomList.tab3.tableLayer xview]\
-#			] -in $gaussianVMD::topGui.frame0.tabs.tabsAtomList.tab3 -x 0 -y 240 -height 20 -width 370
-#
-#	place [ttk::label $gaussianVMD::topGui.frame0.tabs.tabsAtomList.tab3.selectionLabel \
-#			-text {Atom selection (Change freezing state):} \
-#			] -in $gaussianVMD::topGui.frame0.tabs.tabsAtomList.tab3 -x 5 -y 265 -width 380
-#
-#	place [ttk::entry $gaussianVMD::topGui.frame0.tabs.tabsAtomList.tab3.selection \
-#			-textvariable gaussianVMD::atomSelectionFreeze\
-#			-style gaussianVMD.TEntry \
-#			] -in $gaussianVMD::topGui.frame0.tabs.tabsAtomList.tab3 -x 5 -y 290 -width 375
-#
-#	place [ttk::combobox $gaussianVMD::topGui.frame0.tabs.tabsAtomList.tab3.selectModificationValue \
-#			-textvariable gaussianVMD::selectionModificationValueFreeze \
-#			-style gaussianVMD.comboBox.TCombobox \
-#			-values "[list "0" "-1" "-2" "-3"]" \
-#			] -in $gaussianVMD::topGui.frame0.tabs.tabsAtomList.tab3 -x 5 -y 320 -width 118
-#
-#	place [ttk::button $gaussianVMD::topGui.frame0.tabs.tabsAtomList.tab3.selectionApply \
-#			-text "Apply" \
-#			-command {gaussianVMD::applyToStructure freeze} \
-#			-style gaussianVMD.TButton \
-#			] -in $gaussianVMD::topGui.frame0.tabs.tabsAtomList.tab3 -x 133 -y 320 -width 118
-#
-#	place [ttk::button $gaussianVMD::topGui.frame0.tabs.tabsAtomList.tab3.clearSelection \
-#			-text "Clear Selection" \
-#			-command {gaussianVMD::clearSelection freeze} \
-#			-style gaussianVMD.TButton \
-#			] -in $gaussianVMD::topGui.frame0.tabs.tabsAtomList.tab3 -x 261 -y 320 -width 118
-#
-#	$gaussianVMD::topGui.frame0.tabs.tabsAtomList.tab3.tableLayer configcolumns 4 -editable true
-#
-#	bind $gaussianVMD::topGui.frame0.tabs.tabsAtomList.tab3.tableLayer <<TablelistSelect>> {gaussianVMD::changeRepCurSelection freeze}
-#
+
+
+	# Layer Tab
+	variable tableLayer $tResults.tabs.tab2.tableLayer
+	place [tablelist::tablelist $tResults.tabs.tab2.tableLayer \
+			-showeditcursor true \
+			-columns {0 "Index" center 0 "PDB Atom Type" center 0 "Resname" center 0 "Resid" center 0 "Layer" center} \
+			-stretch all \
+			-background white \
+			-yscrollcommand [list $tResults.tabs.tab2.yscb set] \
+			-xscrollcommand [list $tResults.tabs.tab2.xscb set] \
+			-selectmode extended \
+			-height 14 \
+			-state normal \
+			-borderwidth 0 \
+			-relief flat \
+			] -in $tResults.tabs.tab2 -x 0 -y 0 -width 375 -height [expr $resultsHeight - 120]
+
+	place [ttk::scrollbar $tResults.tabs.tab2.yscb \
+			-orient vertical \
+			-command [list $tResults.tabs.tab2.tableLayer yview]\
+			] -in $tResults.tabs.tab2 -x 375 -y 0 -width 20 -height [expr $resultsHeight - 120]
+
+	place [ttk::scrollbar $tResults.tabs.tab2.xscb \
+			-orient horizontal \
+			-command [list $tResults.tabs.tab2.tableLayer xview]\
+			] -in $tResults.tabs.tab2 -x 0 -y [expr $resultsHeight - 120] -height 20 -width 375
+
+	place [ttk::label $tResults.tabs.tab2.selectionLabel \
+			-text {Atom selection (Change ONIOM layer):} \
+			-style gaussianVMD.lightGreen.TLabel \
+			] -in $tResults.tabs.tab2 -x 5 -y [expr $resultsHeight - 100 + 5] -width 370
+
+	place [ttk::entry $tResults.tabs.tab2.selection \
+			-textvariable gaussianVMD::atomSelectionONIOM \
+			-style gaussianVMD.TEntry \
+			] -in $tResults.tabs.tab2 -x 5 -y [expr $resultsHeight - 100 + 35] -width 375
+	tooltip::tooltip $tResults.tabs.tab2.selection "You can also select atoms dragging in the list above"
+
+	place [ttk::combobox $tResults.tabs.tab2.selectModificationValue \
+			-textvariable gaussianVMD::selectionModificationValueOniom \
+			-style gaussianVMD.green.TCombobox \
+			-values "[list "H" "M" "L"]" \
+			-state readonly \
+			] -in $tResults.tabs.tab2 -x 5 -y [expr $resultsHeight - 100 + 65] -width 118
+	tooltip::tooltip $tResults.tabs.tab2.selectModificationValue "Choose a ONIOM layer - (H) High Layer, (M) Medium Layer and (L) Low Layer"
+
+	place [ttk::button $tResults.tabs.tab2.selectionApply \
+			-text "Apply" \
+			-command {gaussianVMD::applyToStructure oniom} \
+			-style gaussianVMD.blue.TButton \
+			] -in $tResults.tabs.tab2 -x 133 -y [expr $resultsHeight - 100 + 65] -width 118
+
+	place [ttk::button $tResults.tabs.tab2.clearSelection \
+			-text "Clear Selection" \
+			-command {gaussianVMD::clearSelection oniom} \
+			-style gaussianVMD.blue.TButton \
+			] -in $tResults.tabs.tab2 -x 261 -y [expr $resultsHeight - 100 + 65] -width 118
+
+	$tResults.tabs.tab2.tableLayer configcolumns 0 -labelrelief raised 0 -labelbackground #b3dbff 0 -labelborderwidth 1
+	$tResults.tabs.tab2.tableLayer configcolumns 1 -labelrelief raised 1 -labelbackground #b3dbff 1 -labelbd 1
+	$tResults.tabs.tab2.tableLayer configcolumns 2 -labelrelief raised 2 -labelbackground #b3dbff 2 -labelbd 1
+	$tResults.tabs.tab2.tableLayer configcolumns 3 -labelrelief raised 3 -labelbackground #b3dbff 3 -labelbd 1
+	$tResults.tabs.tab2.tableLayer configcolumns 4 -editable true 4 -labelrelief raised 4 -labelbackground #b3dbff 4 -labelbd 1
+
+	bind $tResults.tabs.tab2.tableLayer <<TablelistSelect>> {gaussianVMD::changeRepCurSelection oniom}
+
+	
+	# Freeze Tab
+	variable tableFreeze $tResults.tabs.tab3.tableLayer
+	place [tablelist::tablelist $tResults.tabs.tab3.tableLayer\
+			-showeditcursor true \
+			-columns {0 "Index" center 0 "PDB Atom" center 0 "Resname" center 0 "Resid" center 0 "Freeze" center} \
+			-stretch all \
+			-background white \
+			-yscrollcommand [list $tResults.tabs.tab3.yscb set] \
+			-xscrollcommand [list $tResults.tabs.tab3.xscb set] \
+			-selectmode extended \
+			-height 14 \
+			-state normal \
+			-borderwidth 0 \
+			-relief flat \
+			] -in $tResults.tabs.tab3 -x 0 -y 0 -width 375 -height [expr $resultsHeight - 120]
+
+	place [ttk::scrollbar $tResults.tabs.tab3.yscb \
+			-orient vertical \
+			-command [list $tResults.tabs.tab3.tableLayer yview]\
+			] -in $tResults.tabs.tab3 -x 375 -y 0 -width 20 -height [expr $resultsHeight - 120]
+
+	place [ttk::scrollbar $tResults.tabs.tab3.xscb \
+			-orient horizontal \
+			-command [list $tResults.tabs.tab3.tableLayer xview]\
+			] -in $tResults.tabs.tab3 -x 0 -y [expr $resultsHeight - 120] -height 20 -width 375
+
+	place [ttk::label $tResults.tabs.tab3.selectionLabel \
+			-text {Atom selection (Change freezing state):} \
+			-style gaussianVMD.lightGreen.TLabel \
+			] -in $tResults.tabs.tab3 -x 5 -y [expr $resultsHeight - 100 + 5] -width 370
+
+	place [ttk::entry $tResults.tabs.tab3.selection \
+			-textvariable gaussianVMD::atomSelectionFreeze\
+			-style gaussianVMD.TEntry \
+			] -in $tResults.tabs.tab3 -x 5 -y [expr $resultsHeight - 100 + 35] -width 375
+	tooltip::tooltip $tResults.tabs.tab3.selection "You can also select atoms dragging in the list above"
+
+	place [ttk::combobox $tResults.tabs.tab3.selectModificationValue \
+			-textvariable gaussianVMD::selectionModificationValueFreeze \
+			-style gaussianVMD.green.TCombobox \
+			-values "[list "0" "-1" "-2" "-3"]" \
+			] -in $tResults.tabs.tab3 -x 5 -y [expr $resultsHeight - 100 + 65] -width 118
+	tooltip::tooltip $tResults.tabs.tab3.selectModificationValue "Choose freeze option"
+
+	place [ttk::button $tResults.tabs.tab3.selectionApply \
+			-text "Apply" \
+			-command {gaussianVMD::applyToStructure freeze} \
+			-style gaussianVMD.TButton \
+			] -in $tResults.tabs.tab3 -x 133 -y [expr $resultsHeight - 100 + 65] -width 118
+
+	place [ttk::button $tResults.tabs.tab3.clearSelection \
+			-text "Clear Selection" \
+			-command {gaussianVMD::clearSelection freeze} \
+			-style gaussianVMD.TButton \
+			] -in $tResults.tabs.tab3 -x 261 -y [expr $resultsHeight - 100 + 65] -width 118
+
+	$tResults.tabs.tab3.tableLayer configcolumns 0 -labelrelief raised 0 -labelbackground #b3dbff 0 -labelborderwidth 1
+	$tResults.tabs.tab3.tableLayer configcolumns 1 -labelrelief raised 1 -labelbackground #b3dbff 1 -labelbd 1
+	$tResults.tabs.tab3.tableLayer configcolumns 2 -labelrelief raised 2 -labelbackground #b3dbff 2 -labelbd 1
+	$tResults.tabs.tab3.tableLayer configcolumns 3 -labelrelief raised 3 -labelbackground #b3dbff 3 -labelbd 1
+	$tResults.tabs.tab3.tableLayer configcolumns 4 -editable true 4 -labelrelief raised 4 -labelbackground #b3dbff 4 -labelbd 1
+
+	bind $tResults.tabs.tab3.tableLayer <<TablelistSelect>> {gaussianVMD::changeRepCurSelection freeze}
+
+
+
+	############ Representantions
+
 	pack [canvas $gaussianVMD::topGui.frame0.rep -bg #ededed -width 400 -height 105 -highlightthickness 0 -relief raised] -in $gaussianVMD::topGui.frame0
 	set rep $gaussianVMD::topGui.frame0.rep
 

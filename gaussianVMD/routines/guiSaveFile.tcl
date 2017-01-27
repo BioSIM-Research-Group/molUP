@@ -23,11 +23,7 @@ proc gaussianVMD::guiSaveFile {} {
 
 
 	## Apply theme
-	ttk::style theme use clearlooks
-
-    ## Styles
-	ttk::style configure gaussianVMD.button.TButton \
-		-anchor center
+	ttk::style theme use gaussianVMDTheme
 
 
     #### Draw the GUI

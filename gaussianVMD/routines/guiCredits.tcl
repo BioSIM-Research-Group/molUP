@@ -22,22 +22,11 @@ proc gaussianVMD::guiCredits {} {
 	wm resizable $::gaussianVMD::credits 0 0
 
 	## Apply theme
-	ttk::style theme use clearlooks
-
-    ## Styles
-	ttk::style configure gaussianVMD.button.TButton \
-		-anchor center
-
-	ttk::style configure gaussianVMD.label.TLabel \
-		-anchor center
+	ttk::style theme use gaussianVMDTheme
 
     #### Information
     pack [ttk::frame $gaussianVMD::credits.frame0]
 	pack [canvas $gaussianVMD::credits.frame0.frame -bg white -width 400 -height 200 -highlightthickness 0] -in $gaussianVMD::credits.frame0
-
-	#place [ttk::label $gaussianVMD::credits.frame0.frame.label1 \
-		-text "Gaussian for VMD is a user friendly vmd plugin that reads \n any output or input file from Gaussian09. Several quick representations, \n tools, and options were included to a perfect user environment. \n Gaussian for VMD was developed by Henrique S. Fernandes and Nuno M.F.S.A. Cerqueira \n at the Computational Biochemistry Group of the Faculty of Sciences of the University \n of Porto. \n Gaussian for VMD is free and can be used with any porpose. However, if you use \n Gaussian for VMD, you should cite us. \n All rights reserved - 2017" \
-	] -in $gaussianVMD::credits.frame0.frame -x 10 -y 10 -width 380 -height 180
 
 	place [message $gaussianVMD::credits.frame0.frame.label1 \
 		-text "Gaussian for VMD is a user friendly vmd plugin that reads any output or input file from Gaussian09. Several quick representations, tools, and options were included to a perfect user environment. \n Gaussian for VMD was developed by Henrique S. Fernandes and Nuno M.F.S.A. Cerqueira at the Computational Biochemistry Group of the Faculty of Sciences of the University of Porto. \n Gaussian for VMD is free and can be used with any porpose. However, if you use Gaussian for VMD, you should cite us. \n All rights reserved - 2017" \
@@ -47,7 +36,7 @@ proc gaussianVMD::guiCredits {} {
 	place [ttk::button $gaussianVMD::credits.frame0.frame.visitWebsite \
 		-text {Web Page} \
 		-command {invokeBrowser "https://henriquefernandesblog.wordpress.com"} \
-		-style gaussianVMD.button.TButton \
+		-style gaussianVMD.TButton \
 		] -in $gaussianVMD::credits.frame0.frame -x 290 -y 165 -width 100
 
 

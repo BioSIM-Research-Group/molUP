@@ -22,14 +22,7 @@ proc gaussianVMD::guiCalcSetup {} {
 	wm resizable $::gaussianVMD::calcSetup 0 0
 
 	## Apply theme
-	ttk::style theme use clearlooks
-
-    ## Styles
-	ttk::style configure gaussianVMD.button.TButton \
-		-anchor center
-
-	ttk::style configure gaussianVMD.label.TLabel \
-		-anchor center
+	ttk::style theme use gaussianVMDTheme
 	
 
     #### Variables

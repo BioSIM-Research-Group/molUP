@@ -30,11 +30,7 @@ proc gaussianVMD::guiOpenFile {} {
 
 
 	## Apply theme
-	ttk::style theme use clearlooks
-
-    ## Styles
-	ttk::style configure gaussianVMD.button.TButton \
-		-anchor center
+	ttk::style theme use gaussianVMDTheme
  
 
     #### Draw the GUI
@@ -44,26 +40,30 @@ proc gaussianVMD::guiOpenFile {} {
 
     place [ttk::label $gaussianVMD::openFile.frame.back.label1 \
 			-text {Choose a Gaussian Output (.log) or Input (.com) file...} \
+            -style gaussianVMD.white.TLabel \
             ] -in $gaussianVMD::openFile.frame.back -x 10 -y 10
 
     place [ttk::entry $gaussianVMD::openFile.frame.back.pathEntry \
 		    -textvariable gaussianVMD::path \
+            -style gaussianVMD.TEntry \
             ] -in $gaussianVMD::openFile.frame.back -x 10 -y 40 -width 295 -height 28
 
     place [ttk::button $gaussianVMD::openFile.frame.back.buttonBrowseFile \
 		    -text "Browse" \
 		    -command gaussianVMD::onSelect \
-            -style gaussianVMD.button.TButton \
+            -style gaussianVMD.TButton \
             ] -in $gaussianVMD::openFile.frame.back -x 315 -y 40 -width 75
 
 
     place [ttk::label $gaussianVMD::openFile.frame.back.label2 \
 			-text {Loading options: } \
+            -style gaussianVMD.white.TLabel \
             ] -in $gaussianVMD::openFile.frame.back -x 10 -y 82 -width 100
 
     place [ttk::combobox $gaussianVMD::openFile.frame.back.selectLoadMode \
 		    -textvariable $gaussianVMD::loadMode \
 			-state readonly \
+            -style gaussianVMD.TCombobox \
 		    -values "[list "Last Structure" "First Structure" "All optimized structures" "All structures (may take a long time to load)"]"
             ] -in $gaussianVMD::openFile.frame.back -x 120 -y 80 -width 270
 
@@ -72,17 +72,18 @@ proc gaussianVMD::guiOpenFile {} {
     place [ttk::button $gaussianVMD::openFile.frame.back.buttonLoad \
 		    -text "Load" \
 		    -command {gaussianVMD::loadButton $gaussianVMD::fileExtension} \
-            -style gaussianVMD.button.TButton \
+            -style gaussianVMD.TButton \
             ] -in $gaussianVMD::openFile.frame.back -x 10 -y 120 -width 185
 
     place [ttk::button $gaussianVMD::openFile.frame.back.buttonCancel \
 		    -text "Cancel" \
             -command {destroy $::gaussianVMD::openFile} \
-            -style gaussianVMD.button.TButton \
+            -style gaussianVMD.TButton \
             ] -in $gaussianVMD::openFile.frame.back -x 205 -y 120 -width 185
 
     place [ttk::label $gaussianVMD::openFile.frame.back.labelFinal \
 			-text {This window will close automatically when the structure loads.} \
+            -style gaussianVMD.white.TLabel \
             ] -in $gaussianVMD::openFile.frame.back -x 10 -y 160 -width 380
 
     }

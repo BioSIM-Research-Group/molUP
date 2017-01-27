@@ -7,6 +7,7 @@ proc gaussianVMD::quit {} \
 	destroy $gaussianVMD::topGui 
 
 	trace remove variable ::vmd_initialize_structure write gaussianVMD::updateStructures
+
 }
 
 proc gaussianVMD::restart {} \

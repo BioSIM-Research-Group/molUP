@@ -22,14 +22,7 @@ proc gaussianVMD::guiDihedModif {} {
 	wm resizable $::gaussianVMD::dihedModif 0 0
 
 	## Apply theme
-	ttk::style theme use clearlooks
-
-    ## Styles
-	ttk::style configure gaussianVMD.button.TButton \
-		-anchor center
-
-	ttk::style configure gaussianVMD.label.TLabel \
-		-anchor center
+	ttk::style theme use gaussianVMDTheme
 
 	wm protocol $::gaussianVMD::dihedModif WM_DELETE_WINDOW {gaussianVMD::bondGuiCloseSave}
 
@@ -41,64 +34,76 @@ proc gaussianVMD::guiDihedModif {} {
         
     place [ttk::label $gaussianVMD::dihedModif.frame0.frame.title \
 		    -text {Four atoms were selected.} \
+			-style gaussianVMD.white.TLabel \
 		    ] -in $gaussianVMD::dihedModif.frame0.frame -x 10 -y 10 -width 380
 
     place [ttk::label $gaussianVMD::dihedModif.frame0.frame.atom1 \
 		    -text {Atom 1:} \
+			-style gaussianVMD.white.TLabel \
 		    ] -in $gaussianVMD::dihedModif.frame0.frame -x 10 -y 30 -width 60 
 
     place [ttk::entry $gaussianVMD::dihedModif.frame0.frame.atom1Index \
 		        -textvariable {gaussianVMD::atom1DihedSel} \
 				-state readonly \
+				-style gaussianVMD.TEntry \
 		        ] -in $gaussianVMD::dihedModif.frame0.frame -x 60 -y 30 -width 100
 
     place [ttk::label $gaussianVMD::dihedModif.frame0.frame.atom1OptionsLabel \
 		        -text {Options: } \
+				-style gaussianVMD.white.TLabel \
 		        ] -in $gaussianVMD::dihedModif.frame0.frame -x 190 -y 30 -width 50
             
     place [ttk::combobox $gaussianVMD::dihedModif.frame0.frame.atom1Options \
 		        -textvariable {gaussianVMD::atom1DihedOpt} \
 			    -state readonly \
+				-style gaussianVMD.TCombobox \
 		        -values "[list "Fixed Atom" "Move Atom" "Move Atoms"]"
 		        ] -in $gaussianVMD::dihedModif.frame0.frame -x 250 -y 30 -width 140
 
         
     place [ttk::label $gaussianVMD::dihedModif.frame0.frame.atom2 \
 		    -text {Bond between atom} \
+			-style gaussianVMD.white.TLabel \
 		    ] -in $gaussianVMD::dihedModif.frame0.frame -x 10 -y 60 -width 110
 
     place [ttk::entry $gaussianVMD::dihedModif.frame0.frame.atom2Index \
 		        -textvariable {gaussianVMD::atom2DihedSel} \
 				-state readonly \
+				-style gaussianVMD.TEntry \
 		        ] -in $gaussianVMD::dihedModif.frame0.frame -x 130 -y 60 -width 100
 
 	place [ttk::label $gaussianVMD::dihedModif.frame0.frame.andLabel \
 		    -text {and} \
-			-style gaussianVMD.label.TLabel \
+			-style gaussianVMD.whiteCenter.TLabel \
 		    ] -in $gaussianVMD::dihedModif.frame0.frame -x 240 -y 60 -width 40
 
     place [ttk::entry $gaussianVMD::dihedModif.frame0.frame.atom3Index \
 		        -textvariable {gaussianVMD::atom3DihedSel} \
 				-state readonly \
+				-style gaussianVMD.TEntry \
 		        ] -in $gaussianVMD::dihedModif.frame0.frame -x 290 -y 60 -width 100
 
 
     place [ttk::label $gaussianVMD::dihedModif.frame0.frame.atom4 \
 		    -text {Atom 4:} \
+			-style gaussianVMD.white.TLabel \
 		    ] -in $gaussianVMD::dihedModif.frame0.frame -x 10 -y 90 -width 60
 
     place [ttk::entry $gaussianVMD::dihedModif.frame0.frame.atom4Index \
 		        -textvariable {gaussianVMD::atom4DihedSel} \
 				-state readonly \
+				-style gaussianVMD.TEntry \
 		        ] -in $gaussianVMD::dihedModif.frame0.frame -x 60 -y 90 -width 100
 
     place [ttk::label $gaussianVMD::dihedModif.frame0.frame.atom4OptionsLabel \
 		        -text {Options: } \
+				-style gaussianVMD.white.TLabel \
 		        ] -in $gaussianVMD::dihedModif.frame0.frame -x 190 -y 90 -width 50
             
     place [ttk::combobox $gaussianVMD::dihedModif.frame0.frame.atom3Options \
 		        -textvariable {gaussianVMD::atom4DihedOpt} \
 			    -state readonly \
+				-style gaussianVMD.TCombobox \
 		        -values "[list "Fixed Atom" "Move Atom" "Move Atoms"]"
 		        ] -in $gaussianVMD::dihedModif.frame0.frame -x 250 -y 90 -width 140
 
@@ -117,6 +122,7 @@ proc gaussianVMD::guiDihedModif {} {
 
     place [ttk::label $gaussianVMD::dihedModif.frame0.frame.distanceLabel \
 				-text {Dihedral (°): } \
+				-style gaussianVMD.white.TLabel \
 		        ] -in $gaussianVMD::dihedModif.frame0.frame -x 10 -y 153 -width 60
 
     place [spinbox $gaussianVMD::dihedModif.frame0.frame.distance \
