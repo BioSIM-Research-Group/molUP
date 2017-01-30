@@ -1,9 +1,5 @@
 package provide gaussianVMD 1.0
 
-#### Load Packages ###################################################
-# Nota o lappned temn de estar no vmdRC
-
-
 #### INIT ############################################################
 namespace eval gaussianVMD:: {
 	namespace export gaussianVMD
