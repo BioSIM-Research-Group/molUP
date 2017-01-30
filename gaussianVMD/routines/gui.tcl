@@ -14,7 +14,7 @@ proc gaussianVMD::buildGui {} {
 	#### Change the location of window
 	# screen width and height
 	set sWidth [expr [winfo vrootwidth  $::gaussianVMD::topGui] -0]
-	set sHeight [expr [winfo vrootheight $::gaussianVMD::topGui] -50]
+	set sHeight [expr [winfo vrootheight $::gaussianVMD::topGui] -100]
 
 	#window wifth and height
 	set wWidth [winfo reqwidth $::gaussianVMD::topGui]
@@ -28,7 +28,7 @@ proc gaussianVMD::buildGui {} {
 
 	wm geometry $::gaussianVMD::topGui 400x$sHeight+$x+25
 	$::gaussianVMD::topGui configure -background {white}
-	wm resizable $::gaussianVMD::topGui 0 0
+	wm resizable $::gaussianVMD::topGui 0 1
 
 	# Procedure when the window is closed
 	wm protocol $::gaussianVMD::topGui WM_DELETE_WINDOW {gaussianVMD::quit}
