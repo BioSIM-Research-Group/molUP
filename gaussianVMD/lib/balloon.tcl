@@ -135,7 +135,7 @@ package provide balloon 1.0;
          -text       $state($w.label) \
          -background $state($w.background) \
          -foreground $state($w.foreground) \
-         -font       {{San Serif} 10} \
+         -font       {{} 10} \
          -anchor     w \
          -justify    left \
        ] -side top -fill x -expand 0;
@@ -158,7 +158,7 @@ package provide balloon 1.0;
          -text       $state($w.text) \
          -background $state($w.background) \
          -foreground $state($w.foreground) \
-         -font       {{San Serif} 12} \
+         -font       {{} 12} \
          -aspect     10000 \
          -justify    left \
        ] -side top -fill x -expand 0;
