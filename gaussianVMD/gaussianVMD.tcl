@@ -164,5 +164,5 @@ namespace eval gaussianVMD:: {
 
 ## Initiate ###
 #gaussianVMD::loadImages
-gaussianVMD::buildGui
+#gaussianVMD::buildGui
 
