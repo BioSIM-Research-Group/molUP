@@ -296,7 +296,7 @@ proc gaussianVMD::buildGui {} {
 			-textvariable gaussianVMD::atomSelectionONIOM \
 			-style gaussianVMD.TEntry \
 			] -in $tResults.tabs.tab2 -x 5 -y [expr $resultsHeight - 100 + 35] -width 375
-	tooltip::tooltip $tResults.tabs.tab2.selection "You can also select atoms dragging in the list above"
+	balloon $tResults.tabs.tab2.selection -text "You can also select atoms dragging in the list above"
 
 	place [ttk::combobox $tResults.tabs.tab2.selectModificationValue \
 			-textvariable gaussianVMD::selectionModificationValueOniom \
@@ -304,7 +304,7 @@ proc gaussianVMD::buildGui {} {
 			-values "[list "H" "M" "L"]" \
 			-state readonly \
 			] -in $tResults.tabs.tab2 -x 5 -y [expr $resultsHeight - 100 + 65] -width 118
-	tooltip::tooltip $tResults.tabs.tab2.selectModificationValue "Choose a ONIOM layer - (H) High Layer, (M) Medium Layer and (L) Low Layer"
+	balloon $tResults.tabs.tab2.selectModificationValue -text "Choose a ONIOM layer - (H) High Layer, (M) Medium Layer and (L) Low Layer"
 
 	place [ttk::button $tResults.tabs.tab2.selectionApply \
 			-text "Apply" \
@@ -362,14 +362,14 @@ proc gaussianVMD::buildGui {} {
 			-textvariable gaussianVMD::atomSelectionFreeze\
 			-style gaussianVMD.TEntry \
 			] -in $tResults.tabs.tab3 -x 5 -y [expr $resultsHeight - 100 + 35] -width 375
-	tooltip::tooltip $tResults.tabs.tab3.selection "You can also select atoms dragging in the list above"
+	balloon $tResults.tabs.tab3.selection -text "You can also select atoms dragging in the list above"
 
 	place [ttk::combobox $tResults.tabs.tab3.selectModificationValue \
 			-textvariable gaussianVMD::selectionModificationValueFreeze \
 			-style gaussianVMD.green.TCombobox \
 			-values "[list "0" "-1" "-2" "-3"]" \
 			] -in $tResults.tabs.tab3 -x 5 -y [expr $resultsHeight - 100 + 65] -width 118
-	tooltip::tooltip $tResults.tabs.tab3.selectModificationValue "Choose freeze option"
+	balloon $tResults.tabs.tab3.selectModificationValue -text "Choose freeze option"
 
 	place [ttk::button $tResults.tabs.tab3.selectionApply \
 			-text "Apply" \
@@ -480,63 +480,63 @@ proc gaussianVMD::buildGui {} {
 			-command {display resetview} \
 			-style gaussianVMD.reset.TButton \
 			] -in $tbar -x 17 -y 5 -width 30
-	tooltip::tooltip $tbar.resetView "Reset View"
+	balloon $tbar.resetView -text "Reset View"
 
 	place [ttk::button $tbar.centerAtom \
 			-text "Center atom" \
 			-command {mouse mode center} \
 			-style gaussianVMD.center.TButton \
 			] -in $tbar -x 57 -y 5 -width 30
-	tooltip::tooltip $tbar.centerAtom "Center atom"
+	balloon $tbar.centerAtom -text "Center atom"
 
 	place [ttk::button $tbar.deleteAllLabels \
 			-text "Delete all labels" \
 			-command {gaussianVMD::deleteAllLabels} \
 			-style gaussianVMD.deleteAllLabels.TButton \
 			] -in $tbar -x 97 -y 5 -width 30
-	tooltip::tooltip $tbar.deleteAllLabels "Delete all labels"
+	balloon $tbar.deleteAllLabels -text "Delete all labels"
 
 	place [ttk::button $tbar.mouseModeRotate \
 			-text "Mouse mode: Rotate" \
 			-command {mouse mode rotate} \
 			-style gaussianVMD.mouseModeRotate.TButton \
 			] -in $tbar -x 145 -y 5 -width 30
-	tooltip::tooltip $tbar.mouseModeRotate "Mouse mode: Rotate"
+	balloon $tbar.mouseModeRotate -text "Mouse mode: Rotate"
 
 	place [ttk::button $tbar.mouseModeTranslate \
 			-text "Mouse mode: Translate" \
 			-command {mouse mode translate} \
 			-style gaussianVMD.mouseModeTranslate.TButton \
 			] -in $tbar -x 185 -y 5 -width 30
-	tooltip::tooltip $tbar.mouseModeTranslate "Mouse mode: Translate"
+	balloon $tbar.mouseModeTranslate -text "Mouse mode: Translate"
 
 	place [ttk::button $tbar.mouseModeScale \
 			-text "Mouse mode: Scale" \
 			-command {mouse mode scale} \
 			-style gaussianVMD.mouseModeScale.TButton \
 			] -in $tbar -x 225 -y 5 -width 30
-	tooltip::tooltip $tbar.mouseModeScale "Mouse mode: Scale"
+	balloon $tbar.mouseModeScale -text "Mouse mode: Scale"
 
 	place [ttk::button $tbar.bondEdit \
 			-text "Modify bond" \
 			-command {gaussianVMD::bondModifInitialProc} \
 			-style gaussianVMD.bondEdit.TButton \
 			] -in $tbar -x 273 -y 5 -width 30
-	tooltip::tooltip $tbar.bondEdit "Modify bond"
+	balloon $tbar.bondEdit -text "Modify bond"
 
 	place [ttk::button $tbar.angleEdit \
 			-text "Modify angle" \
 			-command {gaussianVMD::angleModifInitialProc} \
 			-style gaussianVMD.angleEdit.TButton \
 			] -in $tbar -x 313 -y 5 -width 30
-	tooltip::tooltip $tbar.angleEdit "Modify angle"
+	balloon $tbar.angleEdit -text "Modify angle"
 
 	place [ttk::button $tbar.dihedralEdit \
 			-text "Modify dihedral" \
 			-command {gaussianVMD::dihedModifInitialProc} \
 			-style gaussianVMD.dihedralEdit.TButton \
 			] -in $tbar -x 353 -y 5 -width 30
-	tooltip::tooltip $tbar.dihedralEdit "Modify dihedral"
+	balloon $tbar.dihedralEdit -text "Modify dihedral"
 
 }
 

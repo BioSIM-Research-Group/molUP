@@ -31,8 +31,8 @@ namespace eval gaussianVMD:: {
 
 		package require Tk
 		package require tablelist
-		#package require tooltip
 		package require topotools
+		package require balloon 								1.0
 
 		# Theme
 		package require gaussianTheme							1.0
