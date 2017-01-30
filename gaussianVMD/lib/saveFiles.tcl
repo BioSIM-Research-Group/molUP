@@ -136,39 +136,6 @@ proc gaussianVMD::writeGaussianFile {path} {
 
 }
 
-
-#
-#proc gaussianVMD::connectivity {file} {
-#    set connectivity [topo getbondlist order]
-#
-#    puts $file ""
-#
-#    set i 0
-#    puts -nonewline $file " [expr $i + 1]"
-#
-#    foreach bond $connectivity {
-#        if {[lindex $bond 0] == $i } {
-#            puts -nonewline $file " [expr [lindex $bond 1] + 1] [lindex $bond 2]"
-#        } else {
-#            while {[lindex $bond 0] != $i} {
-#                incr i
-#                puts -nonewline $file "\n [expr $i + 1]"   
-#            }
-#        }
-#    }
-#
-#    set sel [atomselect top "all"]
-#    set numberOfAtoms [$sel num]
-#
-#    if {$numberOfAtoms > $i} {
-#        incr i
-#        while {$numberOfAtoms > $i} {
-#                puts -nonewline $file "\n [expr $i + 1]"
-#                incr i   
-#            }
-#    }
-#}
-#
 proc gaussianVMD::connectivityFromVMD {} {
     set list [topo getbondlist order]
     set connectivity ""
