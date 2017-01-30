@@ -137,38 +137,84 @@ proc gaussianVMD::writeGaussianFile {path} {
 }
 
 
+#
+#proc gaussianVMD::connectivity {file} {
+#    set connectivity [topo getbondlist order]
+#
+#    puts $file ""
+#
+#    set i 0
+#    puts -nonewline $file " [expr $i + 1]"
+#
+#    foreach bond $connectivity {
+#        if {[lindex $bond 0] == $i } {
+#            puts -nonewline $file " [expr [lindex $bond 1] + 1] [lindex $bond 2]"
+#        } else {
+#            while {[lindex $bond 0] != $i} {
+#                incr i
+#                puts -nonewline $file "\n [expr $i + 1]"   
+#            }
+#        }
+#    }
+#
+#    set sel [atomselect top "all"]
+#    set numberOfAtoms [$sel num]
+#
+#    if {$numberOfAtoms > $i} {
+#        incr i
+#        while {$numberOfAtoms > $i} {
+#                puts -nonewline $file "\n [expr $i + 1]"
+#                incr i   
+#            }
+#    }
+#}
+#
+proc gaussianVMD::connectivityFromVMD {} {
+    set list [topo getbondlist order]
+    set connectivity ""
+    set numberAtoms [[atomselect top all] num]
 
-proc gaussianVMD::connectivity {file} {
-    set connectivity [topo getbondlist order]
+    for {set index 1} { $index <= $numberAtoms } { incr index } {
+        append connectivity " $index"
+        
+        set a [lsearch -index 0 -all $list "[expr $index -1]"]
 
-    puts $file ""
+        if {$a != ""} {
+            foreach b $a {
+                set atom [expr [lindex [lindex $list $b] 1] + 1]
+                set order [lindex [lindex $list $b] 2]
 
-    set i 0
-    puts -nonewline $file " [expr $i + 1]"
+                append connectivity " $atom $order"
+            }
+        } else {}
+    
+    append connectivity "\n"
 
-    foreach bond $connectivity {
-        if {[lindex $bond 0] == $i } {
-            puts -nonewline $file " [expr [lindex $bond 1] + 1] [lindex $bond 2]"
-        } else {
-            while {[lindex $bond 0] != $i} {
-                incr i
-                puts -nonewline $file "\n [expr $i + 1]"   
+    }
+
+    return $connectivity
+}
+
+
+proc gaussianVMD::convertGaussianInputConnectToVMD {connectivityList} {
+    set connectivity {}
+    
+    set connectivityList [split $connectivityList "\n"]
+
+    foreach line $connectivityList {
+        set lineLength [llength $line]
+        if {$lineLength > 1} {
+            set numberBonds [expr ($lineLength - 1) / 2]
+            set atom1 [expr [lindex $line 0] -1]
+            for {set index 1} { $index <= $numberBonds } { incr index } {
+                set atom2 [expr [lindex $line [expr $index * 2 - 1]] -1]
+                set order [lindex $line [expr $index * 2]]
+                lappend connectivity [list $atom1 $atom2 $order]
             }
         }
     }
-
-    set sel [atomselect top "all"]
-    set numberOfAtoms [$sel num]
-
-    if {$numberOfAtoms > $i} {
-        incr i
-        while {$numberOfAtoms > $i} {
-                puts -nonewline $file "\n [expr $i + 1]"
-                incr i   
-            }
-    }
+    return $connectivity
 }
-
 
 proc gaussianVMD::linkAtoms {} {
     set connectivity [topo getbondlist]

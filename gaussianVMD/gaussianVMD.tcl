@@ -62,6 +62,7 @@ namespace eval gaussianVMD:: {
 		variable fileName			""
 		variable fileExtension		""
 		variable title 				"Gaussian for VMD is a very good plugin :)"
+		variable actualTitle		"Gaussian for VMD is a very good plugin :)"
 		variable chargesMultip		""
 		variable keywordsCalc		"%mem=7000MB\n%NProc=4\n%chk=name.chk\n\n# "
 		variable structureGaussian	""
@@ -142,9 +143,12 @@ namespace eval gaussianVMD:: {
 		variable linkAtomsListIndex	{}
 		variable saveOptions	"Gaussian Input File (.com)"
 		variable connectivityInputFile ""
+		variable connectivity ""
+		variable parameters ""
 		variable openNewFileMode "YES"
 		variable tmpFolder ""
 		variable structureReadyToLoad {}
+		variable moleculeInfo {}
 
 
 		variable chargeAll	0

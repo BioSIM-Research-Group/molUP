@@ -132,7 +132,8 @@ proc gaussianVMD::buildGui {} {
 	
 	place [ttk::entry $tInput.jobTitleEntry \
 		-style gaussianVMD.TEntry \
-		-textvariable gaussianVMD::title ] -in $tInput -x 5 -y 30 -width 390
+		-textvariable gaussianVMD::actualTitle \
+		] -in $tInput -x 5 -y 30 -width 390
 
 	place [ttk::label $tInput.keywordsLabel \
 		-style gaussianVMD.cyan.TLabel \
@@ -196,17 +197,6 @@ proc gaussianVMD::buildGui {} {
 			-orient vertical \
 			-command [list $tInput.connect yview]\
 			] -in $tInput -x 380 -y [expr 405 + $heightBox + 10 + 25] -width 15 -height $heightBox
-
-	#### Multiplicity and Gaussian Calculations Setup
-	#place [ttk::button $tInput.chargeMulti \
-		    -text "Charge and Multiplicity" \
-			-style gaussianVMD.TButton \
-			-command {gaussianVMD::guiChargeMulti}] -in $tInput -x 5 -y 120 -width 190
-
-	#place [ttk::button $tInput.calcSetup \
-		    -text "Calculation Setup" \
-			-style gaussianVMD.TButton \
-			-command {gaussianVMD::guiError "This feature is not available yet."} ] -in $tInput -x 205 -y 120 -width 190
 
 
 
@@ -615,14 +605,48 @@ proc gaussianVMD::activateMolecule {} {
 	$gaussianVMD::tableCharges columnconfigure 4 -text [$sel get charge] -formatcommand {format %.8s}
 	$gaussianVMD::tableLayer columnconfigure 4 -text [$sel get altloc]
 	$gaussianVMD::tableFreeze columnconfigure 4 -text [$sel get user]
+
+
+	##### Update input information
+	set pos [lsearch $gaussianVMD::moleculeInfo "molID[molinfo top]"]
+	set gaussianVMD::actualTitle [lindex $gaussianVMD::moleculeInfo [expr $pos +1]]
+	$gaussianVMD::topGui.frame0.major.tabs.tabInput.keywordsText delete 1.0 end
+	$gaussianVMD::topGui.frame0.major.tabs.tabInput.keywordsText insert end [lindex $gaussianVMD::moleculeInfo [expr $pos +2]]
+	$gaussianVMD::topGui.frame0.major.tabs.tabInput.connect delete 1.0 end
+	set connectivity [lindex $gaussianVMD::moleculeInfo [expr $pos +4]]
+	if {$connectivity != ""} {
+		$gaussianVMD::topGui.frame0.major.tabs.tabInput.connect insert end $connectivity
+	} else {
+		set connectivity [gaussianVMD::connectivityFromVMD]
+		$gaussianVMD::topGui.frame0.major.tabs.tabInput.connect insert end $connectivity
+	}
+	$gaussianVMD::topGui.frame0.major.tabs.tabInput.param delete 1.0 end
+	$gaussianVMD::topGui.frame0.major.tabs.tabInput.param insert end [lindex $gaussianVMD::moleculeInfo [expr $pos +5]]
+
+
 }
 
 proc gaussianVMD::updateStructures {args} {
 	set gaussianVMD::allRep "1"
 
 	gaussianVMD::getMolinfoList
+	gaussianVMD::collectMolInfo
 	gaussianVMD::activateMolecule
 	gaussianVMD::addSelectionRep
+
+}
+
+proc gaussianVMD::collectMolInfo {} {
+	### Structure molID, title, keywords, charges/Milti, connectivity, parameters
+	lappend gaussianVMD::moleculeInfo "molID[molinfo top]" $gaussianVMD::title $gaussianVMD::keywordsCalc $gaussianVMD::chargesMultip $gaussianVMD::connectivity $gaussianVMD::parameters
+
+	### Clear variables
+	set gaussianVMD::title "Gaussian for VMD is a very good plugin :)"
+	set gaussianVMD::keywordsCalc "%mem=7000MB\n%NProc=4\n%chk=name.chk\n\n# "
+	set gaussianVMD::chargesMultip ""
+	set gaussianVMD::connectivity ""
+	set gaussianVMD::parameters ""
+
 }
 
 

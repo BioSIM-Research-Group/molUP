@@ -383,7 +383,8 @@ ttk::style theme create gaussianVMDTheme -parent clam -settings {
 
     ttk::style configure gaussianVMD.white.TEntry \
         -selectbackground white \
-        -selectforeground black
+        -selectforeground black \
+        -background white
 
     ttk::style layout gaussianVMD.white.TEntry {
         Entry.gaussianVMD.white.Entry.field -children {

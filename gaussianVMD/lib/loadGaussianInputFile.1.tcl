@@ -25,7 +25,8 @@ proc gaussianVMD::loadGaussianInputFile {} {
 
 	## Get connectivity information about structure
 	set lineNumberConnect [expr $lineNumberLast + 1]
-	catch {exec sed -n "$lineNumberConnect,$ p" $gaussianVMD::path} gaussianVMD::connectivityInputFile
+	set lineNumberLastConnect [expr [gaussianVMD::getBlankLines $gaussianVMD::path 3] - 1]
+	catch {exec sed -n "$lineNumberConnect,$lineNumberLastConnect p" $gaussianVMD::path} gaussianVMD::connectivityInputFile
 
     #### Organize the structure info
     set gaussianVMD::structureGaussian [split $gaussianVMD::structureGaussian \n]
@@ -61,5 +62,11 @@ proc gaussianVMD::loadGaussianInputFile {} {
 	mol bondsrecalc top
 	mol reanalyze top
 	display resetview	
+
+
+	### Add connectivity to VMD
+	set connectList [gaussianVMD::convertGaussianInputConnectToVMD $gaussianVMD::connectivityInputFile]
+	topo clearbonds
+	topo setbondlist $connectList
 }
     
