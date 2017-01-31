@@ -12,7 +12,7 @@ package provide plot 1.0
 ## markerColorLine  - 
 
 
-proc gaussianVMD::drawPlot {frame x y title titleColor titleSize markerFormat markerColor markerColorLine markerSize} {
+proc molUP::drawPlot {frame x y title titleColor titleSize markerFormat markerColor markerColorLine markerSize} {
 
     set width [$frame cget -width]
     set height [$frame cget -height]

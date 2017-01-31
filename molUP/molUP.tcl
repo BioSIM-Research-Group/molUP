@@ -1,8 +1,8 @@
-package provide gaussianVMD 1.0
+package provide molUP 1.0
 
 #### INIT ############################################################
-namespace eval gaussianVMD:: {
-	namespace export gaussianVMD
+namespace eval molUP:: {
+	namespace export molUP
 	
 		#### Load Packages				
 		package require gui 									1.0
@@ -43,16 +43,16 @@ namespace eval gaussianVMD:: {
 		variable version	    	"0.9 (beta)"
 
 		#GUI
-        variable topGui         	".gaussianVMD"
-		variable bondModif         	".gaussianVMD.bondModif"
-		variable angleModif        	".gaussianVMD.angleModif"
-		variable dihedModif        	".gaussianVMD.dihedModif"
-		variable openFile        	".gaussianVMD.openFile"
-		variable saveFile        	".gaussianVMD.saveFile"
-		variable error	        	".gaussianVMD.error"
-		variable chargeMulti	    ".gaussianVMD.chargeMulti"
-		variable calcSetup			".gaussianVMD.calcSetup"
-		variable credits			".gaussianVMD.credits"
+        variable topGui         	".molUP"
+		variable bondModif         	".molUP.bondModif"
+		variable angleModif        	".molUP.angleModif"
+		variable dihedModif        	".molUP.dihedModif"
+		variable openFile        	".molUP.openFile"
+		variable saveFile        	".molUP.saveFile"
+		variable error	        	".molUP.error"
+		variable chargeMulti	    ".molUP.chargeMulti"
+		variable calcSetup			".molUP.calcSetup"
+		variable credits			".molUP.credits"
 
 		global path
 		variable path 				"/"
@@ -160,6 +160,6 @@ namespace eval gaussianVMD:: {
 
 
 ## Initiate ###
-#gaussianVMD::loadImages
-#gaussianVMD::buildGui
+#molUP::loadImages
+#molUP::buildGui
 

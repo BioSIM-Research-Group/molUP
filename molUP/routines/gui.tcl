@@ -2,118 +2,118 @@ package provide gui 1.0
 package require Tk
 
 #### GUI ############################################################
-proc gaussianVMD::buildGui {} {
+proc molUP::buildGui {} {
 
 	#### Check if the window exists
-	if {[winfo exists $::gaussianVMD::topGui]} {wm deiconify $::gaussianVMD::topGui ;return $::gaussianVMD::topGui}
-	toplevel $::gaussianVMD::topGui
+	if {[winfo exists $::molUP::topGui]} {wm deiconify $::molUP::topGui ;return $::molUP::topGui}
+	toplevel $::molUP::topGui
 
 	#### Title of the windows
-	wm title $gaussianVMD::topGui "Gaussian for VMD v$gaussianVMD::version " ;# titulo da pagina
+	wm title $molUP::topGui "Gaussian for VMD v$molUP::version " ;# titulo da pagina
 
 	#### Change the location of window
 	# screen width and height
-	set sWidth [expr [winfo vrootwidth  $::gaussianVMD::topGui] -0]
-	set sHeight [expr [winfo vrootheight $::gaussianVMD::topGui] -100]
+	set sWidth [expr [winfo vrootwidth  $::molUP::topGui] -0]
+	set sHeight [expr [winfo vrootheight $::molUP::topGui] -100]
 
 	#window wifth and height
-	set wWidth [winfo reqwidth $::gaussianVMD::topGui]
-	set wHeight [winfo reqheight $::gaussianVMD::topGui]
+	set wWidth [winfo reqwidth $::molUP::topGui]
+	set wHeight [winfo reqheight $::molUP::topGui]
 	
 	display reposition 0 [expr ${sHeight} - 15]
 	display resize [expr $sWidth - 400] ${sHeight}
 
-	#wm geometry window $gaussianVMD::topGui 400x590
+	#wm geometry window $molUP::topGui 400x590
 	set x [expr $sWidth - 2*($wWidth)]
 
-	wm geometry $::gaussianVMD::topGui 400x$sHeight+$x+25
-	$::gaussianVMD::topGui configure -background {white}
-	wm resizable $::gaussianVMD::topGui 0 1
+	wm geometry $::molUP::topGui 400x$sHeight+$x+25
+	$::molUP::topGui configure -background {white}
+	wm resizable $::molUP::topGui 0 0
 
 	# Procedure when the window is closed
-	wm protocol $::gaussianVMD::topGui WM_DELETE_WINDOW {gaussianVMD::quit}
+	wm protocol $::molUP::topGui WM_DELETE_WINDOW {molUP::quit}
 
 	## Apply theme
-	ttk::style theme use gaussianVMDTheme
+	ttk::style theme use molUPTheme
 	
 	##########################################################
 
 
 	#### Top Section
-	pack [ttk::frame $gaussianVMD::topGui.frame0]
-	pack [canvas $gaussianVMD::topGui.frame0.topSection -bg #ededed -width 400 -height 50 -highlightthickness 0] -in $gaussianVMD::topGui.frame0 
+	pack [ttk::frame $molUP::topGui.frame0]
+	pack [canvas $molUP::topGui.frame0.topSection -bg #ededed -width 400 -height 50 -highlightthickness 0] -in $molUP::topGui.frame0 
 
-	place [ttk::frame $gaussianVMD::topGui.frame0.topSection.topMenu -width 400 -style gaussianVMD.menuBar.TFrame] -in $gaussianVMD::topGui.frame0.topSection -x 0 -y 0 -width 400 -height 35
+	place [ttk::frame $molUP::topGui.frame0.topSection.topMenu -width 400 -style molUP.menuBar.TFrame] -in $molUP::topGui.frame0.topSection -x 0 -y 0 -width 400 -height 35
 
-	place [ttk::menubutton $gaussianVMD::topGui.frame0.topSection.topMenu.file -text "File" -menu $gaussianVMD::topGui.frame0.topSection.topMenu.file.menu \
-			-style gaussianVMD.menuBar.TMenubutton \
-			] -in $gaussianVMD::topGui.frame0.topSection.topMenu -x 5 -y 5 -height 25 -width 50
+	place [ttk::menubutton $molUP::topGui.frame0.topSection.topMenu.file -text "File" -menu $molUP::topGui.frame0.topSection.topMenu.file.menu \
+			-style molUP.menuBar.TMenubutton \
+			] -in $molUP::topGui.frame0.topSection.topMenu -x 5 -y 5 -height 25 -width 50
     
-	menu $gaussianVMD::topGui.frame0.topSection.topMenu.file.menu -tearoff 0
-	$gaussianVMD::topGui.frame0.topSection.topMenu.file.menu add command -label "Open" -command {gaussianVMD::guiOpenFile}
-	$gaussianVMD::topGui.frame0.topSection.topMenu.file.menu add command -label "Save" -command {gaussianVMD::guiSaveFile}
-	$gaussianVMD::topGui.frame0.topSection.topMenu.file.menu add command -label "Restart" -command {gaussianVMD::restart}
-	$gaussianVMD::topGui.frame0.topSection.topMenu.file.menu add command -label "Close" -command {gaussianVMD::quit}
+	menu $molUP::topGui.frame0.topSection.topMenu.file.menu -tearoff 0
+	$molUP::topGui.frame0.topSection.topMenu.file.menu add command -label "Open" -command {molUP::guiOpenFile}
+	$molUP::topGui.frame0.topSection.topMenu.file.menu add command -label "Save" -command {molUP::guiSaveFile}
+	$molUP::topGui.frame0.topSection.topMenu.file.menu add command -label "Restart" -command {molUP::restart}
+	$molUP::topGui.frame0.topSection.topMenu.file.menu add command -label "Close" -command {molUP::quit}
 
-	place [ttk::menubutton $gaussianVMD::topGui.frame0.topSection.topMenu.tools -text "Tools" -menu $gaussianVMD::topGui.frame0.topSection.topMenu.tools.menu \
-			-style gaussianVMD.menuBar.TMenubutton \
-			] -in $gaussianVMD::topGui.frame0.topSection.topMenu -x 54 -y 5 -height 25 -width 60
+	place [ttk::menubutton $molUP::topGui.frame0.topSection.topMenu.tools -text "Tools" -menu $molUP::topGui.frame0.topSection.topMenu.tools.menu \
+			-style molUP.menuBar.TMenubutton \
+			] -in $molUP::topGui.frame0.topSection.topMenu -x 54 -y 5 -height 25 -width 60
 	
-	menu $gaussianVMD::topGui.frame0.topSection.topMenu.tools.menu -tearoff 0
-	$gaussianVMD::topGui.frame0.topSection.topMenu.tools.menu add command -label "Reset view" -command {display resetview}
-	$gaussianVMD::topGui.frame0.topSection.topMenu.tools.menu add command -label "Center atom" -command {mouse mode center}
-	$gaussianVMD::topGui.frame0.topSection.topMenu.tools.menu add command -label "Delete all labels" -command {gaussianVMD::deleteAllLabels}
-	$gaussianVMD::topGui.frame0.topSection.topMenu.tools.menu add command -label "Mouse mode: Rotate" -command {mouse mode rotate}
-	$gaussianVMD::topGui.frame0.topSection.topMenu.tools.menu add command -label "Mouse mode: Translate" -command {mouse mode translate}
-	$gaussianVMD::topGui.frame0.topSection.topMenu.tools.menu add command -label "Mouse mode: Scale" -command {mouse mode scale}
+	menu $molUP::topGui.frame0.topSection.topMenu.tools.menu -tearoff 0
+	$molUP::topGui.frame0.topSection.topMenu.tools.menu add command -label "Reset view" -command {display resetview}
+	$molUP::topGui.frame0.topSection.topMenu.tools.menu add command -label "Center atom" -command {mouse mode center}
+	$molUP::topGui.frame0.topSection.topMenu.tools.menu add command -label "Delete all labels" -command {molUP::deleteAllLabels}
+	$molUP::topGui.frame0.topSection.topMenu.tools.menu add command -label "Mouse mode: Rotate" -command {mouse mode rotate}
+	$molUP::topGui.frame0.topSection.topMenu.tools.menu add command -label "Mouse mode: Translate" -command {mouse mode translate}
+	$molUP::topGui.frame0.topSection.topMenu.tools.menu add command -label "Mouse mode: Scale" -command {mouse mode scale}
 
-	place [ttk::menubutton $gaussianVMD::topGui.frame0.topSection.topMenu.structure -text "Structure" -menu $gaussianVMD::topGui.frame0.topSection.topMenu.structure.menu \
-			-style gaussianVMD.menuBar.TMenubutton \
-			] -in $gaussianVMD::topGui.frame0.topSection.topMenu -x 120 -y 5 -height 25 -width 80
+	place [ttk::menubutton $molUP::topGui.frame0.topSection.topMenu.structure -text "Structure" -menu $molUP::topGui.frame0.topSection.topMenu.structure.menu \
+			-style molUP.menuBar.TMenubutton \
+			] -in $molUP::topGui.frame0.topSection.topMenu -x 120 -y 5 -height 25 -width 80
 	
-	menu $gaussianVMD::topGui.frame0.topSection.topMenu.structure.menu -tearoff 0
-	$gaussianVMD::topGui.frame0.topSection.topMenu.structure.menu add command -label "Modify bond" -command {gaussianVMD::bondModifInitialProc}
-	$gaussianVMD::topGui.frame0.topSection.topMenu.structure.menu add command -label "Modify angle" -command {gaussianVMD::angleModifInitialProc}
-	$gaussianVMD::topGui.frame0.topSection.topMenu.structure.menu add command -label "Modify dihedral" -command {gaussianVMD::dihedModifInitialProc}
+	menu $molUP::topGui.frame0.topSection.topMenu.structure.menu -tearoff 0
+	$molUP::topGui.frame0.topSection.topMenu.structure.menu add command -label "Modify bond" -command {molUP::bondModifInitialProc}
+	$molUP::topGui.frame0.topSection.topMenu.structure.menu add command -label "Modify angle" -command {molUP::angleModifInitialProc}
+	$molUP::topGui.frame0.topSection.topMenu.structure.menu add command -label "Modify dihedral" -command {molUP::dihedModifInitialProc}
 
 
-	place [ttk::menubutton $gaussianVMD::topGui.frame0.topSection.topMenu.about -text "About" -menu $gaussianVMD::topGui.frame0.topSection.topMenu.about.menu \
-			-style gaussianVMD.menuBar.TMenubutton \
-			] -in $gaussianVMD::topGui.frame0.topSection.topMenu -x 320 -y 5 -height 25 -width 70
+	place [ttk::menubutton $molUP::topGui.frame0.topSection.topMenu.about -text "About" -menu $molUP::topGui.frame0.topSection.topMenu.about.menu \
+			-style molUP.menuBar.TMenubutton \
+			] -in $molUP::topGui.frame0.topSection.topMenu -x 320 -y 5 -height 25 -width 70
 
-	menu $gaussianVMD::topGui.frame0.topSection.topMenu.about.menu -tearoff 0
-	$gaussianVMD::topGui.frame0.topSection.topMenu.about.menu add command -label "Help" -command {gaussianVMD::guiError "This feature is not available yet."}
-	$gaussianVMD::topGui.frame0.topSection.topMenu.about.menu add command -label "Credits" -command {gaussianVMD::guiCredits}
-	$gaussianVMD::topGui.frame0.topSection.topMenu.about.menu add command -label "Check for updates" -command {gaussianVMD::guiError "No updates available."}
+	menu $molUP::topGui.frame0.topSection.topMenu.about.menu -tearoff 0
+	$molUP::topGui.frame0.topSection.topMenu.about.menu add command -label "Help" -command {molUP::guiError "This feature is not available yet."}
+	$molUP::topGui.frame0.topSection.topMenu.about.menu add command -label "Credits" -command {molUP::guiCredits}
+	$molUP::topGui.frame0.topSection.topMenu.about.menu add command -label "Check for updates" -command {molUP::guiError "No updates available."}
 
 
 	#### Molecule Selection
-	pack [canvas $gaussianVMD::topGui.frame0.molSelection -bg #ededed -width 400 -height 35 -highlightthickness 0] -in $gaussianVMD::topGui.frame0
+	pack [canvas $molUP::topGui.frame0.molSelection -bg #ededed -width 400 -height 35 -highlightthickness 0] -in $molUP::topGui.frame0
 
-	place [ttk::label $gaussianVMD::topGui.frame0.molSelection.label \
-			-style gaussianVMD.gray.TLabel \
-			-text {Molecule } ] -in $gaussianVMD::topGui.frame0.molSelection -x 5 -y 2
+	place [ttk::label $molUP::topGui.frame0.molSelection.label \
+			-style molUP.gray.TLabel \
+			-text {Molecule } ] -in $molUP::topGui.frame0.molSelection -x 5 -y 2
 
 	variable topMolecule "No molecule"
 	variable molinfoList {}
-	trace variable ::vmd_initialize_structure w gaussianVMD::updateStructures
-	place [ttk::combobox $gaussianVMD::topGui.frame0.molSelection.combo \
-			-textvariable gaussianVMD::topMolecule \
-			-style gaussianVMD.TCombobox \
-			-values "$gaussianVMD::molinfoList" \
+	trace variable ::vmd_initialize_structure w molUP::updateStructures
+	place [ttk::combobox $molUP::topGui.frame0.molSelection.combo \
+			-textvariable molUP::topMolecule \
+			-style molUP.TCombobox \
+			-values "$molUP::molinfoList" \
 			-state readonly \
-			] -in $gaussianVMD::topGui.frame0.molSelection -x 70 -y 0 -width 325
-	bind $gaussianVMD::topGui.frame0.molSelection.combo <<ComboboxSelected>> {gaussianVMD::activateMolecule}
+			] -in $molUP::topGui.frame0.molSelection -x 70 -y 0 -width 325
+	bind $molUP::topGui.frame0.molSelection.combo <<ComboboxSelected>> {molUP::activateMolecule}
 	
 	
 	set majorHeight [expr $sHeight - 230]
 	
 	#### Major Tabs
-	pack [canvas $gaussianVMD::topGui.frame0.major -bg #ededed -width 400 -height $majorHeight -highlightthickness 0] -in $gaussianVMD::topGui.frame0
-	set major $gaussianVMD::topGui.frame0.major
+	pack [canvas $molUP::topGui.frame0.major -bg #ededed -width 400 -height $majorHeight -highlightthickness 0] -in $molUP::topGui.frame0
+	set major $molUP::topGui.frame0.major
 
 	place [ttk::notebook $major.tabs \
-		-style gaussianVMD.major.TNotebook
+		-style molUP.major.TNotebook
 		] -in $major -x 0 -y 0 -width 400 -height $majorHeight
 	$major.tabs add [frame $major.tabs.tabResults -background #b3dbff -relief flat] -text "Results"
 	$major.tabs add [frame $major.tabs.tabInput -background #b3dbff -relief flat] -text "Input"
@@ -127,16 +127,16 @@ proc gaussianVMD::buildGui {} {
 	#### Job Title
 	set tInput $major.tabs.tabInput
 	place [ttk::label $tInput.jobTitleLabel \
-		-style gaussianVMD.cyan.TLabel \
+		-style molUP.cyan.TLabel \
 		-text {Job Title} ] -in $tInput -x 5 -y 5
 	
 	place [ttk::entry $tInput.jobTitleEntry \
-		-style gaussianVMD.TEntry \
-		-textvariable gaussianVMD::actualTitle \
+		-style molUP.TEntry \
+		-textvariable molUP::actualTitle \
 		] -in $tInput -x 5 -y 30 -width 390
 
 	place [ttk::label $tInput.keywordsLabel \
-		-style gaussianVMD.cyan.TLabel \
+		-style molUP.cyan.TLabel \
 		-text {Keyword calculations} ] -in $tInput -x 5 -y 60
 
 	place [text $tInput.keywordsText \
@@ -145,9 +145,9 @@ proc gaussianVMD::buildGui {} {
 		-highlightcolor #017aff \
 		-highlightthickness 1 \
 		] -in $tInput -x 5 -y 85 -width 375 -height 80
-	$tInput.keywordsText insert end $gaussianVMD::keywordsCalc
-	gaussianVMD::checkTags $tInput.keywordsText
-	bind $tInput.keywordsText <KeyPress> "gaussianVMD::checkTags $tInput.keywordsText"
+	$tInput.keywordsText insert end $molUP::keywordsCalc
+	molUP::checkTags $tInput.keywordsText
+	bind $tInput.keywordsText <KeyPress> "molUP::checkTags $tInput.keywordsText"
 
 
 	place [ttk::scrollbar $tInput.yscb \
@@ -155,7 +155,7 @@ proc gaussianVMD::buildGui {} {
 			-command [list $tInput.keywordsText yview]\
 			] -in $tInput -x 380 -y 85 -width 15 -height 80
 
-	#set gaussianVMD::keywordsCalc [$tInput.keywordsText get 1.0 end]
+	#set molUP::keywordsCalc [$tInput.keywordsText get 1.0 end]
 			
 	
 	#### Charge and Multiplicity
@@ -166,7 +166,7 @@ proc gaussianVMD::buildGui {} {
 
 	#### Connectivity 
 	place [ttk::label $tInput.connectLabel \
-		-style gaussianVMD.cyan.TLabel \
+		-style molUP.cyan.TLabel \
 		-text {Connectivity} ] -in $tInput -x 5 -y 380
 
 	place [text $tInput.connect \
@@ -183,7 +183,7 @@ proc gaussianVMD::buildGui {} {
 
 	#### Parameters 
 	place [ttk::label $tInput.paramLabel \
-		-style gaussianVMD.cyan.TLabel \
+		-style molUP.cyan.TLabel \
 		-text {Parameters} ] -in $tInput -x 5 -y [expr 405 + $heightBox + 10]
 
 	place [text $tInput.param \
@@ -208,7 +208,7 @@ proc gaussianVMD::buildGui {} {
 
 	set tResults $major.tabs.tabResults
 	place [ttk::notebook $tResults.tabs \
-		-style gaussianVMD.results.TNotebook \
+		-style molUP.results.TNotebook \
 		] -in $tResults -x 0 -y 0 -width 400 -height [expr $resultsHeight + 30]
 
 	# Tabs Names
@@ -248,8 +248,8 @@ proc gaussianVMD::buildGui {} {
 
 	place [ttk::button $tResults.tabs.tab4.clearSelection \
 			-text "Clear Selection" \
-			-command {gaussianVMD::clearSelection charges} \
-			-style gaussianVMD.blue.TButton \
+			-command {molUP::clearSelection charges} \
+			-style molUP.blue.TButton \
 			] -in $tResults.tabs.tab4 -x 8 -y [expr $resultsHeight - 40 + 8] -width 375
 
 	$tResults.tabs.tab4.tableLayer configcolumns 0 -labelrelief raised 0 -labelbackground #b3dbff 0 -labelborderwidth 1
@@ -258,7 +258,7 @@ proc gaussianVMD::buildGui {} {
 	$tResults.tabs.tab4.tableLayer configcolumns 3 -labelrelief raised 3 -labelbackground #b3dbff 3 -labelbd 1
 	$tResults.tabs.tab4.tableLayer configcolumns 4 -editable true 4 -labelrelief raised 4 -labelbackground #b3dbff 4 -labelbd 1
 
-	bind $tResults.tabs.tab4.tableLayer <<TablelistSelect>> {gaussianVMD::changeRepCurSelection charges}
+	bind $tResults.tabs.tab4.tableLayer <<TablelistSelect>> {molUP::changeRepCurSelection charges}
 
 
 	# Layer Tab
@@ -289,18 +289,18 @@ proc gaussianVMD::buildGui {} {
 
 	place [ttk::label $tResults.tabs.tab2.selectionLabel \
 			-text {Atom selection (Change ONIOM layer):} \
-			-style gaussianVMD.lightGreen.TLabel \
+			-style molUP.lightGreen.TLabel \
 			] -in $tResults.tabs.tab2 -x 5 -y [expr $resultsHeight - 100 + 5] -width 370
 
 	place [ttk::entry $tResults.tabs.tab2.selection \
-			-textvariable gaussianVMD::atomSelectionONIOM \
-			-style gaussianVMD.TEntry \
+			-textvariable molUP::atomSelectionONIOM \
+			-style molUP.TEntry \
 			] -in $tResults.tabs.tab2 -x 5 -y [expr $resultsHeight - 100 + 35] -width 375
 	balloon $tResults.tabs.tab2.selection -text "You can also select atoms dragging in the list above"
 
 	place [ttk::combobox $tResults.tabs.tab2.selectModificationValue \
-			-textvariable gaussianVMD::selectionModificationValueOniom \
-			-style gaussianVMD.green.TCombobox \
+			-textvariable molUP::selectionModificationValueOniom \
+			-style molUP.green.TCombobox \
 			-values "[list "H" "M" "L"]" \
 			-state readonly \
 			] -in $tResults.tabs.tab2 -x 5 -y [expr $resultsHeight - 100 + 65] -width 118
@@ -308,14 +308,14 @@ proc gaussianVMD::buildGui {} {
 
 	place [ttk::button $tResults.tabs.tab2.selectionApply \
 			-text "Apply" \
-			-command {gaussianVMD::applyToStructure oniom} \
-			-style gaussianVMD.blue.TButton \
+			-command {molUP::applyToStructure oniom} \
+			-style molUP.blue.TButton \
 			] -in $tResults.tabs.tab2 -x 133 -y [expr $resultsHeight - 100 + 65] -width 118
 
 	place [ttk::button $tResults.tabs.tab2.clearSelection \
 			-text "Clear Selection" \
-			-command {gaussianVMD::clearSelection oniom} \
-			-style gaussianVMD.blue.TButton \
+			-command {molUP::clearSelection oniom} \
+			-style molUP.blue.TButton \
 			] -in $tResults.tabs.tab2 -x 261 -y [expr $resultsHeight - 100 + 65] -width 118
 
 	$tResults.tabs.tab2.tableLayer configcolumns 0 -labelrelief raised 0 -labelbackground #b3dbff 0 -labelborderwidth 1
@@ -324,7 +324,7 @@ proc gaussianVMD::buildGui {} {
 	$tResults.tabs.tab2.tableLayer configcolumns 3 -labelrelief raised 3 -labelbackground #b3dbff 3 -labelbd 1
 	$tResults.tabs.tab2.tableLayer configcolumns 4 -editable true 4 -labelrelief raised 4 -labelbackground #b3dbff 4 -labelbd 1
 
-	bind $tResults.tabs.tab2.tableLayer <<TablelistSelect>> {gaussianVMD::changeRepCurSelection oniom}
+	bind $tResults.tabs.tab2.tableLayer <<TablelistSelect>> {molUP::changeRepCurSelection oniom}
 
 	
 	# Freeze Tab
@@ -355,32 +355,32 @@ proc gaussianVMD::buildGui {} {
 
 	place [ttk::label $tResults.tabs.tab3.selectionLabel \
 			-text {Atom selection (Change freezing state):} \
-			-style gaussianVMD.lightGreen.TLabel \
+			-style molUP.lightGreen.TLabel \
 			] -in $tResults.tabs.tab3 -x 5 -y [expr $resultsHeight - 100 + 5] -width 370
 
 	place [ttk::entry $tResults.tabs.tab3.selection \
-			-textvariable gaussianVMD::atomSelectionFreeze\
-			-style gaussianVMD.TEntry \
+			-textvariable molUP::atomSelectionFreeze\
+			-style molUP.TEntry \
 			] -in $tResults.tabs.tab3 -x 5 -y [expr $resultsHeight - 100 + 35] -width 375
 	balloon $tResults.tabs.tab3.selection -text "You can also select atoms dragging in the list above"
 
 	place [ttk::combobox $tResults.tabs.tab3.selectModificationValue \
-			-textvariable gaussianVMD::selectionModificationValueFreeze \
-			-style gaussianVMD.green.TCombobox \
+			-textvariable molUP::selectionModificationValueFreeze \
+			-style molUP.green.TCombobox \
 			-values "[list "0" "-1" "-2" "-3"]" \
 			] -in $tResults.tabs.tab3 -x 5 -y [expr $resultsHeight - 100 + 65] -width 118
 	balloon $tResults.tabs.tab3.selectModificationValue -text "Choose freeze option"
 
 	place [ttk::button $tResults.tabs.tab3.selectionApply \
 			-text "Apply" \
-			-command {gaussianVMD::applyToStructure freeze} \
-			-style gaussianVMD.TButton \
+			-command {molUP::applyToStructure freeze} \
+			-style molUP.TButton \
 			] -in $tResults.tabs.tab3 -x 133 -y [expr $resultsHeight - 100 + 65] -width 118
 
 	place [ttk::button $tResults.tabs.tab3.clearSelection \
 			-text "Clear Selection" \
-			-command {gaussianVMD::clearSelection freeze} \
-			-style gaussianVMD.TButton \
+			-command {molUP::clearSelection freeze} \
+			-style molUP.TButton \
 			] -in $tResults.tabs.tab3 -x 261 -y [expr $resultsHeight - 100 + 65] -width 118
 
 	$tResults.tabs.tab3.tableLayer configcolumns 0 -labelrelief raised 0 -labelbackground #b3dbff 0 -labelborderwidth 1
@@ -389,81 +389,81 @@ proc gaussianVMD::buildGui {} {
 	$tResults.tabs.tab3.tableLayer configcolumns 3 -labelrelief raised 3 -labelbackground #b3dbff 3 -labelbd 1
 	$tResults.tabs.tab3.tableLayer configcolumns 4 -editable true 4 -labelrelief raised 4 -labelbackground #b3dbff 4 -labelbd 1
 
-	bind $tResults.tabs.tab3.tableLayer <<TablelistSelect>> {gaussianVMD::changeRepCurSelection freeze}
+	bind $tResults.tabs.tab3.tableLayer <<TablelistSelect>> {molUP::changeRepCurSelection freeze}
 
 
 
 	############ Representantions
 
-	pack [canvas $gaussianVMD::topGui.frame0.rep -bg #ededed -width 400 -height 105 -highlightthickness 0 -relief raised] -in $gaussianVMD::topGui.frame0
-	set rep $gaussianVMD::topGui.frame0.rep
+	pack [canvas $molUP::topGui.frame0.rep -bg #ededed -width 400 -height 105 -highlightthickness 0 -relief raised] -in $molUP::topGui.frame0
+	set rep $molUP::topGui.frame0.rep
 
 	place [ttk::label $rep.quickRepLabel \
 			-text {Representations} \
-			-style gaussianVMD.grayCenter.TLabel \
+			-style molUP.grayCenter.TLabel \
 			] -in $rep -x 0 -y 5 -width 400
 
 	place [ttk::checkbutton $rep.showHL \
 			-text "High Layer" \
-			-variable gaussianVMD::HLrep \
-			-command {gaussianVMD::onOffRepresentation 2} \
-			-style gaussianVMD.TCheckbutton \
+			-variable molUP::HLrep \
+			-command {molUP::onOffRepresentation 2} \
+			-style molUP.TCheckbutton \
 			] -in $rep -x 5 -y 30 -width 123
 
 	place [ttk::checkbutton $rep.showML \
 			-text "Medium Layer" \
-			-variable gaussianVMD::MLrep \
-			-command {gaussianVMD::onOffRepresentation 3} \
-			-style gaussianVMD.TCheckbutton \
+			-variable molUP::MLrep \
+			-command {molUP::onOffRepresentation 3} \
+			-style molUP.TCheckbutton \
 			] -in $rep -x 138 -y 30 -width 123
 
 	place [ttk::checkbutton $rep.showLL \
 			-text "Low Layer" \
-			-variable gaussianVMD::LLrep \
-			-command {gaussianVMD::onOffRepresentation 4} \
-			-style gaussianVMD.TCheckbutton \
+			-variable molUP::LLrep \
+			-command {molUP::onOffRepresentation 4} \
+			-style molUP.TCheckbutton \
 			] -in $rep -x 271 -y 30 -width 123
 
 	place [ttk::checkbutton $rep.unfreeze \
 			-text "Unfreeze" \
-			-variable gaussianVMD::unfreezeRep \
-			-command {gaussianVMD::onOffRepresentation 8} \
-			-style gaussianVMD.TCheckbutton \
+			-variable molUP::unfreezeRep \
+			-command {molUP::onOffRepresentation 8} \
+			-style molUP.TCheckbutton \
 			] -in $rep -x 5 -y 55 -width 123
 
 	place [ttk::checkbutton $rep.freezeMinusOne \
 			-text "Freeze" \
-			-variable gaussianVMD::freezeRep \
-			-command {gaussianVMD::onOffRepresentation 9} \
-			-style gaussianVMD.TCheckbutton \
+			-variable molUP::freezeRep \
+			-command {molUP::onOffRepresentation 9} \
+			-style molUP.TCheckbutton \
 			] -in $rep -x 138 -y 55 -width 123
 
 	place [ttk::checkbutton $rep.all \
 			-text "All" \
-			-variable gaussianVMD::allRep \
-			-command {gaussianVMD::onOffRepresentation 13} \
-			-style gaussianVMD.TCheckbutton \
+			-variable molUP::allRep \
+			-command {molUP::onOffRepresentation 13} \
+			-style molUP.TCheckbutton \
 			] -in $rep -x 271 -y 55 -width 123
 
 	place [ttk::checkbutton $rep.protein \
 			-text "Protein" \
-			-variable gaussianVMD::proteinRep \
-			-command {gaussianVMD::onOffRepresentation 5} \
-			-style gaussianVMD.TCheckbutton \
+			-variable molUP::proteinRep \
+			-command {molUP::onOffRepresentation 5} \
+			-style molUP.TCheckbutton \
 			] -in $rep -x 5 -y 80 -width 123
 
 	place [ttk::checkbutton $rep.nonProtein \
 			-text "Non-Protein" \
-			-variable gaussianVMD::nonproteinRep \
-			-command {gaussianVMD::onOffRepresentation 6} \
-			-style gaussianVMD.TCheckbutton \
+			-variable molUP::nonproteinRep \
+			-command {molUP::onOffRepresentation 6} \
+			-style molUP.TCheckbutton \
 			] -in $rep -x 138 -y 80 -width 123
 
 	place [ttk::checkbutton $rep.water \
 			-text "Water" \
-			-variable gaussianVMD::waterRep \
-			-command {gaussianVMD::onOffRepresentation 7} \
-			-style gaussianVMD.TCheckbutton \
+			-variable molUP::waterRep \
+			-command {molUP::onOffRepresentation 7} \
+			-style molUP.TCheckbutton \
 			] -in $rep -x 271 -y 80 -width 123
 
 
@@ -471,70 +471,70 @@ proc gaussianVMD::buildGui {} {
 
 
 	#### Toolbar Menu Bootom
-	pack [canvas $gaussianVMD::topGui.frame0.bottomToolbar -bg #b3dbff -width 400 -height 40 -highlightthickness 0 -relief raised] -in $gaussianVMD::topGui.frame0
-	place [ttk::frame $gaussianVMD::topGui.frame0.bottomToolbar.frame -style gaussianVMD.menuBar.TFrame] -in $gaussianVMD::topGui.frame0.bottomToolbar -x 0 -y 0 -width 400 -height 40
+	pack [canvas $molUP::topGui.frame0.bottomToolbar -bg #b3dbff -width 400 -height 40 -highlightthickness 0 -relief raised] -in $molUP::topGui.frame0
+	place [ttk::frame $molUP::topGui.frame0.bottomToolbar.frame -style molUP.menuBar.TFrame] -in $molUP::topGui.frame0.bottomToolbar -x 0 -y 0 -width 400 -height 40
 
-	set tbar $gaussianVMD::topGui.frame0.bottomToolbar.frame
+	set tbar $molUP::topGui.frame0.bottomToolbar.frame
 	place [ttk::button $tbar.resetView \
 			-text "Reset View" \
 			-command {display resetview} \
-			-style gaussianVMD.reset.TButton \
+			-style molUP.reset.TButton \
 			] -in $tbar -x 17 -y 5 -width 30
 	balloon $tbar.resetView -text "Reset View"
 
 	place [ttk::button $tbar.centerAtom \
 			-text "Center atom" \
 			-command {mouse mode center} \
-			-style gaussianVMD.center.TButton \
+			-style molUP.center.TButton \
 			] -in $tbar -x 57 -y 5 -width 30
 	balloon $tbar.centerAtom -text "Center atom"
 
 	place [ttk::button $tbar.deleteAllLabels \
 			-text "Delete all labels" \
-			-command {gaussianVMD::deleteAllLabels} \
-			-style gaussianVMD.deleteAllLabels.TButton \
+			-command {molUP::deleteAllLabels} \
+			-style molUP.deleteAllLabels.TButton \
 			] -in $tbar -x 97 -y 5 -width 30
 	balloon $tbar.deleteAllLabels -text "Delete all labels"
 
 	place [ttk::button $tbar.mouseModeRotate \
 			-text "Mouse mode: Rotate" \
 			-command {mouse mode rotate} \
-			-style gaussianVMD.mouseModeRotate.TButton \
+			-style molUP.mouseModeRotate.TButton \
 			] -in $tbar -x 145 -y 5 -width 30
 	balloon $tbar.mouseModeRotate -text "Mouse mode: Rotate"
 
 	place [ttk::button $tbar.mouseModeTranslate \
 			-text "Mouse mode: Translate" \
 			-command {mouse mode translate} \
-			-style gaussianVMD.mouseModeTranslate.TButton \
+			-style molUP.mouseModeTranslate.TButton \
 			] -in $tbar -x 185 -y 5 -width 30
 	balloon $tbar.mouseModeTranslate -text "Mouse mode: Translate"
 
 	place [ttk::button $tbar.mouseModeScale \
 			-text "Mouse mode: Scale" \
 			-command {mouse mode scale} \
-			-style gaussianVMD.mouseModeScale.TButton \
+			-style molUP.mouseModeScale.TButton \
 			] -in $tbar -x 225 -y 5 -width 30
 	balloon $tbar.mouseModeScale -text "Mouse mode: Scale"
 
 	place [ttk::button $tbar.bondEdit \
 			-text "Modify bond" \
-			-command {gaussianVMD::bondModifInitialProc} \
-			-style gaussianVMD.bondEdit.TButton \
+			-command {molUP::bondModifInitialProc} \
+			-style molUP.bondEdit.TButton \
 			] -in $tbar -x 273 -y 5 -width 30
 	balloon $tbar.bondEdit -text "Modify bond"
 
 	place [ttk::button $tbar.angleEdit \
 			-text "Modify angle" \
-			-command {gaussianVMD::angleModifInitialProc} \
-			-style gaussianVMD.angleEdit.TButton \
+			-command {molUP::angleModifInitialProc} \
+			-style molUP.angleEdit.TButton \
 			] -in $tbar -x 313 -y 5 -width 30
 	balloon $tbar.angleEdit -text "Modify angle"
 
 	place [ttk::button $tbar.dihedralEdit \
 			-text "Modify dihedral" \
-			-command {gaussianVMD::dihedModifInitialProc} \
-			-style gaussianVMD.dihedralEdit.TButton \
+			-command {molUP::dihedModifInitialProc} \
+			-style molUP.dihedralEdit.TButton \
 			] -in $tbar -x 353 -y 5 -width 30
 	balloon $tbar.dihedralEdit -text "Modify dihedral"
 
@@ -542,35 +542,35 @@ proc gaussianVMD::buildGui {} {
 
 
 
-proc gaussianVMD::getMolinfoList {} {
-	set gaussianVMD::molinfoList {}
+proc molUP::getMolinfoList {} {
+	set molUP::molinfoList {}
 	
 	set a [molinfo top]
 
 	if {$a == -1} {
-		set gaussianVMD::topMolecule "No molecule"
+		set molUP::topMolecule "No molecule"
 	} else {
-		set gaussianVMD::topMolecule "[molinfo top] : [molinfo top get name]"
+		set molUP::topMolecule "[molinfo top] : [molinfo top get name]"
 
 		set list [molinfo list]
 		foreach mol $list {
 			set molDetails "$mol : [molinfo $mol get name]"
-			lappend gaussianVMD::molinfoList $molDetails
+			lappend molUP::molinfoList $molDetails
 		}
 	}
 
-	$gaussianVMD::topGui.frame0.molSelection.combo configure -values $gaussianVMD::molinfoList
+	$molUP::topGui.frame0.molSelection.combo configure -values $molUP::molinfoList
 }
 
 
-proc gaussianVMD::activateMolecule {} {
+proc molUP::activateMolecule {} {
 	## Set molecule to top
-	mol top [lindex $gaussianVMD::topMolecule 0]
+	mol top [lindex $molUP::topMolecule 0]
 
 	## Delete previous info
-	$gaussianVMD::tableCharges delete 0 end
-	$gaussianVMD::tableLayer delete 0 end
-	$gaussianVMD::tableFreeze delete 0 end
+	$molUP::tableCharges delete 0 end
+	$molUP::tableLayer delete 0 end
+	$molUP::tableFreeze delete 0 end
 
 	## Add info to tables
 	set sel [atomselect top all]
@@ -582,77 +582,77 @@ proc gaussianVMD::activateMolecule {} {
 
 
 	# Index
-	$gaussianVMD::tableCharges insertlist end $index
-	$gaussianVMD::tableLayer insertlist end $index
-	$gaussianVMD::tableFreeze insertlist end $index
+	$molUP::tableCharges insertlist end $index
+	$molUP::tableLayer insertlist end $index
+	$molUP::tableFreeze insertlist end $index
 
 	# Atom Type
-	$gaussianVMD::tableCharges columnconfigure 1 -text $type
-	$gaussianVMD::tableLayer columnconfigure 1 -text $name
-	$gaussianVMD::tableFreeze columnconfigure 1 -text $name
+	$molUP::tableCharges columnconfigure 1 -text $type
+	$molUP::tableLayer columnconfigure 1 -text $name
+	$molUP::tableFreeze columnconfigure 1 -text $name
 
 	# Resname
-	$gaussianVMD::tableCharges columnconfigure 2 -text $resname
-	$gaussianVMD::tableLayer columnconfigure 2 -text $resname
-	$gaussianVMD::tableFreeze columnconfigure 2 -text $resname
+	$molUP::tableCharges columnconfigure 2 -text $resname
+	$molUP::tableLayer columnconfigure 2 -text $resname
+	$molUP::tableFreeze columnconfigure 2 -text $resname
 	
 	# Resid
-	$gaussianVMD::tableCharges columnconfigure 3 -text $resid
-	$gaussianVMD::tableLayer columnconfigure 3 -text $resid
-	$gaussianVMD::tableFreeze columnconfigure 3 -text $resid
+	$molUP::tableCharges columnconfigure 3 -text $resid
+	$molUP::tableLayer columnconfigure 3 -text $resid
+	$molUP::tableFreeze columnconfigure 3 -text $resid
 
 	# Specific
-	$gaussianVMD::tableCharges columnconfigure 4 -text [$sel get charge] -formatcommand {format %.8s}
-	$gaussianVMD::tableLayer columnconfigure 4 -text [$sel get altloc]
-	$gaussianVMD::tableFreeze columnconfigure 4 -text [$sel get user]
+	$molUP::tableCharges columnconfigure 4 -text [$sel get charge] -formatcommand {format %.8s}
+	$molUP::tableLayer columnconfigure 4 -text [$sel get altloc]
+	$molUP::tableFreeze columnconfigure 4 -text [$sel get user]
 
 
 	##### Update input information
-	set pos [lsearch $gaussianVMD::moleculeInfo "molID[molinfo top]"]
-	set gaussianVMD::actualTitle [lindex $gaussianVMD::moleculeInfo [expr $pos +1]]
-	$gaussianVMD::topGui.frame0.major.tabs.tabInput.keywordsText delete 1.0 end
-	$gaussianVMD::topGui.frame0.major.tabs.tabInput.keywordsText insert end [lindex $gaussianVMD::moleculeInfo [expr $pos +2]]
-	$gaussianVMD::topGui.frame0.major.tabs.tabInput.connect delete 1.0 end
-	set connectivity [lindex $gaussianVMD::moleculeInfo [expr $pos +4]]
+	set pos [lsearch $molUP::moleculeInfo "molID[molinfo top]"]
+	set molUP::actualTitle [lindex $molUP::moleculeInfo [expr $pos +1]]
+	$molUP::topGui.frame0.major.tabs.tabInput.keywordsText delete 1.0 end
+	$molUP::topGui.frame0.major.tabs.tabInput.keywordsText insert end [lindex $molUP::moleculeInfo [expr $pos +2]]
+	$molUP::topGui.frame0.major.tabs.tabInput.connect delete 1.0 end
+	set connectivity [lindex $molUP::moleculeInfo [expr $pos +4]]
 	if {$connectivity != ""} {
-		$gaussianVMD::topGui.frame0.major.tabs.tabInput.connect insert end $connectivity
+		$molUP::topGui.frame0.major.tabs.tabInput.connect insert end $connectivity
 	} else {
-		set connectivity [gaussianVMD::connectivityFromVMD]
-		$gaussianVMD::topGui.frame0.major.tabs.tabInput.connect insert end $connectivity
+		set connectivity [molUP::connectivityFromVMD]
+		$molUP::topGui.frame0.major.tabs.tabInput.connect insert end $connectivity
 	}
-	$gaussianVMD::topGui.frame0.major.tabs.tabInput.param delete 1.0 end
-	$gaussianVMD::topGui.frame0.major.tabs.tabInput.param insert end [lindex $gaussianVMD::moleculeInfo [expr $pos +5]]
+	$molUP::topGui.frame0.major.tabs.tabInput.param delete 1.0 end
+	$molUP::topGui.frame0.major.tabs.tabInput.param insert end [lindex $molUP::moleculeInfo [expr $pos +5]]
 
 
 }
 
-proc gaussianVMD::updateStructures {args} {
-	set gaussianVMD::allRep "1"
+proc molUP::updateStructures {args} {
+	set molUP::allRep "1"
 
-	gaussianVMD::getMolinfoList
-	gaussianVMD::collectMolInfo
-	gaussianVMD::activateMolecule
-	gaussianVMD::addSelectionRep
+	molUP::getMolinfoList
+	molUP::collectMolInfo
+	molUP::activateMolecule
+	molUP::addSelectionRep
 
 }
 
-proc gaussianVMD::collectMolInfo {} {
+proc molUP::collectMolInfo {} {
 	### Structure molID, title, keywords, charges/Milti, connectivity, parameters
-	lappend gaussianVMD::moleculeInfo "molID[molinfo top]" $gaussianVMD::title $gaussianVMD::keywordsCalc $gaussianVMD::chargesMultip $gaussianVMD::connectivity $gaussianVMD::parameters
+	lappend molUP::moleculeInfo "molID[molinfo top]" $molUP::title $molUP::keywordsCalc $molUP::chargesMultip $molUP::connectivity $molUP::parameters
 
 	### Clear variables
-	set gaussianVMD::title "Gaussian for VMD is a very good plugin :)"
-	set gaussianVMD::keywordsCalc "%mem=7000MB\n%NProc=4\n%chk=name.chk\n\n# "
-	set gaussianVMD::chargesMultip ""
-	set gaussianVMD::connectivity ""
-	set gaussianVMD::parameters ""
+	set molUP::title "Gaussian for VMD is a very good plugin :)"
+	set molUP::keywordsCalc "%mem=7000MB\n%NProc=4\n%chk=name.chk\n\n# "
+	set molUP::chargesMultip ""
+	set molUP::connectivity ""
+	set molUP::parameters ""
 
 }
 
 
 
 
-proc gaussianVMD::textSearch {w string tag} {
+proc molUP::textSearch {w string tag} {
    $w tag remove search 0.0 end
    if {$string == ""} {
 	return
@@ -668,40 +668,40 @@ proc gaussianVMD::textSearch {w string tag} {
    }
 }
 
-proc gaussianVMD::checkTags {pathName} {
+proc molUP::checkTags {pathName} {
 	set calcTypes [list opt freq irc scf]
 	foreach word $calcTypes {
-		gaussianVMD::textSearch $pathName $word calcTypes
+		molUP::textSearch $pathName $word calcTypes
 	}
 	$pathName tag configure calcTypes -foreground red
 
 	set oniom [list oniom]
 	foreach word $oniom {
-		gaussianVMD::textSearch $pathName $word oniom
+		molUP::textSearch $pathName $word oniom
 	}
 	$pathName tag configure oniom -foreground blue
 
 	set functional [list uff dreiding amber]
 	foreach word $functional {
-		gaussianVMD::textSearch $pathName $word functional
+		molUP::textSearch $pathName $word functional
 	}
 	$pathName tag configure functional -foreground yellow -background black
 
 	set functionalSE [list pm6 am1 pddg pm3 pm3mm pm7 indo cndo]
 	foreach word $functionalSE {
-		gaussianVMD::textSearch $pathName $word functionalSE
+		molUP::textSearch $pathName $word functionalSE
 	}
 	$pathName tag configure functionalSE -foreground green -background black
 
 	set functionalDFT [list hf b3lyp lsda bpv86 b3pw91 mpw1pw91 pbepbe hseh1pbe hcth tpsstpss wb97xd mp2 mp4 ccsd bd casscf]
 	foreach word $functionalDFT {
-		gaussianVMD::textSearch $pathName $word functionalDFT
+		molUP::textSearch $pathName $word functionalDFT
 	}
 	$pathName tag configure functionalDFT -foreground orange -background black
 
 	set basisset [list sto-3g * ** + ++ 3-21 6-31g 6-31+g 6-31++g (d (2d (3d (df (2df (3df ,p ,2p ,3p ,pd ,2pd ,3pd 6-311g 6-311+g 6-311++g cc-pvdz cc-pvtz cc-pvqz lanl2dz lanl2mb sdd dgdzvp dgdzvp2 dgdzvp gen genecp]
 	foreach word $basisset {
-		gaussianVMD::textSearch $pathName $word basisset
+		molUP::textSearch $pathName $word basisset
 	}
 	$pathName tag configure basisset -foreground #b3dbff -background black
 

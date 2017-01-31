@@ -2,42 +2,42 @@ package provide guiCredits 1.0
 package require Tk
 
 #### GUI ############################################################
-proc gaussianVMD::guiCredits {} {
+proc molUP::guiCredits {} {
 
 	#### Check if the window exists
-	if {[winfo exists $::gaussianVMD::credits]} {wm deiconify $::gaussianVMD::credits ;return $::gaussianVMD::credits}
-	toplevel $::gaussianVMD::credits
+	if {[winfo exists $::molUP::credits]} {wm deiconify $::molUP::credits ;return $::molUP::credits}
+	toplevel $::molUP::credits
 
 	#### Title of the windows
-	wm title $gaussianVMD::credits "Credits" ;# titulo da pagina
+	wm title $molUP::credits "Credits" ;# titulo da pagina
 
 	#### Change the location of window
 	# screen width and height
-	set sWidth [expr [winfo vrootwidth  $::gaussianVMD::credits] -0]
-	set sHeight [expr [winfo vrootheight $::gaussianVMD::credits] -50]
+	set sWidth [expr [winfo vrootwidth  $::molUP::credits] -0]
+	set sHeight [expr [winfo vrootheight $::molUP::credits] -50]
 
 	#### Change the location of window
-    wm geometry $::gaussianVMD::credits 400x200+[expr $sWidth - 400]+100
-	$::gaussianVMD::credits configure -background {white}
-	wm resizable $::gaussianVMD::credits 0 0
+    wm geometry $::molUP::credits 400x200+[expr $sWidth - 400]+100
+	$::molUP::credits configure -background {white}
+	wm resizable $::molUP::credits 0 0
 
 	## Apply theme
-	ttk::style theme use gaussianVMDTheme
+	ttk::style theme use molUPTheme
 
     #### Information
-    pack [ttk::frame $gaussianVMD::credits.frame0]
-	pack [canvas $gaussianVMD::credits.frame0.frame -bg white -width 400 -height 200 -highlightthickness 0] -in $gaussianVMD::credits.frame0
+    pack [ttk::frame $molUP::credits.frame0]
+	pack [canvas $molUP::credits.frame0.frame -bg white -width 400 -height 200 -highlightthickness 0] -in $molUP::credits.frame0
 
-	place [message $gaussianVMD::credits.frame0.frame.label1 \
+	place [message $molUP::credits.frame0.frame.label1 \
 		-text "Gaussian for VMD is a user friendly vmd plugin that reads any output or input file from Gaussian09. Several quick representations, tools, and options were included to a perfect user environment. \n Gaussian for VMD was developed by Henrique S. Fernandes and Nuno M.F.S.A. Cerqueira at the Computational Biochemistry Group of the Faculty of Sciences of the University of Porto. \n Gaussian for VMD is free and can be used with any porpose. However, if you use Gaussian for VMD, you should cite us. \n All rights reserved - 2017" \
 		-width 380 \
-	] -in $gaussianVMD::credits.frame0.frame -x 10 -y 10 -width 380 -height 180 -anchor nw -bordermode ignore
+	] -in $molUP::credits.frame0.frame -x 10 -y 10 -width 380 -height 180 -anchor nw -bordermode ignore
 
-	place [ttk::button $gaussianVMD::credits.frame0.frame.visitWebsite \
+	place [ttk::button $molUP::credits.frame0.frame.visitWebsite \
 		-text {Web Page} \
 		-command {invokeBrowser "https://henriquefernandesblog.wordpress.com"} \
-		-style gaussianVMD.TButton \
-		] -in $gaussianVMD::credits.frame0.frame -x 290 -y 165 -width 100
+		-style molUP.TButton \
+		] -in $molUP::credits.frame0.frame -x 290 -y 165 -width 100
 
 
 }

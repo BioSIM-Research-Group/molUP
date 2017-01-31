@@ -1,6 +1,6 @@
 package provide timeControl 1.0 
 
-proc gaussianVMD::duration { secs } {
+proc molUP::duration { secs } {
      set timeatoms [ list ]
      if { [ catch {
         foreach div { 86400 3600 60 1 } \
@@ -21,7 +21,7 @@ proc gaussianVMD::duration { secs } {
 }
 
 
-proc gaussianVMD::tempo {time0 time1} {
+proc molUP::tempo {time0 time1} {
        ## transformar o tempo num integer
        scan "$time0" "%dh %dm %ds   %s %s %s" h0 m0 s0 mt0 d0 y0
        scan "$time1" "%dh %dm %ds   %s %s %s" h1 m1 s1 mt1 d1 y1
@@ -30,17 +30,17 @@ proc gaussianVMD::tempo {time0 time1} {
        ## contas de diferença do tempo
        set timeD [expr abs ($time0-$time1)]
        set timeDiff "1 secs"
-       if {$timeD!=0} {set timeDiff [gaussianVMD::duration $timeD]}
+       if {$timeD!=0} {set timeDiff [molUP::duration $timeD]}
        return $timeDiff
 }
 
-proc gaussianVMD::timeBegin {} {
-    set gaussianVMD::time0 [clock format [clock seconds] -format "%Hh %Mm %Ss   %d %b %y"]
+proc molUP::timeBegin {} {
+    set molUP::time0 [clock format [clock seconds] -format "%Hh %Mm %Ss   %d %b %y"]
 }
 
-proc gaussianVMD::timeEnd {} {
-    set gaussianVMD::time1 [clock format [clock seconds] -format "%Hh %Mm %Ss   %d %b %y"]
-    set result [gaussianVMD::tempo $gaussianVMD::time0 $gaussianVMD::time1]
+proc molUP::timeEnd {} {
+    set molUP::time1 [clock format [clock seconds] -format "%Hh %Mm %Ss   %d %b %y"]
+    set result [molUP::tempo $molUP::time0 $molUP::time1]
     puts "Duration: $result"
 }
 

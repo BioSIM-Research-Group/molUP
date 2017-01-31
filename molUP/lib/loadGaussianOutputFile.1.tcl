@@ -3,19 +3,19 @@ package provide loadGaussianOutputFile 2.0
 
 
 ### This procedure load a gaussian input file and converts it to PDB
-proc gaussianVMD::loadGaussianOutputFile {option} {
+proc molUP::loadGaussianOutputFile {option} {
     
 	## Clear Structure
-	set gaussianVMD::structureReadyToLoad {}
+	set molUP::structureReadyToLoad {}
 
 	## Evaluate Freq Calculation
-	gaussianVMD::evaluateFreqCalc
+	molUP::evaluateFreqCalc
 
     # Get Title, Calculations keywords, Charge and Multiplicity
-	gaussianVMD::globalInfoOutputFile
+	molUP::globalInfoOutputFile
 
 	#### Number of Atoms
-	set gaussianVMD::numberAtoms [gaussianVMD::numberAtomsFirstStructure]
+	set molUP::numberAtoms [molUP::numberAtomsFirstStructure]
 
 	##############################################################
 	##############################################################
@@ -23,30 +23,30 @@ proc gaussianVMD::loadGaussianOutputFile {option} {
     if {$option == "firstStructure"} {
 
 		## Get the number of columns
-		set numberColumns [llength [lindex $gaussianVMD::structureGaussian 0]]
+		set numberColumns [llength [lindex $molUP::structureGaussian 0]]
 
 		if {$numberColumns == 4} {
-			gaussianVMD::readSmallModelStructure
+			molUP::readSmallModelStructure
 			variable attributes [list "x" "y" "z" "element" "name" "type" "resname" "resid"]
 
 		} elseif {$numberColumns > 4} {
-			gaussianVMD::readOniomStructure
+			molUP::readOniomStructure
 			variable attributes [list "x" "y" "z" "element" "name" "type" "resname" "resid" "altloc" "user" "charge"]
 
 		} else {
-			gaussianVMD::guiError "The file has a strange structure. The file cannot be openned."
+			molUP::guiError "The file has a strange structure. The file cannot be openned."
 
 		}
 
 		#### Load and prepara structure on VMD
 		## Create a new Molecule
-		mol new atoms $gaussianVMD::numberAtoms
+		mol new atoms $molUP::numberAtoms
 		## Change the name
-		mol rename top "[subst $gaussianVMD::fileName]"
+		mol rename top "[subst $molUP::fileName]"
 		## Create a frame
 		animate dup top
 		## Add the info
-		[atomselect top all] set $gaussianVMD::attributes $gaussianVMD::structureReadyToLoad
+		[atomselect top all] set $molUP::attributes $molUP::structureReadyToLoad
 		## Create the first representantion
 		mol selection all
 		mol color Name
@@ -58,7 +58,7 @@ proc gaussianVMD::loadGaussianOutputFile {option} {
 		display resetview
 
 		#### Add Representations
-		gaussianVMD::addSelectionRep	
+		molUP::addSelectionRep	
 		
 
 
@@ -71,40 +71,40 @@ proc gaussianVMD::loadGaussianOutputFile {option} {
 
 		#### Get the coordinates of the last structure
 		#### Get line of last structure
-		set lineBeforeLastStructure [split [exec grep -n " Number     Number       Type             X           Y           Z" $gaussianVMD::path | tail -n 1] ":"]
+		set lineBeforeLastStructure [split [exec grep -n " Number     Number       Type             X           Y           Z" $molUP::path | tail -n 1] ":"]
 		set firstLineLastStructure [expr [lindex $lineBeforeLastStructure 0] + 2]
-		set lastLineLastStructure [expr $firstLineLastStructure - 1 + $gaussianVMD::numberAtoms]
+		set lastLineLastStructure [expr $firstLineLastStructure - 1 + $molUP::numberAtoms]
 
 		## Read all information about the last structure
-		catch {exec sed -n "$firstLineLastStructure,$lastLineLastStructure p" $gaussianVMD::path} structureLastGaussian
+		catch {exec sed -n "$firstLineLastStructure,$lastLineLastStructure p" $molUP::path} structureLastGaussian
 
 		#### Organize the structure info
     	set allAtomsLastStructureCoord [split $structureLastGaussian \n]
 
 		## Get the number of columns
-		set numberColumns [llength [lindex $gaussianVMD::structureGaussian 0]]
+		set numberColumns [llength [lindex $molUP::structureGaussian 0]]
 
 		if {$numberColumns == 4} {
-			gaussianVMD::readSmallModelStructureLastStructure $allAtomsLastStructureCoord
+			molUP::readSmallModelStructureLastStructure $allAtomsLastStructureCoord
 			variable attributes [list "x" "y" "z" "element" "name" "type" "resname" "resid"]
 		} elseif {$numberColumns > 4} {
-			gaussianVMD::readOniomStructureLastStructure $allAtomsLastStructureCoord
+			molUP::readOniomStructureLastStructure $allAtomsLastStructureCoord
 			variable attributes [list "x" "y" "z" "element" "name" "type" "resname" "resid" "altloc" "user" "charge"]
 
 		} else {
-			gaussianVMD::guiError "The file has a strange structure. The file cannot be openned."
+			molUP::guiError "The file has a strange structure. The file cannot be openned."
 
 		}
 
 		#### Load and prepara structure on VMD
 		## Create a new Molecule
-		mol new atoms $gaussianVMD::numberAtoms
+		mol new atoms $molUP::numberAtoms
 		## Change the name
-		mol rename top "[subst $gaussianVMD::fileName]"
+		mol rename top "[subst $molUP::fileName]"
 		## Create a frame
 		animate dup top
 		## Add the info
-		[atomselect top all] set $gaussianVMD::attributes $gaussianVMD::structureReadyToLoad
+		[atomselect top all] set $molUP::attributes $molUP::structureReadyToLoad
 		## Create the first representantion
 		mol selection all
 		mol color Name
@@ -116,7 +116,7 @@ proc gaussianVMD::loadGaussianOutputFile {option} {
 		display resetview
 
 		#### Add Representations
-		gaussianVMD::addSelectionRep
+		molUP::addSelectionRep
 
 
 
@@ -129,7 +129,7 @@ proc gaussianVMD::loadGaussianOutputFile {option} {
     } elseif {$option == "optimizedStructures"} {
 
 		#### Get the lines of all structures and optimized tag
-		set structuresAndOptimized [split [exec grep -n -e "Optimized Parameters" -e " Number     Number       Type             X           Y           Z" $gaussianVMD::path] \n]
+		set structuresAndOptimized [split [exec grep -n -e "Optimized Parameters" -e " Number     Number       Type             X           Y           Z" $molUP::path] \n]
 		
 		#### Search for optimized Lines
 		set optimizedLines [lsearch -all $structuresAndOptimized "*Optimized Parameters*"]
@@ -152,37 +152,37 @@ proc gaussianVMD::loadGaussianOutputFile {option} {
 
 			foreach structure $optimizedStructuresFirstLines {
 				set firstLineLastStructure $structure
-				set lastLineLastStructure [expr $firstLineLastStructure - 1 + $gaussianVMD::numberAtoms]
+				set lastLineLastStructure [expr $firstLineLastStructure - 1 + $molUP::numberAtoms]
 			
 				## Read all information about the last structure
-				catch {exec sed -n "$firstLineLastStructure,$lastLineLastStructure p" $gaussianVMD::path} structureLastGaussian
+				catch {exec sed -n "$firstLineLastStructure,$lastLineLastStructure p" $molUP::path} structureLastGaussian
 			
 				#### Organize the structure info
     			set allAtomsLastStructureCoord [split $structureLastGaussian \n]
 
 				if {$structureNumber == "0"} {
 					incr structureNumber
-					set numberColumns [llength [lindex $gaussianVMD::structureGaussian 0]]
+					set numberColumns [llength [lindex $molUP::structureGaussian 0]]
 
 					if {$numberColumns == 4} {
-						gaussianVMD::readSmallModelStructureLastStructure $allAtomsLastStructureCoord
+						molUP::readSmallModelStructureLastStructure $allAtomsLastStructureCoord
 						variable attributes [list "x" "y" "z" "element" "name" "type" "resname" "resid"]
 					} elseif {$numberColumns > 4} { 
-						gaussianVMD::readOniomStructureLastStructure $allAtomsLastStructureCoord
+						molUP::readOniomStructureLastStructure $allAtomsLastStructureCoord
 						variable attributes [list "x" "y" "z" "element" "name" "type" "resname" "resid" "altloc" "user" "charge"]
 					} else {
-						gaussianVMD::guiError "The file has a strange structure. The file cannot be openned."
+						molUP::guiError "The file has a strange structure. The file cannot be openned."
 					}
 
 					#### Load and prepara structure on VMD
 					## Create a new Molecule
-					mol new atoms $gaussianVMD::numberAtoms
+					mol new atoms $molUP::numberAtoms
 					## Change the name
-					mol rename top "[subst $gaussianVMD::fileName]"
+					mol rename top "[subst $molUP::fileName]"
 					## Create a frame
 					animate dup top
 					## Add the info
-					[atomselect top all] set $gaussianVMD::attributes $gaussianVMD::structureReadyToLoad
+					[atomselect top all] set $molUP::attributes $molUP::structureReadyToLoad
 					## Create the first representantion
 					mol selection all
 					mol color Name
@@ -194,22 +194,22 @@ proc gaussianVMD::loadGaussianOutputFile {option} {
 					display resetview
 				
 					#### Add Representations
-					gaussianVMD::addSelectionRep
+					molUP::addSelectionRep
 
 				} else {
 					#### Write the remaining structures
-					gaussianVMD::readRemainingStructuresOpt $allAtomsLastStructureCoord
+					molUP::readRemainingStructuresOpt $allAtomsLastStructureCoord
 				}
 		
 			}
 
 		#### Read Energies
-		gaussianVMD::energy
+		molUP::energy
 		
 		} else {
 			#### Put the last structure if no optimized structure was found
-			gaussianVMD::loadGaussianOutputFile lastStructure
-			gaussianVMD::guiError "No optimized structure found, therefore the last structure was loaded."
+			molUP::loadGaussianOutputFile lastStructure
+			molUP::guiError "No optimized structure found, therefore the last structure was loaded."
 		}
 
         
@@ -222,7 +222,7 @@ proc gaussianVMD::loadGaussianOutputFile {option} {
 		##### Get all structures 
     } elseif {$option == "allStructures"} {
 		#### Number of Atoms
-		set linesBeforeAllStructures [split [exec grep -n " Number     Number       Type             X           Y           Z" $gaussianVMD::path | cut -f1 -d:] \n]
+		set linesBeforeAllStructures [split [exec grep -n " Number     Number       Type             X           Y           Z" $molUP::path | cut -f1 -d:] \n]
 		set firstLinesAllStructures ""
 		foreach line $linesBeforeAllStructures {
 			lappend firstLinesAllStructures [expr $line + 2]
@@ -232,38 +232,38 @@ proc gaussianVMD::loadGaussianOutputFile {option} {
 
 		foreach structure $firstLinesAllStructures {
 			set firstLineLastStructure $structure
-			set lastLineLastStructure [expr $firstLineLastStructure - 1 + $gaussianVMD::numberAtoms]
+			set lastLineLastStructure [expr $firstLineLastStructure - 1 + $molUP::numberAtoms]
 
 			## Read all information about the last structure
-		    catch {exec sed -n "$firstLineLastStructure,$lastLineLastStructure p" $gaussianVMD::path} structureLastGaussian
+		    catch {exec sed -n "$firstLineLastStructure,$lastLineLastStructure p" $molUP::path} structureLastGaussian
 
 			#### Organize the structure info
     		set allAtomsLastStructureCoord [split $structureLastGaussian \n]
 
 			if {$structureNumber == "0"} {
 				incr structureNumber
-				set numberColumns [llength [lindex $gaussianVMD::structureGaussian 0]]
+				set numberColumns [llength [lindex $molUP::structureGaussian 0]]
 
 				if {$numberColumns == 4} {
-					gaussianVMD::readSmallModelStructureLastStructure $allAtomsLastStructureCoord
+					molUP::readSmallModelStructureLastStructure $allAtomsLastStructureCoord
 					variable attributes [list "x" "y" "z" "element" "name" "type" "resname" "resid"]
 				} elseif {$numberColumns > 4} {
-					gaussianVMD::readOniomStructureLastStructure $allAtomsLastStructureCoord
+					molUP::readOniomStructureLastStructure $allAtomsLastStructureCoord
 					variable attributes [list "x" "y" "z" "element" "name" "type" "resname" "resid" "altloc" "user" "charge"]
 				} else {
-					gaussianVMD::guiError "The file has a strange structure. The file cannot be openned."
+					molUP::guiError "The file has a strange structure. The file cannot be openned."
 				}  
 
 
 				#### Load and prepara structure on VMD
 				## Create a new Molecule
-				mol new atoms $gaussianVMD::numberAtoms
+				mol new atoms $molUP::numberAtoms
 				## Change the name
-				mol rename top "[subst $gaussianVMD::fileName]"
+				mol rename top "[subst $molUP::fileName]"
 				## Create a frame
 				animate dup top
 				## Add the info
-				[atomselect top all] set $gaussianVMD::attributes $gaussianVMD::structureReadyToLoad
+				[atomselect top all] set $molUP::attributes $molUP::structureReadyToLoad
 				## Create the first representantion
 				mol selection all
 				mol color Name
@@ -275,51 +275,51 @@ proc gaussianVMD::loadGaussianOutputFile {option} {
 				display resetview
 			
 				#### Add Representations
-				gaussianVMD::addSelectionRep
+				molUP::addSelectionRep
 
 			} else {
 				#### Write the remaining structures
-				gaussianVMD::readRemainingStructuresOpt $allAtomsLastStructureCoord
+				molUP::readRemainingStructuresOpt $allAtomsLastStructureCoord
 			}
 		
 		}
 
 		#### Read Energies
-		gaussianVMD::energy
+		molUP::energy
 
     } else {}
 
 }
     
 
-proc gaussianVMD::globalInfoOutputFile {} {
+proc molUP::globalInfoOutputFile {} {
 	    
 		#### Get the title line
-		set titleFirstLine [exec grep -n -m 6 -e "^ -" $gaussianVMD::path | cut -f1 -d:]
+		set titleFirstLine [exec grep -n -m 6 -e "^ -" $molUP::path | cut -f1 -d:]
 		set titleFirstLine1 [expr [lindex $titleFirstLine 4] + 1]
 		set titleLastLine1 [expr [lindex $titleFirstLine 5] - 1]
-		set gaussianVMD::title [exec sed -n "$titleFirstLine1,$titleLastLine1 p" $gaussianVMD::path]
+		set molUP::title [exec sed -n "$titleFirstLine1,$titleLastLine1 p" $molUP::path]
 
 		#### Keywords of the calculations
 		set keywordFirstLine1 [expr [lindex $titleFirstLine 2] + 1]
 		set keywordLastLine1 [expr [lindex $titleFirstLine 3] - 1]
-		set gaussianVMD::keywordsCalc [exec sed -n "$keywordFirstLine1,$keywordLastLine1 p" $gaussianVMD::path]
+		set molUP::keywordsCalc [exec sed -n "$keywordFirstLine1,$keywordLastLine1 p" $molUP::path]
 
 		#### Get the charge and Multiplicity
-		set linesChargesMulti [exec head -n 300 $gaussianVMD::path | grep -e "^ Charge ="]
+		set linesChargesMulti [exec head -n 300 $molUP::path | grep -e "^ Charge ="]
 		set linesChargesMultiSplit [split $linesChargesMulti "\n"]
-		set gaussianVMD::chargesMultip ""
+		set molUP::chargesMultip ""
 		set i 0
 		foreach line $linesChargesMultiSplit {
 			set charge [string range $line 9 11]
 			set multiplicity [string index $line 28]
-			append gaussianVMD::chargesMultip $charge " " $multiplicity
+			append molUP::chargesMultip $charge " " $multiplicity
 			incr $i
 		}
 }
 
 
-proc gaussianVMD::readRemainingStructuresOpt {allAtomsLastStructureCoord} {
+proc molUP::readRemainingStructuresOpt {allAtomsLastStructureCoord} {
 	animate dup top
 
 	set structure {}
@@ -335,24 +335,24 @@ proc gaussianVMD::readRemainingStructuresOpt {allAtomsLastStructureCoord} {
 	
 }
 
-proc gaussianVMD::evaluateFreqCalc {} {
+proc molUP::evaluateFreqCalc {} {
 	#### Evaluate if a freq calculation was performed
-	set freqCalcTrue [catch {exec grep "frequencies" $gaussianVMD::path}]
+	set freqCalcTrue [catch {exec grep "frequencies" $molUP::path}]
 	if {$freqCalcTrue == "0"} {
-		gaussianVMD::readFreq
+		molUP::readFreq
 	} else {}
 }
 
-proc gaussianVMD::numberAtomsFirstStructure {} {
-	set lineBeforeStructure [split [exec head -n 300 $gaussianVMD::path | grep -n " Charge =" | tail -n 1] ":"]
+proc molUP::numberAtomsFirstStructure {} {
+	set lineBeforeStructure [split [exec head -n 300 $molUP::path | grep -n " Charge =" | tail -n 1] ":"]
 	set firstLineStructure [expr [lindex $lineBeforeStructure 0] + 1]
-	set lineAfterStructure [split [exec egrep -n -m 2 "^ $" $gaussianVMD::path | tail -n 1] ":"]
+	set lineAfterStructure [split [exec egrep -n -m 2 "^ $" $molUP::path | tail -n 1] ":"]
 	set lastLineStructure [expr [lindex $lineAfterStructure 0] - 1]
 	set numberAtoms [expr $lastLineStructure - $firstLineStructure + 1]
 	
 	#### Grep the initial structure
-	catch {exec sed -n "$firstLineStructure,$lastLineStructure p" $gaussianVMD::path} gaussianVMD::structureGaussian
-	set gaussianVMD::structureGaussian [split $gaussianVMD::structureGaussian \n]
+	catch {exec sed -n "$firstLineStructure,$lastLineStructure p" $molUP::path} molUP::structureGaussian
+	set molUP::structureGaussian [split $molUP::structureGaussian \n]
 
 	return $numberAtoms
 }
@@ -361,10 +361,10 @@ proc gaussianVMD::numberAtomsFirstStructure {} {
 ############################################################################
 ################## First Structure #########################################
 ############################################################################
-proc gaussianVMD::readOniomStructure {} {
+proc molUP::readOniomStructure {} {
 		set i 0
-		set gaussianVMD::structureReadyToLoad {}
-    	foreach atom $gaussianVMD::structureGaussian {
+		set molUP::structureReadyToLoad {}
+    	foreach atom $molUP::structureGaussian {
     		lassign $atom column0 column1 column2 column3 column4 column5 column6 column7 column8
             
 			## Atom information
@@ -384,14 +384,14 @@ proc gaussianVMD::readOniomStructure {} {
 			lappend atomInfo [format %.6f $column2] [format %.6f $column3] [format %.6f $column4] $atomicSymbol $pdbAtomType [string trim $gaussianAtomType "-"] $resname $resid $column5 $column1 $charge
             
 			## Add Atom information to structure
-			lappend gaussianVMD::structureReadyToLoad $atomInfo
+			lappend molUP::structureReadyToLoad $atomInfo
     	}
 }
 
-proc gaussianVMD::readSmallModelStructure {} {
+proc molUP::readSmallModelStructure {} {
 		set i 0
-		set gaussianVMD::structureReadyToLoad {}
-    	foreach atom $gaussianVMD::structureGaussian {
+		set molUP::structureReadyToLoad {}
+    	foreach atom $molUP::structureGaussian {
     		lassign $atom column0 column1 column2 column3
             
 			## Atom information
@@ -409,7 +409,7 @@ proc gaussianVMD::readSmallModelStructure {} {
     		lappend atomInfo [format %.6f $column1] [format %.6f $column2] [format %.6f $column3] $atomicSymbol $pdbAtomType [string trim $gaussianAtomType "-"] $resname $resid
             
 			## Add Atom information to structure
-			lappend gaussianVMD::structureReadyToLoad $atomInfo
+			lappend molUP::structureReadyToLoad $atomInfo
     	}
 }
 
@@ -419,10 +419,10 @@ proc gaussianVMD::readSmallModelStructure {} {
 ############################################################################
 ################### Last Structure #########################################
 ############################################################################
-proc gaussianVMD::readOniomStructureLastStructure {lastStructure} {
+proc molUP::readOniomStructureLastStructure {lastStructure} {
 		set i 0
-		set gaussianVMD::structureReadyToLoad {}
-    	foreach atom $gaussianVMD::structureGaussian coord $lastStructure {
+		set molUP::structureReadyToLoad {}
+    	foreach atom $molUP::structureGaussian coord $lastStructure {
     		lassign $atom column0 column1 column2 column3 column4 column5 column6 column7 column8
 			lassign $coord columnCoord0 columnCoord1 columnCoord2 columnCoord3 columnCoord4 columnCoord5
             
@@ -443,14 +443,14 @@ proc gaussianVMD::readOniomStructureLastStructure {lastStructure} {
     		lappend atomInfo [format %.6f $columnCoord3] [format %.6f $columnCoord4] [format %.6f $columnCoord5] $atomicSymbol $pdbAtomType [string trim $gaussianAtomType "-"] $resname $resid $column5 $column1 $charge
             
 			## Add Atom information to structure
-			lappend gaussianVMD::structureReadyToLoad $atomInfo
+			lappend molUP::structureReadyToLoad $atomInfo
     	}
 }
 
-proc gaussianVMD::readSmallModelStructureLastStructure {lastStructure} {
+proc molUP::readSmallModelStructureLastStructure {lastStructure} {
 		set i 0
-		set gaussianVMD::structureReadyToLoad {}
-    	foreach atom $gaussianVMD::structureGaussian coord $lastStructure {
+		set molUP::structureReadyToLoad {}
+    	foreach atom $molUP::structureGaussian coord $lastStructure {
     		lassign $atom column0 column1 column2 column3
 			lassign $coord columnCoord0 columnCoord1 columnCoord2 columnCoord3 columnCoord4 columnCoord5
             
@@ -469,6 +469,6 @@ proc gaussianVMD::readSmallModelStructureLastStructure {lastStructure} {
     		lappend atomInfo [format %.6f $columnCoord3] [format %.6f $columnCoord4] [format %.6f $columnCoord5] $atomicSymbol $pdbAtomType [string trim $gaussianAtomType "-"] $resname $resid
             
 			## Add Atom information to structure
-			lappend gaussianVMD::structureReadyToLoad $atomInfo
+			lappend molUP::structureReadyToLoad $atomInfo
     	}
 }

@@ -1,48 +1,48 @@
 package provide loadGaussianInputFile 1.0 
 
 ### This procedure load a gaussian input file and converts it to PDB
-proc gaussianVMD::loadGaussianInputFile {} {
+proc molUP::loadGaussianInputFile {} {
     
     #### Get the title line
-	set lineNumberTitle [expr [gaussianVMD::getBlankLines $gaussianVMD::path 0] + 1]
-	set gaussianVMD::title [exec sed -n "$lineNumberTitle p" $gaussianVMD::path]
+	set lineNumberTitle [expr [molUP::getBlankLines $molUP::path 0] + 1]
+	set molUP::title [exec sed -n "$lineNumberTitle p" $molUP::path]
 
 	#### Get the Charge and Multiplicity
-	set lineNumberCharge [expr [gaussianVMD::getBlankLines $gaussianVMD::path 1] + 1]
-	set gaussianVMD::chargesMultip [exec sed -n "$lineNumberCharge p" $gaussianVMD::path]
+	set lineNumberCharge [expr [molUP::getBlankLines $molUP::path 1] + 1]
+	set molUP::chargesMultip [exec sed -n "$lineNumberCharge p" $molUP::path]
 
 	#### Keywords of the calculations
-	set lineNumberKeyword [expr [gaussianVMD::getBlankLines $gaussianVMD::path 0] - 1]
-	set gaussianVMD::keywordsCalc [exec sed -n "$lineNumberKeyword p" $gaussianVMD::path]
+	set lineNumberKeyword [expr [molUP::getBlankLines $molUP::path 0] - 1]
+	set molUP::keywordsCalc [exec sed -n "$lineNumberKeyword p" $molUP::path]
 
 	#### Number of Atoms
-	set lineNumberFirst [expr [gaussianVMD::getBlankLines $gaussianVMD::path 1] + 2]
-	set lineNumberLast [expr [gaussianVMD::getBlankLines $gaussianVMD::path 2] - 1]
-	set gaussianVMD::numberAtoms [expr $lineNumberLast - $lineNumberFirst + 1]
+	set lineNumberFirst [expr [molUP::getBlankLines $molUP::path 1] + 2]
+	set lineNumberLast [expr [molUP::getBlankLines $molUP::path 2] - 1]
+	set molUP::numberAtoms [expr $lineNumberLast - $lineNumberFirst + 1]
 	
 	## Get the Initial Structure
-	catch {exec sed -n "$lineNumberFirst,$lineNumberLast p" $gaussianVMD::path} gaussianVMD::structureGaussian
+	catch {exec sed -n "$lineNumberFirst,$lineNumberLast p" $molUP::path} molUP::structureGaussian
 
 	## Get connectivity information about structure
 	set lineNumberConnect [expr $lineNumberLast + 1]
-	catch {exec sed -n "$lineNumberConnect,$ p" $gaussianVMD::path} gaussianVMD::connectivityInputFile
+	catch {exec sed -n "$lineNumberConnect,$ p" $molUP::path} molUP::connectivityInputFile
 
 	## Set actual time
-	set gaussianVMD::actualTime [clock seconds]
+	set molUP::actualTime [clock seconds]
 
 	## Create a temporary folder
-	catch {exec mktemp -d} gaussianVMD::tmpFolder
-	exec mkdir -p $gaussianVMD::tmpFolder/[subst $gaussianVMD::actualTime]
+	catch {exec mktemp -d} molUP::tmpFolder
+	exec mkdir -p $molUP::tmpFolder/[subst $molUP::actualTime]
 
 
 	## Create a temporary file PDB
-	set gaussianVMD::temporaryPDBFile [open "$gaussianVMD::tmpFolder/[subst $gaussianVMD::actualTime]/[subst $gaussianVMD::fileName].pdb" w]
+	set molUP::temporaryPDBFile [open "$molUP::tmpFolder/[subst $molUP::actualTime]/[subst $molUP::fileName].pdb" w]
 
 	## Add a header to the file
-	puts $gaussianVMD::temporaryPDBFile "HEADER\n $gaussianVMD::title"
+	puts $molUP::temporaryPDBFile "HEADER\n $molUP::title"
 
     #### Organize the structure info
-    set allAtoms [split $gaussianVMD::structureGaussian \n]
+    set allAtoms [split $molUP::structureGaussian \n]
 
 	set numberColumns [llength [lindex $allAtoms 0]]
 
@@ -69,9 +69,9 @@ proc gaussianVMD::loadGaussianInputFile {} {
 		    regexp {(\S+)\.+(\S+)} $column3 -> zbefore zafter
 		    set z $zbefore\.[format %.3s $zafter]
 
-			puts $gaussianVMD::temporaryPDBFile "[format %-4s "ATOM"] [format %6s $i] [format %-4s $pdbAtomType][format %4s $resname] [format %-1s $column5] [format %-7s $resid] [format %7s $x] [format %7s $y] [format %7s $z] [format %5s "1.00"] [format %-8s "00.00"] [format %8s $atomicSymbol]"
+			puts $molUP::temporaryPDBFile "[format %-4s "ATOM"] [format %6s $i] [format %-4s $pdbAtomType][format %4s $resname] [format %-1s $column5] [format %-7s $resid] [format %7s $x] [format %7s $y] [format %7s $z] [format %5s "1.00"] [format %-8s "00.00"] [format %8s $atomicSymbol]"
 
-			$gaussianVMD::topGui.frame0.tabs.tabsAtomList.tab4.tableLayer insert end [list \
+			$molUP::topGui.frame0.tabs.tabsAtomList.tab4.tableLayer insert end [list \
 		   			"$i" \
 		   			"$column0" \
 		   			"X" \
@@ -79,7 +79,7 @@ proc gaussianVMD::loadGaussianInputFile {} {
 		   			""\
 		   			]
 				   
-				$gaussianVMD::topGui.frame0.tabs.tabsAtomList.tab2.tableLayer insert end [list \
+				$molUP::topGui.frame0.tabs.tabsAtomList.tab2.tableLayer insert end [list \
 		   			"$i" \
 		   			"$column0" \
 		   			"X" \
@@ -87,7 +87,7 @@ proc gaussianVMD::loadGaussianInputFile {} {
 		   			"L"\
 		   			]
 				   
-				$gaussianVMD::topGui.frame0.tabs.tabsAtomList.tab3.tableLayer insert end [list \
+				$molUP::topGui.frame0.tabs.tabsAtomList.tab3.tableLayer insert end [list \
 		   			"$i" \
 		   			"$column0" \
 		   			"X" \
@@ -136,9 +136,9 @@ proc gaussianVMD::loadGaussianInputFile {} {
 				 }
 				set charge [format %.6f $charge]
 
-				puts $gaussianVMD::temporaryPDBFile "[format %-4s "ATOM"] [format %6s $i] [format %-4s $pdbAtomType][format %4s $resname] [format %-1s $column5] [format %-7s $resid] [format %7s $x] [format %7s $y] [format %7s $z] [format %5s "1.00"] [format %-8s "00.00"] [format %8s $atomicSymbol]"
+				puts $molUP::temporaryPDBFile "[format %-4s "ATOM"] [format %6s $i] [format %-4s $pdbAtomType][format %4s $resname] [format %-1s $column5] [format %-7s $resid] [format %7s $x] [format %7s $y] [format %7s $z] [format %5s "1.00"] [format %-8s "00.00"] [format %8s $atomicSymbol]"
 
-				$gaussianVMD::topGui.frame0.tabs.tabsAtomList.tab4.tableLayer insert end [list \
+				$molUP::topGui.frame0.tabs.tabsAtomList.tab4.tableLayer insert end [list \
 		   			"$i" \
 		   			"[lindex [split $gaussianAtomType "-"] 0]" \
 		   			"$resname" \
@@ -146,7 +146,7 @@ proc gaussianVMD::loadGaussianInputFile {} {
 		   			"$charge"\
 		   			]
 				   
-				$gaussianVMD::topGui.frame0.tabs.tabsAtomList.tab2.tableLayer insert end [list \
+				$molUP::topGui.frame0.tabs.tabsAtomList.tab2.tableLayer insert end [list \
 		   			"$i" \
 		   			"$pdbAtomType" \
 		   			"$resname" \
@@ -154,7 +154,7 @@ proc gaussianVMD::loadGaussianInputFile {} {
 		   			"$column5"\
 		   			]
 				   
-				$gaussianVMD::topGui.frame0.tabs.tabsAtomList.tab3.tableLayer insert end [list \
+				$molUP::topGui.frame0.tabs.tabsAtomList.tab3.tableLayer insert end [list \
 		   			"$i" \
 		   			"$pdbAtomType" \
 		   			"$resname" \
@@ -184,19 +184,19 @@ proc gaussianVMD::loadGaussianInputFile {} {
 		}
 
 	} else {
-		gaussianVMD::guiError "The file has a strange structure. The file cannot be openned."
+		molUP::guiError "The file has a strange structure. The file cannot be openned."
 	}
 
 	
 	## Add a footer to the file
-	  puts $gaussianVMD::temporaryPDBFile "END"
+	  puts $molUP::temporaryPDBFile "END"
 
     #### Close the temporary file
-	  close $gaussianVMD::temporaryPDBFile
+	  close $molUP::temporaryPDBFile
 
 
 
 	## Deactivate the ability to load a new molecule
-	set gaussianVMD::openNewFileMode "NO"
+	set molUP::openNewFileMode "NO"
 }
     

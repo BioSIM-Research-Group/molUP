@@ -1,6 +1,6 @@
 # PKG Index - Gaussian for VMD
 
-package ifneeded gaussianVMD        	                    1.0 [list source [file join $dir/gaussianVMD.tcl]]
+package ifneeded molUP        	                            1.0 [list source [file join $dir/molUP.tcl]]
 
 #GUI
 package ifneeded gui        	                            1.0 [list source [file join $dir/routines/gui.tcl]]

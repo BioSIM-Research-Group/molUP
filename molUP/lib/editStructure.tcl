@@ -1,13 +1,13 @@
 package provide editStructure 1.0
 
 #### Table Editor
-proc gaussianVMD::oniomLayer {tbl row col text} {
+proc molUP::oniomLayer {tbl row col text} {
     set w [$tbl editwinpath]
     set values {"H" "M" "L"}
     $w configure -values $values -state readonly
 }
 
-proc gaussianVMD::onOffRepresentation {repIndex} {
+proc molUP::onOffRepresentation {repIndex} {
     set molExists [mol list]
 
     if {$molExists == "ERROR) No molecules loaded."} {
@@ -26,7 +26,7 @@ proc gaussianVMD::onOffRepresentation {repIndex} {
 
 }
 
-proc gaussianVMD::addSelectionRep {} {
+proc molUP::addSelectionRep {} {
     #### Change atom colors
     color Name C green3
 
@@ -50,7 +50,7 @@ proc gaussianVMD::addSelectionRep {} {
     mol material Diffuse
     mol representation Licorice 0.300000 15.000000 15.000000
     mol addrep top
-    mol showrep top 2 $gaussianVMD::HLrep
+    mol showrep top 2 $molUP::HLrep
 
     #### Representantion of Medium layer
     mol selection "altloc M"
@@ -58,7 +58,7 @@ proc gaussianVMD::addSelectionRep {} {
     mol material Diffuse
     mol representation Licorice 0.100000 15.000000 15.000000
     mol addrep top
-    mol showrep top 3 $gaussianVMD::MLrep
+    mol showrep top 3 $molUP::MLrep
 
     #### Representantion of Low layer
     mol selection "altloc L"
@@ -66,7 +66,7 @@ proc gaussianVMD::addSelectionRep {} {
     mol material Diffuse
     mol representation Lines 1.000000
     mol addrep top
-    mol showrep top 4 $gaussianVMD::LLrep
+    mol showrep top 4 $molUP::LLrep
 
     #### Representantion Protein
     mol selection "protein"
@@ -74,7 +74,7 @@ proc gaussianVMD::addSelectionRep {} {
     mol material Diffuse
     mol representation NewCartoon 0.300000 10.000000 4.100000
     mol addrep top
-    mol showrep top 5 $gaussianVMD::proteinRep
+    mol showrep top 5 $molUP::proteinRep
 
     #### Representantion Non-Protein
     mol selection "all and not (protein or water)"
@@ -82,7 +82,7 @@ proc gaussianVMD::addSelectionRep {} {
     mol material Diffuse
     mol representation Licorice 0.100000 15.000000 15.000000
     mol addrep top
-    mol showrep top 6 $gaussianVMD::nonproteinRep
+    mol showrep top 6 $molUP::nonproteinRep
 
     #### Representantion Water
     mol selection "water"
@@ -90,7 +90,7 @@ proc gaussianVMD::addSelectionRep {} {
     mol material Diffuse
     mol representation VDW 0.300000 1.000000
     mol addrep top
-    mol showrep top 7 $gaussianVMD::waterRep
+    mol showrep top 7 $molUP::waterRep
 
     #### Representantion Unfreeze
     mol selection "user 0"
@@ -98,7 +98,7 @@ proc gaussianVMD::addSelectionRep {} {
     mol material Diffuse
     mol representation Lines 2.000000
     mol addrep top
-    mol showrep top 8 $gaussianVMD::unfreezeRep
+    mol showrep top 8 $molUP::unfreezeRep
 
     #### Representantion Freeze
     mol selection "user \"-1\" \"-2\" \"-3\""
@@ -106,7 +106,7 @@ proc gaussianVMD::addSelectionRep {} {
     mol material Diffuse
     mol representation Licorice 0.100000 15.000000 15.000000
     mol addrep top
-    mol showrep top 9 $gaussianVMD::freezeRep
+    mol showrep top 9 $molUP::freezeRep
 
     #### Representantion Selected atoms
     mol selection "none"
@@ -122,7 +122,7 @@ proc gaussianVMD::addSelectionRep {} {
     mol material Transparent
 	mol representation QuickSurf 0.500000 0.500000 0.250000 2.000000
 	mol addrep top
-    mol showrep top 11 $gaussianVMD::showPosChargedResidues
+    mol showrep top 11 $molUP::showPosChargedResidues
 
     # Negative
     mol selection "none"
@@ -130,37 +130,37 @@ proc gaussianVMD::addSelectionRep {} {
     mol material Transparent
 	mol representation QuickSurf 0.500000 0.500000 0.250000 2.000000
 	mol addrep top
-    mol showrep top 12 $gaussianVMD::showNegChargedResidues
+    mol showrep top 12 $molUP::showNegChargedResidues
 
 
     # Set lines to default
     mol representation Lines 1.000000
     
-    mol showrep top 13 $gaussianVMD::allRep
+    mol showrep top 13 $molUP::allRep
 
 }
 
 #### Representantion of current selection
-proc gaussianVMD::changeRepCurSelection {option} {
+proc molUP::changeRepCurSelection {option} {
 
     set evaluateLoadedMol [mol list]
 
     if {$evaluateLoadedMol == "ERROR) No molecules loaded."} {
-        gaussianVMD::guiError "No structure was loaded."
+        molUP::guiError "No structure was loaded."
     } else {
         if {$option == "charges"} {
-            set indexSelectedAtoms [$gaussianVMD::tableCharges curselection]
+            set indexSelectedAtoms [$molUP::tableCharges curselection]
             mol modselect 1 top index $indexSelectedAtoms
         
         } elseif {$option == "oniom"} {
-            set indexSelectedAtoms [$gaussianVMD::tableLayer curselection]
+            set indexSelectedAtoms [$molUP::tableLayer curselection]
             mol modselect 1 top index $indexSelectedAtoms
-            set gaussianVMD::atomSelectionONIOM "index $indexSelectedAtoms"
+            set molUP::atomSelectionONIOM "index $indexSelectedAtoms"
         
         } elseif {$option == "freeze"} {
-            set indexSelectedAtoms [$gaussianVMD::tableFreeze curselection]
+            set indexSelectedAtoms [$molUP::tableFreeze curselection]
             mol modselect 1 top index $indexSelectedAtoms
-            set gaussianVMD::atomSelectionFreeze "index $indexSelectedAtoms"
+            set molUP::atomSelectionFreeze "index $indexSelectedAtoms"
         } else {
             
         }
@@ -168,31 +168,31 @@ proc gaussianVMD::changeRepCurSelection {option} {
 }
 
 #### Apply selection to structure 
-proc gaussianVMD::applyToStructure {option} {
+proc molUP::applyToStructure {option} {
     if {$option == "oniom"} {
-        [atomselect top "$gaussianVMD::atomSelectionONIOM"] set altloc $gaussianVMD::selectionModificationValueOniom
-        gaussianVMD::activateMolecule
+        [atomselect top "$molUP::atomSelectionONIOM"] set altloc $molUP::selectionModificationValueOniom
+        molUP::activateMolecule
 
     } elseif {$option == "freeze"} {
-        [atomselect top "$gaussianVMD::atomSelectionFreeze"] set altloc $gaussianVMD::selectionModificationValueFreeze
-        gaussianVMD::activateMolecule
+        [atomselect top "$molUP::atomSelectionFreeze"] set altloc $molUP::selectionModificationValueFreeze
+        molUP::activateMolecule
     } else {
         
     }
 }
 
 #### Clear selection
-proc gaussianVMD::clearSelection {option} {
+proc molUP::clearSelection {option} {
     if {$option == "charges"} {
         mol modselect 1 top none
 
     } elseif {$option == "oniom"} {
         mol modselect 1 top none
-        set gaussianVMD::atomSelectionONIOM ""
+        set molUP::atomSelectionONIOM ""
 
     } elseif {$option == "freeze"} {
         mol modselect 1 top none
-        set gaussianVMD::atomSelectionFreeze ""
+        set molUP::atomSelectionFreeze ""
     } else {
         
     }
@@ -201,7 +201,7 @@ proc gaussianVMD::clearSelection {option} {
 
 
 #### Delete All Labels
-proc gaussianVMD::deleteAllLabels {} {
+proc molUP::deleteAllLabels {} {
     label delete Atoms All
     label delete Bonds All
     label delete Angles All
@@ -210,7 +210,7 @@ proc gaussianVMD::deleteAllLabels {} {
 }
 
 #### Optimize index list on VMD Representantion
-proc gaussianVMD::optimizeIndexList {list} {
+proc molUP::optimizeIndexList {list} {
     set outputVariable  ""
 
     for {set index 0} { $index < [llength $list] } { incr index } {
