@@ -31,7 +31,10 @@ proc molUP::loadButton {fileExtension} {
 
 	#### Open a .com file
 	if {$molUP::fileExtension == ".com"} {
+		trace remove variable ::vmd_initialize_structure write molUP::updateStructures
 		molUP::loadGaussianInputFile
+		molUP::updateStructures
+		trace variable ::vmd_initialize_structure w molUP::updateStructures
 
 	#### Open a .log file
 	} elseif {$molUP::fileExtension == ".log"} {
@@ -48,7 +51,6 @@ proc molUP::loadButton {fileExtension} {
 
 		} elseif {$molUP::loadMode == "All structures (may take a long time to load)"} {
 			molUP::loadGaussianOutputFile allStructures
-
 		} else {
 				set alert [tk_messageBox -message "Please select which structure you want to load." -type ok -icon info]
 		}

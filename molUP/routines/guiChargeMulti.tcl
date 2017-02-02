@@ -1,33 +1,13 @@
 package provide guiChargeMulti 1.0
-package require Tk
 
 #### GUI ############################################################
-proc molUP::guiChargeMulti {} {
-
-	#### Check if the window exists
-	if {[winfo exists $::molUP::chargeMulti]} {wm deiconify $::molUP::chargeMulti ;return $::molUP::chargeMulti}
-	toplevel $::molUP::chargeMulti
-
-	#### Title of the windows
-	wm title $molUP::chargeMulti "Charge and Multiplicity" ;# titulo da pagina
-
-	#### Change the location of window
-	# screen width and height
-	set sWidth [expr [winfo vrootwidth  $::molUP::chargeMulti] -0]
-	set sHeight [expr [winfo vrootheight $::molUP::chargeMulti] -50]
-
-	#### Change the location of window
-    wm geometry $::molUP::chargeMulti 400x200+[expr $sWidth - 400]+100
-	$::molUP::chargeMulti configure -background {white}
-	wm resizable $::molUP::chargeMulti 0 0
-
-	## Apply theme
-	ttk::style theme use molUPTheme
-	
+proc molUP::guiChargeMulti {frame} {
 
     #### Information
-    pack [ttk::frame $molUP::chargeMulti.frame0]
-	pack [canvas $molUP::chargeMulti.frame0.frame -bg white -width 400 -height 260 -highlightthickness 0] -in $molUP::chargeMulti.frame0 
+	place [canvas $frame.frame -bg white -width 400 -height 260 -highlightthickness 0] -in $frame 
+
+
+
 
     #Evaluate a possible ONIOM System
     set highLayerIndex [$molUP::tableLayer searchcolumn 4 "H" -all]
@@ -35,493 +15,489 @@ proc molUP::guiChargeMulti {} {
     set lowLayerIndex [$molUP::tableLayer searchcolumn 4 "L" -all]
 
 
-
-
-########################################################################################
+#######################################################################################
 
     if {($highLayerIndex != "" && $mediumLayerIndex == "" && $lowLayerIndex == "") || \
         $highLayerIndex == "" && $mediumLayerIndex != "" && $lowLayerIndex == "" || \
         $highLayerIndex == "" && $mediumLayerIndex == "" && $lowLayerIndex != ""} {        
         
-        # Resize window
-        wm geometry $::molUP::chargeMulti 400x180+[expr $sWidth - 400]+100
 
         # Evaluate the negative and positve amino acids 
         molUP::showNegPosResidues
 
 
         # Place common items to all possibilities
-        place [ttk::label $molUP::chargeMulti.frame0.frame.initialLabel \
+        place [ttk::label $frame.frame.initialLabel \
             -text {Adjust the charge and spin multiplicity for this stytem.} \
             -style molUP.white.TLabel \
-            ] -in $molUP::chargeMulti.frame0.frame -x 10 -y 10 -width 380
+            ] -in $frame.frame -x 10 -y 10 -width 380
 
-        place [ttk::checkbutton $molUP::chargeMulti.frame0.frame.showPositiveResidues \
+        place [ttk::checkbutton $frame.frame.showPositiveResidues \
             -text {Show Positive Residues} \
             -variable {showPosChargedResidues} \
             -command {molUP::onOffRepresentation 11} \
             -style molUP.white.TLabel \
-            ] -in $molUP::chargeMulti.frame0.frame -x 10 -y 40 -width 180
+            ] -in $frame.frame -x 10 -y 40 -width 180
 
-        place [ttk::checkbutton $molUP::chargeMulti.frame0.frame.showNegativeResidues \
+        place [ttk::checkbutton $frame.frame.showNegativeResidues \
             -text {Show Negative Residues} \
             -variable {showNegChargedResidues} \
             -command {molUP::onOffRepresentation 12} \
             -style molUP.white.TLabel \
-            ] -in $molUP::chargeMulti.frame0.frame -x 210 -y 40 -width 180
+            ] -in $frame.frame -x 210 -y 40 -width 180
 
 
 
 
-        place [ttk::label $molUP::chargeMulti.frame0.frame.chargeLabel \
+        place [ttk::label $frame.frame.chargeLabel \
             -text {Charge:} \
             -style molUP.white.TLabel \
-            ] -in $molUP::chargeMulti.frame0.frame -x 10 -y 70 -width 50
+            ] -in $frame.frame -x 10 -y 70 -width 50
         
-        place [ttk::entry $molUP::chargeMulti.frame0.frame.charge \
+        place [ttk::entry $frame.frame.charge \
             -textvariable {molUP::chargeAll}\
             -style molUP.TEntry \
-            ] -in $molUP::chargeMulti.frame0.frame -x 60 -y 70 -width 90
+            ] -in $frame.frame -x 60 -y 70 -width 90
 
-        place [ttk::label $molUP::chargeMulti.frame0.frame.multiLabel \
+        place [ttk::label $frame.frame.multiLabel \
             -text {Multiplicity:} \
             -style molUP.white.TLabel \
-            ] -in $molUP::chargeMulti.frame0.frame -x 200 -y 70 -width 60
+            ] -in $frame.frame -x 200 -y 70 -width 60
         
-        place [ttk::entry $molUP::chargeMulti.frame0.frame.multi \
+        place [ttk::entry $frame.frame.multi \
             -textvariable {molUP::multiplicityValue}\
             -style molUP.TEntry \
-            ] -in $molUP::chargeMulti.frame0.frame -x 270 -y 70 -width 90
+            ] -in $frame.frame -x 270 -y 70 -width 90
 
-        place [ttk::button $molUP::chargeMulti.frame0.frame.calculateCharges \
+        place [ttk::button $frame.frame.calculateCharges \
             -text {Calculate charge based on available MM charges} \
             -command {molUP::getChargesSum all} \
             -style molUP.TButton \
-            ] -in $molUP::chargeMulti.frame0.frame -x 10 -y 100 -width 380
+            ] -in $frame.frame -x 10 -y 100 -width 380
 
-        place [ttk::button $molUP::chargeMulti.frame0.frame.apply \
+        place [ttk::button $frame.frame.apply \
             -text {Apply} \
             -command {molUP::applyChargeMultiGUI $highLayerIndex $mediumLayerIndex $lowLayerIndex} \
             -style molUP.TButton \
-            ] -in $molUP::chargeMulti.frame0.frame -x 10 -y 140 -width 185
+            ] -in $frame.frame -x 10 -y 140 -width 185
 
-        place [ttk::button $molUP::chargeMulti.frame0.frame.cancel \
+        place [ttk::button $frame.frame.cancel \
             -text {Cancel} \
             -command {molUP::cancelChargeMultiGUI} \
             -style molUP.TButton \
-            ] -in $molUP::chargeMulti.frame0.frame -x 205 -y 140 -width 185
+            ] -in $frame.frame -x 205 -y 140 -width 185
 
 
     } elseif {$highLayerIndex != "" && $mediumLayerIndex != "" && $lowLayerIndex == ""} {
          
          
-        wm geometry $::molUP::chargeMulti 400x250+[expr $sWidth - 400]+100
+        #wm geometry $::molUP::chargeMulti 400x250+[expr $sWidth - 400]+100
 
         # Evaluate the negative and positve amino acids 
         molUP::showNegPosResidues
 
 
         # Place common items to all possibilities
-        place [ttk::label $molUP::chargeMulti.frame0.frame.initialLabel \
+        place [ttk::label $frame.frame.initialLabel \
             -text {Adjust the charge and spin multiplicity for this stytem.} \
             -style molUP.white.TLabel \
-            ] -in $molUP::chargeMulti.frame0.frame -x 10 -y 10 -width 380
+            ] -in $frame.frame -x 10 -y 10 -width 380
 
-        place [ttk::checkbutton $molUP::chargeMulti.frame0.frame.showPositiveResidues \
+        place [ttk::checkbutton $frame.frame.showPositiveResidues \
             -text {Show Positive Residues} \
             -variable {showPosChargedResidues} \
             -command {molUP::onOffRepresentation 11} \
-            ] -in $molUP::chargeMulti.frame0.frame -x 10 -y 40 -width 180
+            ] -in $frame.frame -x 10 -y 40 -width 180
 
-        place [ttk::checkbutton $molUP::chargeMulti.frame0.frame.showNegativeResidues \
+        place [ttk::checkbutton $frame.frame.showNegativeResidues \
             -text {Show Negative Residues} \
             -variable {showNegChargedResidues} \
             -command {molUP::onOffRepresentation 12} \
-            ] -in $molUP::chargeMulti.frame0.frame -x 210 -y 40 -width 180
+            ] -in $frame.frame -x 210 -y 40 -width 180
 
 
 
         # Table Header
-        place [ttk::label $molUP::chargeMulti.frame0.frame.layer \
+        place [ttk::label $frame.frame.layer \
             -text {Layer} \
             -style molUP.whiteCenter.TLabel \
-            ] -in $molUP::chargeMulti.frame0.frame -x 10 -y 70 -width 120
+            ] -in $frame.frame -x 10 -y 70 -width 120
 
-        place [ttk::label $molUP::chargeMulti.frame0.frame.charge \
+        place [ttk::label $frame.frame.charge \
             -text {Charge} \
             -style molUP.whiteCenter.TLabel \
-            ] -in $molUP::chargeMulti.frame0.frame -x 140 -y 70 -width 120
+            ] -in $frame.frame -x 140 -y 70 -width 120
 
-        place [ttk::label $molUP::chargeMulti.frame0.frame.multi \
+        place [ttk::label $frame.frame.multi \
             -text {Multiplicity} \
             -style molUP.whiteCenter.TLabel \
-            ] -in $molUP::chargeMulti.frame0.frame -x 270 -y 70 -width 120
+            ] -in $frame.frame -x 270 -y 70 -width 120
 
         # Line 1
-        place [ttk::label $molUP::chargeMulti.frame0.frame.hllayerLabel \
+        place [ttk::label $frame.frame.hllayerLabel \
             -text {High Level Layer} \
             -style molUP.whiteCenter.TLabel \
-            ] -in $molUP::chargeMulti.frame0.frame -x 10 -y 100 -width 120
+            ] -in $frame.frame -x 10 -y 100 -width 120
 
-        place [ttk::entry $molUP::chargeMulti.frame0.frame.hllayerCharge \
+        place [ttk::entry $frame.frame.hllayerCharge \
             -textvariable {molUP::chargeHL}\
             -style molUP.TEntry \
-            ] -in $molUP::chargeMulti.frame0.frame -x 140 -y 100 -width 120
+            ] -in $frame.frame -x 140 -y 100 -width 120
 
-        place [ttk::entry $molUP::chargeMulti.frame0.frame.hllayerMulti \
+        place [ttk::entry $frame.frame.hllayerMulti \
             -textvariable {molUP::multiplicityValue}\
             -style molUP.TEntry \
-            ] -in $molUP::chargeMulti.frame0.frame -x 270 -y 100 -width 120
+            ] -in $frame.frame -x 270 -y 100 -width 120
 
         # Line 2
-        place [ttk::label $molUP::chargeMulti.frame0.frame.mllayerLabel \
+        place [ttk::label $frame.frame.mllayerLabel \
             -text {Medium Level Layer} \
             -style molUP.whiteCenter.TLabel \
-            ] -in $molUP::chargeMulti.frame0.frame -x 10 -y 130 -width 120
+            ] -in $frame.frame -x 10 -y 130 -width 120
 
-        place [ttk::entry $molUP::chargeMulti.frame0.frame.mllayerCharge \
+        place [ttk::entry $frame.frame.mllayerCharge \
             -textvariable {molUP::chargeML}\
             -style molUP.TEntry \
-            ] -in $molUP::chargeMulti.frame0.frame -x 140 -y 130 -width 120
+            ] -in $frame.frame -x 140 -y 130 -width 120
 
-        place [ttk::entry $molUP::chargeMulti.frame0.frame.mllayerMulti \
+        place [ttk::entry $frame.frame.mllayerMulti \
             -textvariable {molUP::multiplicityValue1}\
             -style molUP.TEntry \
-            ] -in $molUP::chargeMulti.frame0.frame -x 270 -y 130 -width 120
+            ] -in $frame.frame -x 270 -y 130 -width 120
 
 
         # Calculate Button
-        place [ttk::button $molUP::chargeMulti.frame0.frame.calculateCharges \
+        place [ttk::button $frame.frame.calculateCharges \
             -text {Calculate charge based on available MM charges} \
             -command {molUP::getChargesSum none} \
             -style molUP.TButton \
-            ] -in $molUP::chargeMulti.frame0.frame -x 10 -y 160 -width 380
+            ] -in $frame.frame -x 10 -y 160 -width 380
 
         # Apply Cancel Buttons
-        place [ttk::button $molUP::chargeMulti.frame0.frame.apply \
+        place [ttk::button $frame.frame.apply \
             -text {Apply} \
             -command {molUP::applyChargeMultiGUI $highLayerIndex $mediumLayerIndex $lowLayerIndex} \
             -style molUP.TButton \
-            ] -in $molUP::chargeMulti.frame0.frame -x 10 -y 200 -width 185
+            ] -in $frame.frame -x 10 -y 200 -width 185
 
-        place [ttk::button $molUP::chargeMulti.frame0.frame.cancel \
+        place [ttk::button $frame.frame.cancel \
             -text {Cancel} \
             -command {molUP::cancelChargeMultiGUI} \
             -style molUP.TButton \
-            ] -in $molUP::chargeMulti.frame0.frame -x 205 -y 200 -width 185
+            ] -in $frame.frame -x 205 -y 200 -width 185
 
     } elseif {$highLayerIndex != "" && $mediumLayerIndex == "" && $lowLayerIndex != ""} {
 
-        wm geometry $::molUP::chargeMulti 400x250+[expr $sWidth - 400]+100
+        #wm geometry $::molUP::chargeMulti 400x250+[expr $sWidth - 400]+100
 
         # Evaluate the negative and positve amino acids 
         molUP::showNegPosResidues
 
 
         # Place common items to all possibilities
-        place [ttk::label $molUP::chargeMulti.frame0.frame.initialLabel \
+        place [ttk::label $frame.frame.initialLabel \
             -text {Adjust the charge and spin multiplicity for this stytem.} \
             -style molUP.white.TLabel \
-            ] -in $molUP::chargeMulti.frame0.frame -x 10 -y 10 -width 380
+            ] -in $frame.frame -x 10 -y 10 -width 380
 
-        place [ttk::checkbutton $molUP::chargeMulti.frame0.frame.showPositiveResidues \
+        place [ttk::checkbutton $frame.frame.showPositiveResidues \
             -text {Show Positive Residues} \
             -variable {showPosChargedResidues} \
             -command {molUP::onOffRepresentation 11} \
-            ] -in $molUP::chargeMulti.frame0.frame -x 10 -y 40 -width 180
+            ] -in $frame.frame -x 10 -y 40 -width 180
 
-        place [ttk::checkbutton $molUP::chargeMulti.frame0.frame.showNegativeResidues \
+        place [ttk::checkbutton $frame.frame.showNegativeResidues \
             -text {Show Negative Residues} \
             -variable {showNegChargedResidues} \
             -command {molUP::onOffRepresentation 12} \
-            ] -in $molUP::chargeMulti.frame0.frame -x 210 -y 40 -width 180
+            ] -in $frame.frame -x 210 -y 40 -width 180
 
 
 
         # Table Header
-        place [ttk::label $molUP::chargeMulti.frame0.frame.layer \
+        place [ttk::label $frame.frame.layer \
             -text {Layer} \
             -style molUP.whiteCenter.TLabel \
-            ] -in $molUP::chargeMulti.frame0.frame -x 10 -y 70 -width 120
+            ] -in $frame.frame -x 10 -y 70 -width 120
 
-        place [ttk::label $molUP::chargeMulti.frame0.frame.charge \
+        place [ttk::label $frame.frame.charge \
             -text {Charge} \
             -style molUP.whiteCenter.TLabel \
-            ] -in $molUP::chargeMulti.frame0.frame -x 140 -y 70 -width 120
+            ] -in $frame.frame -x 140 -y 70 -width 120
 
-        place [ttk::label $molUP::chargeMulti.frame0.frame.multi \
+        place [ttk::label $frame.frame.multi \
             -text {Multiplicity} \
             -style molUP.whiteCenter.TLabel \
-            ] -in $molUP::chargeMulti.frame0.frame -x 270 -y 70 -width 120
+            ] -in $frame.frame -x 270 -y 70 -width 120
 
         # Line 1
-        place [ttk::label $molUP::chargeMulti.frame0.frame.hllayerLabel \
+        place [ttk::label $frame.frame.hllayerLabel \
             -text {High Level Layer} \
             -style molUP.whiteCenter.TLabel \
-            ] -in $molUP::chargeMulti.frame0.frame -x 10 -y 100 -width 120
+            ] -in $frame.frame -x 10 -y 100 -width 120
 
-        place [ttk::entry $molUP::chargeMulti.frame0.frame.hllayerCharge \
+        place [ttk::entry $frame.frame.hllayerCharge \
             -textvariable {molUP::chargeHL}\
             -style molUP.TEntry \
-            ] -in $molUP::chargeMulti.frame0.frame -x 140 -y 100 -width 120
+            ] -in $frame.frame -x 140 -y 100 -width 120
 
-        place [ttk::entry $molUP::chargeMulti.frame0.frame.hllayerMulti \
+        place [ttk::entry $frame.frame.hllayerMulti \
             -textvariable {molUP::multiplicityValue}\
             -style molUP.TEntry \
-            ] -in $molUP::chargeMulti.frame0.frame -x 270 -y 100 -width 120
+            ] -in $frame.frame -x 270 -y 100 -width 120
 
         # Line 2
-        place [ttk::label $molUP::chargeMulti.frame0.frame.lllayerLabel \
+        place [ttk::label $frame.frame.lllayerLabel \
             -text {Low Level Layer} \
             -style molUP.whiteCenter.TLabel \
-            ] -in $molUP::chargeMulti.frame0.frame -x 10 -y 130 -width 120
+            ] -in $frame.frame -x 10 -y 130 -width 120
 
-        place [ttk::entry $molUP::chargeMulti.frame0.frame.lllayerCharge \
+        place [ttk::entry $frame.frame.lllayerCharge \
             -textvariable {molUP::chargeLL}\
             -style molUP.TEntry \
-            ] -in $molUP::chargeMulti.frame0.frame -x 140 -y 130 -width 120
+            ] -in $frame.frame -x 140 -y 130 -width 120
 
-        place [ttk::entry $molUP::chargeMulti.frame0.frame.lllayerMulti \
+        place [ttk::entry $frame.frame.lllayerMulti \
             -textvariable {molUP::multiplicityValue1}\
             -style molUP.TEntry \
-            ] -in $molUP::chargeMulti.frame0.frame -x 270 -y 130 -width 120
+            ] -in $frame.frame -x 270 -y 130 -width 120
 
 
         # Calculate Button
-        place [ttk::button $molUP::chargeMulti.frame0.frame.calculateCharges \
+        place [ttk::button $frame.frame.calculateCharges \
             -text {Calculate charge based on available MM charges} \
             -command {molUP::getChargesSum none} \
             -style molUP.TButton \
-            ] -in $molUP::chargeMulti.frame0.frame -x 10 -y 160 -width 380
+            ] -in $frame.frame -x 10 -y 160 -width 380
 
         # Apply Cancel Buttons
-        place [ttk::button $molUP::chargeMulti.frame0.frame.apply \
+        place [ttk::button $frame.frame.apply \
             -text {Apply} \
             -command {molUP::applyChargeMultiGUI $highLayerIndex $mediumLayerIndex $lowLayerIndex} \
             -style molUP.TButton \
-            ] -in $molUP::chargeMulti.frame0.frame -x 10 -y 200 -width 185
+            ] -in $frame.frame -x 10 -y 200 -width 185
 
-        place [ttk::button $molUP::chargeMulti.frame0.frame.cancel \
+        place [ttk::button $frame.frame.cancel \
             -text {Cancel} \
             -command {molUP::cancelChargeMultiGUI} \
             -style molUP.TButton \
-            ] -in $molUP::chargeMulti.frame0.frame -x 205 -y 200 -width 185
+            ] -in $frame.frame -x 205 -y 200 -width 185
 
     } elseif {$highLayerIndex == "" && $mediumLayerIndex != "" && $lowLayerIndex != ""} {
-         wm geometry $::molUP::chargeMulti 400x250+[expr $sWidth - 400]+100
+         #wm geometry $::molUP::chargeMulti 400x250+[expr $sWidth - 400]+100
 
         # Evaluate the negative and positve amino acids 
         molUP::showNegPosResidues
 
 
         # Place common items to all possibilities
-        place [ttk::label $molUP::chargeMulti.frame0.frame.initialLabel \
+        place [ttk::label $frame.frame.initialLabel \
             -text {Adjust the charge and spin multiplicity for this stytem.} \
             -style molUP.white.TLabel \
-            ] -in $molUP::chargeMulti.frame0.frame -x 10 -y 10 -width 380
+            ] -in $frame.frame -x 10 -y 10 -width 380
 
-        place [ttk::checkbutton $molUP::chargeMulti.frame0.frame.showPositiveResidues \
+        place [ttk::checkbutton $frame.frame.showPositiveResidues \
             -text {Show Positive Residues} \
             -variable {showPosChargedResidues} \
             -command {molUP::onOffRepresentation 11} \
-            ] -in $molUP::chargeMulti.frame0.frame -x 10 -y 40 -width 180
+            ] -in $frame.frame -x 10 -y 40 -width 180
 
-        place [ttk::checkbutton $molUP::chargeMulti.frame0.frame.showNegativeResidues \
+        place [ttk::checkbutton $frame.frame.showNegativeResidues \
             -text {Show Negative Residues} \
             -variable {showNegChargedResidues} \
             -command {molUP::onOffRepresentation 12} \
-            ] -in $molUP::chargeMulti.frame0.frame -x 210 -y 40 -width 180
+            ] -in $frame.frame -x 210 -y 40 -width 180
 
 
 
         # Table Header
-        place [ttk::label $molUP::chargeMulti.frame0.frame.layer \
+        place [ttk::label $frame.frame.layer \
             -text {Layer} \
             -style molUP.whiteCenter.TLabel \
-            ] -in $molUP::chargeMulti.frame0.frame -x 10 -y 70 -width 120
+            ] -in $frame.frame -x 10 -y 70 -width 120
 
-        place [ttk::label $molUP::chargeMulti.frame0.frame.charge \
+        place [ttk::label $frame.frame.charge \
             -text {Charge} \
             -style molUP.whiteCenter.TLabel \
-            ] -in $molUP::chargeMulti.frame0.frame -x 140 -y 70 -width 120
+            ] -in $frame.frame -x 140 -y 70 -width 120
 
-        place [ttk::label $molUP::chargeMulti.frame0.frame.multi \
+        place [ttk::label $frame.frame.multi \
             -text {Multiplicity} \
             -style molUP.whiteCenter.TLabel \
-            ] -in $molUP::chargeMulti.frame0.frame -x 270 -y 70 -width 120
+            ] -in $frame.frame -x 270 -y 70 -width 120
 
         # Line 1
-        place [ttk::label $molUP::chargeMulti.frame0.frame.mllayerLabel \
+        place [ttk::label $frame.frame.mllayerLabel \
             -text {Medium Level Layer} \
             -style molUP.whiteCenter.TLabel \
-            ] -in $molUP::chargeMulti.frame0.frame -x 10 -y 100 -width 120
+            ] -in $frame.frame -x 10 -y 100 -width 120
 
-        place [ttk::entry $molUP::chargeMulti.frame0.frame.mllayerCharge \
+        place [ttk::entry $frame.frame.mllayerCharge \
             -textvariable {molUP::chargeML}\
             -style molUP.TEntry \
-            ] -in $molUP::chargeMulti.frame0.frame -x 140 -y 100 -width 120
+            ] -in $frame.frame -x 140 -y 100 -width 120
 
-        place [ttk::entry $molUP::chargeMulti.frame0.frame.mllayerMulti \
+        place [ttk::entry $frame.frame.mllayerMulti \
             -textvariable {molUP::multiplicityValue}\
             -style molUP.TEntry \
-            ] -in $molUP::chargeMulti.frame0.frame -x 270 -y 100 -width 120
+            ] -in $frame.frame -x 270 -y 100 -width 120
 
         # Line 2
-        place [ttk::label $molUP::chargeMulti.frame0.frame.lllayerLabel \
+        place [ttk::label $frame.frame.lllayerLabel \
             -text {Low Level Layer} \
             -style molUP.whiteCenter.TLabel \
-            ] -in $molUP::chargeMulti.frame0.frame -x 10 -y 130 -width 120
+            ] -in $frame.frame -x 10 -y 130 -width 120
 
-        place [ttk::entry $molUP::chargeMulti.frame0.frame.lllayerCharge \
+        place [ttk::entry $frame.frame.lllayerCharge \
             -textvariable {molUP::chargeLL}\
             -style molUP.TEntry \
-            ] -in $molUP::chargeMulti.frame0.frame -x 140 -y 130 -width 120
+            ] -in $frame.frame -x 140 -y 130 -width 120
 
-        place [ttk::entry $molUP::chargeMulti.frame0.frame.lllayerMulti \
+        place [ttk::entry $frame.frame.lllayerMulti \
             -textvariable {molUP::multiplicityValue1}\
             -style molUP.TEntry \
-            ] -in $molUP::chargeMulti.frame0.frame -x 270 -y 130 -width 120
+            ] -in $frame.frame -x 270 -y 130 -width 120
 
 
         # Calculate Button
-        place [ttk::button $molUP::chargeMulti.frame0.frame.calculateCharges \
+        place [ttk::button $frame.frame.calculateCharges \
             -text {Calculate charge based on available MM charges} \
             -command {molUP::getChargesSum none} \
             -style molUP.TButton \
-            ] -in $molUP::chargeMulti.frame0.frame -x 10 -y 160 -width 380
+            ] -in $frame.frame -x 10 -y 160 -width 380
 
         # Apply Cancel Buttons
-        place [ttk::button $molUP::chargeMulti.frame0.frame.apply \
+        place [ttk::button $frame.frame.apply \
             -text {Apply} \
             -command {molUP::applyChargeMultiGUI $highLayerIndex $mediumLayerIndex $lowLayerIndex} \
             -style molUP.TButton \
-            ] -in $molUP::chargeMulti.frame0.frame -x 10 -y 200 -width 185
+            ] -in $frame.frame -x 10 -y 200 -width 185
 
-        place [ttk::button $molUP::chargeMulti.frame0.frame.cancel \
+        place [ttk::button $frame.frame.cancel \
             -text {Cancel} \
             -command {molUP::cancelChargeMultiGUI} \
             -style molUP.TButton \
-            ] -in $molUP::chargeMulti.frame0.frame -x 205 -y 200 -width 185
+            ] -in $frame.frame -x 205 -y 200 -width 185
 
     } elseif {$highLayerIndex != "" && $mediumLayerIndex != "" && $lowLayerIndex != ""} {
-        wm geometry $::molUP::chargeMulti 400x280+[expr $sWidth - 400]+100
+        #wm geometry $::molUP::chargeMulti 400x280+[expr $sWidth - 400]+100
 
         # Evaluate the negative and positve amino acids 
         molUP::showNegPosResidues
 
 
         # Place common items to all possibilities
-        place [ttk::label $molUP::chargeMulti.frame0.frame.initialLabel \
+        place [ttk::label $frame.frame.initialLabel \
             -text {Adjust the charge and spin multiplicity for this stytem.} \
             -style molUP.white.TLabel \
-            ] -in $molUP::chargeMulti.frame0.frame -x 10 -y 10 -width 380
+            ] -in $frame.frame -x 10 -y 10 -width 380
 
-        place [ttk::checkbutton $molUP::chargeMulti.frame0.frame.showPositiveResidues \
+        place [ttk::checkbutton $frame.frame.showPositiveResidues \
             -text {Show Positive Residues} \
             -variable {showPosChargedResidues} \
             -command {molUP::onOffRepresentation 11} \
-            ] -in $molUP::chargeMulti.frame0.frame -x 10 -y 40 -width 180
+            ] -in $frame.frame -x 10 -y 40 -width 180
 
-        place [ttk::checkbutton $molUP::chargeMulti.frame0.frame.showNegativeResidues \
+        place [ttk::checkbutton $frame.frame.showNegativeResidues \
             -text {Show Negative Residues} \
             -variable {showNegChargedResidues} \
             -command {molUP::onOffRepresentation 12} \
-            ] -in $molUP::chargeMulti.frame0.frame -x 210 -y 40 -width 180
+            ] -in $frame.frame -x 210 -y 40 -width 180
 
 
 
         # Table Header
-        place [ttk::label $molUP::chargeMulti.frame0.frame.layer \
+        place [ttk::label $frame.frame.layer \
             -text {Layer} \
             -style molUP.whiteCenter.TLabel \
-            ] -in $molUP::chargeMulti.frame0.frame -x 10 -y 70 -width 120
+            ] -in $frame.frame -x 10 -y 70 -width 120
 
-        place [ttk::label $molUP::chargeMulti.frame0.frame.charge \
+        place [ttk::label $frame.frame.charge \
             -text {Charge} \
             -style molUP.whiteCenter.TLabel \
-            ] -in $molUP::chargeMulti.frame0.frame -x 140 -y 70 -width 120
+            ] -in $frame.frame -x 140 -y 70 -width 120
 
-        place [ttk::label $molUP::chargeMulti.frame0.frame.multi \
+        place [ttk::label $frame.frame.multi \
             -text {Multiplicity} \
             -style molUP.whiteCenter.TLabel \
-            ] -in $molUP::chargeMulti.frame0.frame -x 270 -y 70 -width 120
+            ] -in $frame.frame -x 270 -y 70 -width 120
 
         # Line 1
-        place [ttk::label $molUP::chargeMulti.frame0.frame.hllayerLabel \
+        place [ttk::label $frame.frame.hllayerLabel \
             -text {High Level Layer} \
             -style molUP.whiteCenter.TLabel \
-            ] -in $molUP::chargeMulti.frame0.frame -x 10 -y 100 -width 120
+            ] -in $frame.frame -x 10 -y 100 -width 120
 
-        place [ttk::entry $molUP::chargeMulti.frame0.frame.hllayerCharge \
+        place [ttk::entry $frame.frame.hllayerCharge \
             -textvariable {molUP::chargeHL}\
             -style molUP.TEntry \
-            ] -in $molUP::chargeMulti.frame0.frame -x 140 -y 100 -width 120
+            ] -in $frame.frame -x 140 -y 100 -width 120
 
-        place [ttk::entry $molUP::chargeMulti.frame0.frame.hllayerMulti \
+        place [ttk::entry $frame.frame.hllayerMulti \
             -textvariable {molUP::multiplicityValue}\
             -style molUP.TEntry \
-            ] -in $molUP::chargeMulti.frame0.frame -x 270 -y 100 -width 120
+            ] -in $frame.frame -x 270 -y 100 -width 120
 
         # Line 2
-        place [ttk::label $molUP::chargeMulti.frame0.frame.mllayerLabel \
+        place [ttk::label $frame.frame.mllayerLabel \
             -text {Medium Level Layer} \
             -style molUP.whiteCenter.TLabel \
-            ] -in $molUP::chargeMulti.frame0.frame -x 10 -y 130 -width 120
+            ] -in $frame.frame -x 10 -y 130 -width 120
 
-        place [ttk::entry $molUP::chargeMulti.frame0.frame.mllayerCharge \
+        place [ttk::entry $frame.frame.mllayerCharge \
             -textvariable {molUP::chargeML}\
             -style molUP.TEntry \
-            ] -in $molUP::chargeMulti.frame0.frame -x 140 -y 130 -width 120
+            ] -in $frame.frame -x 140 -y 130 -width 120
 
-        place [ttk::entry $molUP::chargeMulti.frame0.frame.mllayerMulti \
+        place [ttk::entry $frame.frame.mllayerMulti \
             -textvariable {molUP::multiplicityValue1}\
             -style molUP.TEntry \
-            ] -in $molUP::chargeMulti.frame0.frame -x 270 -y 130 -width 120
+            ] -in $frame.frame -x 270 -y 130 -width 120
 
         # Line 3
-        place [ttk::label $molUP::chargeMulti.frame0.frame.lllayerLabel \
+        place [ttk::label $frame.frame.lllayerLabel \
             -text {Low Level Layer} \
             -style molUP.whiteCenter.TLabel \
-            ] -in $molUP::chargeMulti.frame0.frame -x 10 -y 160 -width 120
+            ] -in $frame.frame -x 10 -y 160 -width 120
 
-        place [ttk::entry $molUP::chargeMulti.frame0.frame.lllayerCharge \
+        place [ttk::entry $frame.frame.lllayerCharge \
             -textvariable {molUP::chargeLL}\
             -style molUP.TEntry \
-            ] -in $molUP::chargeMulti.frame0.frame -x 140 -y 160 -width 120
+            ] -in $frame.frame -x 140 -y 160 -width 120
 
-        place [ttk::entry $molUP::chargeMulti.frame0.frame.lllayerMulti \
+        place [ttk::entry $frame.frame.lllayerMulti \
             -textvariable {molUP::multiplicityValue2}\
             -style molUP.TEntry \
-            ] -in $molUP::chargeMulti.frame0.frame -x 270 -y 160 -width 120
+            ] -in $frame.frame -x 270 -y 160 -width 120
 
 
         # Calculate Button
-        place [ttk::button $molUP::chargeMulti.frame0.frame.calculateCharges \
+        place [ttk::button $frame.frame.calculateCharges \
             -text {Calculate charge based on available MM charges} \
             -command {molUP::getChargesSum none} \
             -style molUP.TButton \
-            ] -in $molUP::chargeMulti.frame0.frame -x 10 -y 190 -width 380
+            ] -in $frame.frame -x 10 -y 190 -width 380
 
         # Apply Cancel Buttons
-        place [ttk::button $molUP::chargeMulti.frame0.frame.apply \
+        place [ttk::button $frame.frame.apply \
             -text {Apply} \
             -command {molUP::applyChargeMultiGUI $highLayerIndex $mediumLayerIndex $lowLayerIndex} \
             -style molUP.TButton \
-            ] -in $molUP::chargeMulti.frame0.frame -x 10 -y 230 -width 185
+            ] -in $frame.frame -x 10 -y 230 -width 185
 
-        place [ttk::button $molUP::chargeMulti.frame0.frame.cancel \
+        place [ttk::button $frame.frame.cancel \
             -text {Cancel} \
             -command {molUP::cancelChargeMultiGUI} \
             -style molUP.TButton \
-            ] -in $molUP::chargeMulti.frame0.frame -x 205 -y 230 -width 185
+            ] -in $frame.frame -x 205 -y 230 -width 185
 
     } else {
-        wm geometry $::molUP::chargeMulti 400x60+[expr $sWidth - 400]+100
+        #wm geometry $::molUP::chargeMulti 400x60+[expr $sWidth - 400]+100
 
-        place [ttk::label $molUP::chargeMulti.frame0.frame.noMol \
+        place [ttk::label $frame.frame.noMol \
             -text "No molecule was loaded. \nTherefore, you cannot adjust the carge and spin multiplicity." \
            -style molUP.whiteCenter.TLabel \
-            ] -in $molUP::chargeMulti.frame0.frame -x 10 -y 10 -width 380
+            ] -in $frame.frame -x 10 -y 10 -width 380
 
     }
 
@@ -632,12 +608,5 @@ proc molUP::applyChargeMultiGUI {highLayerIndex mediumLayerIndex lowLayerIndex} 
 
             # Do nothing
     }
-
-    destroy $molUP::chargeMulti
-}
-
-
-proc molUP::cancelChargeMultiGUI {} {
-    destroy $molUP::chargeMulti
 }
 

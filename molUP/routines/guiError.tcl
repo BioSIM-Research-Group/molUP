@@ -2,14 +2,18 @@ package provide guiError 1.0
 package require Tk
 
 #### GUI ############################################################
-proc molUP::guiError {message} {
+proc molUP::guiError {message windowname} {
+
+    if {$windowname == ""} {
+        set windowname "Error"
+    }
 
     #### Check if the window exists
 	if {[winfo exists $::molUP::error]} {wm deiconify $::molUP::error ;return $::molUP::error}
 	toplevel $::molUP::error
 
 	#### Title of the windows
-	wm title $molUP::error "Error" ;# titulo da pagina
+	wm title $molUP::error "$windowname" ;# titulo da pagina
 
     # screen width and height
 	set sWidth [expr [winfo vrootwidth  $::molUP::topGui] -0]

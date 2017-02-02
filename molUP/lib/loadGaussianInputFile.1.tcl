@@ -45,6 +45,15 @@ proc molUP::loadGaussianInputFile {} {
 	}
 
 	#### Load and prepara structure on VMD
+	molUP::createMolecule
+
+	### Add connectivity to VMD
+	set connectList [molUP::convertGaussianInputConnectToVMD $molUP::connectivityInputFile]
+	topo clearbonds
+	topo setbondlist $connectList
+}
+
+proc molUP::createMolecule {} {
 	## Create a new Molecule
 	mol new atoms $molUP::numberAtoms
 	## Change the name
@@ -62,11 +71,5 @@ proc molUP::loadGaussianInputFile {} {
 	mol bondsrecalc top
 	mol reanalyze top
 	display resetview	
-
-
-	### Add connectivity to VMD
-	set connectList [molUP::convertGaussianInputConnectToVMD $molUP::connectivityInputFile]
-	topo clearbonds
-	topo setbondlist $connectList
 }
     

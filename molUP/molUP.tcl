@@ -40,7 +40,7 @@ namespace eval molUP:: {
 		#### Program Variables
 
 		## General
-		variable version	    	"0.9 (beta)"
+		variable version	    	"0.9.1 (beta)"
 
 		#GUI
         variable topGui         	".molUP"
@@ -161,5 +161,5 @@ namespace eval molUP:: {
 
 ## Initiate ###
 #molUP::loadImages
-#molUP::buildGui
+molUP::buildGui
 

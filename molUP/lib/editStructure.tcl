@@ -30,12 +30,12 @@ proc molUP::addSelectionRep {} {
     #### Change atom colors
     color Name C green3
 
-    mol selection "all"
-    mol color Name
-    mol material Diffuse
-    mol representation Lines 1.000000
-    mol addrep top
-    mol showrep top 0 0
+    #mol selection "all"
+    #mol color Name
+    #mol material Diffuse
+    #mol representation Lines 1.000000
+    #mol addrep top
+    #mol showrep top 0 0
 
     #### Representation of the atoms selected on the tablelist
     mol selection "none"
@@ -136,7 +136,7 @@ proc molUP::addSelectionRep {} {
     # Set lines to default
     mol representation Lines 1.000000
     
-    mol showrep top 13 $molUP::allRep
+    mol showrep top 0 $molUP::allRep
 
 }
 
