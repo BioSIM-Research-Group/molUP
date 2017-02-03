@@ -33,11 +33,13 @@ proc molUP::guiSaveFile {} {
 
     place [ttk::label $molUP::saveFile.frame.back.label1 \
 			-text {Save current structure as } \
+            -style molUP.white.TLabel \
             ] -in $molUP::saveFile.frame.back -x 10 -y 13 -width 150
 
     place [ttk::combobox $molUP::saveFile.frame.back.selectLoadMode \
 		    -textvariable molUP::saveOptions \
 			-state readonly \
+            -style molUP.white.TCombobox \
 		    -values "[list "Gaussian Input File (.com)" "Protein Data Bank (.pdb)" "Coordinates XYZ (.xyz)"]"
             ] -in $molUP::saveFile.frame.back -x 170 -y 10 -width 220
 
@@ -46,13 +48,13 @@ proc molUP::guiSaveFile {} {
     place [ttk::button $molUP::saveFile.frame.back.buttonLoad \
 		    -text "Save" \
 		    -command {molUP::saveOrder} \
-            -style molUP.button.TButton \
+            -style molUP.TButton \
             ] -in $molUP::saveFile.frame.back -x 10 -y 50 -width 185
 
     place [ttk::button $molUP::saveFile.frame.back.buttonCancel \
 		    -text "Cancel" \
             -command {destroy $::molUP::saveFile} \
-            -style molUP.button.TButton \
+            -style molUP.TButton \
             ] -in $molUP::saveFile.frame.back -x 205 -y 50 -width 185
 
 }

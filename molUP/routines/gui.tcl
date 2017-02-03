@@ -1,5 +1,13 @@
 package provide gui 1.0
 
+proc molUP::start {} {
+	if {[winfo exists $::molUP::topGui]} {wm deiconify $::molUP::topGui ;return $::molUP::topGui}
+
+	molUP::buildGui
+
+	return $::molUP::topGui
+}
+
 proc molUP::buildGui {} {
 
 	#### Window Configuration ##########################################
@@ -84,9 +92,9 @@ proc molUP::buildGui {} {
 			-style molUP.menuBar.TMenubutton \
 			] -in $molUP::topGui.frame0.topSection.topMenu -x 320 -y 5 -height 25 -width 70
 	menu $molUP::topGui.frame0.topSection.topMenu.about.menu -tearoff 0
-	$molUP::topGui.frame0.topSection.topMenu.about.menu add command -label "Help" -command {molUP::guiError "This feature is not available yet."}
+	$molUP::topGui.frame0.topSection.topMenu.about.menu add command -label "Help" -command {molUP::guiError "This feature is not available yet." "Available soon"}
 	$molUP::topGui.frame0.topSection.topMenu.about.menu add command -label "Credits" -command {molUP::guiCredits}
-	$molUP::topGui.frame0.topSection.topMenu.about.menu add command -label "Check for updates" -command {molUP::guiError "No updates available."}
+	$molUP::topGui.frame0.topSection.topMenu.about.menu add command -label "Check for updates" -command {molUP::guiError "No updates available." "Updates"}
 
 
 	## Molecule Selection #############################################
@@ -106,12 +114,12 @@ proc molUP::buildGui {} {
 			-values "$molUP::molinfoList" \
 			-state readonly \
 			] -in $molUP::topGui.frame0.molSelection -x 70 -y 0 -width 325
-	bind $molUP::topGui.frame0.molSelection.combo <<ComboboxSelected>> {molUP::activateMolecule}
+	bind $molUP::topGui.frame0.molSelection.combo <<ComboboxSelected>> {molUP::selectMolecule}
 
 	
-	## Results section ################################################
-	set majorHeight [expr $sHeight - 230]
-	pack [canvas $molUP::topGui.frame0.major -bg #ededed -width 400 -height $majorHeight -highlightthickness 0] -in $molUP::topGui.frame0
+	## Results section ################################################ 
+	set molUP::majorHeight [expr $sHeight - 230]
+	pack [canvas $molUP::topGui.frame0.major -bg #ededed -width 400 -height $molUP::majorHeight -highlightthickness 0] -in $molUP::topGui.frame0
 	
 
 	## Representantions ################################################
@@ -258,20 +266,19 @@ proc molUP::buildGui {} {
 
 
 
-	#### Place results of current molecules ################################################
-	
+	#### Place results of current molecules ################################################	
 	set molAlreadyLoaded [molinfo list]
 	if {$molAlreadyLoaded == ""} {
 		place [ttk::label $molUP::topGui.frame0.major.labelEmpty \
 			-text "No molecule loaded." \
 			-style molUP.gray.TLabel \
-			] -in $molUP::topGui.frame0.major -x 125 -y [expr $majorHeight / 2]
+			] -in $molUP::topGui.frame0.major -x 125 -y [expr $molUP::majorHeight / 2]
 	} else {
 		# Launch a wait window
 		molUP::guiError "Pleasy wait a moment...\nThis window closes automatically when all the tasks have finished." "Wait a moment..."
 		
 		foreach mol $molAlreadyLoaded {
-			molUP::resultSection $mol $molUP::topGui.frame0.major $majorHeight
+			molUP::resultSection $mol $molUP::topGui.frame0.major $molUP::majorHeight
 			set molUP::allRep "1"
 			molUP::getMolinfoList
 			molUP::collectMolInfo
@@ -309,6 +316,21 @@ proc molUP::getMolinfoList {} {
 	}
 
 	$molUP::topGui.frame0.molSelection.combo configure -values $molUP::molinfoList
+}
+
+proc molUP::selectMolecule {} {
+	set mol [lindex $molUP::topMolecule 0]
+	mol top $mol
+
+	set molList [molinfo list]
+	foreach molecule $molList {
+		pack forget $molUP::topGui.frame0.major.mol$molecule
+	}
+
+	pack $molUP::topGui.frame0.major.mol$mol
+
+	mol off all
+	mol on $mol
 }
 
 
@@ -369,11 +391,29 @@ proc molUP::activateMolecule {molID} {
 
 
 proc molUP::updateStructures {args} {
+	# Launch a wait window
+	molUP::guiError "Pleasy wait a moment...\nThis window closes automatically when all the tasks have finished." "Wait a moment..."
+	
+	set previousMol [molinfo top]
+	pack forget $molUP::topGui.frame0.major.mol$previousMol
+
+	set mol [lindex [molinfo list] end]
+	molUP::resultSection $mol $molUP::topGui.frame0.major $molUP::majorHeight
+
+	# Pack TOP molecule
+	pack $molUP::topGui.frame0.major.mol$mol
+	
+
 	set molUP::allRep "1"
 	molUP::getMolinfoList
 	molUP::collectMolInfo
 	molUP::addSelectionRep
-	molUP::activateMolecule
+	molUP::activateMolecule $mol
+	molUP::selectMolecule
+
+		
+	# Destroy waiting window
+	destroy $::molUP::error
 }
 
 proc molUP::collectMolInfo {} {
@@ -454,15 +494,30 @@ proc molUP::checkTags {pathName} {
 
 
 
+proc molUP::rebond {} {
+	mol bondsrecalc top
+	mol reanalyze top
+
+	set molID [molinfo top]
+
+	set connectivity [molUP::connectivityFromVMD]
+
+	$molUP::topGui.frame0.major.mol$molID.tabs.tabInput.connect delete 1.0 end
+	$molUP::topGui.frame0.major.mol$molID.tabs.tabInput.connect insert end $connectivity
+}
+
+
 
 proc molUP::resultSection {molID frame majorHeight} {
-	pack [canvas $frame.mol$molID -bg #ededed -width 400 -height $majorHeight -highlightthickness 0] -in $frame
+	pack [canvas $frame.mol$molID -bg #ededed -width 400 -height $molUP::majorHeight -highlightthickness 0] -in $frame
 
 	set major $frame.mol$molID
 
+	puts $major
+
 	place [ttk::notebook $major.tabs \
 		-style molUP.major.TNotebook
-		] -in $major -x 0 -y 0 -width 400 -height $majorHeight
+		] -in $major -x 0 -y 0 -width 400 -height $molUP::majorHeight
 	$major.tabs add [frame $major.tabs.tabResults -background #b3dbff -relief flat] -text "Results"
 	$major.tabs add [frame $major.tabs.tabInput -background #b3dbff -relief flat] -text "Input"
 	
@@ -478,10 +533,18 @@ proc molUP::resultSection {molID frame majorHeight} {
 		-style molUP.cyan.TLabel \
 		-text {Job Title} ] -in $tInput -x 5 -y 5
 	
-	place [ttk::entry $tInput.jobTitleEntry \
-		-style molUP.TEntry \
-		-textvariable molUP::actualTitle \
-		] -in $tInput -x 5 -y 30 -width 390
+	place [text $tInput.jobTitleEntry \
+		-yscrollcommand "$tInput.yscb0 set" \
+		-bd 1 \
+		-highlightcolor #017aff \
+		-highlightthickness 1 \
+		] -in $tInput -x 5 -y 30 -width 375 -height 25
+	$tInput.jobTitleEntry insert end $molUP::actualTitle
+
+	place [ttk::scrollbar $tInput.yscb0 \
+			-orient vertical \
+			-command [list $tInput.keywordsText yview]\
+			] -in $tInput -x 380 -y 30 -width 15 -height 25
 
 	place [ttk::label $tInput.keywordsLabel \
 		-style molUP.cyan.TLabel \
@@ -504,17 +567,19 @@ proc molUP::resultSection {molID frame majorHeight} {
 			] -in $tInput -x 380 -y 85 -width 15 -height 80
 
 	#set molUP::keywordsCalc [$tInput.keywordsText get 1.0 end]
-			
-	
-	
 
-	set resultsHeight [expr $majorHeight - 30 - 30]
+	set resultsHeight [expr $molUP::majorHeight - 30 - 30]
 	set heightBox [expr ($resultsHeight - 405 - 25 - 10) / 2]
 
 	#### Connectivity 
 	place [ttk::label $tInput.connectLabel \
 		-style molUP.cyan.TLabel \
 		-text {Connectivity} ] -in $tInput -x 5 -y 380
+
+	place [ttk::button $tInput.rebond \
+		-style molUP.TButton \
+		-command molUP::rebond \
+		-text {Rebond} ] -in $tInput -x 290 -y 378 -width 100
 
 	place [text $tInput.connect \
 		-yscrollcommand "$tInput.yscb1 set" \

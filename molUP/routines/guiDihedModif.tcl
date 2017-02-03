@@ -135,11 +135,13 @@ proc molUP::guiDihedModif {} {
                 
     place [ttk::button $molUP::dihedModif.frame0.frame.apply \
 		            -text "Apply" \
+					-style molUP.TButton \
 		            -command {molUP::dihedGuiCloseSave} \
 		            ] -in $molUP::dihedModif.frame0.frame -x 230 -y 150 -width 75
 				
 	place [ttk::button $molUP::dihedModif.frame0.frame.cancel \
 		            -text "Cancel" \
+					-style molUP.TButton \
 		            -command {molUP::dihedGuiCloseNotSave} \
 		            ] -in $molUP::dihedModif.frame0.frame -x 315 -y 150 -width 75
 

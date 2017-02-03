@@ -29,7 +29,7 @@ proc molUP::guiCredits {} {
 	pack [canvas $molUP::credits.frame0.frame -bg white -width 400 -height 200 -highlightthickness 0] -in $molUP::credits.frame0
 
 	place [message $molUP::credits.frame0.frame.label1 \
-		-text "Gaussian for VMD is a user friendly vmd plugin that reads any output or input file from Gaussian09. Several quick representations, tools, and options were included to a perfect user environment. \n Gaussian for VMD was developed by Henrique S. Fernandes and Nuno M.F.S.A. Cerqueira at the Computational Biochemistry Group of the Faculty of Sciences of the University of Porto. \n Gaussian for VMD is free and can be used with any porpose. However, if you use Gaussian for VMD, you should cite us. \n All rights reserved - 2017" \
+		-text "molUP is a user friendly vmd plugin that reads any output or input file from Gaussian09. Several quick representations, tools, and options were included to a perfect user environment. \n molUP was developed by Henrique S. Fernandes and Nuno M.F.S.A. Cerqueira at the Computational Biochemistry Group of the Faculty of Sciences of the University of Porto. \n molUP is free and can be used with any porpose. However, if you use molUP, you should cite us. \n All rights reserved - 2017" \
 		-width 380 \
 	] -in $molUP::credits.frame0.frame -x 10 -y 10 -width 380 -height 180 -anchor nw -bordermode ignore
 

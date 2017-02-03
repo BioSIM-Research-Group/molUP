@@ -6,8 +6,7 @@ proc molUP::quit {} \
 {
 	trace remove variable ::vmd_initialize_structure write molUP::updateStructures
 	
-	destroy $molUP::topGui 
-
+	destroy $molUP::topGui
 
 }
 
@@ -15,7 +14,7 @@ proc molUP::restart {} \
 {	
 	trace remove variable ::vmd_initialize_structure write molUP::updateStructures
 	
-	destroy $molUP::topGui 
+	destroy $molUP::topGui
 
 	mol off all
 

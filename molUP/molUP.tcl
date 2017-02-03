@@ -146,6 +146,7 @@ namespace eval molUP:: {
 		variable tmpFolder ""
 		variable structureReadyToLoad {}
 		variable moleculeInfo {}
+		variable majorHeight
 
 
 		variable chargeAll	0
@@ -161,5 +162,5 @@ namespace eval molUP:: {
 
 ## Initiate ###
 #molUP::loadImages
-molUP::buildGui
+#molUP::buildGui
 
