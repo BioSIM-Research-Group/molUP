@@ -29,6 +29,7 @@ proc molUP::loadButton {fileExtension} {
 	molUP::fileExtension $molUP::path
 	molUP::rootName $molUP::path
 
+
 	#### Open a .com file
 	if {$molUP::fileExtension == ".com"} {
 		trace remove variable ::vmd_initialize_structure write molUP::updateStructures

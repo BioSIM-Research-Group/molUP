@@ -404,12 +404,23 @@ proc molUP::updateStructures {args} {
 	pack $molUP::topGui.frame0.major.mol$mol
 	
 
+
 	set molUP::allRep "1"
+	molUP::timeBegin
 	molUP::getMolinfoList
+	molUP::timeEnd
+	molUP::timeBegin
 	molUP::collectMolInfo
+	molUP::timeEnd
+	molUP::timeBegin
 	molUP::addSelectionRep
+	molUP::timeEnd
+	molUP::timeBegin
 	molUP::activateMolecule $mol
+	molUP::timeEnd
+	molUP::timeBegin
 	molUP::selectMolecule
+	molUP::timeEnd
 
 	molUP::guiChargeMulti $molUP::chargeMultiFrame
 		
@@ -507,6 +518,16 @@ proc molUP::rebond {} {
 	$molUP::topGui.frame0.major.mol$molID.tabs.tabInput.connect insert end $connectivity
 }
 
+proc molUP::applyNewConnectivity {} {
+	set molID [molinfo top]
+	set molUP::connectivity [.molUP.frame0.major.mol$molID.tabs.tabInput.connect get 1.0 end]
+
+	set connectList [molUP::convertGaussianInputConnectToVMD $molUP::connectivity]
+	topo clearbonds
+	topo setbondlist $connectList
+
+}
+
 
 
 proc molUP::resultSection {molID frame majorHeight} {
@@ -576,6 +597,12 @@ proc molUP::resultSection {molID frame majorHeight} {
 	place [ttk::label $tInput.connectLabel \
 		-style molUP.cyan.TLabel \
 		-text {Connectivity} ] -in $tInput -x 5 -y 380
+
+	place [ttk::button $tInput.applyNewConnectivity \
+		-style molUP.TButton \
+		-command molUP::applyNewConnectivity \
+		-text {Apply} ] -in $tInput -x 180 -y 378 -width 100
+
 
 	place [ttk::button $tInput.rebond \
 		-style molUP.TButton \
