@@ -19,7 +19,8 @@ proc molUP::guiChargeMulti {frame} {
 
     if {($highLayerIndex != "" && $mediumLayerIndex == "" && $lowLayerIndex == "") || \
         $highLayerIndex == "" && $mediumLayerIndex != "" && $lowLayerIndex == "" || \
-        $highLayerIndex == "" && $mediumLayerIndex == "" && $lowLayerIndex != ""} {        
+        $highLayerIndex == "" && $mediumLayerIndex == "" && $lowLayerIndex != "" || \
+        $highLayerIndex == "" && $mediumLayerIndex == "" && $lowLayerIndex == "" } {        
         
 
         # Evaluate the negative and positve amino acids 
@@ -36,14 +37,14 @@ proc molUP::guiChargeMulti {frame} {
             -text {Show Positive Residues} \
             -variable {showPosChargedResidues} \
             -command {molUP::onOffRepresentation 11} \
-            -style molUP.white.TLabel \
+            -style molUP.white.TCheckbutton \
             ] -in $frame.frame -x 10 -y 40 -width 180
 
         place [ttk::checkbutton $frame.frame.showNegativeResidues \
             -text {Show Negative Residues} \
             -variable {showNegChargedResidues} \
             -command {molUP::onOffRepresentation 12} \
-            -style molUP.white.TLabel \
+            -style molUP.white.TCheckbutton \
             ] -in $frame.frame -x 210 -y 40 -width 180
 
 
@@ -75,18 +76,6 @@ proc molUP::guiChargeMulti {frame} {
             -style molUP.TButton \
             ] -in $frame.frame -x 10 -y 100 -width 380
 
-        place [ttk::button $frame.frame.apply \
-            -text {Apply} \
-            -command {molUP::applyChargeMultiGUI $highLayerIndex $mediumLayerIndex $lowLayerIndex} \
-            -style molUP.TButton \
-            ] -in $frame.frame -x 10 -y 140 -width 185
-
-        place [ttk::button $frame.frame.cancel \
-            -text {Cancel} \
-            -command {molUP::cancelChargeMultiGUI} \
-            -style molUP.TButton \
-            ] -in $frame.frame -x 205 -y 140 -width 185
-
 
     } elseif {$highLayerIndex != "" && $mediumLayerIndex != "" && $lowLayerIndex == ""} {
          
@@ -107,12 +96,14 @@ proc molUP::guiChargeMulti {frame} {
             -text {Show Positive Residues} \
             -variable {showPosChargedResidues} \
             -command {molUP::onOffRepresentation 11} \
+            -style molUP.white.TCheckbutton \
             ] -in $frame.frame -x 10 -y 40 -width 180
 
         place [ttk::checkbutton $frame.frame.showNegativeResidues \
             -text {Show Negative Residues} \
             -variable {showNegChargedResidues} \
             -command {molUP::onOffRepresentation 12} \
+            -style molUP.white.TCheckbutton \
             ] -in $frame.frame -x 210 -y 40 -width 180
 
 
@@ -173,18 +164,6 @@ proc molUP::guiChargeMulti {frame} {
             -style molUP.TButton \
             ] -in $frame.frame -x 10 -y 160 -width 380
 
-        # Apply Cancel Buttons
-        place [ttk::button $frame.frame.apply \
-            -text {Apply} \
-            -command {molUP::applyChargeMultiGUI $highLayerIndex $mediumLayerIndex $lowLayerIndex} \
-            -style molUP.TButton \
-            ] -in $frame.frame -x 10 -y 200 -width 185
-
-        place [ttk::button $frame.frame.cancel \
-            -text {Cancel} \
-            -command {molUP::cancelChargeMultiGUI} \
-            -style molUP.TButton \
-            ] -in $frame.frame -x 205 -y 200 -width 185
 
     } elseif {$highLayerIndex != "" && $mediumLayerIndex == "" && $lowLayerIndex != ""} {
 
@@ -204,12 +183,14 @@ proc molUP::guiChargeMulti {frame} {
             -text {Show Positive Residues} \
             -variable {showPosChargedResidues} \
             -command {molUP::onOffRepresentation 11} \
+            -style molUP.white.TCheckbutton \
             ] -in $frame.frame -x 10 -y 40 -width 180
 
         place [ttk::checkbutton $frame.frame.showNegativeResidues \
             -text {Show Negative Residues} \
             -variable {showNegChargedResidues} \
             -command {molUP::onOffRepresentation 12} \
+            -style molUP.white.TCheckbutton \
             ] -in $frame.frame -x 210 -y 40 -width 180
 
 
@@ -270,18 +251,6 @@ proc molUP::guiChargeMulti {frame} {
             -style molUP.TButton \
             ] -in $frame.frame -x 10 -y 160 -width 380
 
-        # Apply Cancel Buttons
-        place [ttk::button $frame.frame.apply \
-            -text {Apply} \
-            -command {molUP::applyChargeMultiGUI $highLayerIndex $mediumLayerIndex $lowLayerIndex} \
-            -style molUP.TButton \
-            ] -in $frame.frame -x 10 -y 200 -width 185
-
-        place [ttk::button $frame.frame.cancel \
-            -text {Cancel} \
-            -command {molUP::cancelChargeMultiGUI} \
-            -style molUP.TButton \
-            ] -in $frame.frame -x 205 -y 200 -width 185
 
     } elseif {$highLayerIndex == "" && $mediumLayerIndex != "" && $lowLayerIndex != ""} {
          #wm geometry $::molUP::chargeMulti 400x250+[expr $sWidth - 400]+100
@@ -300,12 +269,14 @@ proc molUP::guiChargeMulti {frame} {
             -text {Show Positive Residues} \
             -variable {showPosChargedResidues} \
             -command {molUP::onOffRepresentation 11} \
+            -style molUP.white.TCheckbutton \
             ] -in $frame.frame -x 10 -y 40 -width 180
 
         place [ttk::checkbutton $frame.frame.showNegativeResidues \
             -text {Show Negative Residues} \
             -variable {showNegChargedResidues} \
             -command {molUP::onOffRepresentation 12} \
+            -style molUP.white.TCheckbutton \
             ] -in $frame.frame -x 210 -y 40 -width 180
 
 
@@ -366,18 +337,6 @@ proc molUP::guiChargeMulti {frame} {
             -style molUP.TButton \
             ] -in $frame.frame -x 10 -y 160 -width 380
 
-        # Apply Cancel Buttons
-        place [ttk::button $frame.frame.apply \
-            -text {Apply} \
-            -command {molUP::applyChargeMultiGUI $highLayerIndex $mediumLayerIndex $lowLayerIndex} \
-            -style molUP.TButton \
-            ] -in $frame.frame -x 10 -y 200 -width 185
-
-        place [ttk::button $frame.frame.cancel \
-            -text {Cancel} \
-            -command {molUP::cancelChargeMultiGUI} \
-            -style molUP.TButton \
-            ] -in $frame.frame -x 205 -y 200 -width 185
 
     } elseif {$highLayerIndex != "" && $mediumLayerIndex != "" && $lowLayerIndex != ""} {
         #wm geometry $::molUP::chargeMulti 400x280+[expr $sWidth - 400]+100
@@ -396,12 +355,14 @@ proc molUP::guiChargeMulti {frame} {
             -text {Show Positive Residues} \
             -variable {showPosChargedResidues} \
             -command {molUP::onOffRepresentation 11} \
+            -style molUP.white.TCheckbutton \
             ] -in $frame.frame -x 10 -y 40 -width 180
 
         place [ttk::checkbutton $frame.frame.showNegativeResidues \
             -text {Show Negative Residues} \
             -variable {showNegChargedResidues} \
             -command {molUP::onOffRepresentation 12} \
+            -style molUP.white.TCheckbutton \
             ] -in $frame.frame -x 210 -y 40 -width 180
 
 
@@ -478,18 +439,6 @@ proc molUP::guiChargeMulti {frame} {
             -style molUP.TButton \
             ] -in $frame.frame -x 10 -y 190 -width 380
 
-        # Apply Cancel Buttons
-        place [ttk::button $frame.frame.apply \
-            -text {Apply} \
-            -command {molUP::applyChargeMultiGUI $highLayerIndex $mediumLayerIndex $lowLayerIndex} \
-            -style molUP.TButton \
-            ] -in $frame.frame -x 10 -y 230 -width 185
-
-        place [ttk::button $frame.frame.cancel \
-            -text {Cancel} \
-            -command {molUP::cancelChargeMultiGUI} \
-            -style molUP.TButton \
-            ] -in $frame.frame -x 205 -y 230 -width 185
 
     } else {
         #wm geometry $::molUP::chargeMulti 400x60+[expr $sWidth - 400]+100
@@ -506,6 +455,9 @@ proc molUP::guiChargeMulti {frame} {
 
 #### Get the sum of all charges of each layer. Options can be "all" "hl" "ml" "ll"
 proc molUP::getChargesSum {layer} {
+    set mol [molinfo top]
+    set molUP::tableCharges ".molUP.frame0.major.mol$mol.tabs.tabResults.tabs.tab4.tableLayer"
+
     
     if {$layer == "all"} {
         set list [$molUP::tableCharges get anchor end]

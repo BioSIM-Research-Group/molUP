@@ -411,6 +411,7 @@ proc molUP::updateStructures {args} {
 	molUP::activateMolecule $mol
 	molUP::selectMolecule
 
+	molUP::guiChargeMulti $molUP::chargeMultiFrame
 		
 	# Destroy waiting window
 	destroy $::molUP::error
@@ -809,7 +810,7 @@ proc molUP::resultSection {molID frame majorHeight} {
 	place [ttk::frame $tInput.chargeMulti \
 		] -in $tInput -x 0 -y 170 -width 400 -height 200
 	variable chargeMultiFrame $tInput.chargeMulti
-	molUP::guiChargeMulti $molUP::chargeMultiFrame
+	
 
 
 	pack forget $frame.mol$molID

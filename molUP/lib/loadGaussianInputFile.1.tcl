@@ -48,9 +48,9 @@ proc molUP::loadGaussianInputFile {} {
 	molUP::createMolecule
 
 	### Add connectivity to VMD
-	set connectList [molUP::convertGaussianInputConnectToVMD $molUP::connectivityInputFile]
-	topo clearbonds
-	topo setbondlist $connectList
+	#set connectList [molUP::convertGaussianInputConnectToVMD $molUP::connectivityInputFile]
+	#topo clearbonds
+	#topo setbondlist $connectList
 }
 
 proc molUP::createMolecule {} {
