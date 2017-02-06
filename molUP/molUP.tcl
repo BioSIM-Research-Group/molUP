@@ -162,5 +162,5 @@ namespace eval molUP:: {
 
 ## Initiate ###
 #molUP::loadImages
-#molUP::buildGui
+molUP::buildGui
 

@@ -524,11 +524,11 @@ proc molUP::showNegPosResidues {} {
     }
 
     if {$listResidPos != ""} {
-        mol modselect 11 0 "residue $listResidPos"
+        mol modselect 10 0 "residue $listResidPos"
     } else {}
 
     if {$listResidNeg != ""} {
-        mol modselect 12 0 "residue $listResidNeg"
+        mol modselect 11 0 "residue $listResidNeg"
     } else {}
 }
 

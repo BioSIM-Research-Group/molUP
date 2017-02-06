@@ -111,7 +111,7 @@ proc molUP::atomPicked {args} {
 
         lappend molUP::pickedAtoms $vmd_pick_atom
 
-        mol modselect 10 top index $molUP::pickedAtoms
+        mol modselect 9 top index $molUP::pickedAtoms
 
         set molUP::atom1BondSel [lindex $molUP::pickedAtoms 0]
         set molUP::atom2BondSel [lindex $molUP::pickedAtoms 1]
@@ -124,7 +124,7 @@ proc molUP::atomPicked {args} {
         
         lappend molUP::pickedAtoms $vmd_pick_atom
 
-        mol modselect 10 top index $molUP::pickedAtoms
+        mol modselect 9 top index $molUP::pickedAtoms
 
         set molUP::atom1BondSel [lindex $molUP::pickedAtoms 0]
         set molUP::atom2BondSel [lindex $molUP::pickedAtoms 1]
@@ -153,7 +153,7 @@ proc molUP::atomPickedAngle {args} {
 
         lappend molUP::pickedAtoms $vmd_pick_atom
 
-        mol modselect 10 top index $molUP::pickedAtoms
+        mol modselect 9 top index $molUP::pickedAtoms
 
         set molUP::atom1AngleSel [lindex $molUP::pickedAtoms 0]
         set molUP::atom2AngleSel [lindex $molUP::pickedAtoms 1]
@@ -166,7 +166,7 @@ proc molUP::atomPickedAngle {args} {
         
         lappend molUP::pickedAtoms $vmd_pick_atom
 
-        mol modselect 10 top index $molUP::pickedAtoms
+        mol modselect 9 top index $molUP::pickedAtoms
 
         set molUP::atom1AngleSel [lindex $molUP::pickedAtoms 0]
         set molUP::atom2AngleSel [lindex $molUP::pickedAtoms 1]
@@ -216,7 +216,7 @@ proc molUP::atomPickedDihed {args} {
 
         lappend molUP::pickedAtoms $vmd_pick_atom
 
-        mol modselect 10 top index $molUP::pickedAtoms
+        mol modselect 9 top index $molUP::pickedAtoms
 
         set molUP::atom1DihedSel [lindex $molUP::pickedAtoms 0]
         set molUP::atom2DihedSel [lindex $molUP::pickedAtoms 1]
@@ -230,7 +230,7 @@ proc molUP::atomPickedDihed {args} {
         
         lappend molUP::pickedAtoms $vmd_pick_atom
 
-        mol modselect 10 top index $molUP::pickedAtoms
+        mol modselect 9 top index $molUP::pickedAtoms
 
         set molUP::atom1DihedSel [lindex $molUP::pickedAtoms 0]
         set molUP::atom2DihedSel [lindex $molUP::pickedAtoms 1]
@@ -688,7 +688,7 @@ proc molUP::bondGuiCloseSave {} {
     set molExists [mol list]
     if {$molExists == "ERROR) No molecules loaded."} {
     } else {
-        mol modselect 10 top "none"
+        mol modselect 9 top "none"
     }
 
     destroy $::molUP::bondModif
@@ -702,7 +702,7 @@ proc molUP::bondGuiCloseNotSave {} {
     set molExists [mol list]
     if {$molExists == "ERROR) No molecules loaded."} {
     } else {
-        mol modselect 10 top "none"
+        mol modselect 9 top "none"
     }
 
     molUP::revertInitialStructure
@@ -718,7 +718,7 @@ proc molUP::angleGuiCloseSave {} {
     set molExists [mol list]
     if {$molExists == "ERROR) No molecules loaded."} {
     } else {
-        mol modselect 10 top "none"
+        mol modselect 9 top "none"
     }
 
     destroy $::molUP::angleModif
@@ -732,7 +732,7 @@ proc molUP::angleGuiCloseNotSave {} {
     set molExists [mol list]
     if {$molExists == "ERROR) No molecules loaded."} {
     } else {
-        mol modselect 10 top "none"
+        mol modselect 9 top "none"
     }
 
     molUP::revertInitialStructure
@@ -747,7 +747,7 @@ proc molUP::dihedGuiCloseSave {} {
     set molExists [mol list]
     if {$molExists == "ERROR) No molecules loaded."} {
     } else {
-        mol modselect 10 top "none"
+        mol modselect 9 top "none"
     }
 
     destroy $::molUP::dihedModif
@@ -761,7 +761,7 @@ proc molUP::dihedGuiCloseNotSave {} {
     set molExists [mol list]
     if {$molExists == "ERROR) No molecules loaded."} {
     } else {
-        mol modselect 10 top "none"
+        mol modselect 9 top "none"
     }
 
     molUP::revertInitialStructure

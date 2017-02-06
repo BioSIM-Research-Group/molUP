@@ -42,11 +42,17 @@ proc molUP::loadButton {fileExtension} {
 		set molUP::loadMode [$molUP::openFile.frame.back.selectLoadMode get]
 
 		if {$molUP::loadMode == "Last Structure"} {
+			trace remove variable ::vmd_initialize_structure write molUP::updateStructures
 			molUP::loadGaussianOutputFile lastStructure
+			molUP::updateStructures
+			trace variable ::vmd_initialize_structure w molUP::updateStructures
 
 		} elseif {$molUP::loadMode == "First Structure"} {
+			trace remove variable ::vmd_initialize_structure write molUP::updateStructures
 			molUP::loadGaussianOutputFile firstStructure
-	
+			molUP::updateStructures
+			trace variable ::vmd_initialize_structure w molUP::updateStructures
+
 		} elseif {$molUP::loadMode == "All optimized structures"} {
 			molUP::loadGaussianOutputFile optimizedStructures
 

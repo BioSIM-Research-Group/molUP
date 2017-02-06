@@ -107,7 +107,7 @@ proc molUP::buildGui {} {
 	variable topMolecule "No molecule"
 	variable molinfoList {}
 	global ::vmd_molecule
-	trace variable ::vmd_initialize_structure w molUP::updateStructures
+	trace add variable ::vmd_initialize_structure write molUP::updateStructures
 	place [ttk::combobox $molUP::topGui.frame0.molSelection.combo \
 			-textvariable molUP::topMolecule \
 			-style molUP.TCombobox \
@@ -134,63 +134,63 @@ proc molUP::buildGui {} {
 	place [ttk::checkbutton $rep.showHL \
 			-text "High Layer" \
 			-variable molUP::HLrep \
-			-command {molUP::onOffRepresentation 2} \
+			-command {molUP::onOffRepresentation 1} \
 			-style molUP.TCheckbutton \
 			] -in $rep -x 5 -y 30 -width 123
 
 	place [ttk::checkbutton $rep.showML \
 			-text "Medium Layer" \
 			-variable molUP::MLrep \
-			-command {molUP::onOffRepresentation 3} \
+			-command {molUP::onOffRepresentation 2} \
 			-style molUP.TCheckbutton \
 			] -in $rep -x 138 -y 30 -width 123
 
 	place [ttk::checkbutton $rep.showLL \
 			-text "Low Layer" \
 			-variable molUP::LLrep \
-			-command {molUP::onOffRepresentation 4} \
+			-command {molUP::onOffRepresentation 3} \
 			-style molUP.TCheckbutton \
 			] -in $rep -x 271 -y 30 -width 123
 
 	place [ttk::checkbutton $rep.unfreeze \
 			-text "Unfreeze" \
 			-variable molUP::unfreezeRep \
-			-command {molUP::onOffRepresentation 8} \
+			-command {molUP::onOffRepresentation 7} \
 			-style molUP.TCheckbutton \
 			] -in $rep -x 5 -y 55 -width 123
 
 	place [ttk::checkbutton $rep.freezeMinusOne \
 			-text "Freeze" \
 			-variable molUP::freezeRep \
-			-command {molUP::onOffRepresentation 9} \
+			-command {molUP::onOffRepresentation 8} \
 			-style molUP.TCheckbutton \
 			] -in $rep -x 138 -y 55 -width 123
 
 	place [ttk::checkbutton $rep.all \
 			-text "All" \
 			-variable molUP::allRep \
-			-command {molUP::onOffRepresentation 0} \
+			-command {molUP::onOffRepresentation 12} \
 			-style molUP.TCheckbutton \
 			] -in $rep -x 271 -y 55 -width 123
 
 	place [ttk::checkbutton $rep.protein \
 			-text "Protein" \
 			-variable molUP::proteinRep \
-			-command {molUP::onOffRepresentation 5} \
+			-command {molUP::onOffRepresentation 4} \
 			-style molUP.TCheckbutton \
 			] -in $rep -x 5 -y 80 -width 123
 
 	place [ttk::checkbutton $rep.nonProtein \
 			-text "Non-Protein" \
 			-variable molUP::nonproteinRep \
-			-command {molUP::onOffRepresentation 6} \
+			-command {molUP::onOffRepresentation 5} \
 			-style molUP.TCheckbutton \
 			] -in $rep -x 138 -y 80 -width 123
 
 	place [ttk::checkbutton $rep.water \
 			-text "Water" \
 			-variable molUP::waterRep \
-			-command {molUP::onOffRepresentation 7} \
+			-command {molUP::onOffRepresentation 6} \
 			-style molUP.TCheckbutton \
 			] -in $rep -x 271 -y 80 -width 123
 
@@ -391,11 +391,14 @@ proc molUP::activateMolecule {molID} {
 
 
 proc molUP::updateStructures {args} {
+
 	# Launch a wait window
 	molUP::guiError "Pleasy wait a moment...\nThis window closes automatically when all the tasks have finished." "Wait a moment..."
 	
-	set previousMol [molinfo top]
-	pack forget $molUP::topGui.frame0.major.mol$previousMol
+	set previousMol [molinfo list]
+	foreach a $previousMol {
+		pack forget $molUP::topGui.frame0.major.mol$a
+	}
 
 	set mol [lindex [molinfo list] end]
 	molUP::resultSection $mol $molUP::topGui.frame0.major $molUP::majorHeight
@@ -404,16 +407,15 @@ proc molUP::updateStructures {args} {
 	pack $molUP::topGui.frame0.major.mol$mol
 	
 
-
 	set molUP::allRep "1"
 	molUP::timeBegin
 	molUP::getMolinfoList
 	molUP::timeEnd
 	molUP::timeBegin
-	molUP::collectMolInfo
+	molUP::addSelectionRep
 	molUP::timeEnd
 	molUP::timeBegin
-	molUP::addSelectionRep
+	molUP::collectMolInfo
 	molUP::timeEnd
 	molUP::timeBegin
 	molUP::activateMolecule $mol
@@ -426,7 +428,9 @@ proc molUP::updateStructures {args} {
 		
 	# Destroy waiting window
 	destroy $::molUP::error
+
 }
+
 
 proc molUP::collectMolInfo {} {
 	### Structure molID, title, keywords, charges/Milti, connectivity, parameters
@@ -445,8 +449,6 @@ proc molUP::collectMolInfo {} {
 	set molUP::parameters ""
 
 }
-
-
 
 
 proc molUP::textSearch {w string tag} {

@@ -38,31 +38,8 @@ proc molUP::loadGaussianOutputFile {option} {
 
 		}
 
-		#### Load and prepara structure on VMD
-		## Create a new Molecule
-		mol new atoms $molUP::numberAtoms
-		## Change the name
-		mol rename top "[subst $molUP::fileName]"
-		## Create a frame
-		animate dup top
-		## Add the info
-		[atomselect top all] set $molUP::attributes $molUP::structureReadyToLoad
-		## Create the first representantion
-		mol selection all
-		mol color Name
-		mol addrep top
-		## Place connectivity
-		mol ssrecalc top
-		mol bondsrecalc top
-		mol reanalyze top
-		display resetview
-
-		#### Add Representations
-		molUP::addSelectionRep	
+		molUP::createMolecule
 		
-
-
-
 
 		##############################################################
 		##############################################################
@@ -96,32 +73,10 @@ proc molUP::loadGaussianOutputFile {option} {
 
 		}
 
-		#### Load and prepara structure on VMD
-		## Create a new Molecule
-		mol new atoms $molUP::numberAtoms
-		## Change the name
-		mol rename top "[subst $molUP::fileName]"
-		## Create a frame
-		animate dup top
-		## Add the info
-		[atomselect top all] set $molUP::attributes $molUP::structureReadyToLoad
-		## Create the first representantion
-		mol selection all
-		mol color Name
-		mol addrep top
-		## Place connectivity
-		mol ssrecalc top
-		mol bondsrecalc top
-		mol reanalyze top
-		display resetview
-
-		#### Add Representations
-		molUP::addSelectionRep
+		molUP::createMolecule
 
 
 
-
-		
 
 		##############################################################
 		##############################################################
@@ -174,27 +129,7 @@ proc molUP::loadGaussianOutputFile {option} {
 						molUP::guiError "The file has a strange structure. The file cannot be openned."
 					}
 
-					#### Load and prepara structure on VMD
-					## Create a new Molecule
-					mol new atoms $molUP::numberAtoms
-					## Change the name
-					mol rename top "[subst $molUP::fileName]"
-					## Create a frame
-					animate dup top
-					## Add the info
-					[atomselect top all] set $molUP::attributes $molUP::structureReadyToLoad
-					## Create the first representantion
-					mol selection all
-					mol color Name
-					mol addrep top
-					## Place connectivity
-					mol ssrecalc top
-					mol bondsrecalc top
-					mol reanalyze top
-					display resetview
-				
-					#### Add Representations
-					molUP::addSelectionRep
+					molUP::createMolecule
 
 				} else {
 					#### Write the remaining structures
@@ -209,7 +144,7 @@ proc molUP::loadGaussianOutputFile {option} {
 		} else {
 			#### Put the last structure if no optimized structure was found
 			molUP::loadGaussianOutputFile lastStructure
-			molUP::guiError "No optimized structure found, therefore the last structure was loaded."
+			molUP::guiError "No optimized structure found, therefore the last structure was loaded." "Error"
 		}
 
         
@@ -255,27 +190,7 @@ proc molUP::loadGaussianOutputFile {option} {
 				}  
 
 
-				#### Load and prepara structure on VMD
-				## Create a new Molecule
-				mol new atoms $molUP::numberAtoms
-				## Change the name
-				mol rename top "[subst $molUP::fileName]"
-				## Create a frame
-				animate dup top
-				## Add the info
-				[atomselect top all] set $molUP::attributes $molUP::structureReadyToLoad
-				## Create the first representantion
-				mol selection all
-				mol color Name
-				mol addrep top
-				## Place connectivity
-				mol ssrecalc top
-				mol bondsrecalc top
-				mol reanalyze top
-				display resetview
-			
-				#### Add Representations
-				molUP::addSelectionRep
+				molUP::createMolecule
 
 			} else {
 				#### Write the remaining structures
