@@ -138,8 +138,7 @@ proc molUP::loadGaussianOutputFile {option} {
 		
 			}
 
-		#### Read Energies
-		molUP::energy
+			
 		
 		} else {
 			#### Put the last structure if no optimized structure was found
@@ -279,11 +278,19 @@ proc molUP::numberAtomsFirstStructure {} {
 proc molUP::readOniomStructure {} {
 		set i 0
 		set molUP::structureReadyToLoad {}
+		set molUP::structureReadyToLoadCharges {}
+		set molUP::structureReadyToLoadLayer {}
+		set molUP::structureReadyToLoadFreeze {}
+
+		set index 0
     	foreach atom $molUP::structureGaussian {
     		lassign $atom column0 column1 column2 column3 column4 column5 column6 column7 column8
             
 			## Atom information
 			set atomInfo {}
+			set atomInfoCharges {}
+			set atomInfoLayer {}
+			set atomInfoFreeze {}
 
     		incr i
     		regexp {(\S+)[-](\S+)[-](\S+)[(]PDBName=(\S+),ResName=(\S+),ResNum=(\S+)[)]} $column0 -> \
@@ -297,9 +304,21 @@ proc molUP::readOniomStructure {} {
             
 			## Add information about atom
 			lappend atomInfo [format %.6f $column2] [format %.6f $column3] [format %.6f $column4] $atomicSymbol $pdbAtomType [string trim $gaussianAtomType "-"] $resname $resid $column5 $column1 $charge
+			
+			if {$charge == ""} {
+				set charge 0.000000
+			}
+			lappend atomInfoCharges $index [string trim $gaussianAtomType "-"] $resname $resid [format %.6f $charge]
+			lappend atomInfoLayer $index $pdbAtomType $resname $resid $column5
+			lappend atomInfoFreeze $index $pdbAtomType $resname $resid $column1
             
 			## Add Atom information to structure
 			lappend molUP::structureReadyToLoad $atomInfo
+			lappend molUP::structureReadyToLoadCharges $atomInfoCharges
+			lappend molUP::structureReadyToLoadLayer $atomInfoLayer
+			lappend molUP::structureReadyToLoadFreeze $atomInfoFreeze
+
+			incr index
     	}
 }
 

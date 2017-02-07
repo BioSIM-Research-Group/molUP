@@ -43,9 +43,7 @@ proc molUP::energy {} {
         incr structure
     }
 
-    #puts $molUP::listEnergiesOpt
-
-    molUP::drawGraph
+    molUP::drawGraph 
 }
 
 
@@ -56,12 +54,13 @@ proc molUP::gettingEnergy {File} {
 
 proc molUP::drawGraph {} {
     #### Create a new tab - Energies
-	$molUP::topGui.frame0.major.tabs.tabResults.tabs add [frame $molUP::topGui.frame0.major.tabs.tabResults.tabs.tab6] -text "Energies"
+    set molID [molinfo top]
+	$molUP::topGui.frame0.major.mol$molID.tabs.tabResults.tabs add [frame $molUP::topGui.frame0.major.mol$molID.tabs.tabResults.tabs.tab6] -text "Energies"
 
-    place [ttk::frame $molUP::topGui.frame0.major.tabs.tabResults.tabs.tab6.graph \
+    place [ttk::frame $molUP::topGui.frame0.major.mol$molID.tabs.tabResults.tabs.tab6.graph \
             -width 380 \
             -height 250 \
-			] -in $molUP::topGui.frame0.major.tabs.tabResults.tabs.tab6 -x 5 -y 5 -width 380 -height 250
+			] -in $molUP::topGui.frame0.major.mol$molID.tabs.tabResults.tabs.tab6 -x 5 -y 5 -width 380 -height 250
 
 
     ## Create a list for each variable
@@ -78,6 +77,6 @@ proc molUP::drawGraph {} {
 
 
     ## Draw the graph
-    molUP::drawPlot "$molUP::topGui.frame0.major.tabs.tabResults.tabs.tab6.graph" $structure $totalE "Energetic Profile" black 16 oval blue black 8
+    molUP::drawPlot $molUP::topGui.frame0.major.mol$molID.tabs.tabResults.tabs.tab6.graph $structure $totalE "Energetic Profile" black 16 oval blue black 8
 
 }

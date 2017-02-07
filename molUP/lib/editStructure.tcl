@@ -36,7 +36,7 @@ proc molUP::addSelectionRep {} {
     if {$numberRep != 0} {
 
         for {set index 0} { $index < $numberRep } { incr index } {
-            mol delrep top 0
+            mol delrep 0 top
         }
 
         #### Representation of the atoms selected on the tablelist

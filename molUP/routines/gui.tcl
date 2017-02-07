@@ -390,6 +390,32 @@ proc molUP::activateMolecule {molID} {
 }
 
 
+proc molUP::activateMoleculeNEW {molID} {
+	## Set molecule to top
+	mol top [lindex $molUP::topMolecule 0]
+
+	## Delete previous info
+	$molUP::tableCharges delete 0 end
+	$molUP::tableLayer delete 0 end
+	$molUP::tableFreeze delete 0 end
+
+	$molUP::tableCharges insertlist end $molUP::structureReadyToLoadCharges
+	$molUP::tableLayer insertlist end $molUP::structureReadyToLoadLayer
+	$molUP::tableFreeze insertlist end $molUP::structureReadyToLoadFreeze
+
+	#### Update input information
+	set pos [lsearch $molUP::moleculeInfo "molID[molinfo top]"]
+	set molUP::actualTitle [lindex $molUP::moleculeInfo [expr $pos +1]]
+	$molUP::topGui.frame0.major.mol$molID.tabs.tabInput.keywordsText delete 1.0 end
+	$molUP::topGui.frame0.major.mol$molID.tabs.tabInput.keywordsText insert end [lindex $molUP::moleculeInfo [expr $pos +2]]
+	$molUP::topGui.frame0.major.mol$molID.tabs.tabInput.connect delete 1.0 end
+	$molUP::topGui.frame0.major.mol$molID.tabs.tabInput.connect insert end [lindex $molUP::moleculeInfo [expr $pos +4]]
+	$molUP::topGui.frame0.major.mol$molID.tabs.tabInput.param delete 1.0 end
+	$molUP::topGui.frame0.major.mol$molID.tabs.tabInput.param insert end [lindex $molUP::moleculeInfo [expr $pos +5]]
+
+}
+
+
 proc molUP::updateStructures {args} {
 
 	# Launch a wait window
@@ -412,16 +438,16 @@ proc molUP::updateStructures {args} {
 	molUP::getMolinfoList
 	molUP::timeEnd
 	molUP::timeBegin
-	molUP::addSelectionRep
-	molUP::timeEnd
-	molUP::timeBegin
 	molUP::collectMolInfo
 	molUP::timeEnd
 	molUP::timeBegin
-	molUP::activateMolecule $mol
+	molUP::activateMoleculeNEW $mol
 	molUP::timeEnd
 	molUP::timeBegin
 	molUP::selectMolecule
+	molUP::timeEnd
+	molUP::timeBegin
+	molUP::addSelectionRep
 	molUP::timeEnd
 
 	molUP::guiChargeMulti $molUP::chargeMultiFrame

@@ -54,10 +54,17 @@ proc molUP::loadButton {fileExtension} {
 			trace variable ::vmd_initialize_structure w molUP::updateStructures
 
 		} elseif {$molUP::loadMode == "All optimized structures"} {
+			trace remove variable ::vmd_initialize_structure write molUP::updateStructures
 			molUP::loadGaussianOutputFile optimizedStructures
+			molUP::updateStructures
+			molUP::energy
+			trace variable ::vmd_initialize_structure w molUP::updateStructures
 
 		} elseif {$molUP::loadMode == "All structures (may take a long time to load)"} {
+			trace remove variable ::vmd_initialize_structure write molUP::updateStructures
 			molUP::loadGaussianOutputFile allStructures
+			molUP::updateStructures
+			trace variable ::vmd_initialize_structure w molUP::updateStructures
 		} else {
 				set alert [tk_messageBox -message "Please select which structure you want to load." -type ok -icon info]
 		}

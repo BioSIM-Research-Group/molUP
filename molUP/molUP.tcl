@@ -145,6 +145,9 @@ namespace eval molUP:: {
 		variable openNewFileMode "YES"
 		variable tmpFolder ""
 		variable structureReadyToLoad {}
+		variable structureReadyToLoadCharges {}
+		variable structureReadyToLoadLayer {}
+		variable structureReadyToLoadFreeze {}
 		variable moleculeInfo {}
 		variable majorHeight
 
