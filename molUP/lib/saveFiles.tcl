@@ -70,17 +70,17 @@ proc molUP::writeGaussianFile {path} {
     ## Create a file 
 	set file [open "$path" w]
 
-    #set frameNumber [molinfo top get frame]
-    #animate write xyz [list $path.tmp] beg $frameNumber end $frameNumber skip 1 top
+    set molID [molinfo top]
 
-    ## Write Header
-    puts $file "%mem=4000MB\n%NProc=4"
+
+    set keywords [.molUP.frame0.major.mol$molID.tabs.tabInput.keywordsText get 1.0 end]
+    set title [.molUP.frame0.major.mol$molID.tabs.tabInput.jobTitleEntry get 1.0 end]
 
     ## Write keywords
-    puts $file "$molUP::keywordsCalc\n"
+    puts $file "$keywords"
 
     ## Write title
-    puts $file "$molUP::title\n"
+    puts $file "$title"
 
     ## Write Charge and Multi
     puts $file "$molUP::chargesMultip"
@@ -91,13 +91,13 @@ proc molUP::writeGaussianFile {path} {
     set elementInfo [$allSelection get element]
 
     ## Get Layer Info
-    set layerInfoList [$molUP::tableLayer get anchor end]
+    set layerInfoList [.molUP.frame0.major.mol$molID.tabs.tabResults.tabs.tab2.tableLayer get 0 end]
 
     ## Get Freeze Info
-    set freezeInfoList [$molUP::tableFreeze get anchor end]
+    set freezeInfoList [.molUP.frame0.major.mol$molID.tabs.tabResults.tabs.tab3.tableLayer get 0 end]
     
     ## Get Charges Info
-    set chargesInfoList [$molUP::tableCharges get anchor end]
+    set chargesInfoList [.molUP.frame0.major.mol$molID.tabs.tabResults.tabs.tab4.tableLayer get 0 end]
 
     ## Add link atoms (hydrogens)
     molUP::linkAtoms
@@ -124,13 +124,11 @@ proc molUP::writeGaussianFile {path} {
         incr i
     }
 
+    set connectivity [.molUP.frame0.major.mol$molID.tabs.tabInput.connect get 1.0 end]
+    puts $file "\n$connectivity"
 
-    if {$molUP::connectivityInputFile == ""} {
-        ## Get and write connectivity
-        molUP::connectivity $file
-    } else {
-        puts $file $molUP::connectivityInputFile
-    }
+    set parameters [.molUP.frame0.major.mol$molID.tabs.tabInput.param get 1.0 end]
+    puts $file "$parameters"
 
     close $file
 
@@ -197,14 +195,14 @@ proc molUP::linkAtoms {} {
             # Do Nothing
         } elseif {[lindex $layer1 4] == "L" && [lindex $layer2 4] == "H"} {
                 lappend molUP::linkAtomsListIndex [lindex $bond 0]
-                set atomSymbol [string range [lindex $layer1 1] 0 0]
+                #set atomSymbol [string range [lindex $layer1 1] 0 0]
                 set atomNumber [lindex $bond 1]
-                lappend molUP::linkAtomsList "H-H$atomSymbol [expr $atomNumber + 1]"
+                lappend molUP::linkAtomsList "H [expr $atomNumber + 1]   0.0000"
         } elseif {[lindex $layer1 4] == "H" && [lindex $layer2 4] == "L"} {
                 lappend molUP::linkAtomsListIndex [lindex $bond 1]
-                set atomSymbol [string range [lindex $layer1 1] 0 0]
+                #set atomSymbol [string range [lindex $layer1 1] 0 0]
                 set atomNumber [lindex $bond 0]
-                lappend molUP::linkAtomsList "H-H$atomSymbol [expr $atomNumber + 1]"
+                lappend molUP::linkAtomsList "H [expr $atomNumber + 1]   0.0000"
         }
     }
 }

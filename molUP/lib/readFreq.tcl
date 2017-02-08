@@ -6,44 +6,48 @@ proc molUP::readFreq {} {
 
 
 	#### Create a new tab - Frequency
-	$molUP::topGui.frame0.major.tabs.tabResults.tabs add [frame $molUP::topGui.frame0.major.tabs.tabResults.tabs.tab5] -text "Frequencies"
+
+	set molID [molinfo top]
+
+	$molUP::topGui.frame0.major.mol$molID.tabs.tabResults.tabs add [frame $molUP::topGui.frame0.major.mol$molID.tabs.tabResults.tabs.tab5] -text "Frequencies"
 
 	# Frequencies Tab
-	place [tablelist::tablelist $molUP::topGui.frame0.major.tabs.tabResults.tabs.tab5.tableLayer \
+	place [tablelist::tablelist $molUP::topGui.frame0.major.mol$molID.tabs.tabResults.tabs.tab5.tableLayer \
 			-showeditcursor true \
 			-columns {0 "Frequency Number" center 0 "Frequency (cm-1)" center 0 "Infrared" center} \
 			-stretch all \
 			-background white \
-			-yscrollcommand [list $molUP::topGui.frame0.major.tabs.tabResults.tabs.tab5.yscb set] \
-			-xscrollcommand [list $molUP::topGui.frame0.major.tabs.tabResults.tabs.tab5.xscb set] \
+			-yscrollcommand [list $molUP::topGui.frame0.major.mol$molID.tabs.tabResults.tabs.tab5.yscb set] \
+			-xscrollcommand [list $molUP::topGui.frame0.major.mol$molID.tabs.tabResults.tabs.tab5.xscb set] \
 			-selectmode single \
 			-height 14 \
-			] -in $molUP::topGui.frame0.major.tabs.tabResults.tabs.tab5 -x 0 -y 0 -width 370 -height 200
+			] -in $molUP::topGui.frame0.major.mol$molID.tabs.tabResults.tabs.tab5 -x 0 -y 0 -width 370 -height 200
 
-	place [ttk::scrollbar $molUP::topGui.frame0.major.tabs.tabResults.tabs.tab5.yscb \
+	place [ttk::scrollbar $molUP::topGui.frame0.major.mol$molID.tabs.tabResults.tabs.tab5.yscb \
 			-orient vertical \
-			-command [list $molUP::topGui.frame0.major.tabs.tabResults.tabs.tab5.tableLayer yview]\
-			] -in $molUP::topGui.frame0.major.tabs.tabResults.tabs.tab5 -x 370 -y 0 -width 20 -height 200
+			-command [list $molUP::topGui.frame0.major.mol$molID.tabs.tabResults.tabs.tab5.tableLayer yview]\
+			] -in $molUP::topGui.frame0.major.mol$molID.tabs.tabResults.tabs.tab5 -x 370 -y 0 -width 20 -height 200
 
-	place [ttk::scrollbar $molUP::topGui.frame0.major.tabs.tabResults.tabs.tab5.xscb \
+	place [ttk::scrollbar $molUP::topGui.frame0.major.mol$molID.tabs.tabResults.tabs.tab5.xscb \
 			-orient horizontal \
-			-command [list $molUP::topGui.frame0.major.tabs.tabResults.tabs.tab5.tableLayer xview]\
-			] -in $molUP::topGui.frame0.major.tabs.tabResults.tabs.tab5 -x 0 -y 200 -height 20 -width 370
+			-command [list $molUP::topGui.frame0.major.mol$molID.tabs.tabResults.tabs.tab5.tableLayer xview]\
+			] -in $molUP::topGui.frame0.major.mol$molID.tabs.tabResults.tabs.tab5 -x 0 -y 200 -height 20 -width 370
 
-	place [ttk::button $molUP::topGui.frame0.major.tabs.tabResults.tabs.tab5.clearSelection \
+	place [ttk::button $molUP::topGui.frame0.major.mol$molID.tabs.tabResults.tabs.tab5.clearSelection \
 			-text "Clear Selection" \
 			-command {molUP::clearSelectionFreq} \
-			-style molUP.topButtons.TButton \
-			] -in $molUP::topGui.frame0.major.tabs.tabResults.tabs.tab5 -x 5 -y 225 -width 380
+			-style molUP.blue.TButton \
+			] -in $molUP::topGui.frame0.major.mol$molID.tabs.tabResults.tabs.tab5 -x 5 -y 225 -width 380
 
-	place [ttk::label $molUP::topGui.frame0.major.tabs.tabResults.tabs.tab5.animFreq \
+	place [ttk::label $molUP::topGui.frame0.major.mol$molID.tabs.tabResults.tabs.tab5.animFreq \
 			-text "Animation Frequency: " \
-			] -in $molUP::topGui.frame0.major.tabs.tabResults.tabs.tab5 -x 5 -y 265 -width 120
+			-style molUP.white.TLabel \
+			] -in $molUP::topGui.frame0.major.mol$molID.tabs.tabResults.tabs.tab5 -x 5 -y 265 -width 120
 
 	variable animationFreq 3
 	variable displacement 0.015
 	variable freqVectorsList {}
-	place [scale $molUP::topGui.frame0.major.tabs.tabResults.tabs.tab5.animFreqSlider \
+	place [scale $molUP::topGui.frame0.major.mol$molID.tabs.tabResults.tabs.tab5.animFreqSlider \
 				-from 1 \
 				-to 10 \
 				-resolution 1 \
@@ -51,13 +55,14 @@ proc molUP::readFreq {} {
 				-command {molUP::animateFreq $molUP::freqVectorsList $molUP::animationFreq $molUP::displacement} \
 				-orient horizontal \
 				-showvalue 0 \
-				] -in $molUP::topGui.frame0.major.tabs.tabResults.tabs.tab5 -x 130 -y 265 -width 255
+				] -in $molUP::topGui.frame0.major.mol$molID.tabs.tabResults.tabs.tab5 -x 130 -y 265 -width 255
 
-	place [ttk::label $molUP::topGui.frame0.major.tabs.tabResults.tabs.tab5.displacement \
+	place [ttk::label $molUP::topGui.frame0.major.mol$molID.tabs.tabResults.tabs.tab5.displacement \
 			-text "Displacement: " \
-			] -in $molUP::topGui.frame0.major.tabs.tabResults.tabs.tab5 -x 5 -y 300 -width 80
+			-style molUP.white.TLabel \
+			] -in $molUP::topGui.frame0.major.mol$molID.tabs.tabResults.tabs.tab5 -x 5 -y 300 -width 80
 
-	place [scale $molUP::topGui.frame0.major.tabs.tabResults.tabs.tab5.displacementSlided \
+	place [scale $molUP::topGui.frame0.major.mol$molID.tabs.tabResults.tabs.tab5.displacementSlided \
 				-from 0.001 \
 				-to 0.050 \
 				-resolution 0.001 \
@@ -65,22 +70,23 @@ proc molUP::readFreq {} {
 				-command {molUP::animateFreq $molUP::freqVectorsList $molUP::animationFreq $molUP::displacement} \
 				-orient horizontal \
 				-showvalue 0 \
-				] -in $molUP::topGui.frame0.major.tabs.tabResults.tabs.tab5 -x 90 -y 300 -width 295
+				] -in $molUP::topGui.frame0.major.mol$molID.tabs.tabResults.tabs.tab5 -x 90 -y 300 -width 295
 
 	variable showVectors 0
 	variable vectorDrawScale 3
-	place [ttk::checkbutton $molUP::topGui.frame0.major.tabs.tabResults.tabs.tab5.showVector \
+	place [ttk::checkbutton $molUP::topGui.frame0.major.mol$molID.tabs.tabResults.tabs.tab5.showVector \
 			-text "Show vectors" \
 			-variable {molUP::showVectors} \
 			-command {molUP::drawVectors $molUP::freqVectorsList none} \
-			-style molUP.QuickRep.TCheckbutton \
-			] -in $molUP::topGui.frame0.major.tabs.tabResults.tabs.tab5 -x 5 -y 335 -width 165
+			-style molUP.white.TCheckbutton \
+			] -in $molUP::topGui.frame0.major.mol$molID.tabs.tabResults.tabs.tab5 -x 5 -y 335 -width 165
 
-	place [ttk::label $molUP::topGui.frame0.major.tabs.tabResults.tabs.tab5.vectorScaleLabel \
+	place [ttk::label $molUP::topGui.frame0.major.mol$molID.tabs.tabResults.tabs.tab5.vectorScaleLabel \
 			-text "Scale: " \
-			] -in $molUP::topGui.frame0.major.tabs.tabResults.tabs.tab5 -x 180 -y 335 -width 40
+			-style molUP.white.TLabel \
+			] -in $molUP::topGui.frame0.major.mol$molID.tabs.tabResults.tabs.tab5 -x 180 -y 335 -width 40
 
-	place [scale $molUP::topGui.frame0.major.tabs.tabResults.tabs.tab5.vectorScale \
+	place [scale $molUP::topGui.frame0.major.mol$molID.tabs.tabResults.tabs.tab5.vectorScale \
 				-from 0.1 \
 				-to 10.0 \
 				-resolution 0.1 \
@@ -88,7 +94,7 @@ proc molUP::readFreq {} {
 				-command {molUP::drawVectors $molUP::freqVectorsList} \
 				-orient horizontal \
 				-showvalue 0 \
-				] -in $molUP::topGui.frame0.major.tabs.tabResults.tabs.tab5 -x 220 -y 335 -width 165
+				] -in $molUP::topGui.frame0.major.mol$molID.tabs.tabResults.tabs.tab5 -x 220 -y 335 -width 165
 
 
 
@@ -98,7 +104,7 @@ proc molUP::readFreq {} {
 	foreach line $molUP::freqList lineIR $molUP::irList {
 		foreach freq $line ir $lineIR {
 			incr freqIndex
-			$molUP::topGui.frame0.major.tabs.tabResults.tabs.tab5.tableLayer insert end [list \
+			$molUP::topGui.frame0.major.mol$molID.tabs.tabResults.tabs.tab5.tableLayer insert end [list \
 		   			"$freqIndex" \
 		   			"$freq" \
 					"$ir"
@@ -107,7 +113,7 @@ proc molUP::readFreq {} {
 	}
 
 	## Run a command when a freq is selected
-	bind $molUP::topGui.frame0.major.tabs.tabResults.tabs.tab5.tableLayer <<TablelistSelect>> {molUP::selectFreq}
+	bind $molUP::topGui.frame0.major.mol$molID.tabs.tabResults.tabs.tab5.tableLayer <<TablelistSelect>> {molUP::selectFreq}
 
 }
 
@@ -204,8 +210,9 @@ proc molUP::animateFreq {freqList animationFreq displacement a} {
 }
 
 proc molUP::selectFreq {} {
-	set indexSelectedAtoms [$molUP::topGui.frame0.major.tabs.tabResults.tabs.tab5.tableLayer curselection]
-	set freqLineTable [$molUP::topGui.frame0.major.tabs.tabResults.tabs.tab5.tableLayer get $indexSelectedAtoms]
+	set molID [molinfo top]
+	set indexSelectedAtoms [$molUP::topGui.frame0.major.mol$molID.tabs.tabResults.tabs.tab5.tableLayer curselection]
+	set freqLineTable [$molUP::topGui.frame0.major.mol$molID.tabs.tabResults.tabs.tab5.tableLayer get $indexSelectedAtoms]
 	set freqToSearch [lindex $freqLineTable 1]
 
 	set answer [molUP::searchFreq $freqToSearch $molUP::freqList $molUP::freqLine]

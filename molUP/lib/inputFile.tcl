@@ -32,42 +32,45 @@ proc molUP::loadButton {fileExtension} {
 
 	#### Open a .com file
 	if {$molUP::fileExtension == ".com"} {
-		trace remove variable ::vmd_initialize_structure write molUP::updateStructures
+		trace remove variable ::vmd_initialize_structure write molUP::updateStructuresFromOtherSource
 		molUP::loadGaussianInputFile
 		molUP::updateStructures
-		trace variable ::vmd_initialize_structure w molUP::updateStructures
+		trace variable ::vmd_initialize_structure w molUP::updateStructuresFromOtherSource
 
 	#### Open a .log file
 	} elseif {$molUP::fileExtension == ".log"} {
 		set molUP::loadMode [$molUP::openFile.frame.back.selectLoadMode get]
 
 		if {$molUP::loadMode == "Last Structure"} {
-			trace remove variable ::vmd_initialize_structure write molUP::updateStructures
+			trace remove variable ::vmd_initialize_structure write molUP::updateStructuresFromOtherSource
 			molUP::loadGaussianOutputFile lastStructure
 			molUP::updateStructures
-			trace variable ::vmd_initialize_structure w molUP::updateStructures
+			trace variable ::vmd_initialize_structure w molUP::updateStructuresFromOtherSource
 
 		} elseif {$molUP::loadMode == "First Structure"} {
-			trace remove variable ::vmd_initialize_structure write molUP::updateStructures
+			trace remove variable ::vmd_initialize_structure write molUP::updateStructuresFromOtherSource
 			molUP::loadGaussianOutputFile firstStructure
 			molUP::updateStructures
-			trace variable ::vmd_initialize_structure w molUP::updateStructures
+			trace variable ::vmd_initialize_structure w molUP::updateStructuresFromOtherSource
 
 		} elseif {$molUP::loadMode == "All optimized structures"} {
-			trace remove variable ::vmd_initialize_structure write molUP::updateStructures
+			trace remove variable ::vmd_initialize_structure write molUP::updateStructuresFromOtherSource
 			molUP::loadGaussianOutputFile optimizedStructures
 			molUP::updateStructures
 			molUP::energy
-			trace variable ::vmd_initialize_structure w molUP::updateStructures
+			trace variable ::vmd_initialize_structure w molUP::updateStructuresFromOtherSource
 
 		} elseif {$molUP::loadMode == "All structures (may take a long time to load)"} {
-			trace remove variable ::vmd_initialize_structure write molUP::updateStructures
+			trace remove variable ::vmd_initialize_structure write molUP::updateStructuresFromOtherSource
 			molUP::loadGaussianOutputFile allStructures
 			molUP::updateStructures
-			trace variable ::vmd_initialize_structure w molUP::updateStructures
+			trace variable ::vmd_initialize_structure w molUP::updateStructuresFromOtherSource
 		} else {
 				set alert [tk_messageBox -message "Please select which structure you want to load." -type ok -icon info]
 		}
+
+		## Evaluate Freq Calculation
+		molUP::evaluateFreqCalc
 
 	#### Display an error when another type of file is loaded
 	} else {

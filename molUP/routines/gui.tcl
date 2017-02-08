@@ -107,7 +107,7 @@ proc molUP::buildGui {} {
 	variable topMolecule "No molecule"
 	variable molinfoList {}
 	global ::vmd_molecule
-	trace add variable ::vmd_initialize_structure write molUP::updateStructures
+	trace add variable ::vmd_initialize_structure write molUP::updateStructuresFromOtherSource
 	place [ttk::combobox $molUP::topGui.frame0.molSelection.combo \
 			-textvariable molUP::topMolecule \
 			-style molUP.TCombobox \
@@ -331,6 +331,18 @@ proc molUP::selectMolecule {} {
 
 	mol off all
 	mol on $mol
+
+	## Update representantion on/off status
+	set molUP::HLrep [mol showrep $mol 1]
+	set molUP::MLrep [mol showrep $mol 2]
+	set molUP::LLrep [mol showrep $mol 3]
+	set molUP::unfreezeRep [mol showrep $mol 7]
+	set molUP::freezeRep [mol showrep $mol 8]
+	set molUP::allRep [mol showrep $mol 12]
+	set molUP::proteinRep [mol showrep $mol 4]
+	set molUP::nonproteinRep [mol showrep $mol 5]
+	set molUP::waterRep [mol showrep $mol 6]
+
 }
 
 
@@ -416,7 +428,7 @@ proc molUP::activateMoleculeNEW {molID} {
 }
 
 
-proc molUP::updateStructures {args} {
+proc molUP::updateStructures {} {
 
 	# Launch a wait window
 	molUP::guiError "Pleasy wait a moment...\nThis window closes automatically when all the tasks have finished." "Wait a moment..."
@@ -434,27 +446,46 @@ proc molUP::updateStructures {args} {
 	
 
 	set molUP::allRep "1"
-	molUP::timeBegin
 	molUP::getMolinfoList
-	molUP::timeEnd
-	molUP::timeBegin
 	molUP::collectMolInfo
-	molUP::timeEnd
-	molUP::timeBegin
 	molUP::activateMoleculeNEW $mol
-	molUP::timeEnd
-	molUP::timeBegin
 	molUP::selectMolecule
-	molUP::timeEnd
-	molUP::timeBegin
 	molUP::addSelectionRep
-	molUP::timeEnd
 
 	molUP::guiChargeMulti $molUP::chargeMultiFrame
 		
 	# Destroy waiting window
 	destroy $::molUP::error
+}
 
+proc molUP::updateStructuresFromOtherSource {args} {
+
+	# Launch a wait window
+	molUP::guiError "Pleasy wait a moment...\nThis window closes automatically when all the tasks have finished." "Wait a moment..."
+	
+	set previousMol [molinfo list]
+	foreach a $previousMol {
+		pack forget $molUP::topGui.frame0.major.mol$a
+	}
+
+	set mol [lindex [molinfo list] end]
+	molUP::resultSection $mol $molUP::topGui.frame0.major $molUP::majorHeight
+
+	# Pack TOP molecule
+	pack $molUP::topGui.frame0.major.mol$mol
+	
+
+	set molUP::allRep "1"
+	molUP::getMolinfoList
+	molUP::collectMolInfo
+	molUP::activateMolecule $mol
+	molUP::selectMolecule
+	molUP::addSelectionRep
+
+	molUP::guiChargeMulti $molUP::chargeMultiFrame
+		
+	# Destroy waiting window
+	destroy $::molUP::error
 }
 
 
@@ -563,8 +594,6 @@ proc molUP::resultSection {molID frame majorHeight} {
 
 	set major $frame.mol$molID
 
-	puts $major
-
 	place [ttk::notebook $major.tabs \
 		-style molUP.major.TNotebook
 		] -in $major -x 0 -y 0 -width 400 -height $molUP::majorHeight
@@ -589,7 +618,7 @@ proc molUP::resultSection {molID frame majorHeight} {
 		-highlightcolor #017aff \
 		-highlightthickness 1 \
 		] -in $tInput -x 5 -y 30 -width 375 -height 25
-	$tInput.jobTitleEntry insert end $molUP::actualTitle
+	$tInput.jobTitleEntry insert end $molUP::title
 
 	place [ttk::scrollbar $tInput.yscb0 \
 			-orient vertical \

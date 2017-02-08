@@ -13,7 +13,7 @@ proc molUP::loadGaussianInputFile {} {
 
 	#### Keywords of the calculations
 	set lineNumberKeyword [expr [molUP::getBlankLines $molUP::path 0] - 1]
-	set molUP::keywordsCalc [exec sed -n "$lineNumberKeyword p" $molUP::path]
+	set molUP::keywordsCalc [exec sed -n "1,$lineNumberKeyword p" $molUP::path]
 
 	#### Number of Atoms
 	set lineNumberFirst [expr [molUP::getBlankLines $molUP::path 1] + 2]
@@ -24,9 +24,12 @@ proc molUP::loadGaussianInputFile {} {
 	catch {exec sed -n "$lineNumberFirst,$lineNumberLast p" $molUP::path} molUP::structureGaussian
 
 	## Get connectivity information about structure
-	set lineNumberConnect [expr $lineNumberLast + 1]
+	set lineNumberConnect [expr $lineNumberLast + 2]
 	set lineNumberLastConnect [expr [molUP::getBlankLines $molUP::path 3] - 1]
 	catch {exec sed -n "$lineNumberConnect,$lineNumberLastConnect p" $molUP::path} molUP::connectivityInputFile
+
+	set a [expr $lineNumberLastConnect + 1]
+	catch {exec sed -n "$a,\$ p" $molUP::path} molUP::parameters
 
     #### Organize the structure info
     set molUP::structureGaussian [split $molUP::structureGaussian \n]

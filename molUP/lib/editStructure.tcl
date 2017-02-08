@@ -140,7 +140,9 @@ proc molUP::addSelectionRep {} {
         mol material Diffuse
         mol representation Lines 1.000000
         mol addrep top
+        set molUP::allRep 1
         mol showrep top 12 $molUP::allRep
+
 
 
     } elseif {$numberRep == 0} {
@@ -251,20 +253,22 @@ proc molUP::changeRepCurSelection {option} {
 
     set evaluateLoadedMol [mol list]
 
+    set molID [molinfo top]
+
     if {$evaluateLoadedMol == "ERROR) No molecules loaded."} {
         molUP::guiError "No structure was loaded."
     } else {
         if {$option == "charges"} {
-            set indexSelectedAtoms [$molUP::tableCharges curselection]
+            set indexSelectedAtoms [.molUP.frame0.major.mol$molID.tabs.tabResults.tabs.tab4.tableLayer curselection]
             mol modselect 0 top index $indexSelectedAtoms
         
         } elseif {$option == "oniom"} {
-            set indexSelectedAtoms [$molUP::tableLayer curselection]
+            set indexSelectedAtoms [.molUP.frame0.major.mol$molID.tabs.tabResults.tabs.tab2.tableLayer curselection]
             mol modselect 0 top index $indexSelectedAtoms
             set molUP::atomSelectionONIOM "index $indexSelectedAtoms"
         
         } elseif {$option == "freeze"} {
-            set indexSelectedAtoms [$molUP::tableFreeze curselection]
+            set indexSelectedAtoms [.molUP.frame0.major.mol$molID.tabs.tabResults.tabs.tab3.tableLayer curselection]
             mol modselect 0 top index $indexSelectedAtoms
             set molUP::atomSelectionFreeze "index $indexSelectedAtoms"
         } else {
@@ -275,17 +279,25 @@ proc molUP::changeRepCurSelection {option} {
 
 #### Apply selection to structure 
 proc molUP::applyToStructure {option} {
+    set molID [molinfo top]
+    set sel [atomselect top all]
     if {$option == "oniom"} {
         [atomselect top "$molUP::atomSelectionONIOM"] set altloc $molUP::selectionModificationValueOniom
-        molUP::activateMolecule
+        molUP::activateMolecule [molinfo top]
+        set layer [$sel get altloc]
+        .molUP.frame0.major.mol$molID.tabs.tabResults.tabs.tab2.tableLayer columnconfigure 4 -text $layer
 
     } elseif {$option == "freeze"} {
         [atomselect top "$molUP::atomSelectionFreeze"] set altloc $molUP::selectionModificationValueFreeze
-        molUP::activateMolecule
+        molUP::activateMolecule [molinfo top]
+        set freeze [$sel get user]
+        .molUP.frame0.major.mol$molID.tabs.tabResults.tabs.tab3.tableLayer columnconfigure 4 -text $freeze
     } else {
         
     }
 }
+
+
 
 #### Clear selection
 proc molUP::clearSelection {option} {

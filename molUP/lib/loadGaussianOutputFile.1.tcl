@@ -8,9 +8,6 @@ proc molUP::loadGaussianOutputFile {option} {
 	## Clear Structure
 	set molUP::structureReadyToLoad {}
 
-	## Evaluate Freq Calculation
-	molUP::evaluateFreqCalc
-
     # Get Title, Calculations keywords, Charge and Multiplicity
 	molUP::globalInfoOutputFile
 
@@ -325,15 +322,23 @@ proc molUP::readOniomStructure {} {
 proc molUP::readSmallModelStructure {} {
 		set i 0
 		set molUP::structureReadyToLoad {}
+		set molUP::structureReadyToLoadCharges {}
+		set molUP::structureReadyToLoadLayer {}
+		set molUP::structureReadyToLoadFreeze {}
+
+		set index 0
     	foreach atom $molUP::structureGaussian {
     		lassign $atom column0 column1 column2 column3
             
 			## Atom information
 			set atomInfo {}
+			set atomInfoCharges {}
+			set atomInfoLayer {}
+			set atomInfoFreeze {}
 
     		incr i
 
-			set resname "XXX"
+			set resname "MOL"
 			set resid "1"
 			set pdbAtomType $column0
 			set gaussianAtomType $column0
@@ -342,8 +347,20 @@ proc molUP::readSmallModelStructure {} {
 			## Add information about atom
     		lappend atomInfo [format %.6f $column1] [format %.6f $column2] [format %.6f $column3] $atomicSymbol $pdbAtomType [string trim $gaussianAtomType "-"] $resname $resid
             
+
+			set charge 0.000000
+			lappend atomInfoCharges $index [string trim $gaussianAtomType "-"] $resname $resid [format %.6f $charge]
+			lappend atomInfoLayer $index $pdbAtomType $resname $resid ""
+			lappend atomInfoFreeze $index $pdbAtomType $resname $resid ""
+
 			## Add Atom information to structure
 			lappend molUP::structureReadyToLoad $atomInfo
+			lappend molUP::structureReadyToLoadCharges $atomInfoCharges
+			lappend molUP::structureReadyToLoadLayer $atomInfoLayer
+			lappend molUP::structureReadyToLoadFreeze $atomInfoFreeze
+
+
+			incr index
     	}
 }
 
@@ -356,12 +373,20 @@ proc molUP::readSmallModelStructure {} {
 proc molUP::readOniomStructureLastStructure {lastStructure} {
 		set i 0
 		set molUP::structureReadyToLoad {}
+		set molUP::structureReadyToLoadCharges {}
+		set molUP::structureReadyToLoadLayer {}
+		set molUP::structureReadyToLoadFreeze {}
+
+		set index 0
     	foreach atom $molUP::structureGaussian coord $lastStructure {
     		lassign $atom column0 column1 column2 column3 column4 column5 column6 column7 column8
 			lassign $coord columnCoord0 columnCoord1 columnCoord2 columnCoord3 columnCoord4 columnCoord5
             
 			## Atom information
 			set atomInfo {}
+			set atomInfoCharges {}
+			set atomInfoLayer {}
+			set atomInfoFreeze {}
 
     		incr i
     		regexp {(\S+)[-](\S+)[-](\S+)[(]PDBName=(\S+),ResName=(\S+),ResNum=(\S+)[)]} $column0 -> \
@@ -376,24 +401,45 @@ proc molUP::readOniomStructureLastStructure {lastStructure} {
 			## Add information about atom
     		lappend atomInfo [format %.6f $columnCoord3] [format %.6f $columnCoord4] [format %.6f $columnCoord5] $atomicSymbol $pdbAtomType [string trim $gaussianAtomType "-"] $resname $resid $column5 $column1 $charge
             
+			if {$charge == ""} {
+				set charge 0.000000
+			}
+			lappend atomInfoCharges $index [string trim $gaussianAtomType "-"] $resname $resid [format %.6f $charge]
+			lappend atomInfoLayer $index $pdbAtomType $resname $resid $column5
+			lappend atomInfoFreeze $index $pdbAtomType $resname $resid $column1
+
+
 			## Add Atom information to structure
 			lappend molUP::structureReadyToLoad $atomInfo
+			lappend molUP::structureReadyToLoadCharges $atomInfoCharges
+			lappend molUP::structureReadyToLoadLayer $atomInfoLayer
+			lappend molUP::structureReadyToLoadFreeze $atomInfoFreeze
+
+			incr index
     	}
 }
 
 proc molUP::readSmallModelStructureLastStructure {lastStructure} {
 		set i 0
 		set molUP::structureReadyToLoad {}
+		set molUP::structureReadyToLoadCharges {}
+		set molUP::structureReadyToLoadLayer {}
+		set molUP::structureReadyToLoadFreeze {}
+
+		set index 0
     	foreach atom $molUP::structureGaussian coord $lastStructure {
     		lassign $atom column0 column1 column2 column3
 			lassign $coord columnCoord0 columnCoord1 columnCoord2 columnCoord3 columnCoord4 columnCoord5
             
 			## Atom information
 			set atomInfo {}
+			set atomInfoCharges {}
+			set atomInfoLayer {}
+			set atomInfoFreeze {}
 
     		incr i
 
-			set resname "XXX"
+			set resname "MOL"
 			set resid "1"
 			set pdbAtomType $column0
 			set gaussianAtomType $column0
@@ -402,7 +448,18 @@ proc molUP::readSmallModelStructureLastStructure {lastStructure} {
 			## Add information about atom
     		lappend atomInfo [format %.6f $columnCoord3] [format %.6f $columnCoord4] [format %.6f $columnCoord5] $atomicSymbol $pdbAtomType [string trim $gaussianAtomType "-"] $resname $resid
             
+			set charge 0.000000
+
+			lappend atomInfoCharges $index [string trim $gaussianAtomType "-"] $resname $resid [format %.6f $charge]
+			lappend atomInfoLayer $index $pdbAtomType $resname $resid ""
+			lappend atomInfoFreeze $index $pdbAtomType $resname $resid ""
+
 			## Add Atom information to structure
 			lappend molUP::structureReadyToLoad $atomInfo
+			lappend molUP::structureReadyToLoadCharges $atomInfoCharges
+			lappend molUP::structureReadyToLoadLayer $atomInfoLayer
+			lappend molUP::structureReadyToLoadFreeze $atomInfoFreeze
+
+			incr index
     	}
 }
