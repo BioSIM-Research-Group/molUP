@@ -36,14 +36,14 @@ proc molUP::guiChargeMulti {frame} {
         place [ttk::checkbutton $frame.frame.showPositiveResidues \
             -text {Show Positive Residues} \
             -variable {showPosChargedResidues} \
-            -command {molUP::onOffRepresentation 11} \
+            -command {molUP::onOffRepresentation 10} \
             -style molUP.white.TCheckbutton \
             ] -in $frame.frame -x 10 -y 40 -width 180
 
         place [ttk::checkbutton $frame.frame.showNegativeResidues \
             -text {Show Negative Residues} \
             -variable {showNegChargedResidues} \
-            -command {molUP::onOffRepresentation 12} \
+            -command {molUP::onOffRepresentation 11} \
             -style molUP.white.TCheckbutton \
             ] -in $frame.frame -x 210 -y 40 -width 180
 
@@ -95,14 +95,14 @@ proc molUP::guiChargeMulti {frame} {
         place [ttk::checkbutton $frame.frame.showPositiveResidues \
             -text {Show Positive Residues} \
             -variable {showPosChargedResidues} \
-            -command {molUP::onOffRepresentation 11} \
+            -command {molUP::onOffRepresentation 10} \
             -style molUP.white.TCheckbutton \
             ] -in $frame.frame -x 10 -y 40 -width 180
 
         place [ttk::checkbutton $frame.frame.showNegativeResidues \
             -text {Show Negative Residues} \
             -variable {showNegChargedResidues} \
-            -command {molUP::onOffRepresentation 12} \
+            -command {molUP::onOffRepresentation 11} \
             -style molUP.white.TCheckbutton \
             ] -in $frame.frame -x 210 -y 40 -width 180
 
@@ -182,14 +182,14 @@ proc molUP::guiChargeMulti {frame} {
         place [ttk::checkbutton $frame.frame.showPositiveResidues \
             -text {Show Positive Residues} \
             -variable {showPosChargedResidues} \
-            -command {molUP::onOffRepresentation 11} \
+            -command {molUP::onOffRepresentation 10} \
             -style molUP.white.TCheckbutton \
             ] -in $frame.frame -x 10 -y 40 -width 180
 
         place [ttk::checkbutton $frame.frame.showNegativeResidues \
             -text {Show Negative Residues} \
             -variable {showNegChargedResidues} \
-            -command {molUP::onOffRepresentation 12} \
+            -command {molUP::onOffRepresentation 11} \
             -style molUP.white.TCheckbutton \
             ] -in $frame.frame -x 210 -y 40 -width 180
 
@@ -268,14 +268,14 @@ proc molUP::guiChargeMulti {frame} {
         place [ttk::checkbutton $frame.frame.showPositiveResidues \
             -text {Show Positive Residues} \
             -variable {showPosChargedResidues} \
-            -command {molUP::onOffRepresentation 11} \
+            -command {molUP::onOffRepresentation 10} \
             -style molUP.white.TCheckbutton \
             ] -in $frame.frame -x 10 -y 40 -width 180
 
         place [ttk::checkbutton $frame.frame.showNegativeResidues \
             -text {Show Negative Residues} \
             -variable {showNegChargedResidues} \
-            -command {molUP::onOffRepresentation 12} \
+            -command {molUP::onOffRepresentation 11} \
             -style molUP.white.TCheckbutton \
             ] -in $frame.frame -x 210 -y 40 -width 180
 
@@ -354,14 +354,14 @@ proc molUP::guiChargeMulti {frame} {
         place [ttk::checkbutton $frame.frame.showPositiveResidues \
             -text {Show Positive Residues} \
             -variable {showPosChargedResidues} \
-            -command {molUP::onOffRepresentation 11} \
+            -command {molUP::onOffRepresentation 10} \
             -style molUP.white.TCheckbutton \
             ] -in $frame.frame -x 10 -y 40 -width 180
 
         place [ttk::checkbutton $frame.frame.showNegativeResidues \
             -text {Show Negative Residues} \
             -variable {showNegChargedResidues} \
-            -command {molUP::onOffRepresentation 12} \
+            -command {molUP::onOffRepresentation 11} \
             -style molUP.white.TCheckbutton \
             ] -in $frame.frame -x 210 -y 40 -width 180
 
