@@ -99,7 +99,7 @@ proc molUP::drawPlot {frame x y title titleColor titleSize markerFormat markerCo
         $frame.plotBackground create text \
         43 [expr ($height - 50) - $gapHeight * $index] \
          -text "$scaleValue" \
-         -font {Helvetica 10} \
+         -font {Helvetica 8} \
          -anchor e
     }
 
@@ -112,10 +112,10 @@ proc molUP::drawPlot {frame x y title titleColor titleSize markerFormat markerCo
     foreach xValue $x yValue $y {
         ## Draw Lines
         if {[lindex $x [expr $i + 1]] != ""} {
-            set xActual [expr 50 + (($xValue - $xMin)* (1 / $pixelValueX))]
+            set xActual [expr 50 + $gapWidth * $i]
             set yActual [expr ($height - 50) - (($yValue - $yMin)* (1 / $pixelValueY))]
 
-            set xNext [expr 50 + (([lindex $x [expr $i + 1]] - $xMin)* (1 / $pixelValueX))]
+            set xNext [expr 50 + $gapWidth * ($i+1)]
             set yNext [expr ($height - 50) - (([lindex $y [expr $i + 1]] - $yMin)* (1 / $pixelValueY))]
 
             $frame.plotBackground create line \
@@ -126,10 +126,10 @@ proc molUP::drawPlot {frame x y title titleColor titleSize markerFormat markerCo
 
 
         ## Draw points
-        set x1 [expr 50 + (($xValue - $xMin)* (1 / $pixelValueX)) - ($dotSize/2)]
+        set x1 [expr 50 + ($gapWidth * $i) - ($dotSize/2)]
         set y1 [expr ($height - 50) - (($yValue - $yMin)* (1 / $pixelValueY)) - ($dotSize/2)]
 
-        set x2 [expr 50 + (($xValue - $xMin)* (1 / $pixelValueX)) + ($dotSize/2)]
+        set x2 [expr 50 + ($gapWidth * $i) + ($dotSize/2)]
         set y2 [expr ($height - 50) - (($yValue - $yMin)* (1 /$pixelValueY)) + ($dotSize/2)]
 
         $frame.plotBackground create $markerFormat \
@@ -147,5 +147,74 @@ proc molUP::drawPlot {frame x y title titleColor titleSize markerFormat markerCo
         incr i
     }
 
+
+}
+
+
+proc molUP::addData {frame x y markerFormat markerColor markerColorLine markerSize} {
+    set width [$frame cget -width]
+    set height [$frame cget -height]
+
+    set areaWidth [expr $width - 50 - 20]
+    set areaHeight [expr $height - 50 - 50]
+
+    ## Gaps Axis X
+    set xSorted [lsort $x]
+    set xMin [lindex $xSorted 0]
+    set xMax [lindex $xSorted end]
+    set xCount [llength $xSorted]
+    set pixelValueX [expr ([format %.10f $xMax] - [format %.10f $xMin]) / $areaWidth]
+    set gapWidth [expr $areaWidth / ($xCount - 1)]
+
+    ## Gaps Axis Y
+    set ySorted [lsort -real $y]
+    set yMin [lindex $ySorted 0]
+    set yMax [lindex $ySorted end]
+    set yCount [llength $ySorted]
+    set pixelValueY [expr ([format %.10f $yMax] - [format %.10f $yMin]) / $areaHeight]
+    set howManyGaps [format %.0f [expr $areaHeight / 40]]
+    set gapHeight [expr $areaHeight / ($howManyGaps - 1)]
+
+
+    #################
+    ## Place Points
+    set dotSize $markerSize
+
+    set i 0
+    foreach xValue $x yValue $y {
+        ## Draw Lines
+        if {[lindex $x [expr $i + 1]] != ""} {
+            set xActual [expr 50 + $gapWidth * $i]
+            set yActual [expr ($height - 50) - (($yValue - $yMin)* (1 / $pixelValueY))]
+
+            set xNext [expr 50 + $gapWidth * ($i+1)]
+            set yNext [expr ($height - 50) - (([lindex $y [expr $i + 1]] - $yMin)* (1 / $pixelValueY))]
+
+            $frame.plotBackground create line \
+                    $xActual $yActual \
+                    $xNext $yNext \
+                    -dash 2 
+        }
+
+
+        ## Draw points
+        set x1 [expr 50 + ($gapWidth * $i) - ($dotSize/2)]
+        set y1 [expr ($height - 50) - (($yValue - $yMin)* (1 / $pixelValueY)) - ($dotSize/2)]
+
+        set x2 [expr 50 + ($gapWidth * $i) + ($dotSize/2)]
+        set y2 [expr ($height - 50) - (($yValue - $yMin)* (1 /$pixelValueY)) + ($dotSize/2)]
+
+        $frame.plotBackground create $markerFormat \
+                $x1 $y1 \
+                $x2 $y2 \
+                -outline $markerColorLine \
+                -fill $markerColor \
+                -state normal \
+                -tags point$xValue$yValue
+
+        $frame.plotBackground bind point$xValue$yValue <Button-1> "animate goto [expr $xValue - 1]; puts \"$xValue $yValue\""
+
+        incr i
+    }
 
 }

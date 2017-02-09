@@ -57,7 +57,7 @@ proc molUP::loadButton {fileExtension} {
 			trace remove variable ::vmd_initialize_structure write molUP::updateStructuresFromOtherSource
 			molUP::loadGaussianOutputFile optimizedStructures
 			molUP::updateStructures
-			molUP::energy
+			molUP::firstProcEnergy
 			trace variable ::vmd_initialize_structure w molUP::updateStructuresFromOtherSource
 
 		} elseif {$molUP::loadMode == "All structures (may take a long time to load)"} {
@@ -83,7 +83,7 @@ proc molUP::loadButton {fileExtension} {
 
 #### Get Blank Lines Numbers
 proc molUP::getBlankLines {path numberLine} {
-	catch {exec egrep -n -e "^ \+$" -e "^$" $path} blankLines
+	catch {exec egrep -n -m 8 -e "^ \+$" -e "^$" $path} blankLines
 	set eachBlankLine [split $blankLines ":"]
 	set lineNumber [lindex $eachBlankLine $numberLine]
 	return $lineNumber

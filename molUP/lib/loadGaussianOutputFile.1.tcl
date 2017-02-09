@@ -195,9 +195,6 @@ proc molUP::loadGaussianOutputFile {option} {
 		
 		}
 
-		#### Read Energies
-		molUP::energy
-
     } else {}
 
 }
@@ -248,7 +245,7 @@ proc molUP::readRemainingStructuresOpt {allAtomsLastStructureCoord} {
 
 proc molUP::evaluateFreqCalc {} {
 	#### Evaluate if a freq calculation was performed
-	set freqCalcTrue [catch {exec grep "frequencies" $molUP::path}]
+	set freqCalcTrue [catch {exec egrep -m 1 "frequencies" $molUP::path}]
 	if {$freqCalcTrue == "0"} {
 		molUP::readFreq
 	} else {}
