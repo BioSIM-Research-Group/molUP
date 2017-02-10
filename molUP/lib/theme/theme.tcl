@@ -26,6 +26,8 @@ ttk::style theme create molUPTheme -parent clam -settings {
     set gray #ededed
     set lightGreen #ccffcc
 
+    ttk::style configure . \
+        -background         white
 
     #### Buttons
 
