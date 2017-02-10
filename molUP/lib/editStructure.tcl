@@ -280,18 +280,19 @@ proc molUP::changeRepCurSelection {option} {
 #### Apply selection to structure 
 proc molUP::applyToStructure {option} {
     set molID [molinfo top]
-    set sel [atomselect top all]
     if {$option == "oniom"} {
         [atomselect top "$molUP::atomSelectionONIOM"] set altloc $molUP::selectionModificationValueOniom
-        molUP::activateMolecule [molinfo top]
-        set layer [$sel get altloc]
-        .molUP.frame0.major.mol$molID.tabs.tabResults.tabs.tab2.tableLayer columnconfigure 4 -text $layer
-
+        set index [[atomselect top "$molUP::atomSelectionONIOM"] get index]
+        foreach atom $index {
+            .molUP.frame0.major.mol$molID.tabs.tabResults.tabs.tab2.tableLayer configcells [subst $atom],4 -text [subst $molUP::selectionModificationValueOniom]
+        }
     } elseif {$option == "freeze"} {
-        [atomselect top "$molUP::atomSelectionFreeze"] set altloc $molUP::selectionModificationValueFreeze
-        molUP::activateMolecule [molinfo top]
-        set freeze [$sel get user]
-        .molUP.frame0.major.mol$molID.tabs.tabResults.tabs.tab3.tableLayer columnconfigure 4 -text $freeze
+        [atomselect top "$molUP::atomSelectionFreeze"] set user $molUP::selectionModificationValueFreeze
+        #molUP::activateMolecule [molinfo top]
+        set index [[atomselect top "$molUP::atomSelectionFreeze"] get index]
+        foreach atom $index {
+            .molUP.frame0.major.mol$molID.tabs.tabResults.tabs.tab3.tableLayer configcells [subst $atom],4 -text [subst $molUP::selectionModificationValueFreeze]
+        }
     } else {
         
     }

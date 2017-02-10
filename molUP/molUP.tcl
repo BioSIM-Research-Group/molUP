@@ -38,9 +38,8 @@ namespace eval molUP:: {
 		package require gaussianTheme							1.0
 
 		#### Program Variables
-
 		## General
-		variable version	    	"0.9.1 (beta)"
+		variable version	    	"0.1 (alpha)"
 
 		#GUI
         variable topGui         	".molUP"
