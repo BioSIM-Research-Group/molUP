@@ -456,6 +456,8 @@ proc molUP::updateStructures {} {
 	molUP::addSelectionRep
 
 	molUP::guiChargeMulti $molUP::chargeMultiFrame
+
+	molUP::checkTags .molUP.frame0.major.mol$mol.tabs.tabInput.keywordsText
 		
 	# Destroy waiting window
 	destroy $::molUP::error
@@ -486,6 +488,8 @@ proc molUP::updateStructuresFromOtherSource {args} {
 	molUP::addSelectionRep
 
 	molUP::guiChargeMulti $molUP::chargeMultiFrame
+
+	molUP::checkTags .molUP.frame0.major.mol$mol.tabs.tabInput.keywordsText
 		
 	# Destroy waiting window
 	destroy $::molUP::error
@@ -639,7 +643,7 @@ proc molUP::resultSection {molID frame majorHeight} {
 		-highlightthickness 1 \
 		] -in $tInput -x 5 -y 85 -width 375 -height 80
 	$tInput.keywordsText insert end $molUP::keywordsCalc
-	molUP::checkTags $tInput.keywordsText
+	
 	bind $tInput.keywordsText <KeyPress> "molUP::checkTags $tInput.keywordsText"
 
 
@@ -647,8 +651,6 @@ proc molUP::resultSection {molID frame majorHeight} {
 			-orient vertical \
 			-command [list $tInput.keywordsText yview]\
 			] -in $tInput -x 380 -y 85 -width 15 -height 80
-
-	#set molUP::keywordsCalc [$tInput.keywordsText get 1.0 end]
 
 	set resultsHeight [expr $molUP::majorHeight - 30 - 30]
 	set heightBox [expr ($resultsHeight - 405 - 25 - 10) / 2]
@@ -658,16 +660,20 @@ proc molUP::resultSection {molID frame majorHeight} {
 		-style molUP.cyan.TLabel \
 		-text {Connectivity} ] -in $tInput -x 5 -y 380
 
+	place [ttk::button $tInput.loadConnect \
+		-style molUP.TButton \
+		-command molUP::loadConnectivityFromOtherInputFile \
+		-text {Load} ] -in $tInput -x 130 -y 378 -width 80
+	
 	place [ttk::button $tInput.applyNewConnectivity \
 		-style molUP.TButton \
 		-command molUP::applyNewConnectivity \
-		-text {Apply} ] -in $tInput -x 180 -y 378 -width 100
-
+		-text {Apply} ] -in $tInput -x 220 -y 378 -width 80
 
 	place [ttk::button $tInput.rebond \
 		-style molUP.TButton \
 		-command molUP::rebond \
-		-text {Rebond} ] -in $tInput -x 290 -y 378 -width 100
+		-text {Rebond} ] -in $tInput -x 310 -y 378 -width 80
 
 	place [text $tInput.connect \
 		-yscrollcommand "$tInput.yscb1 set" \
@@ -901,4 +907,29 @@ proc molUP::resultSection {molID frame majorHeight} {
 
 
 	pack forget $frame.mol$molID
+}
+
+
+
+proc molUP::loadConnectivityFromOtherInputFile {} {
+	 set fileTypes {
+                {{Gaussian Input File (.com)}       {.com}        }
+        }
+        set path [tk_getOpenFile -filetypes $fileTypes -defaultextension ".com" -title "Choose a Gaussian Input File..."]
+		set molID [molinfo top]
+        if {$path != ""} {
+            set firstConnect [expr [molUP::getBlankLines $path 2] + 1]
+			set lastConnect [expr [molUP::getBlankLines $path 3] - 1]
+			catch {exec sed -n "$firstConnect,$lastConnect p" $path} connectivity
+			$molUP::topGui.frame0.major.mol$molID.tabs.tabInput.connect delete 1.0 end
+			$molUP::topGui.frame0.major.mol$molID.tabs.tabInput.connect insert end $connectivity
+
+			set firstParam [expr [molUP::getBlankLines $path 3] + 1]
+			catch {exec sed -n "$firstParam,\$ p" $path} param
+			$molUP::topGui.frame0.major.mol$molID.tabs.tabInput.param delete 1.0 end
+			$molUP::topGui.frame0.major.mol$molID.tabs.tabInput.param insert end $param
+
+			molUP::applyNewConnectivity
+
+        } else {}
 }
