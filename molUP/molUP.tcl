@@ -30,7 +30,7 @@ namespace eval molUP:: {
 
 
 		package require Tk
-		package require tablelist
+		package require tablelist								5.13
 		package require topotools
 		#package require balloon 								1.0
 
@@ -164,5 +164,5 @@ namespace eval molUP:: {
 
 ## Initiate ###
 #molUP::loadImages
-molUP::buildGui
+#molUP::buildGui
 
