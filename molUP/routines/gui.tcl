@@ -681,7 +681,7 @@ proc molUP::resultSection {molID frame majorHeight} {
 	#### Parameters 
 	place [ttk::label $tInput.paramLabel \
 		-style molUP.cyan.TLabel \
-		-text {Parameters} ] -in $tInput -x 5 -y [expr 405 + $heightBox + 10]
+		-text {Other information (Parameters, Modredundant...)} ] -in $tInput -x 5 -y [expr 405 + $heightBox + 10]
 
 	place [text $tInput.param \
 		-yscrollcommand "$tInput.yscb2 set" \

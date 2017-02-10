@@ -435,7 +435,7 @@ proc molUP::guiChargeMulti {frame} {
         # Calculate Button
         place [ttk::button $frame.frame.calculateCharges \
             -text {Calculate charge based on available MM charges} \
-            -command {molUP::getChargesSum none} \
+            -command {molUP::getChargesSum all} \
             -style molUP.TButton \
             ] -in $frame.frame -x 10 -y 190 -width 380
 
@@ -460,7 +460,7 @@ proc molUP::getChargesSum {layer} {
 
     
     if {$layer == "all"} {
-        set list [$molUP::tableCharges get anchor end]
+        set list [$molUP::tableCharges get 0 end]
         set charge 0
         foreach atom $list {
             set charge [expr $charge + [lindex $atom 4]]
@@ -488,7 +488,7 @@ proc molUP::getChargesSum {layer} {
         set molUP::chargeML [format %.4f $charge]
 
 
-        set list [$molUP::tableCharges get anchor end]
+        set list [$molUP::tableCharges get 0 end]
         set charge 0
         foreach atom $list {
             set charge [expr $charge + [lindex $atom 4]]
