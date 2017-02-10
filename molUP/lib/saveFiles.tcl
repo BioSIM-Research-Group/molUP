@@ -54,7 +54,7 @@ proc molUP::saveGaussian {} {
         set fileTypes {
                 {{Gaussian Input File (.com)}       {.com}        }
         }
-        set path [tk_getSaveFile -title "Save file as Gaussian Input" -filetypes $fileTypes -defaultextension ".com"]
+        set path [tk_getSaveFile -title "Save file as Gaussian Input" -filetypes $fileTypes -defaultextension ".com" -initialfile "Created_by_molUP.com"]
 
         if {$path != ""} {
             molUP::writeGaussianFile $path

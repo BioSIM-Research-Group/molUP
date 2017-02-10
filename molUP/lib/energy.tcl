@@ -190,7 +190,7 @@ proc molUP::savePS {pathname} {
         set fileTypes {
                 {{PostScript (.ps)}       {.ps}        }
         }
-        set path [tk_getSaveFile -filetypes $fileTypes -defaultextension ".ps"]
+        set path [tk_getSaveFile -filetypes $fileTypes -defaultextension ".ps" -title "Save image" -initialfile "energy.ps"]
 
         if {$path != ""} {
             $pathname.plotBackground postscript -file [list $path]
@@ -201,7 +201,7 @@ proc molUP::exportEnergy {args} {
         set fileTypes {
                 {{Text (.txt)}       {.txt}        }
         }
-        set path [tk_getSaveFile -filetypes $fileTypes -defaultextension ".txt"]
+        set path [tk_getSaveFile -filetypes $fileTypes -defaultextension ".txt" -title "Export energy values" -initialfile "energy.txt"] 
 
         if {$path != ""} {
             set file [open $path w]
