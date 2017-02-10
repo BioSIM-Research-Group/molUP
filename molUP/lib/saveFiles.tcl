@@ -83,7 +83,30 @@ proc molUP::writeGaussianFile {path} {
     puts $file "$title"
 
     ## Write Charge and Multi
-    puts $file "$molUP::chargesMultip"
+    set molUP::chargesMultip ""
+    set molID [molinfo top]
+    set highLayerIndex [.molUP.frame0.major.mol$molID.tabs.tabResults.tabs.tab2.tableLayer searchcolumn 4 "H" -all]
+    set mediumLayerIndex [.molUP.frame0.major.mol$molID.tabs.tabResults.tabs.tab2.tableLayer searchcolumn 4 "M" -all]
+    set lowLayerIndex [.molUP.frame0.major.mol$molID.tabs.tabResults.tabs.tab2.tableLayer searchcolumn 4 "L" -all]
+    if {($highLayerIndex != "" && $mediumLayerIndex == "" && $lowLayerIndex == "") || \
+        $highLayerIndex == "" && $mediumLayerIndex != "" && $lowLayerIndex == "" || \
+        $highLayerIndex == "" && $mediumLayerIndex == "" && $lowLayerIndex != "" || \
+        $highLayerIndex == "" && $mediumLayerIndex == "" && $lowLayerIndex == "" } {              
+        set molUP::chargesMultip "[expr round($molUP::chargeAll)] $molUP::multiplicityValue"
+    } elseif {$highLayerIndex != "" && $mediumLayerIndex != "" && $lowLayerIndex == ""} {
+        set molUP::chargesMultip "[expr round($molUP::chargeML)] $molUP::multiplicityValue1 [expr round($molUP::chargeHL)] $molUP::multiplicityValue [expr round($molUP::chargeHL)] $molUP::multiplicityValue"
+    } elseif {$highLayerIndex != "" && $mediumLayerIndex == "" && $lowLayerIndex != ""} {
+        set molUP::chargesMultip "[expr round($molUP::chargeLL)] $molUP::multiplicityValue1 [expr round($molUP::chargeHL)] $molUP::multiplicityValue [expr round($molUP::chargeHL)] $molUP::multiplicityValue"
+    } elseif {$highLayerIndex == "" && $mediumLayerIndex != "" && $lowLayerIndex != ""} {
+        set molUP::chargesMultip "[expr round($molUP::chargeLL)] $molUP::multiplicityValue1 [expr round($molUP::chargeML)] $molUP::multiplicityValue [expr round($molUP::chargeML)] $molUP::multiplicityValue"
+    } elseif {$highLayerIndex != "" && $mediumLayerIndex != "" && $lowLayerIndex != ""} {
+        set molUP::chargesMultip "[expr round($molUP::chargeLL)] $molUP::multiplicityValue2 [expr round($molUP::chargeML)] $molUP::multiplicityValue1 [expr round($molUP::chargeML)] $molUP::multiplicityValue1 [expr round($molUP::chargeHL)] $molUP::multiplicityValue [expr round($molUP::chargeHL)] $molUP::multiplicityValue [expr round($molUP::chargeHL)] $molUP::multiplicityValue"
+    } else {
+        
+        set molUP::chargesMultip "0 1"
+
+    }
+    puts $file $molUP::chargesMultip
 
     ## Get coordinates
     set allSelection [atomselect top "all"]

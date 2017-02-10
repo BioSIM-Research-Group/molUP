@@ -322,6 +322,9 @@ proc molUP::selectMolecule {} {
 	set mol [lindex $molUP::topMolecule 0]
 	mol top $mol
 
+	# Update charges
+	molUP::getChargesSum none
+
 	set molList [molinfo list]
 	foreach molecule $molList {
 		pack forget $molUP::topGui.frame0.major.mol$molecule

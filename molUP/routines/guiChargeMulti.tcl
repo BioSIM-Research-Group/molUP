@@ -6,9 +6,6 @@ proc molUP::guiChargeMulti {frame} {
     #### Information
 	place [canvas $frame.frame -bg white -width 400 -height 260 -highlightthickness 0] -in $frame 
 
-
-
-
     #Evaluate a possible ONIOM System
     set highLayerIndex [$molUP::tableLayer searchcolumn 4 "H" -all]
     set mediumLayerIndex [$molUP::tableLayer searchcolumn 4 "M" -all]
@@ -47,9 +44,6 @@ proc molUP::guiChargeMulti {frame} {
             -style molUP.white.TCheckbutton \
             ] -in $frame.frame -x 210 -y 40 -width 180
 
-
-
-
         place [ttk::label $frame.frame.chargeLabel \
             -text {Charge:} \
             -style molUP.white.TLabel \
@@ -78,9 +72,6 @@ proc molUP::guiChargeMulti {frame} {
 
 
     } elseif {$highLayerIndex != "" && $mediumLayerIndex != "" && $lowLayerIndex == ""} {
-         
-         
-        #wm geometry $::molUP::chargeMulti 400x250+[expr $sWidth - 400]+100
 
         # Evaluate the negative and positve amino acids 
         molUP::showNegPosResidues
@@ -435,7 +426,7 @@ proc molUP::guiChargeMulti {frame} {
         # Calculate Button
         place [ttk::button $frame.frame.calculateCharges \
             -text {Calculate charge based on available MM charges} \
-            -command {molUP::getChargesSum all} \
+            -command {molUP::getChargesSum none} \
             -style molUP.TButton \
             ] -in $frame.frame -x 10 -y 190 -width 380
 
