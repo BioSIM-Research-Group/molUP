@@ -1,13 +1,5 @@
 package provide gui 1.0
 
-proc molUP::start {} {
-	if {[winfo exists $::molUP::topGui]} {wm deiconify $::molUP::topGui ;return $::molUP::topGui}
-
-	molUP::buildGui
-
-	return $::molUP::topGui
-}
-
 proc molUP::buildGui {} {
 
 	#### Window Configuration ##########################################

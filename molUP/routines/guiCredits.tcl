@@ -35,7 +35,7 @@ proc molUP::guiCredits {} {
 
 	place [ttk::button $molUP::credits.frame0.frame.visitWebsite \
 		-text {Web Page} \
-		-command {invokeBrowser "https://henriquefernandesblog.wordpress.com"} \
+		-command {invokeBrowser "https://henriquefernandesblog.wordpress.com/2017/02/08/molup-a-vmd-macgyver-for-gaussian-files/"} \
 		-style molUP.TButton \
 		] -in $molUP::credits.frame0.frame -x 290 -y 165 -width 100
 

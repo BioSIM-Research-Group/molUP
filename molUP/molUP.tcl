@@ -161,6 +161,13 @@ namespace eval molUP:: {
 		
 }
 
+proc molUP::start {} {
+	if {[winfo exists $::molUP::topGui]} {wm deiconify $::molUP::topGui ;return $::molUP::topGui}
+
+	molUP::buildGui
+	update
+	return $::molUP::topGui
+}
 
 ## Initiate ###
 #molUP::loadImages

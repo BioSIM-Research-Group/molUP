@@ -32,7 +32,7 @@ proc molUP::readFreq {} {
 			] -in $molUP::topGui.frame0.major.mol$molID.tabs.tabResults.tabs.tab5 -x 0 -y 200 -height 20 -width 370
 
 	place [ttk::button $molUP::topGui.frame0.major.mol$molID.tabs.tabResults.tabs.tab5.clearSelection \
-			-text "Clear Selection" \
+			-text "Stop Animation" \
 			-command {molUP::clearSelectionFreq} \
 			-style molUP.blue.TButton \
 			] -in $molUP::topGui.frame0.major.mol$molID.tabs.tabResults.tabs.tab5 -x 5 -y 225 -width 380
