@@ -57,8 +57,8 @@ proc molUP::buildGui {} {
 	menu $molUP::topGui.frame0.topSection.topMenu.file.menu -tearoff 0
 	$molUP::topGui.frame0.topSection.topMenu.file.menu add command -label "Open" -command {molUP::guiOpenFile}
 	$molUP::topGui.frame0.topSection.topMenu.file.menu add command -label "Save" -command {molUP::guiSaveFile}
-	$molUP::topGui.frame0.topSection.topMenu.file.menu add command -label "Restart" -command {molUP::restart}
 	$molUP::topGui.frame0.topSection.topMenu.file.menu add command -label "Close" -command {molUP::quit}
+	$molUP::topGui.frame0.topSection.topMenu.file.menu add command -label "Close VMD" -command {exit}
 
 	place [ttk::menubutton $molUP::topGui.frame0.topSection.topMenu.tools -text "Tools" -menu $molUP::topGui.frame0.topSection.topMenu.tools.menu \
 			-style molUP.menuBar.TMenubutton \
