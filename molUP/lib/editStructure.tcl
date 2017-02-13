@@ -288,7 +288,6 @@ proc molUP::applyToStructure {option} {
         }
     } elseif {$option == "freeze"} {
         [atomselect top "$molUP::atomSelectionFreeze"] set user $molUP::selectionModificationValueFreeze
-        #molUP::activateMolecule [molinfo top]
         set index [[atomselect top "$molUP::atomSelectionFreeze"] get index]
         foreach atom $index {
             .molUP.frame0.major.mol$molID.tabs.tabResults.tabs.tab3.tableLayer configcells [subst $atom],4 -text [subst $molUP::selectionModificationValueFreeze]

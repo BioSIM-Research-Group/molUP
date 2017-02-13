@@ -540,25 +540,25 @@ proc molUP::checkTags {pathName} {
 	foreach word $functional {
 		molUP::textSearch $pathName $word functional
 	}
-	$pathName tag configure functional -foreground yellow -background black
+	$pathName tag configure functional -foreground yellow
 
 	set functionalSE [list pm6 am1 pddg pm3 pm3mm pm7 indo cndo]
 	foreach word $functionalSE {
 		molUP::textSearch $pathName $word functionalSE
 	}
-	$pathName tag configure functionalSE -foreground green -background black
+	$pathName tag configure functionalSE -foreground green
 
 	set functionalDFT [list hf b3lyp lsda bpv86 b3pw91 mpw1pw91 pbepbe hseh1pbe hcth tpsstpss wb97xd mp2 mp4 ccsd bd casscf]
 	foreach word $functionalDFT {
 		molUP::textSearch $pathName $word functionalDFT
 	}
-	$pathName tag configure functionalDFT -foreground orange -background black
+	$pathName tag configure functionalDFT -foreground orange
 
 	set basisset [list sto-3g * ** + ++ 3-21 6-31g 6-31+g 6-31++g (d (2d (3d (df (2df (3df ,p ,2p ,3p ,pd ,2pd ,3pd 6-311g 6-311+g 6-311++g cc-pvdz cc-pvtz cc-pvqz lanl2dz lanl2mb sdd dgdzvp dgdzvp2 dgdzvp gen genecp]
 	foreach word $basisset {
 		molUP::textSearch $pathName $word basisset
 	}
-	$pathName tag configure basisset -foreground #b3dbff -background black
+	$pathName tag configure basisset -foreground "deep pink"
 
 }
 
