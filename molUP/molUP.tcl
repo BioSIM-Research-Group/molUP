@@ -30,10 +30,9 @@ namespace eval molUP:: {
 
 
 		package require Tk
-		package require tablelist								5.13
+		package require tablelist
 		package require topotools
-		#package require balloon 								1.0
-
+		
 		# Theme
 		package require gaussianTheme							1.0
 
