@@ -297,7 +297,7 @@ proc molUP::readOniomStructure {} {
             set charge [format %.6f $charge]
             
 			## Add information about atom
-			lappend atomInfo [format %.6f $column2] [format %.6f $column3] [format %.6f $column4] $atomicSymbol $pdbAtomType [string trim $gaussianAtomType "-"] $resname $resid $column5 $column1 $charge
+			lappend atomInfo [format %.6f $column2] [format %.6f $column3] [format %.6f $column4] $atomicSymbol $pdbAtomType [string trim $gaussianAtomType "-"] $resname [scan $resid %i] $column5 $column1 $charge
 			
 			if {$charge == ""} {
 				set charge 0.000000
@@ -396,7 +396,7 @@ proc molUP::readOniomStructureLastStructure {lastStructure} {
             set charge [format %.6f $charge]
             
 			## Add information about atom
-    		lappend atomInfo [format %.6f $columnCoord3] [format %.6f $columnCoord4] [format %.6f $columnCoord5] $atomicSymbol $pdbAtomType [string trim $gaussianAtomType "-"] $resname $resid $column5 $column1 $charge
+    		lappend atomInfo [format %.6f $columnCoord3] [format %.6f $columnCoord4] [format %.6f $columnCoord5] $atomicSymbol $pdbAtomType [string trim $gaussianAtomType "-"] $resname [scan $resid %i] $column5 $column1 $charge
             
 			if {$charge == ""} {
 				set charge 0.000000
