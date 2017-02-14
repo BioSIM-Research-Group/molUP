@@ -302,9 +302,9 @@ proc molUP::readOniomStructure {} {
 			if {$charge == ""} {
 				set charge 0.000000
 			}
-			lappend atomInfoCharges $index [string trim $gaussianAtomType "-"] $resname $resid [format %.6f $charge]
-			lappend atomInfoLayer $index $pdbAtomType $resname $resid $column5
-			lappend atomInfoFreeze $index $pdbAtomType $resname $resid $column1
+			lappend atomInfoCharges $index [string trim $gaussianAtomType "-"] $resname [scan $resid %i] [format %.6f $charge]
+			lappend atomInfoLayer $index $pdbAtomType $resname [scan $resid %i] $column5
+			lappend atomInfoFreeze $index $pdbAtomType $resname [scan $resid %i] $column1
             
 			## Add Atom information to structure
 			lappend molUP::structureReadyToLoad $atomInfo
@@ -401,9 +401,9 @@ proc molUP::readOniomStructureLastStructure {lastStructure} {
 			if {$charge == ""} {
 				set charge 0.000000
 			}
-			lappend atomInfoCharges $index [string trim $gaussianAtomType "-"] $resname $resid [format %.6f $charge]
-			lappend atomInfoLayer $index $pdbAtomType $resname $resid $column5
-			lappend atomInfoFreeze $index $pdbAtomType $resname $resid $column1
+			lappend atomInfoCharges $index [string trim $gaussianAtomType "-"] $resname [scan $resid %i] [format %.6f $charge]
+			lappend atomInfoLayer $index $pdbAtomType $resname [scan $resid %i] $column5
+			lappend atomInfoFreeze $index $pdbAtomType $resname [scan $resid %i] $column1
 
 
 			## Add Atom information to structure
