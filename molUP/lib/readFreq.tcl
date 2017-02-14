@@ -7,7 +7,7 @@ proc molUP::readFreq {} {
 
 	set molID [molinfo top]
 
-	$molUP::topGui.frame0.major.mol$molID.tabs.tabResults.tabs add [frame $molUP::topGui.frame0.major.mol$molID.tabs.tabResults.tabs.tab5] -text "Frequencies"
+	$molUP::topGui.frame0.major.mol$molID.tabs.tabResults.tabs add [ttk::frame $molUP::topGui.frame0.major.mol$molID.tabs.tabResults.tabs.tab5 -style molUP.white.TLabel] -text "Frequencies"
 
 	# Frequencies Tab
 	place [tablelist::tablelist $molUP::topGui.frame0.major.mol$molID.tabs.tabResults.tabs.tab5.tableLayer \
