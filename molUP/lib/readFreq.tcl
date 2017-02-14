@@ -116,9 +116,9 @@ proc molUP::readFreq {} {
 }
 
 proc molUP::readFreqFile {file} { 
-	variable freqList
-	variable freqLine
-	variable irList
+	variable freqList {}
+	variable freqLine {}
+	variable irList {}
 
 	set a [split [exec egrep -n -m 5 "Frequencies --" $file] "\n"]
 	set b [split [exec egrep -n -m 5 "IR Inten    --" $file] "\n"]
@@ -151,7 +151,8 @@ proc molUP::extractFreqVectors {file where} {
 	set a [exec sed -n "[lindex $molUP::freqLine [lindex $where 0]], [expr [lindex $molUP::freqLine [lindex $where 0]] + 30] p" $file | grep -n -m 1 "  Atom  AN      X      Y      Z"]
 	set lookUpPos [split $a ":"]
 
-	set vectors [exec sed -n "[expr [lindex $molUP::freqLine [lindex $where 0]] + [lindex $lookUpPos 0]], [expr [lindex $molUP::freqLine [expr [lindex $where 0]+1]]-3] p" $file | egrep -v "0.00   0.00   0.00"]
+	#set vectors [exec sed -n "[expr [lindex $molUP::freqLine [lindex $where 0]] + [lindex $lookUpPos 0]], [expr [lindex $molUP::freqLine [expr [lindex $where 0]+1]]-3] p" $file | egrep -v "0.00   0.00   0.00"]
+	set vectors [exec sed -n "[expr [lindex $molUP::freqLine [lindex $where 0]] + [lindex $lookUpPos 0]], [expr [lindex $molUP::freqLine [expr [lindex $where 0]+1]]-3] p" $file]
 	set vectors_split [split $vectors "\n"]
 
 	set columnX [expr [lindex $where 1] +2 + [lindex $where 1]*2]
@@ -160,7 +161,9 @@ proc molUP::extractFreqVectors {file where} {
 
 	set freq_vector ""
 	foreach a $vectors_split {
-		set freq_vector [lappend list "[lindex $a 0] [lindex $a $columnX] [lindex $a $columnY] [lindex $a $columnZ]"]
+		if {[lindex $a $columnX] != "0.00" && [lindex $a $columnY] != "0.00" && [lindex $a $columnZ] != "0.00"} {
+			set freq_vector [lappend list "[lindex $a 0] [lindex $a $columnX] [lindex $a $columnY] [lindex $a $columnZ]"]
+		}
 	}
 
 return $freq_vector
