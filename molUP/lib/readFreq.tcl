@@ -94,7 +94,18 @@ proc molUP::readFreq {} {
 				-showvalue 0 \
 				] -in $molUP::topGui.frame0.major.mol$molID.tabs.tabResults.tabs.tab5 -x 220 -y 335 -width 165
 
+	place [ttk::label $molUP::topGui.frame0.major.mol$molID.tabs.tabResults.tabs.tab5.changeColorVectorsLabel \
+			-text "Color of vectors: " \
+			-style molUP.white.TLabel \
+			] -in $molUP::topGui.frame0.major.mol$molID.tabs.tabResults.tabs.tab5 -x 5 -y 370 -width 100
 
+	place [ttk::combobox $molUP::topGui.frame0.major.mol$molID.tabs.tabResults.tabs.tab5.changeColorVectors \
+			-textvariable molUP::freqVectorColor \
+			-style molUP.TCombobox \
+			-values "$molUP::colorList" \
+			-state readonly \
+			] -in $molUP::topGui.frame0.major.mol$molID.tabs.tabResults.tabs.tab5 -x 110 -y 370 -width 275
+	bind $molUP::topGui.frame0.major.mol$molID.tabs.tabResults.tabs.tab5.changeColorVectors <<ComboboxSelected>> {molUP::changeVectorsColor}
 
 
 	## Add each frequency to the table 
@@ -259,7 +270,7 @@ proc molUP::drawVectors {freqList none} {
 	# Delete all vectors
 	graphics top delete all
 
-	graphics top color red
+	graphics top color $molUP::freqVectorColor
 	
 	set displacement $molUP::vectorDrawScale
 	
@@ -290,6 +301,11 @@ proc molUP::drawVectors {freqList none} {
 		}
 
 	}
+}
+
+
+proc molUP::changeVectorsColor {} {
+	molUP::drawVectors $molUP::freqVectorsList none
 }
 
 

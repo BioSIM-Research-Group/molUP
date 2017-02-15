@@ -540,7 +540,7 @@ proc molUP::checkTags {pathName} {
 	foreach word $functional {
 		molUP::textSearch $pathName $word functional
 	}
-	$pathName tag configure functional -foreground yellow
+	$pathName tag configure functional -foreground grey
 
 	set functionalSE [list pm6 am1 pddg pm3 pm3mm pm7 indo cndo]
 	foreach word $functionalSE {
