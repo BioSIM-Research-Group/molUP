@@ -287,8 +287,14 @@ proc molUP::readOniomStructure {} {
 			set atomInfoFreeze {}
 
     		incr i
-    		regexp {(\S+)[-](\S+)[-](\S+)[(]PDBName=(\S+),ResName=(\S+),ResNum=(\S+)[)]} $column0 -> \
-    		atomicSymbol gaussianAtomType charge pdbAtomType resname resid
+			set test [regexp {(\S+)[-](\S+)[-](\S+)[(]PDBName=(\S+),ResName=(\S+),ResNum=(\S+)[)]} $column0 -> \
+    		atomicSymbol gaussianAtomType charge pdbAtomType resname resid]
+    		
+			if {$test == 0} {
+				regexp {(\S+)[-](\S+)[(]PDBName=(\S+),ResName=(\S+),ResNum=(\S+)[)]} $column0 -> \
+    		atomicSymbol gaussianAtomType pdbAtomType resname resid
+				set charge "0.000000"
+			} else {}
             
 			## Correction for charge signal
     		if {[string match "*--*" $column0]==1} {
@@ -386,8 +392,14 @@ proc molUP::readOniomStructureLastStructure {lastStructure} {
 			set atomInfoFreeze {}
 
     		incr i
-    		regexp {(\S+)[-](\S+)[-](\S+)[(]PDBName=(\S+),ResName=(\S+),ResNum=(\S+)[)]} $column0 -> \
-    		atomicSymbol gaussianAtomType charge pdbAtomType resname resid
+    		set test [regexp {(\S+)[-](\S+)[-](\S+)[(]PDBName=(\S+),ResName=(\S+),ResNum=(\S+)[)]} $column0 -> \
+    		atomicSymbol gaussianAtomType charge pdbAtomType resname resid]
+    		
+			if {$test == 0} {
+				regexp {(\S+)[-](\S+)[(]PDBName=(\S+),ResName=(\S+),ResNum=(\S+)[)]} $column0 -> \
+    		atomicSymbol gaussianAtomType pdbAtomType resname resid
+				set charge "0.000000"
+			} else {}
             
 			## Correction for charge signal
     		if {[string match "*--*" $column0]==1} {
