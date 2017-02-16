@@ -7,6 +7,7 @@ proc molUP::guiDihedModif {} {
 	#### Check if the window exists
 	if {[winfo exists $::molUP::dihedModif]} {wm deiconify $::molUP::dihedModif ;return $::molUP::dihedModif}
 	toplevel $::molUP::dihedModif
+	wm attributes $::molUP::dihedModif -topmost yes
 
 	#### Title of the windows
 	wm title $molUP::dihedModif "Dihedral Angle Editor" ;# titulo da pagina

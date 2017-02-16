@@ -1,11 +1,14 @@
 package provide readFreq 1.0 
 
 proc molUP::readFreq {} {
-    molUP::readFreqFile $molUP::path
+	set molID [molinfo top]
+
+	set list [list $molID $molUP::path]
+	lappend molUP::pathsFreq $list
+
+	molUP::readFreqFile $molUP::path
 
 	#### Create a new tab - Frequency
-
-	set molID [molinfo top]
 
 	$molUP::topGui.frame0.major.mol$molID.tabs.tabResults.tabs add [ttk::frame $molUP::topGui.frame0.major.mol$molID.tabs.tabResults.tabs.tab5 -style molUP.white.TLabel] -text "Frequencies"
 
@@ -235,7 +238,9 @@ proc molUP::selectFreq {} {
 	set answer [molUP::searchFreq $freqToSearch $molUP::freqList $molUP::freqLine]
 
 	## Get the list of freq vectors
-	set molUP::freqVectorsList [molUP::extractFreqVectors $molUP::path $answer]
+	set path [lindex [lindex $molUP::pathsFreq [lsearch -index 0 -all $molUP::pathsFreq $molID]] 1]
+
+	set molUP::freqVectorsList [molUP::extractFreqVectors $path $answer]
 	
 	## Draw vectors
 	molUP::drawVectors $molUP::freqVectorsList none
@@ -243,8 +248,6 @@ proc molUP::selectFreq {} {
 	## Animate Frequency
 	molUP::animateFreq $molUP::freqVectorsList $molUP::animationFreq $molUP::displacement "none"
 
-
-	
 }
 
 proc molUP::clearSelectionFreq {} {

@@ -11,6 +11,7 @@ proc molUP::guiError {message windowname} {
     #### Check if the window exists
 	if {[winfo exists $::molUP::error]} {wm deiconify $::molUP::error ;return $::molUP::error}
 	toplevel $::molUP::error
+    wm attributes $::molUP::error -topmost yes
 
 	#### Title of the windows
 	wm title $molUP::error "$windowname" ;# titulo da pagina

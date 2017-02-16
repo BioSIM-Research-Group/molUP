@@ -7,6 +7,7 @@ proc molUP::guiAngleModif {} {
 	#### Check if the window exists
 	if {[winfo exists $::molUP::angleModif]} {wm deiconify $::molUP::angleModif ;return $::molUP::angleModif}
 	toplevel $::molUP::angleModif
+	wm attributes $::molUP::angleModif -topmost yes
 
 	#### Title of the windows
 	wm title $molUP::angleModif "Angle Editor" ;# titulo da pagina

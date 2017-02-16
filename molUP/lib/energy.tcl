@@ -59,6 +59,10 @@ proc molUP::energy {} {
 	
     foreach line $lines {
 		lassign $line column1 column2 column3 column4 column5 column6 column7 column8 value
+
+        if {$value == "******************"} {
+            set value 999999999999999999
+        } else {}
 		
         if {$column3 == 1} {
             lappend molUP::listEnergies $value
@@ -118,6 +122,18 @@ proc molUP::drawGraph {} {
             -command {molUP::exportEnergy}
             ] -in $molUP::topGui.frame0.major.mol$molID.tabs.tabResults.tabs.tab6 -x 265 -y 260 -width 120 
 
+ #   place [ttk::button $molUP::topGui.frame0.major.mol$molID.tabs.tabResults.tabs.tab6.zoomPlus \
+ #           -text "Zoom +" \
+ #           -style molUP.TButton \
+ #           -command {molUP::zoomGraph in}
+ #           ] -in $molUP::topGui.frame0.major.mol$molID.tabs.tabResults.tabs.tab6 -x 90 -y 300 -width 75 
+#
+ #   place [ttk::button $molUP::topGui.frame0.major.mol$molID.tabs.tabResults.tabs.tab6.zoomMinus \
+ #           -text "Zoom -" \
+ #           -style molUP.TButton \
+ #           -command {molUP::zoomGraph out}
+ #           ] -in $molUP::topGui.frame0.major.mol$molID.tabs.tabResults.tabs.tab6 -x 5 -y 300 -width 75 
+
     ## Create a list for each variable
     set structure {}
     set totalE {}
@@ -132,9 +148,21 @@ proc molUP::drawGraph {} {
 
 
     ## Draw the graph
-    molUP::drawPlot $molUP::topGui.frame0.major.mol$molID.tabs.tabResults.tabs.tab6.graph $structure $totalE "Energetic Profile" black 16 oval black black 8
+    molUP::drawPlot $molUP::topGui.frame0.major.mol$molID.tabs.tabResults.tabs.tab6.graph $structure $totalE "Energetic Profile" black 16 oval black black 5
     #molUP::addData $molUP::topGui.frame0.major.mol$molID.tabs.tabResults.tabs.tab6.graph $structure $hlE oval red red 8
     #molUP::addData $molUP::topGui.frame0.major.mol$molID.tabs.tabResults.tabs.tab6.graph $structure $llE oval blue blue 8
+
+}
+
+proc molUP::zoomGraph {factor} {
+    # Factor can be "in" or "out"
+    if {$factor == "in"} {
+        $molUP::topGui.frame0.major.mol[molinfo top].tabs.tabResults.tabs.tab6.graph.plotBackground.area scale scale 0 0 1.05 1.05
+        $molUP::topGui.frame0.major.mol[molinfo top].tabs.tabResults.tabs.tab6.graph.plotBackground.y scale all 0 0 1.00 1.05
+    } elseif {$factor == "out"} {
+        $molUP::topGui.frame0.major.mol[molinfo top].tabs.tabResults.tabs.tab6.graph.plotBackground.area scale scale 0 0 0.95 0.95
+        $molUP::topGui.frame0.major.mol[molinfo top].tabs.tabResults.tabs.tab6.graph.plotBackground.y scale all 0 0 1.00 0.95
+    } else {}
 
 }
 

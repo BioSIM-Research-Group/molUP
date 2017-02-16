@@ -1,6 +1,11 @@
 ######### molUP ##############
-Last version: 0.1.3 (ALPHA)
+Last version: 0.1.4 (ALPHA)
 ##############################
+Version 0.1.4
+- [Bug fixed] Transient windows (bond modify, angle, ...) were programmed to keep on top everytime
+- [Bug fixed] Fixed an error that prevents the load of files in certain stage of the calculation
+- [Bug fixed] Fix an error that prevents the load of structures with an energy value of *****************
+- [Bug fixed] Freq animation error when more than one structure is loaded.
 
 Version 0.1.3
 - [Bug fixed] Atoms without charges are correctly loaded

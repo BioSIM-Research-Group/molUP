@@ -92,7 +92,7 @@ proc molUP::loadGaussianOutputFile {option} {
 			#### Create a list with the first line of each optimized structures
 			set optimizedStructuresFirstLines {}
 			foreach optimizedLine $optimizedLines {
-				set optBeforeFirstLine [lindex $structuresAndOptimized [expr $optimizedLine + 1]]
+				set optBeforeFirstLine [lindex $structuresAndOptimized [expr $optimizedLine - 1]]
 				set optFirstLine [split $optBeforeFirstLine ":"]
 				set optFirstLine1 [expr [lindex $optFirstLine 0] + 2]
 

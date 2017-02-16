@@ -7,6 +7,7 @@ proc molUP::guiBondModif {} {
 	#### Check if the window exists
 	if {[winfo exists $::molUP::bondModif]} {wm deiconify $::molUP::bondModif ;return $::molUP::bondModif}
 	toplevel $::molUP::bondModif
+	wm attributes $::molUP::bondModif -topmost yes
 
 	#### Title of the windows
 	wm title $molUP::bondModif "Bond Editor" ;# titulo da pagina
