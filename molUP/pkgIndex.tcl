@@ -3,16 +3,17 @@
 package ifneeded molUP        	                            1.0 [list source [file join $dir/molUP.tcl]]
 
 #GUI
-package ifneeded gui        	                            1.0 [list source [file join $dir/routines/gui.tcl]]
-package ifneeded guiBondModif  	                            1.0 [list source [file join $dir/routines/guiBondModif.tcl]]
-package ifneeded guiAngleModif  	                        1.0 [list source [file join $dir/routines/guiAngleModif.tcl]]
-package ifneeded guiDihedModif  	                        1.0 [list source [file join $dir/routines/guiDihedModif.tcl]]
-package ifneeded guiOpenFile      	                        1.0 [list source [file join $dir/routines/guiOpenFile.tcl]]
-package ifneeded guiSaveFile      	                        1.0 [list source [file join $dir/routines/guiSaveFile.tcl]]
-package ifneeded guiError         	                        1.0 [list source [file join $dir/routines/guiError.tcl]]
-package ifneeded guiChargeMulti    	                        1.0 [list source [file join $dir/routines/guiChargeMulti.tcl]]
-package ifneeded guiCalcSetup    	                        1.0 [list source [file join $dir/routines/guiCalcSetup.tcl]]
-package ifneeded guiCredits     	                        1.0 [list source [file join $dir/routines/guiCredits.tcl]]
+package ifneeded gui        	                            1.0 [list source [file join $dir/gui/gui.tcl]]
+package ifneeded guiBondModif  	                            1.0 [list source [file join $dir/gui/guiBondModif.tcl]]
+package ifneeded guiAngleModif  	                        1.0 [list source [file join $dir/gui/guiAngleModif.tcl]]
+package ifneeded guiDihedModif  	                        1.0 [list source [file join $dir/gui/guiDihedModif.tcl]]
+package ifneeded guiOpenFile      	                        1.0 [list source [file join $dir/gui/guiOpenFile.tcl]]
+package ifneeded guiSaveFile      	                        1.0 [list source [file join $dir/gui/guiSaveFile.tcl]]
+package ifneeded guiError         	                        1.0 [list source [file join $dir/gui/guiError.tcl]]
+package ifneeded guiChargeMulti    	                        1.0 [list source [file join $dir/gui/guiChargeMulti.tcl]]
+package ifneeded guiCalcSetup    	                        1.0 [list source [file join $dir/gui/guiCalcSetup.tcl]]
+package ifneeded guiCredits     	                        1.0 [list source [file join $dir/gui/guiCredits.tcl]]
+package ifneeded guiChangelog     	                        1.0 [list source [file join $dir/gui/guiChangelog.tcl]]
 
 
 #lib

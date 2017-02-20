@@ -57,7 +57,7 @@ proc molUP::buildGui {} {
 	menu $molUP::topGui.frame0.topSection.topMenu.file.menu -tearoff 0
 	$molUP::topGui.frame0.topSection.topMenu.file.menu add command -label "Open" -command {molUP::guiOpenFile}
 	$molUP::topGui.frame0.topSection.topMenu.file.menu add command -label "Save" -command {molUP::guiSaveFile}
-	$molUP::topGui.frame0.topSection.topMenu.file.menu add command -label "Close" -command {molUP::quit}
+	#$molUP::topGui.frame0.topSection.topMenu.file.menu add command -label "Close" -command {molUP::quit}
 	#$molUP::topGui.frame0.topSection.topMenu.file.menu add command -label "Close VMD" -command {exec exit}
 
 	place [ttk::menubutton $molUP::topGui.frame0.topSection.topMenu.tools -text "Tools" -menu $molUP::topGui.frame0.topSection.topMenu.tools.menu \
@@ -86,6 +86,7 @@ proc molUP::buildGui {} {
 	menu $molUP::topGui.frame0.topSection.topMenu.about.menu -tearoff 0
 	$molUP::topGui.frame0.topSection.topMenu.about.menu add command -label "Help" -command {molUP::guiError "This feature is not available yet." "Available soon"}
 	$molUP::topGui.frame0.topSection.topMenu.about.menu add command -label "Credits" -command {molUP::guiCredits}
+	$molUP::topGui.frame0.topSection.topMenu.about.menu add command -label "Changelog" -command {molUP::guiChangelog}
 	$molUP::topGui.frame0.topSection.topMenu.about.menu add command -label "Check for updates" -command {molUP::guiError "No updates available." "Updates"}
 
 
@@ -287,8 +288,6 @@ proc molUP::buildGui {} {
 	}
 
 }
-
-
 
 proc molUP::getMolinfoList {} {
 	set molUP::molinfoList {}

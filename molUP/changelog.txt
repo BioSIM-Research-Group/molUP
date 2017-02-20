@@ -1,6 +1,12 @@
 ######### molUP ##############
-Last version: 0.1.4 (ALPHA)
+Last version: 0.1.5 (ALPHA)
 ##############################
+Version 0.1.5
+- [Bug fixed] Link atom assignement was fixed
+- Remove the Close icon on File Menu (Redundant button)
+- [New feature] Changelog information was added to About Menu
+
+
 Version 0.1.4
 - [Bug fixed] Transient windows (bond modify, angle, ...) were programmed to keep on top everytime
 - [Bug fixed] Fixed an error that prevents the load of files in certain stage of the calculation

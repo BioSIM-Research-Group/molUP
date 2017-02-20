@@ -15,6 +15,7 @@ namespace eval molUP:: {
 		package require guiChargeMulti							1.0
 		package require guiCalcSetup							1.0
 		package require guiCredits								1.0
+		package require guiChangelog							1.0
 		
 		package require inputFile 								1.0
 		package require timeControl								1.0
@@ -38,7 +39,7 @@ namespace eval molUP:: {
 
 		#### Program Variables
 		## General
-		variable version	    	"0.1.4 (alpha)"
+		variable version	    	"0.1.5 (alpha)"
 
 		#GUI
         variable topGui         	".molUP"
@@ -51,6 +52,7 @@ namespace eval molUP:: {
 		variable chargeMulti	    ".molUP.chargeMulti"
 		variable calcSetup			".molUP.calcSetup"
 		variable credits			".molUP.credits"
+		variable changelog			".molUP.changelog"
 
 		global path
 		variable path 				"/"
