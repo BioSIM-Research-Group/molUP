@@ -218,7 +218,7 @@ proc molUP::linkAtoms {} {
             # Do Nothing
         } elseif {[lindex $layer1 4] == "L" && [lindex $layer2 4] == "H"} {
                 lappend molUP::linkAtomsListIndex [lindex $bond 0]
-                set llAtoms [join [::util::bondedsel top [lindex $bond 1] [lindex $bond 0] -maxdepth 3]]
+                set llAtoms [join [::util::bondedsel top [lindex $bond 0] [lindex $bond 1] -maxdepth 2]]
                 set llAtomsName [[atomselect top "index $llAtoms"] get type]
                 foreach atom $llAtomsName {
                     set Hlist {}
@@ -236,7 +236,7 @@ proc molUP::linkAtoms {} {
                 }
         } elseif {[lindex $layer1 4] == "H" && [lindex $layer2 4] == "L"} {
                 lappend molUP::linkAtomsListIndex [lindex $bond 1]
-                set llAtoms [join [::util::bondedsel top [lindex $bond 0] [lindex $bond 1] -maxdepth 3]]
+                set llAtoms [join [::util::bondedsel top [lindex $bond 1] [lindex $bond 0] -maxdepth 2]]
                 set llAtomsName [[atomselect top "index $llAtoms"] get type]
                 foreach atom $llAtomsName {
                     set Hlist {}
