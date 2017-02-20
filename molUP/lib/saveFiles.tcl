@@ -220,8 +220,8 @@ proc molUP::linkAtoms {} {
                 lappend molUP::linkAtomsListIndex [lindex $bond 0]
                 set llAtoms [lindex [::util::bondedsel top [lindex $bond 0] [lindex $bond 1] -maxdepth 2] 1]
                 set llAtomsName [[atomselect top "index $llAtoms"] get type]
+                set Hlist {}
                 foreach atom $llAtomsName {
-                    set Hlist {}
                     set test [string match "H*" $atom]
                     if {$test == 1} {
                         lappend Hlist $atom 
@@ -238,8 +238,8 @@ proc molUP::linkAtoms {} {
                 lappend molUP::linkAtomsListIndex [lindex $bond 1]
                 set llAtoms [lindex [::util::bondedsel top [lindex $bond 1] [lindex $bond 0] -maxdepth 2] 1]
                 set llAtomsName [[atomselect top "index $llAtoms"] get type]
+                set Hlist {}
                 foreach atom $llAtomsName {
-                    set Hlist {}
                     set test [string match "H*" $atom]
                     if {$test == 1} {
                         lappend Hlist $atom 
