@@ -33,13 +33,14 @@ namespace eval molUP:: {
 		package require Tk
 		package require tablelist
 		package require topotools
+		package require balloon
 		
 		# Theme
 		package require gaussianTheme							1.0
 
 		#### Program Variables
 		## General
-		variable version	    	"0.1.5 (alpha)"
+		variable version	    	"0.1.6 (alpha)"
 
 		#GUI
         variable topGui         	".molUP"

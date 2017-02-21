@@ -30,6 +30,8 @@ package ifneeded saveFiles                                 	1.0 [list source [fi
 package ifneeded readFreq                                 	1.0 [list source [file join $dir/lib/readFreq.tcl]]
 package ifneeded energy                                 	1.0 [list source [file join $dir/lib/energy.tcl]]
 package ifneeded plot                                    	1.0 [list source [file join $dir/lib/plot.tcl]]
+package ifneeded balloon                                    1.0 [list source [file join $dir/lib/balloon.tcl]];
+
 
 #Theme
 package ifneeded gaussianTheme                              1.0 [list source [file join $dir/lib/theme/theme.tcl]]

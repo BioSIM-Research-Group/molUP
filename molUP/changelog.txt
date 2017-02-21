@@ -1,11 +1,14 @@
 ######### molUP ##############
-Last version: 0.1.5 (ALPHA)
+Last version: 0.1.6 (ALPHA)
 ##############################
+Version 0.1.6
+- [New feature] Help balloons will appear when mouse hovers the buttons
+
+
 Version 0.1.5
 - [Bug fixed] Link atom assignement was fixed
 - Remove the Close icon on File Menu (Redundant button)
 - [New feature] Changelog information was added to About Menu
-
 
 Version 0.1.4
 - [Bug fixed] Transient windows (bond modify, angle, ...) were programmed to keep on top everytime
@@ -18,12 +21,10 @@ Version 0.1.3
 - [Bug fixed] Keywords tagged by yellow cannot be read. They were changed to grey
 - [New feature] A color chooser for frequency vectors
 
-
 Version 0.1.2
 - [Bug fixed] All atoms are considered during frequency animations
 - [Bug fixed] List of frequencies is cleared before a new molecule is loaded
 - [Bug fixed] “_” and other non-numeric characters are ignored when RESID is read
-
 
 Version 0.1.0
 - Release (alpha testers)

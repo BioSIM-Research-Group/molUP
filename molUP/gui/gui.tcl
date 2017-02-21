@@ -198,63 +198,63 @@ proc molUP::buildGui {} {
 			-command {display resetview} \
 			-style molUP.reset.TButton \
 			] -in $tbar -x 17 -y 5 -width 30
-	#balloon $tbar.resetView -text "Reset View"
+	balloon $tbar.resetView -text "Reset View"
 
 	place [ttk::button $tbar.centerAtom \
 			-text "Center atom" \
 			-command {mouse mode center} \
 			-style molUP.center.TButton \
 			] -in $tbar -x 57 -y 5 -width 30
-	#balloon $tbar.centerAtom -text "Center atom"
+	balloon $tbar.centerAtom -text "Center atom"
 
 	place [ttk::button $tbar.deleteAllLabels \
 			-text "Delete all labels" \
 			-command {molUP::deleteAllLabels} \
 			-style molUP.deleteAllLabels.TButton \
 			] -in $tbar -x 97 -y 5 -width 30
-	#balloon $tbar.deleteAllLabels -text "Delete all labels"
+	balloon $tbar.deleteAllLabels -text "Delete all labels"
 
 	place [ttk::button $tbar.mouseModeRotate \
 			-text "Mouse mode: Rotate" \
 			-command {mouse mode rotate} \
 			-style molUP.mouseModeRotate.TButton \
 			] -in $tbar -x 145 -y 5 -width 30
-	#balloon $tbar.mouseModeRotate -text "Mouse mode: Rotate"
+	balloon $tbar.mouseModeRotate -text "Mouse mode: Rotate"
 
 	place [ttk::button $tbar.mouseModeTranslate \
 			-text "Mouse mode: Translate" \
 			-command {mouse mode translate} \
 			-style molUP.mouseModeTranslate.TButton \
 			] -in $tbar -x 185 -y 5 -width 30
-	#balloon $tbar.mouseModeTranslate -text "Mouse mode: Translate"
+	balloon $tbar.mouseModeTranslate -text "Mouse mode: Translate"
 
 	place [ttk::button $tbar.mouseModeScale \
 			-text "Mouse mode: Scale" \
 			-command {mouse mode scale} \
 			-style molUP.mouseModeScale.TButton \
 			] -in $tbar -x 225 -y 5 -width 30
-	#balloon $tbar.mouseModeScale -text "Mouse mode: Scale"
+	balloon $tbar.mouseModeScale -text "Mouse mode: Scale"
 
 	place [ttk::button $tbar.bondEdit \
 			-text "Modify bond" \
 			-command {molUP::bondModifInitialProc} \
 			-style molUP.bondEdit.TButton \
 			] -in $tbar -x 273 -y 5 -width 30
-	#balloon $tbar.bondEdit -text "Modify bond"
+	balloon $tbar.bondEdit -text "Modify bond"
 
 	place [ttk::button $tbar.angleEdit \
 			-text "Modify angle" \
 			-command {molUP::angleModifInitialProc} \
 			-style molUP.angleEdit.TButton \
 			] -in $tbar -x 313 -y 5 -width 30
-	#balloon $tbar.angleEdit -text "Modify angle"
+	balloon $tbar.angleEdit -text "Modify angle"
 
 	place [ttk::button $tbar.dihedralEdit \
 			-text "Modify dihedral" \
 			-command {molUP::dihedModifInitialProc} \
 			-style molUP.dihedralEdit.TButton \
 			] -in $tbar -x 353 -y 5 -width 30
-	#balloon $tbar.dihedralEdit -text "Modify dihedral"
+	balloon $tbar.dihedralEdit -text "Modify dihedral"
 
 
 
