@@ -1,9 +1,11 @@
 ######### molUP ##############
-Last version: 0.1.6 (ALPHA)
+Last version: 0.1.7 (ALPHA)
 ##############################
+Version 0.1.7
+- [Bug fixed] Automatic zoom for huge number of structures (load all optimized structures)
+
 Version 0.1.6
 - [New feature] Help balloons will appear when mouse hovers the buttons
-
 
 Version 0.1.5
 - [Bug fixed] Link atom assignement was fixed

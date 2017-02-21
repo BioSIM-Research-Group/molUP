@@ -147,6 +147,7 @@ proc molUP::drawGraph {} {
     }
 
 
+
     ## Draw the graph
     molUP::drawPlot $molUP::topGui.frame0.major.mol$molID.tabs.tabResults.tabs.tab6.graph $structure $totalE "Energetic Profile" black 16 oval black black 5
     #molUP::addData $molUP::topGui.frame0.major.mol$molID.tabs.tabResults.tabs.tab6.graph $structure $hlE oval red red 8
