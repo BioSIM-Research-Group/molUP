@@ -168,7 +168,7 @@ proc molUP::drawPlot {frame x y title titleColor titleSize markerFormat markerCo
             -fill $titleColor \
             -tag title
 
-        set width [expr 20 + 50 + (($numberPoints - 1) * 15)]
+        set width [expr 20 + 50 + (($numberPoints - 1) * 20)]
         set areaWidth [expr $width - 50 - 20]
 
         ## Draw Y axis
