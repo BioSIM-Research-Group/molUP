@@ -35,10 +35,22 @@ proc molUP::readFreq {} {
 			] -in $molUP::topGui.frame0.major.mol$molID.tabs.tabResults.tabs.tab5 -x 0 -y 200 -height 20 -width 370
 
 	place [ttk::button $molUP::topGui.frame0.major.mol$molID.tabs.tabResults.tabs.tab5.clearSelection \
-			-text "Stop Animation" \
+			-text "Stop" \
 			-command {molUP::clearSelectionFreq} \
 			-style molUP.blue.TButton \
-			] -in $molUP::topGui.frame0.major.mol$molID.tabs.tabResults.tabs.tab5 -x 5 -y 225 -width 380
+			] -in $molUP::topGui.frame0.major.mol$molID.tabs.tabResults.tabs.tab5 -x 265 -y 225 -width 120
+	
+	place [ttk::button $molUP::topGui.frame0.major.mol$molID.tabs.tabResults.tabs.tab5.play \
+			-text "Play" \
+			-command {animate forward} \
+			-style molUP.blue.TButton \
+			] -in $molUP::topGui.frame0.major.mol$molID.tabs.tabResults.tabs.tab5 -x 5 -y 225 -width 120
+
+	place [ttk::button $molUP::topGui.frame0.major.mol$molID.tabs.tabResults.tabs.tab5.pause \
+			-text "Pause" \
+			-command {animate pause} \
+			-style molUP.blue.TButton \
+			] -in $molUP::topGui.frame0.major.mol$molID.tabs.tabResults.tabs.tab5 -x 135 -y 225 -width 120
 
 	place [ttk::label $molUP::topGui.frame0.major.mol$molID.tabs.tabResults.tabs.tab5.animFreq \
 			-text "Animation Frequency: " \
@@ -110,6 +122,21 @@ proc molUP::readFreq {} {
 			] -in $molUP::topGui.frame0.major.mol$molID.tabs.tabResults.tabs.tab5 -x 110 -y 370 -width 275
 	bind $molUP::topGui.frame0.major.mol$molID.tabs.tabResults.tabs.tab5.changeColorVectors <<ComboboxSelected>> {molUP::changeVectorsColor}
 
+	place [ttk::label $molUP::topGui.frame0.major.mol$molID.tabs.tabResults.tabs.tab5.vectorThresholdLabel \
+			-text "Vectors threshold: " \
+			-style molUP.white.TLabel \
+			] -in $molUP::topGui.frame0.major.mol$molID.tabs.tabResults.tabs.tab5 -x 5 -y 420 -width 100
+
+	place [scale $molUP::topGui.frame0.major.mol$molID.tabs.tabResults.tabs.tab5.vectorThreshold \
+				-from 0.0 \
+				-to 2 \
+				-resolution 0.005 \
+				-variable {molUP::vectorThreshold} \
+				-command {molUP::drawVectors $molUP::freqVectorsList} \
+				-orient horizontal \
+				-showvalue 1 \
+				] -in $molUP::topGui.frame0.major.mol$molID.tabs.tabResults.tabs.tab5 -x 110 -y 405 -width 275
+
 
 	## Add each frequency to the table 
 	set freqIndex 0
@@ -134,8 +161,8 @@ proc molUP::readFreqFile {file} {
 	variable freqLine {}
 	variable irList {}
 
-	set a [split [exec egrep -n -m 5 "Frequencies --" $file] "\n"]
-	set b [split [exec egrep -n -m 5 "IR Inten    --" $file] "\n"]
+	set a [split [exec egrep -n "Frequencies --" $file] "\n"]
+	set b [split [exec egrep -n "IR Inten    --" $file] "\n"]
 
 	foreach line  $a {
         	set molUP::freqList [lappend molUP::freqList "[lindex $line 3] [lindex $line 4] [lindex $line 5]"]
@@ -284,22 +311,30 @@ proc molUP::drawVectors {freqList none} {
 			set z [$sel get z]
 			set atomCoord [list "$x" "$y" "$z"]
 
-			set vectorToScale [vecscale $displacement [list "[lindex $freq 1]" "[lindex $freq 2]" "[lindex $freq 3]"]]
+			set originalvectorSize [veclength [list "[lindex $freq 1]" "[lindex $freq 2]" "[lindex $freq 3]"]]
 
-			set lastPoint [vecadd $atomCoord $vectorToScale]
-			graphics top cylinder $atomCoord $lastPoint radius 0.05 resolution 10 filled yes
+			if { $originalvectorSize > $molUP::vectorThreshold } {
+				set vectorToScale [vecscale $displacement [list "[lindex $freq 1]" "[lindex $freq 2]" "[lindex $freq 3]"]]
 
-			set vectorSize [veclength $vectorToScale]
-			if {$vectorSize == 0} {
-				set factorCone 0
+				set lastPoint [vecadd $atomCoord $vectorToScale]
+				graphics top cylinder $atomCoord $lastPoint radius 0.05 resolution 10 filled yes
+
+				set vectorSize [veclength $vectorToScale]
+				if {$vectorSize == 0} {
+					set factorCone 0
+				} else {
+					set factorCone [expr 0.2 / $vectorSize]
+				}
+				
+				set vectorCone [vecscale $factorCone $vectorToScale]
+				set lastPointCone [vecadd $lastPoint $vectorCone]
+				
+				graphics top cone $lastPoint $lastPointCone radius 0.10 resolution 10
+
 			} else {
-				set factorCone [expr 0.2 / $vectorSize]
+				#ignore vector
 			}
-			
-			set vectorCone [vecscale $factorCone $vectorToScale]
-			set lastPointCone [vecadd $lastPoint $vectorCone]
-			
-			graphics top cone $lastPoint $lastPointCone radius 0.10 resolution 10
+
 
 		}
 

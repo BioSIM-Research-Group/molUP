@@ -615,6 +615,7 @@ proc molUP::resultSection {molID frame majorHeight} {
 		-bd 1 \
 		-highlightcolor #017aff \
 		-highlightthickness 1 \
+		-wrap word \
 		] -in $tInput -x 5 -y 30 -width 375 -height 25
 	$tInput.jobTitleEntry insert end $molUP::title
 
@@ -632,6 +633,7 @@ proc molUP::resultSection {molID frame majorHeight} {
 		-bd 1 \
 		-highlightcolor #017aff \
 		-highlightthickness 1 \
+		-wrap word \
 		] -in $tInput -x 5 -y 85 -width 375 -height 80
 	$tInput.keywordsText insert end $molUP::keywordsCalc
 	

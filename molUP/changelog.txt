@@ -1,6 +1,12 @@
 ######### molUP ##############
-Last version: 0.1.7 (ALPHA)
+Last version: 0.1.8 (ALPHA)
 ##############################
+Version 0.1.8
+- [Bug fixed] Molecules containing less than 250 atoms will be presented by Licorice instead of lines in the "All" representation.
+- [New feature] Play and Pause buttons were added to the frequency animation interface 
+- [New feature] A slider was included to choose the vector's size threshold for representantion
+
+
 Version 0.1.7
 - [Bug fixed] Automatic zoom for huge number of structures (load all optimized structures)
 

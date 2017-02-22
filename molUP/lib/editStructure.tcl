@@ -30,6 +30,8 @@ proc molUP::addSelectionRep {} {
     #### Change atom colors
     color Name C green3
 
+    set numberAtoms [[atomselect top all] num]
+
     set a [split [mol list top] "\n"]
     set numberRep [lindex [lindex $a 2] 2]
 
@@ -134,14 +136,26 @@ proc molUP::addSelectionRep {} {
 	    mol addrep top
         mol showrep top 11 $molUP::showNegChargedResidues
 
-        # All representations
-        mol selection all
-        mol color Name
-        mol material Diffuse
-        mol representation Lines 1.000000
-        mol addrep top
-        set molUP::allRep 1
-        mol showrep top 12 $molUP::allRep
+        if {$numberAtoms > 250 } {
+            # All representations
+            mol selection all
+            mol color Name
+            mol material Diffuse
+            mol representation Lines 1.000000
+            mol addrep top
+            set molUP::allRep 1
+            mol showrep top 12 $molUP::allRep
+        } else {
+            # All representations
+            mol selection all
+            mol color Name
+            mol material Diffuse
+            mol representation Licorice 0.300000 15.000000 15.000000
+            mol addrep top
+            set molUP::allRep 1
+            mol showrep top 12 $molUP::allRep
+        }
+
 
 
 
@@ -241,8 +255,11 @@ proc molUP::addSelectionRep {} {
 	    mol addrep top
         mol showrep top 11 $molUP::showNegChargedResidues
 
-
-        mol representation Lines 1.000000
+         if {$numberAtoms > 250 } {
+            mol representation Lines 1.000000
+        } else {
+            mol representation Licorice 0.300000 15.000000 15.000000
+        }
 
     } else {}
 
