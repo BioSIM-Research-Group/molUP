@@ -17,19 +17,23 @@ proc molUP::energyNotONIOM {} {
 
     variable listEnergies {}
     variable listEnergiesOpt {}
+    variable listEnergiesNonOpt {}
 	
     foreach line $lines {
 		lassign $line column1 column2 column3 column4 column5 column6 column7 column8 value
 		
         if {$column1 == "SCF"} {
             lappend molUP::listEnergies $column5
+		} elseif {[regexp {Non-Optimized} $line -> optimizedLine]} {
+			lappend molUP::listEnergies "nonoptstructure"
 		} elseif {[regexp {Optimized} $line -> optimizedLine]} {
 			lappend molUP::listEnergies "optstructure"
 		}
 	}
 
     ## Search for optimized strcutures
-    set optEnergy [lsearch -all $molUP::listEnergies "optstructure"]
+    set optEnergy [lsearch -all $molUP::listEnergies "*optstructure"]
+    set nonOptEnergy [lsearch -all $molUP::listEnergies "nonoptstructure"]
 
     set structure 1
     foreach strut $optEnergy {
@@ -39,6 +43,11 @@ proc molUP::energyNotONIOM {} {
         lappend molUP::listEnergiesOpt $list
 
         incr structure
+    }
+
+    foreach a $nonOptEnergy {
+        set b [lsearch $optEnergy $a]
+        lappend molUP::listEnergiesNonOpt [expr $b + 1]
     }
 
     molUP::drawGraph 
@@ -56,6 +65,7 @@ proc molUP::energy {} {
     ## Variable containing the list of energies for all structures
     variable listEnergies {}
     variable listEnergiesOpt {}
+    variable listEnergiesNonOpt {}
 	
     foreach line $lines {
 		lassign $line column1 column2 column3 column4 column5 column6 column7 column8 value
@@ -70,6 +80,8 @@ proc molUP::energy {} {
 			lappend molUP::listEnergies $value
 		} elseif {$column3 == 3} {
 			lappend molUP::listEnergies $value
+		} elseif {[regexp {Non-Optimized} $line -> optimizedLine]} {
+			lappend molUP::listEnergies "nonoptstructure"
 		} elseif {[regexp {Optimized} $line -> optimizedLine]} {
 			lappend molUP::listEnergies "optstructure"
 		}
@@ -77,7 +89,8 @@ proc molUP::energy {} {
 	}
 
     ## Search for optimized strcutures
-    set optEnergy [lsearch -all $molUP::listEnergies "optstructure"]
+    set optEnergy [lsearch -all $molUP::listEnergies "*optstructure"]
+    set nonOptEnergy [lsearch -all $molUP::listEnergies "nonoptstructure"]
 
     set structure 1
     foreach strut $optEnergy {
@@ -89,6 +102,11 @@ proc molUP::energy {} {
         lappend molUP::listEnergiesOpt $list
 
         incr structure
+    }
+
+    foreach a $nonOptEnergy {
+        set b [lsearch $optEnergy $a]
+        lappend molUP::listEnergiesNonOpt [expr $b + 1]
     }
 
     molUP::drawGraph 
@@ -122,17 +140,10 @@ proc molUP::drawGraph {} {
             -command {molUP::exportEnergy}
             ] -in $molUP::topGui.frame0.major.mol$molID.tabs.tabResults.tabs.tab6 -x 265 -y 260 -width 120 
 
- #   place [ttk::button $molUP::topGui.frame0.major.mol$molID.tabs.tabResults.tabs.tab6.zoomPlus \
- #           -text "Zoom +" \
- #           -style molUP.TButton \
- #           -command {molUP::zoomGraph in}
- #           ] -in $molUP::topGui.frame0.major.mol$molID.tabs.tabResults.tabs.tab6 -x 90 -y 300 -width 75 
-#
- #   place [ttk::button $molUP::topGui.frame0.major.mol$molID.tabs.tabResults.tabs.tab6.zoomMinus \
- #           -text "Zoom -" \
- #           -style molUP.TButton \
- #           -command {molUP::zoomGraph out}
- #           ] -in $molUP::topGui.frame0.major.mol$molID.tabs.tabResults.tabs.tab6 -x 5 -y 300 -width 75 
+    place [ttk::label $molUP::topGui.frame0.major.mol$molID.tabs.tabResults.tabs.tab6.note \
+		-style molUP.white.TLabel \
+		-text {Red points (if available) correspond to non-optimized structure.} ] -in $molUP::topGui.frame0.major.mol$molID.tabs.tabResults.tabs.tab6 -x 5 -y 290
+ 
 
     ## Create a list for each variable
     set structure {}
