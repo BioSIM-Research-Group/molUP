@@ -17,7 +17,6 @@ proc molUP::drawPlot {frame x y title titleColor titleSize markerFormat markerCo
     set width [$frame cget -width]
     set height [$frame cget -height]
     pack [canvas $frame.plotBackground -bg white -relief raised -width $width -height $height -highlightthickness 0 -xscrollcommand "$frame.plotBackground.xscb0 set" -scrollregion {0 0 380 0}] -in $frame
-    puts $frame
 
     place [ttk::scrollbar $frame.plotBackground.xscb0 \
 			-orient horizontal \
