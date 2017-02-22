@@ -278,6 +278,16 @@ proc molUP::drawPlot {frame x y title titleColor titleSize markerFormat markerCo
             }
 
 
+             set testValue [lsearch $molUP::listEnergiesNonOpt [expr $i + 1]]
+
+            if {$testValue == -1 } {
+                set markerColor black
+                set markerColorLine black
+            } else {
+                set markerColor red
+                set markerColorLine red
+            }
+
             ## Draw points
             set x1 [expr 50 + ($gapWidth * $i) - ($dotSize/2)]
             set y1 [expr ($height - 50) - (($yValue - $yMin)* (1 / $pixelValueY)) - ($dotSize/2)]
