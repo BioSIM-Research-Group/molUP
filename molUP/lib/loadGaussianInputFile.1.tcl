@@ -55,6 +55,9 @@ proc molUP::loadGaussianInputFile {} {
 	topo clearbonds
 	topo setbondlist $connectList
 	set molUP::connectivity $molUP::connectivityInputFile
+
+	display resetview
+
 }
 
 proc molUP::createMolecule {} {
@@ -71,9 +74,8 @@ proc molUP::createMolecule {} {
 	mol color Name
 	mol addrep top
 	## Place connectivity
-	mol ssrecalc top
-	mol bondsrecalc top
-	mol reanalyze top
-	display resetview	
+	#mol ssrecalc top
+	#mol bondsrecalc top
+	#mol reanalyze top
 }
     

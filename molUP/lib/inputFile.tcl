@@ -3,6 +3,7 @@ package provide inputFile 1.0
 #### Browse a file in the system and get the path
 proc molUP::onSelect {} {
     set fileTypes {
+			{{Gaussian Files}       {.log .com}        }
             {{Gaussian Input (.com)}       {.com}        }
             {{Gaussian Output (.log)}       {.log}        }
     }
@@ -44,18 +45,21 @@ proc molUP::loadButton {fileExtension} {
 		if {$molUP::loadMode == "Last Structure"} {
 			trace remove variable ::vmd_initialize_structure write molUP::updateStructuresFromOtherSource
 			molUP::loadGaussianOutputFile lastStructure
+			molUP::getConnectivityFromInputFile
 			molUP::updateStructures
 			trace variable ::vmd_initialize_structure w molUP::updateStructuresFromOtherSource
 
 		} elseif {$molUP::loadMode == "First Structure"} {
 			trace remove variable ::vmd_initialize_structure write molUP::updateStructuresFromOtherSource
 			molUP::loadGaussianOutputFile firstStructure
+			molUP::getConnectivityFromInputFile
 			molUP::updateStructures
 			trace variable ::vmd_initialize_structure w molUP::updateStructuresFromOtherSource
 
 		} elseif {$molUP::loadMode == "All optimized structures"} {
 			trace remove variable ::vmd_initialize_structure write molUP::updateStructuresFromOtherSource
 			molUP::loadGaussianOutputFile optimizedStructures
+			molUP::getConnectivityFromInputFile
 			molUP::updateStructures
 			molUP::firstProcEnergy
 			trace variable ::vmd_initialize_structure w molUP::updateStructuresFromOtherSource
@@ -63,7 +67,9 @@ proc molUP::loadButton {fileExtension} {
 		} elseif {$molUP::loadMode == "All structures (may take a long time to load)"} {
 			trace remove variable ::vmd_initialize_structure write molUP::updateStructuresFromOtherSource
 			molUP::loadGaussianOutputFile allStructures
+			molUP::getConnectivityFromInputFile
 			molUP::updateStructures
+			molUP::firstProcEnergy
 			trace variable ::vmd_initialize_structure w molUP::updateStructuresFromOtherSource
 		} else {
 				set alert [tk_messageBox -message "Please select which structure you want to load." -type ok -icon info]
@@ -87,4 +93,38 @@ proc molUP::getBlankLines {path numberLine} {
 	set eachBlankLine [split $blankLines ":"]
 	set lineNumber [lindex $eachBlankLine $numberLine]
 	return $lineNumber
+}
+
+proc molUP::getConnectivityFromInputFile {} {
+	set path [join [list [file dirname $molUP::path] "/" $molUP::fileName ".com"] ""]
+	set fileExists [file exists $path]
+
+	if {$fileExists == 1} {
+		### Add connectivity to VMD
+		set molID [molinfo top]
+
+		set firstLine [expr [molUP::getBlankLines $path 2] + 1]
+		set lastLine [expr [molUP::getBlankLines $path 3] - 1]
+		catch {exec sed -n "$firstLine,$lastLine p" $path} connectivity
+
+		set firstParam [expr [molUP::getBlankLines $path 3] + 1]
+		catch {exec sed -n "$firstParam,\$ p" $path} param
+
+		set molUP::connectivityInputFile $connectivity
+		set molUP::parameters $param
+
+		set connectList [molUP::convertGaussianInputConnectToVMD $molUP::connectivityInputFile]
+		topo clearbonds
+		topo setbondlist $connectList
+
+		display resetview
+
+	} else {
+		## Place connectivity
+		mol ssrecalc top
+		mol bondsrecalc top
+		mol reanalyze top
+
+		display resetview
+	}
 }

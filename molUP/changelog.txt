@@ -1,12 +1,14 @@
 ######### molUP ##############
-Last version: 0.1.8 (ALPHA)
+Last version: 0.1.9 (ALPHA)
 ##############################
+Version 0.1.9
+- [New feature] molUP will apply automatically connectivity or .log files based on the available .com file (should be located at the same folder) The options to load from another file or rebonnd are still available. 
+
 Version 0.1.8
 - [Bug fixed] Molecules containing less than 250 atoms will be presented by Licorice instead of lines in the "All" representation.
 - [New feature] Play and Pause buttons were added to the frequency animation interface 
 - [New feature] A slider was included to choose the vector's size threshold for representantion
 - [New feature] Non-optimized structures will be colored by red on the energetic profile graph
-
 
 Version 0.1.7
 - [Bug fixed] Automatic zoom for huge number of structures (load all optimized structures)
