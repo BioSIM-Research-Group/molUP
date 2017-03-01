@@ -41,7 +41,7 @@ namespace eval molUP:: {
 
 		#### Program Variables
 		## General
-		variable version	    	"0.1.9 (alpha)"
+		variable version	    	"0.2.0"
 
 		#GUI
         variable topGui         	".molUP"
@@ -60,8 +60,8 @@ namespace eval molUP:: {
 		variable path 				"/"
 		variable fileName			""
 		variable fileExtension		""
-		variable title 				"Gaussian for VMD is a very good plugin :)"
-		variable actualTitle		"Gaussian for VMD is a very good plugin :)"
+		variable title 				"molUP is awesome"
+		variable actualTitle		"molUP is awesome"
 		variable chargesMultip		""
 		variable keywordsCalc		"%mem=7000MB\n%NProc=4\n%chk=name.chk\n\n# "
 		variable structureGaussian	""
@@ -156,6 +156,8 @@ namespace eval molUP:: {
 		variable colorList {{0 blue} {1 red} {2 gray} {3 orange} {4 yellow} {5 tan} {6 silver} {7 green} {8 white} {9 pink} {10 cyan} {11 purple} {12 lime} {13 mauve} {14 ochre} {15 iceblue} {16 black} {17 yellow2} {18 yellow3} {19 green2} {20 green3} {21 cyan2} {22 cyan3} {23 blue2} {24 blue3} {25 violet} {26 violet2} {27 magenta} {28 magenta2} {29 red2} {30 red3} {31 orange1} {32 orange3}}
 		variable pathsFreq {}
 		variable vectorThreshold 0
+		variable saveAdvancedOptions "All"
+		variable atomSelectionSave "all"
 
 
 		variable chargeAll	0

@@ -57,12 +57,150 @@ proc molUP::saveGaussian {} {
         set path [tk_getSaveFile -title "Save file as Gaussian Input" -filetypes $fileTypes -defaultextension ".com" -initialfile "Created_by_molUP.com"]
 
         if {$path != ""} {
-            molUP::writeGaussianFile $path
+            if {$molUP::saveAdvancedOptions == "All"} {
+                molUP::writeGaussianFile $path
+            } else {
+                molUP::writeGaussianFileAdvanced $path $molUP::atomSelectionSave
+            }
         } else {}
 
     }
 
     destroy $::molUP::saveFile
+
+}
+
+proc molUP::writeGaussianFileAdvanced {path selection} {
+    ## Create a file 
+	set file [open "$path" w]
+
+    set molID [molinfo top]
+
+    set keywords [.molUP.frame0.major.mol$molID.tabs.tabInput.keywordsText get 1.0 end]
+    set title [.molUP.frame0.major.mol$molID.tabs.tabInput.jobTitleEntry get 1.0 end]
+
+    ## Write keywords
+    puts $file "$keywords"
+
+    ## Write title
+    puts $file "$title"
+
+    set sel [atomselect top $selection]
+    set indexes [$sel get index]
+
+    ## Write Charge and Multi
+    set molUP::chargesMultip "0 1"
+    puts $file $molUP::chargesMultip
+
+    ## Get coordinates
+    set allCoord [$sel get {x y z}]
+    set elementInfo [$sel get element]
+
+    ## Get Layer Info
+    set layerInfoList [.molUP.frame0.major.mol$molID.tabs.tabResults.tabs.tab2.tableLayer get $indexes]
+
+    ## Get Freeze Info
+    set freezeInfoList [.molUP.frame0.major.mol$molID.tabs.tabResults.tabs.tab3.tableLayer get $indexes]
+    
+    ## Get Charges Info
+    set chargesInfoList [.molUP.frame0.major.mol$molID.tabs.tabResults.tabs.tab4.tableLayer get $indexes]
+
+  
+    ## Write on the file
+    set i 0
+    foreach atomLayer $layerInfoList atomFreeze $freezeInfoList atomCharge $chargesInfoList atomCoord $allCoord element $elementInfo {
+        set lookForLinkAtom [lsearch $molUP::linkAtomsListIndex $i]
+
+        set xx [lindex $atomCoord 0]
+        set yy [lindex $atomCoord 1]
+        set zz [lindex $atomCoord 2]
+
+        if {[lindex $atomFreeze 4] == ""} {
+            set freeze 0
+        } else {
+            set freeze [lindex $atomFreeze 4]
+        }
+
+        if {$lookForLinkAtom == -1} {
+            set initialInfo " $element-[lindex $atomCharge 1]-[lindex $atomCharge 4](PDBName=[lindex $atomLayer 1],ResName=[lindex $atomLayer 2],ResNum=[lindex $atomLayer 3])"
+            puts $file "[format %-60s $initialInfo] [format %-4s $freeze] [format "%10s" [format "% f" $xx]] [format "%10s" [format "% f" $yy]] [format "%10s" [format "% f" $zz]] [format %-2s [lindex $atomLayer 4]]"
+        } else {
+            set linkAtom [lindex $molUP::linkAtomsList $lookForLinkAtom]
+
+            set initialInfo " [string range [lindex $atomCharge 1] 0 0]-[lindex $atomCharge 1]-[lindex $atomCharge 4](PDBName=[lindex $atomLayer 1],ResName=[lindex $atomLayer 2],ResNum=[lindex $atomLayer 3])"
+            puts $file "[format %-60s $initialInfo] [format %-4s $freeze] [format "%10s" [format "% f" $xx]] [format "%10s" [format "% f" $yy]] [format "%10s" [format "% f" $zz]] [format %-2s [lindex $atomLayer 4]]$linkAtom"
+        }
+    
+        incr i
+    }
+
+
+
+
+    ## Add link atoms
+    set connectivity [topo getbondlist order]
+
+    set listD {}
+    foreach value $indexes {
+        set a [lsearch -index 0 -all $connectivity $value]
+        set listA {}
+        foreach c $a {
+            set d [lindex [lindex $connectivity $c] 1]
+            lappend listA $d
+        }
+
+        set b [lsearch -index 1 -all $connectivity $value]
+        set listB {}
+        foreach c $b {
+            set d [lindex [lindex $connectivity $c] 0]
+            lappend listB $d
+        }
+
+        set listC [concat $listA $listB]
+
+        lappend listD $listC
+
+    }
+
+    set linkAtomsList [lsort -unique -real [join $listD]]
+    puts $linkAtomsList
+    puts "indexes $indexes"
+
+    foreach linkAtom $linkAtomsList {
+        if {[lsearch $indexes $linkAtom] == -1} {
+            set sel [atomselect top "index $linkAtom"]
+
+            set atomLayer [.molUP.frame0.major.mol$molID.tabs.tabResults.tabs.tab2.tableLayer get $linkAtom]
+            set atomFreeze [.molUP.frame0.major.mol$molID.tabs.tabResults.tabs.tab3.tableLayer get $linkAtom]
+            set atomCharge [.molUP.frame0.major.mol$molID.tabs.tabResults.tabs.tab4.tableLayer get $linkAtom]
+
+            set xx [$sel get x]
+            set yy [$sel get y]
+            set zz [$sel get z]
+
+            if {[lindex $atomFreeze 4] == ""} {
+                set freeze 0
+            } else {
+                set freeze [lindex $atomFreeze 4]
+            }
+
+            set initialInfo " H-H-[lindex $atomCharge 4](PDBName=H,ResName=[lindex $atomLayer 2],ResNum=[lindex $atomLayer 3])"
+            puts $file "[format %-60s $initialInfo] [format %-4s $freeze] [format "%10s" [format "% f" $xx]] [format "%10s" [format "% f" $yy]] [format "%10s" [format "% f" $zz]] [format %-2s [lindex $atomLayer 4]]"
+
+            $sel delete
+        }
+
+    }
+
+
+    ## Connectivity
+    set connectivity [molUP::connectivityFromVMD "index $indexes"]
+    puts $file "\n$connectivity"
+
+    set parameters [.molUP.frame0.major.mol$molID.tabs.tabInput.param get 1.0 end]
+    puts $file "$parameters"
+
+    close $file
 
 }
 
@@ -134,14 +272,20 @@ proc molUP::writeGaussianFile {path} {
         set yy [lindex $atomCoord 1]
         set zz [lindex $atomCoord 2]
 
+        if {[lindex $atomFreeze 4] == ""} {
+            set freeze 0
+        } else {
+            set freeze [lindex $atomFreeze 4]
+        }
+
         if {$lookForLinkAtom == -1} {
             set initialInfo " $element-[lindex $atomCharge 1]-[lindex $atomCharge 4](PDBName=[lindex $atomLayer 1],ResName=[lindex $atomLayer 2],ResNum=[lindex $atomLayer 3])"
-            puts $file "[format %-60s $initialInfo] [format %-4s [lindex $atomFreeze 4]] [format "%10s" [format "% f" $xx]] [format "%10s" [format "% f" $yy]] [format "%10s" [format "% f" $zz]] [format %-2s [lindex $atomLayer 4]]"
+            puts $file "[format %-60s $initialInfo] [format %-4s $freeze] [format "%10s" [format "% f" $xx]] [format "%10s" [format "% f" $yy]] [format "%10s" [format "% f" $zz]] [format %-2s [lindex $atomLayer 4]]"
         } else {
             set linkAtom [lindex $molUP::linkAtomsList $lookForLinkAtom]
 
             set initialInfo " [string range [lindex $atomCharge 1] 0 0]-[lindex $atomCharge 1]-[lindex $atomCharge 4](PDBName=[lindex $atomLayer 1],ResName=[lindex $atomLayer 2],ResNum=[lindex $atomLayer 3])"
-            puts $file "[format %-60s $initialInfo] [format %-4s [lindex $atomFreeze 4]] [format "%10s" [format "% f" $xx]] [format "%10s" [format "% f" $yy]] [format "%10s" [format "% f" $zz]] [format %-2s [lindex $atomLayer 4]]$linkAtom"
+            puts $file "[format %-60s $initialInfo] [format %-4s $freeze] [format "%10s" [format "% f" $xx]] [format "%10s" [format "% f" $yy]] [format "%10s" [format "% f" $zz]] [format %-2s [lindex $atomLayer 4]]$linkAtom"
         }
     
         incr i
@@ -157,27 +301,52 @@ proc molUP::writeGaussianFile {path} {
 
 }
 
-proc molUP::connectivityFromVMD {} {
-    set list [topo getbondlist order]
-    set connectivity ""
-    set numberAtoms [[atomselect top all] num]
+proc molUP::connectivityFromVMD {selection} {
+    if {$selection == "all"} {
+        set list [topo getbondlist order]
+        set numberAtoms [[atomselect top all] num]
+        set connectivity ""
 
-    for {set index 1} { $index <= $numberAtoms } { incr index } {
-        append connectivity " $index"
+        for {set index 1} { $index <= $numberAtoms } { incr index } {
+            append connectivity " $index"
+            
+            set a [lsearch -index 0 -all $list "[expr $index -1]"]
+
+            if {$a != ""} {
+                foreach b $a {
+                    set atom [expr [lindex [lindex $list $b] 1] + 1]
+                    set order [lindex [lindex $list $b] 2]
+
+                    append connectivity " $atom $order"
+                }
+            } else {}
         
-        set a [lsearch -index 0 -all $list "[expr $index -1]"]
+        append connectivity "\n"
 
-        if {$a != ""} {
-            foreach b $a {
-                set atom [expr [lindex [lindex $list $b] 1] + 1]
-                set order [lindex [lindex $list $b] 2]
+        }
+        
+    } else {
+        set list [topo -sel $selection getbondlist order]
+        set numberAtoms [[atomselect top all] num]
+        set connectivity ""
 
-                append connectivity " $atom $order"
-            }
-        } else {}
-    
-    append connectivity "\n"
+        for {set index 1} { $index <= $numberAtoms } { incr index } {
+            append connectivity " $index"
+            
+            set a [lsearch -index 0 -all $list "[expr $index -1]"]
 
+            if {$a != ""} {
+                foreach b $a {
+                    set atom [expr [lindex [lindex $list $b] 1] + 1]
+                    set order [lindex [lindex $list $b] 2]
+
+                    append connectivity " $atom $order"
+                }
+            } else {}
+        
+        append connectivity "\n"
+
+        }
     }
 
     return $connectivity

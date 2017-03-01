@@ -1,6 +1,9 @@
 ######### molUP ##############
-Last version: 0.1.9 (ALPHA)
+Last version: 0.2.0
 ##############################
+Version 0.2.0
+- [New feature] Advanced options were added to the save window. Now you can save some parts of the system.
+
 Version 0.1.9
 - [New feature] molUP will apply automatically connectivity or .log files based on the available .com file (should be located at the same folder) The options to load from another file or rebonnd are still available. 
 

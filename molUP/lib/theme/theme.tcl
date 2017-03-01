@@ -381,7 +381,7 @@ ttk::style theme create molUPTheme -parent clam -settings {
                  {selected active} $molUP::images(button-n) \
                  selected $molUP::images(button-n) \
                  active $molUP::images(button-a) \
-                 disabled $molUP::images(button-n) \
+                 disabled $molUP::images(button-d) \
                 ] \
                 -border 4 -sticky ew
 

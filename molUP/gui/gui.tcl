@@ -491,7 +491,7 @@ proc molUP::collectMolInfo {} {
 	### Structure molID, title, keywords, charges/Milti, connectivity, parameters
 
 	if {$molUP::connectivity == ""} {
-		set molUP::connectivity [molUP::connectivityFromVMD]
+		set molUP::connectivity [molUP::connectivityFromVMD all]
 	}
 
 	lappend molUP::moleculeInfo "molID[molinfo top]" $molUP::title $molUP::keywordsCalc $molUP::chargesMultip $molUP::connectivity $molUP::parameters
@@ -569,7 +569,7 @@ proc molUP::rebond {} {
 
 	set molID [molinfo top]
 
-	set connectivity [molUP::connectivityFromVMD]
+	set connectivity [molUP::connectivityFromVMD all]
 
 	$molUP::topGui.frame0.major.mol$molID.tabs.tabInput.connect delete 1.0 end
 	$molUP::topGui.frame0.major.mol$molID.tabs.tabInput.connect insert end $connectivity
