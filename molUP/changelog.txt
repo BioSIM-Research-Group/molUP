@@ -1,6 +1,9 @@
 ######### molUP ##############
-Last version: 0.2.0
+Last version: 0.2.1
 ##############################
+Version 0.2.1
+- [Bug fixed] Remove trace variables when the molUP window is closed.
+
 Version 0.2.0
 - [New feature] Advanced options were added to the save window. Now you can save some parts of the system.
 

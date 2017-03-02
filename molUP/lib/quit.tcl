@@ -5,19 +5,8 @@ package provide quit 1.0
 proc molUP::quit {} \
 {
 	trace remove variable ::vmd_initialize_structure write molUP::updateStructures
+	trace remove variable ::vmd_initialize_structure write molUP::updateStructuresFromOtherSource
 	
 	destroy $molUP::topGui
-
-}
-
-proc molUP::restart {} \
-{	
-	trace remove variable ::vmd_initialize_structure write molUP::updateStructures
-	
-	destroy $molUP::topGui
-
-	mol off all
-
-	molUP::buildGui
 
 }
