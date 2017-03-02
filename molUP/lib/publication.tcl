@@ -112,4 +112,6 @@ proc molUP::getCitationsFromKeywords {} {
         }
     }
 
+    return $references
+
 }
