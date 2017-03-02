@@ -179,6 +179,4 @@ proc molUP::start {} {
 }
 
 ## Initiate ###
-#molUP::loadImages
 #molUP::buildGui
-
