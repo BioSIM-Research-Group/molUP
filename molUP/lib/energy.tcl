@@ -10,6 +10,16 @@ proc molUP::firstProcEnergy {} {
     }
 }
 
+proc molUP::firstProcEnergyAll {} {
+    set oniomTrue [catch {exec egrep -m 1 "oniom" $molUP::path}]
+    puts $oniomTrue
+    if {$oniomTrue == "0"} {
+        molUP::energyAll
+    } else {
+        molUP::energyNotONIOMAll
+    }
+}
+
 
 proc molUP::energyNotONIOM {} {
     set energies [exec egrep {SCF Done:  E|Optimized Parameters} $molUP::path]
@@ -107,6 +117,59 @@ proc molUP::energy {} {
     foreach a $nonOptEnergy {
         set b [lsearch $optEnergy $a]
         lappend molUP::listEnergiesNonOpt [expr $b + 1]
+    }
+
+    molUP::drawGraph 
+}
+
+proc molUP::energyAll {} {
+
+    ## Get All energies
+    set energies [molUP::gettingEnergy $molUP::path]
+
+    ## Optimized Energies
+	set lines [split $energies \n]
+
+    ## Variable containing the list of energies for all structures
+    variable listEnergies {}
+    variable listEnergiesOpt {}
+    variable listEnergiesNonOpt {}
+	
+    foreach line $lines {
+		lassign $line column1 column2 column3 column4 column5 column6 column7 column8 value
+
+        if {$value == "******************"} {
+            set value 999999999999999999
+        } else {}
+		
+        if {$column3 == 1} {
+            lappend molUP::listEnergies $value
+		} elseif {$column3 == 2} {
+			lappend molUP::listEnergies $value
+		} elseif {$column3 == 3} {
+			lappend molUP::listEnergies $value
+            lappend molUP::listEnergies "newStruct"
+		} elseif {[regexp {Non-Optimized} $line -> optimizedLine]} {
+			#lappend molUP::listEnergies "nonoptstructure"
+		} elseif {[regexp {Optimized} $line -> optimizedLine]} {
+			#lappend molUP::listEnergies "optstructure"
+		}
+
+	}
+
+    ## Search for optimized strcutures
+    set optEnergy [lsearch -all $molUP::listEnergies "newStruct"]
+
+    set structure 1
+    foreach strut $optEnergy {
+        set highEnergy [lindex $molUP::listEnergies [expr $strut - 2]]
+        set lowEnergy [expr [lindex $molUP::listEnergies [expr $strut - 1]] - [lindex $molUP::listEnergies [expr $strut - 3]]]
+        set totalEnergy [expr $highEnergy + $lowEnergy]
+        set list [list "$structure" "$totalEnergy" "$highEnergy" "$lowEnergy"]
+
+        lappend molUP::listEnergiesOpt $list
+
+        incr structure
     }
 
     molUP::drawGraph 

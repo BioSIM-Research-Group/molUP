@@ -29,6 +29,7 @@ namespace eval molUP:: {
 		package require energy									1.0
 		package require plot									1.0
 		package require addAtom									1.0
+		package require publication								1.0
 
 
 		package require Tk
@@ -41,7 +42,7 @@ namespace eval molUP:: {
 
 		#### Program Variables
 		## General
-		variable version	    	"0.2.1"
+		variable version	    	"0.2.2"
 
 		#GUI
         variable topGui         	".molUP"
@@ -55,6 +56,8 @@ namespace eval molUP:: {
 		variable calcSetup			".molUP.calcSetup"
 		variable credits			".molUP.credits"
 		variable changelog			".molUP.changelog"
+		variable citeMolUP			".molUP.publication"
+		variable citations			".molUP.citations"
 
 		global path
 		variable path 				"/"

@@ -1,0 +1,19 @@
+#################################################
+%ONIOM
+Maseras, F. and K. Morokuma, IMOMM: A new integrated ab initio + molecular mechanics geometry optimization scheme of equilibrium structures and transition states. Journal of Computational Chemistry, 1995. 16(9): p. 1170-1179.
+doi.org/10.1002/jcc.540160911
+Svensson, M., et al., ONIOM: A Multilayered Integrated MO + MM Method for Geometry Optimizations and Single Point Energy Predictions. A Test for Diels−Alder Reactions and Pt(P(t- Bu)3)2 + H2 Oxidative Addition. The Journal of Physical Chemistry, 1996. 100(50): p. 19357-19363.
+doi.org/10.1021/jp962071j
+Dapprich, S., et al., A new ONIOM implementation in Gaussian98. Part I. The calculation of energies, gradients, vibrational frequencies and electric field derivatives. Journal of Molecular Structure- Theochem, 1999. 461: p. 1-21.
+doi.org/10.1016/S0166-1280(98)00475-8
+#################################################
+%B3LYP
+A.D. Becke, J.Chem.Phys. 98 (1993) 5648-5652
+doi.org/10.1063/1.464913
+C. Lee, W. Yang, R.G. Parr, Phys. Rev. B 37 (1988) 785-789
+doi.org/10.1103/PhysRevB.37.785
+S.H. Vosko, L. Wilk, M. Nusair, Can. J. Phys. 58 (1980) 1200-1211
+doi.org/10.1139/p80-159
+P.J. Stephens, F.J. Devlin, C.F. Chabalowski, M.J. Frisch, J.Phys.Chem. 98 (1994) 11623-11627
+doi.org/10.1021/j100096a001
+#################################################

@@ -32,6 +32,7 @@ package ifneeded energy                                 	1.0 [list source [file 
 package ifneeded plot                                    	1.0 [list source [file join $dir/lib/plot.tcl]]
 package ifneeded balloon                                    1.0 [list source [file join $dir/lib/balloon.tcl]]
 package ifneeded addAtom                                    1.0 [list source [file join $dir/lib/addAtom.tcl]]
+package ifneeded publication                                1.0 [list source [file join $dir/lib/publication.tcl]]
 
 
 #Theme

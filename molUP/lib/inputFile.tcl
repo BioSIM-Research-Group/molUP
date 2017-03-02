@@ -69,7 +69,7 @@ proc molUP::loadButton {fileExtension} {
 			molUP::loadGaussianOutputFile allStructures
 			molUP::getConnectivityFromInputFile
 			molUP::updateStructures
-			molUP::firstProcEnergy
+			molUP::firstProcEnergyAll
 			trace variable ::vmd_initialize_structure w molUP::updateStructuresFromOtherSource
 		} else {
 				set alert [tk_messageBox -message "Please select which structure you want to load." -type ok -icon info]

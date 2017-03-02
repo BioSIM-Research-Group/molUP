@@ -1,6 +1,9 @@
 ######### molUP ##############
-Last version: 0.2.1
+Last version: 0.2.2
 ##############################
+Version 0.2.2
+- [New feature] New set of tools that help the user to cite correctly all the methodologies that were used. This information is based on the file that was loaded.
+
 Version 0.2.1
 - [Bug fixed] Remove trace variables when the molUP window is closed.
 
