@@ -142,24 +142,31 @@ proc molUP::energy {} {
     set optEnergy [lsearch -all $molUP::listEnergies "*optstructure"]
     set nonOptEnergy [lsearch -all $molUP::listEnergies "nonoptstructure"]
 
-    set structure 1
-    foreach strut $optEnergy {
-        set highEnergy [lindex $molUP::listEnergies [expr $strut - 2]]
-        set lowEnergy [expr [lindex $molUP::listEnergies [expr $strut - 1]] - [lindex $molUP::listEnergies [expr $strut - 3]]]
-        set totalEnergy [expr $highEnergy + $lowEnergy]
-        set list [list "$structure" "$totalEnergy" "$highEnergy" "$lowEnergy"]
+    if {$optEnergy == "" && $nonOptEnergy == ""} {
+        #Ignore and plot no graph  
+        molUP::guiError "No optimized structure was found.\nThe last structure was loaded instead." "No optmimized structure"
+    } else {
 
-        lappend molUP::listEnergiesOpt $list
+        set structure 1
+        foreach strut $optEnergy {
+            set highEnergy [lindex $molUP::listEnergies [expr $strut - 2]]
+            set lowEnergy [expr [lindex $molUP::listEnergies [expr $strut - 1]] - [lindex $molUP::listEnergies [expr $strut - 3]]]
+            set totalEnergy [expr $highEnergy + $lowEnergy]
+            set list [list "$structure" "$totalEnergy" "$highEnergy" "$lowEnergy"]
 
-        incr structure
+            lappend molUP::listEnergiesOpt $list
+
+            incr structure
+        }
+
+        foreach a $nonOptEnergy {
+            set b [lsearch $optEnergy $a]
+            lappend molUP::listEnergiesNonOpt [expr $b + 1]
+        }
+
+        molUP::drawGraph 
+
     }
-
-    foreach a $nonOptEnergy {
-        set b [lsearch $optEnergy $a]
-        lappend molUP::listEnergiesNonOpt [expr $b + 1]
-    }
-
-    molUP::drawGraph 
 }
 
 proc molUP::energyAll {} {
