@@ -238,6 +238,8 @@ proc molUP::drawGraph {} {
             -height 250 \
 			] -in $molUP::topGui.frame0.major.mol$molID.tabs.tabResults.tabs.tab6 -x 5 -y 5 -width 380 -height 250
 
+    #pack [canvas $molUP::topGui.frame0.major.mol$molID.tabs.tabResults.tabs.tab6.graph.area -background white -width 380 -height 250]
+
     place [ttk::button $molUP::topGui.frame0.major.mol$molID.tabs.tabResults.tabs.tab6.savePS \
             -text "Save as vector image (PostScript)" \
             -style molUP.TButton \
@@ -253,6 +255,10 @@ proc molUP::drawGraph {} {
     place [ttk::label $molUP::topGui.frame0.major.mol$molID.tabs.tabResults.tabs.tab6.note \
 		-style molUP.white.TLabel \
 		-text {Red points (if available) correspond to non-optimized structure.} ] -in $molUP::topGui.frame0.major.mol$molID.tabs.tabResults.tabs.tab6 -x 5 -y 290
+    
+    place [ttk::label $molUP::topGui.frame0.major.mol$molID.tabs.tabResults.tabs.tab6.note1 \
+		-style molUP.white.TLabel \
+		-text {Zoom In: Drag the mouse     Zoom Out: Right-click} ] -in $molUP::topGui.frame0.major.mol$molID.tabs.tabResults.tabs.tab6 -x 5 -y 305
  
 
     ## Create a list for each variable
@@ -267,6 +273,29 @@ proc molUP::drawGraph {} {
         lappend llE [lindex $list 3]
     }
 
+    set xMax [expr [lindex [lsort -real -decreasing $structure] 0] + 1]
+    set xMin [lindex [lsort -real -increasing $structure] 0]
+    set xInt [expr [format %.0f [expr ($xMax - $xMin)/10]] + 1]
+
+    set yMax [expr [lindex [lsort -real -decreasing $totalE] 0] + (([lindex [lsort -real -decreasing $totalE] 0] - [lindex [lsort -real -increasing $totalE] 0])*0.05)]
+    set yMin [expr [lindex [lsort -real -increasing $totalE] 0] - (($yMax - [lindex [lsort -real -increasing $totalE] 0])*0.05)]
+    set yInt [expr ($yMax - $yMin)/10]
+
+
+
+    #set graph [::Plotchart::createXYPlot $molUP::topGui.frame0.major.mol$molID.tabs.tabResults.tabs.tab6.graph.area [list $xMin $xMax $xInt] [list $yMin $yMax $yInt]]
+    #$graph dataconfig total -type both -color blue -symbol dot -radius 2
+    #foreach x $structure y $totalE {
+    #    $graph plot total $x $y
+    #    $graph bindlast total <1> {molUP::mouseClick}
+    #}
+    ##$graph plotlist total $structure $totalE 1
+    #$graph yconfig -format %.5f
+    #$graph ytext "Energy (hartree)"
+    #$graph xtext "Reaction Coordinate"
+
+    
+
 
 
     ## Draw the graph
@@ -276,16 +305,8 @@ proc molUP::drawGraph {} {
 
 }
 
-proc molUP::zoomGraph {factor} {
-    # Factor can be "in" or "out"
-    if {$factor == "in"} {
-        $molUP::topGui.frame0.major.mol[molinfo top].tabs.tabResults.tabs.tab6.graph.plotBackground.area scale scale 0 0 1.05 1.05
-        $molUP::topGui.frame0.major.mol[molinfo top].tabs.tabResults.tabs.tab6.graph.plotBackground.y scale all 0 0 1.00 1.05
-    } elseif {$factor == "out"} {
-        $molUP::topGui.frame0.major.mol[molinfo top].tabs.tabResults.tabs.tab6.graph.plotBackground.area scale scale 0 0 0.95 0.95
-        $molUP::topGui.frame0.major.mol[molinfo top].tabs.tabResults.tabs.tab6.graph.plotBackground.y scale all 0 0 1.00 0.95
-    } else {}
-
+proc molUP::mouseClick {x y} {
+    animate goto [expr [format %.0f $x] - 1]
 }
 
 proc molUP::firstStepReference {list} {

@@ -3,6 +3,7 @@ Last version: 0.2.2
 ##############################
 Version 0.2.2
 - [Bug fixed] Fix a bug that prevents the load of some multistructures files.
+- [New feature] "Drag and Drop" to zoom in and right-click to zoom out on the energetic profile.
 
 Version 0.2.1
 - [Bug fixed] Remove trace variables when the molUP window is closed.

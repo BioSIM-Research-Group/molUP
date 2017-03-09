@@ -56,7 +56,7 @@ proc molUP::citations {} {
 	set sHeight [expr [winfo vrootheight $::molUP::topGui] -50]
 
 	#### Change the location of window
-    wm geometry $::molUP::citations 400x200+[expr ($sWidth - 400) / 2]+[expr ($sHeight -200) / 2]
+    wm geometry $::molUP::citations 600x300+[expr ($sWidth - 600) / 2]+[expr ($sHeight -300) / 2]
 	$::molUP::citations configure -background {white}
 	wm resizable $::molUP::citations 0 0
 
@@ -68,18 +68,23 @@ proc molUP::citations {} {
     #### Draw the GUI
     # Frame
     pack [ttk::frame $molUP::citations.frame]
-    pack [canvas $molUP::citations.frame.back -bg white -width 400 -height 200 -highlightthickness 0] -in $molUP::citations.frame
+    pack [canvas $molUP::citations.frame.back -bg white -width 600 -height 300 -highlightthickness 0] -in $molUP::citations.frame
 
     set content "This is a list of the references that you should cite based on the calculations that you performed:\n"
 
-    molUP::getCitationsFromKeywords
+    set references [molUP::getCitationsFromKeywords]
+
+    append content $references
+    puts $references
 
     place [text $molUP::citations.frame.back.label1 \
 		-width 380 \
 		-yscrollcommand "$molUP::citations.frame.back.yscb0 set" \
 		-wrap word \
 		-state normal \
-	] -in $molUP::citations.frame.back -x 10 -y 10 -width 360 -height 180
+	] -in $molUP::citations.frame.back -x 10 -y 10 -width 560 -height 180
+
+    $molUP::citations.frame.back.label1 edit modified true
 
 	$molUP::citations.frame.back.label1 delete 1.0 end
 	$molUP::citations.frame.back.label1 insert end $content
@@ -88,7 +93,13 @@ proc molUP::citations {} {
 	place [ttk::scrollbar $molUP::citations.frame.back.yscb0 \
 			-orient vertical \
 			-command [list $molUP::citations.frame.back.label1 yview]\
-	] -in $molUP::citations.frame.back -x 375 -y 10 -width 15 -height 180
+	] -in $molUP::citations.frame.back -x 575 -y 10 -width 15 -height 180
+
+    place [ttk::button $molUP::citations.frame.back.copyClipboardButton \
+			-text "Copy to Clipboard" \
+			-command {clipboard append "Hello"} \
+	] -in $molUP::citations.frame.back -x 100 -y 210 -width 300
+
 }
 
 proc molUP::getCitationsFromKeywords {} {
@@ -106,12 +117,11 @@ proc molUP::getCitationsFromKeywords {} {
         if {$test == 1} {
             catch {exec sed -n "/%$word/I,/#################################################/p" "$::molUPpath/lib/references.txt" | egrep -v -e "###################" -e "^%"} ref
 
-            append references "$word: \n$ref\n"
+            append references "\n$word: \n$ref\n"
         } else {
             #Do nothing
         }
     }
 
     return $references
-
 }

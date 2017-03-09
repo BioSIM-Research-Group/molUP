@@ -80,13 +80,13 @@ proc molUP::buildGui {} {
 	$molUP::topGui.frame0.topSection.topMenu.structure.menu add command -label "Modify dihedral" -command {molUP::dihedModifInitialProc}
 
 
-	#place [ttk::menubutton $molUP::topGui.frame0.topSection.topMenu.publication -text "Publication" -menu $molUP::topGui.frame0.topSection.topMenu.publication.menu \
-	#		-style molUP.menuBar.TMenubutton \
-	#		] -in $molUP::topGui.frame0.topSection.topMenu -x 210 -y 5 -height 25 -width 95
-	#menu $molUP::topGui.frame0.topSection.topMenu.publication.menu -tearoff 0	
-	#$molUP::topGui.frame0.topSection.topMenu.publication.menu add command -label "Generate Methodology" -command {molUP::bondModifInitialProc}
-	#$molUP::topGui.frame0.topSection.topMenu.publication.menu add command -label "References to cite" -command {molUP::citations}
-	#$molUP::topGui.frame0.topSection.topMenu.publication.menu add command -label "Cite molUP" -command {molUP::citeMolUP}		
+	place [ttk::menubutton $molUP::topGui.frame0.topSection.topMenu.publication -text "Publication" -menu $molUP::topGui.frame0.topSection.topMenu.publication.menu \
+			-style molUP.menuBar.TMenubutton \
+			] -in $molUP::topGui.frame0.topSection.topMenu -x 210 -y 5 -height 25 -width 95
+	menu $molUP::topGui.frame0.topSection.topMenu.publication.menu -tearoff 0	
+	$molUP::topGui.frame0.topSection.topMenu.publication.menu add command -label "Generate Methodology" -command {}
+	$molUP::topGui.frame0.topSection.topMenu.publication.menu add command -label "References to cite" -command {molUP::citations}
+	$molUP::topGui.frame0.topSection.topMenu.publication.menu add command -label "Cite molUP" -command {molUP::citeMolUP}		
 
 
 	place [ttk::menubutton $molUP::topGui.frame0.topSection.topMenu.about -text "About" -menu $molUP::topGui.frame0.topSection.topMenu.about.menu \
