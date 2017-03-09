@@ -258,7 +258,7 @@ proc molUP::drawGraph {} {
     
     place [ttk::label $molUP::topGui.frame0.major.mol$molID.tabs.tabResults.tabs.tab6.note1 \
 		-style molUP.white.TLabel \
-		-text {Zoom In: Drag the mouse     Zoom Out: Right-click} ] -in $molUP::topGui.frame0.major.mol$molID.tabs.tabResults.tabs.tab6 -x 5 -y 305
+		-text {Zoom In: Drag the mouse     Zoom Out: Right or Middle -click} ] -in $molUP::topGui.frame0.major.mol$molID.tabs.tabResults.tabs.tab6 -x 5 -y 305
  
 
     ## Create a list for each variable
@@ -364,7 +364,7 @@ proc molUP::savePS {pathname} {
         set path [tk_getSaveFile -filetypes $fileTypes -defaultextension ".ps" -title "Save image" -initialfile "energy.ps"]
 
         if {$path != ""} {
-            $pathname.plotBackground postscript -file [list $path]
+            $pathname.plotBackground.area.canvas postscript -file [list $path]
         } else {}
 }
 

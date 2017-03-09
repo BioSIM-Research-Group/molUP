@@ -163,15 +163,15 @@ proc molUP::drawPlot {frame x y title titleColor titleSize markerFormat markerCo
         # Tics
         for {set index 0} { $index < $howManyGaps } { incr index } {
             $frame.plotBackground.yAxis.canvas create line \
-            40 [expr ($areaHeight + 30) - $gapHeight * $index]  \
-            45 [expr ($areaHeight + 30) - $gapHeight * $index]  \
+            40 [expr ($areaHeight +15) - $gapHeight * $index]  \
+            45 [expr ($areaHeight +15) - $gapHeight * $index]  \
             -width 2 \
             -tags yAxis
             
             set scaleValue [format %.3f [expr $yMin + ($index * $pixelValueY * $gapHeight)]]
 
             $frame.plotBackground.yAxis.canvas create text \
-            37 [expr ($areaHeight + 30) - $gapHeight * $index] \
+            37 [expr ($areaHeight +15) - $gapHeight * $index] \
             -text "$scaleValue" \
             -font {Helvetica 8} \
             -anchor e  \
