@@ -322,8 +322,6 @@ proc molUP::selectMolecule {} {
 	set mol [lindex $molUP::topMolecule 0]
 	mol top $mol
 
-	# Update charges
-	molUP::getChargesSum none
 
 	set molList [molinfo list]
 	foreach molecule $molList {
@@ -346,6 +344,8 @@ proc molUP::selectMolecule {} {
 	set molUP::nonproteinRep [mol showrep $mol 5]
 	set molUP::waterRep [mol showrep $mol 6]
 
+	# Update charges
+	molUP::getChargesSum none
 }
 
 
@@ -434,7 +434,7 @@ proc molUP::activateMoleculeNEW {molID} {
 proc molUP::updateStructures {} {
 
 	# Launch a wait window
-	molUP::guiError "Pleasy wait a moment...\nThis window closes automatically when all the tasks have finished." "Wait a moment..."
+	#molUP::guiError "Pleasy wait a moment...\nThis window closes automatically when all the tasks have finished." "Wait a moment..."
 	
 	set previousMol [molinfo list]
 	foreach a $previousMol {
@@ -460,39 +460,50 @@ proc molUP::updateStructures {} {
 	molUP::checkTags .molUP.frame0.major.mol$mol.tabs.tabInput.keywordsText
 		
 	# Destroy waiting window
-	destroy $::molUP::error
+	#destroy $::molUP::error
 }
 
 proc molUP::updateStructuresFromOtherSource {args} {
 
-	# Launch a wait window
-	molUP::guiError "Pleasy wait a moment...\nThis window closes automatically when all the tasks have finished." "Wait a moment..."
-	
-	set previousMol [molinfo list]
-	foreach a $previousMol {
-		pack forget $molUP::topGui.frame0.major.mol$a
+	set molID [lindex $args 1]
+	set value [lsearch -index 0 -all $molUP::molinfoList $molID]
+
+	if {$value == ""} {
+		# Launch a wait window
+		#molUP::guiError "Pleasy wait a moment...\nThis window closes automatically when all the tasks have finished." "Wait a moment..."
+		
+		set previousMol [molinfo list]
+		foreach a $previousMol {
+			pack forget $molUP::topGui.frame0.major.mol$a
+		}
+
+		set mol [lindex [molinfo list] end]
+		molUP::resultSection $mol $molUP::topGui.frame0.major $molUP::majorHeight
+
+		# Pack TOP molecule
+		pack $molUP::topGui.frame0.major.mol$mol
+		
+
+		set molUP::allRep "1"
+		molUP::getMolinfoList
+		molUP::collectMolInfo
+		molUP::activateMolecule $mol
+		molUP::selectMolecule
+		molUP::addSelectionRep
+
+		molUP::guiChargeMulti $molUP::chargeMultiFrame
+
+		molUP::checkTags .molUP.frame0.major.mol$mol.tabs.tabInput.keywordsText
+			
+		# Destroy waiting window
+		#destroy $::molUP::error
+
+	} else {
+		destroy $molUP::topGui.frame0.major.mol$molID
+		molUP::getMolinfoList
+		set molUP::topMolecule "[molinfo top] : [molinfo top get name]"
 	}
 
-	set mol [lindex [molinfo list] end]
-	molUP::resultSection $mol $molUP::topGui.frame0.major $molUP::majorHeight
-
-	# Pack TOP molecule
-	pack $molUP::topGui.frame0.major.mol$mol
-	
-
-	set molUP::allRep "1"
-	molUP::getMolinfoList
-	molUP::collectMolInfo
-	molUP::activateMolecule $mol
-	molUP::selectMolecule
-	molUP::addSelectionRep
-
-	molUP::guiChargeMulti $molUP::chargeMultiFrame
-
-	molUP::checkTags .molUP.frame0.major.mol$mol.tabs.tabInput.keywordsText
-		
-	# Destroy waiting window
-	destroy $::molUP::error
 }
 
 
@@ -635,7 +646,7 @@ proc molUP::resultSection {molID frame majorHeight} {
 
 	place [ttk::label $tInput.keywordsLabel \
 		-style molUP.cyan.TLabel \
-		-text {Keyword calculations} ] -in $tInput -x 5 -y 60
+		-text {Calculation keywords} ] -in $tInput -x 5 -y 60
 
 	place [text $tInput.keywordsText \
 		-yscrollcommand "$tInput.yscb set" \

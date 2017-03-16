@@ -1,6 +1,10 @@
 ######### molUP ##############
-Last version: 0.2.2
+Last version: 0.2.3
 ##############################
+Version 0.2.3
+- [Bug fixed] Fix an error that causes a GUI problem when a molecule is deleted. 
+- [Bug fixed] Fix an error that prevents negative and positevely charged residues to show
+
 Version 0.2.2
 - [Bug fixed] Fix a bug that prevents the load of some multistructures files.
 - [New feature] "Drag and Drop" to zoom in and right-click to zoom out on the energetic profile.
