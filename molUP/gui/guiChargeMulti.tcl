@@ -491,8 +491,6 @@ proc molUP::getChargesSum {layer} {
 }
 
 proc molUP::showNegPosResidues {} {
-    set mol [molinfo top]
-    set molUP::tableCharges ".molUP.frame0.major.mol$mol.tabs.tabResults.tabs.tab4.tableLayer"
     
     set sel [atomselect top "all"]
     set lastResid [lindex [$sel get resid] end]
@@ -519,11 +517,11 @@ proc molUP::showNegPosResidues {} {
     }
 
     if {$listResidPos != ""} {
-        mol modselect 10 0 "resid $listResidPos"
+        mol modselect 10 top "resid $listResidPos"
     } else {}
 
     if {$listResidNeg != ""} {
-        mol modselect 11 0 "resid $listResidNeg"
+        mol modselect 11 top "resid $listResidNeg"
     } else {}
 }
 
