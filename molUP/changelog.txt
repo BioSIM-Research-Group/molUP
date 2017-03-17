@@ -1,6 +1,9 @@
 ######### molUP ##############
-Last version: 0.2.3
+Last version: 0.2.4
 ##############################
+Version 0.2.4 (17 MAR 2017)
+- [Bug fixed] Floating numbers on freeze status were converted to integers when saved
+
 Version 0.2.3
 - [Bug fixed] Fix an error that causes a GUI problem when a molecule is deleted. 
 - [Bug fixed] Fix an error that prevents negative and positevely charged residues to show

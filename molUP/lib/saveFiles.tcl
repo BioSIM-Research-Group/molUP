@@ -118,7 +118,7 @@ proc molUP::writeGaussianFileAdvanced {path selection} {
         if {[lindex $atomFreeze 4] == ""} {
             set freeze 0
         } else {
-            set freeze [lindex $atomFreeze 4]
+            set freeze [format %.0f [lindex $atomFreeze 4]]
         }
 
         if {$lookForLinkAtom == -1} {
@@ -275,7 +275,7 @@ proc molUP::writeGaussianFile {path} {
         if {[lindex $atomFreeze 4] == ""} {
             set freeze 0
         } else {
-            set freeze [lindex $atomFreeze 4]
+            set freeze [format %.0f [lindex $atomFreeze 4]]
         }
 
         if {$lookForLinkAtom == -1} {
