@@ -109,6 +109,13 @@ proc molUP::writeGaussianFileAdvanced {path selection} {
     ## Write on the file
     set i 0
     foreach atomLayer $layerInfoList atomFreeze $freezeInfoList atomCharge $chargesInfoList atomCoord $allCoord element $elementInfo {
+        if {$element == "X"} {
+            set element [string range [lindex $atomCharge 1] 0 0]
+        } else {
+
+        }
+        
+        
         set lookForLinkAtom [lsearch $molUP::linkAtomsListIndex $i]
 
         set xx [lindex $atomCoord 0]
@@ -122,12 +129,12 @@ proc molUP::writeGaussianFileAdvanced {path selection} {
         }
 
         if {$lookForLinkAtom == -1} {
-            set initialInfo " $element-[lindex $atomCharge 1]-[lindex $atomCharge 4](PDBName=[lindex $atomLayer 1],ResName=[lindex $atomLayer 2],ResNum=[lindex $atomLayer 3])"
+            set initialInfo " $element-[lindex $atomCharge 1]-[format %.6f [lindex $atomCharge 4]](PDBName=[lindex $atomLayer 1],ResName=[lindex $atomLayer 2],ResNum=[lindex $atomLayer 3])"
             puts $file "[format %-60s $initialInfo] [format %-4s $freeze] [format "%10s" [format "% f" $xx]] [format "%10s" [format "% f" $yy]] [format "%10s" [format "% f" $zz]] [format %-2s [lindex $atomLayer 4]]"
         } else {
             set linkAtom [lindex $molUP::linkAtomsList $lookForLinkAtom]
 
-            set initialInfo " [string range [lindex $atomCharge 1] 0 0]-[lindex $atomCharge 1]-[lindex $atomCharge 4](PDBName=[lindex $atomLayer 1],ResName=[lindex $atomLayer 2],ResNum=[lindex $atomLayer 3])"
+            set initialInfo " [string range [lindex $atomCharge 1] 0 0]-[lindex $atomCharge 1]-[format %.6f [lindex $atomCharge 4]](PDBName=[lindex $atomLayer 1],ResName=[lindex $atomLayer 2],ResNum=[lindex $atomLayer 3])"
             puts $file "[format %-60s $initialInfo] [format %-4s $freeze] [format "%10s" [format "% f" $xx]] [format "%10s" [format "% f" $yy]] [format "%10s" [format "% f" $zz]] [format %-2s [lindex $atomLayer 4]]$linkAtom"
         }
     
@@ -266,6 +273,12 @@ proc molUP::writeGaussianFile {path} {
     ## Write on the file
     set i 0
     foreach atomLayer $layerInfoList atomFreeze $freezeInfoList atomCharge $chargesInfoList atomCoord $allCoord element $elementInfo {
+        if {$element == "X"} {
+            set element [string range [lindex $atomCharge 1] 0 0]
+        } else {
+
+        }
+
         set lookForLinkAtom [lsearch $molUP::linkAtomsListIndex $i]
 
         set xx [lindex $atomCoord 0]
@@ -279,12 +292,12 @@ proc molUP::writeGaussianFile {path} {
         }
 
         if {$lookForLinkAtom == -1} {
-            set initialInfo " $element-[lindex $atomCharge 1]-[lindex $atomCharge 4](PDBName=[lindex $atomLayer 1],ResName=[lindex $atomLayer 2],ResNum=[lindex $atomLayer 3])"
+            set initialInfo " $element-[lindex $atomCharge 1]-[format %.6f [lindex $atomCharge 4]](PDBName=[lindex $atomLayer 1],ResName=[lindex $atomLayer 2],ResNum=[lindex $atomLayer 3])"
             puts $file "[format %-60s $initialInfo] [format %-4s $freeze] [format "%10s" [format "% f" $xx]] [format "%10s" [format "% f" $yy]] [format "%10s" [format "% f" $zz]] [format %-2s [lindex $atomLayer 4]]"
         } else {
             set linkAtom [lindex $molUP::linkAtomsList $lookForLinkAtom]
 
-            set initialInfo " [string range [lindex $atomCharge 1] 0 0]-[lindex $atomCharge 1]-[lindex $atomCharge 4](PDBName=[lindex $atomLayer 1],ResName=[lindex $atomLayer 2],ResNum=[lindex $atomLayer 3])"
+            set initialInfo " [string range [lindex $atomCharge 1] 0 0]-[lindex $atomCharge 1]-[format %.6f [lindex $atomCharge 4]](PDBName=[lindex $atomLayer 1],ResName=[lindex $atomLayer 2],ResNum=[lindex $atomLayer 3])"
             puts $file "[format %-60s $initialInfo] [format %-4s $freeze] [format "%10s" [format "% f" $xx]] [format "%10s" [format "% f" $yy]] [format "%10s" [format "% f" $zz]] [format %-2s [lindex $atomLayer 4]]$linkAtom"
         }
     

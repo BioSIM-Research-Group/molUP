@@ -30,6 +30,7 @@ namespace eval molUP:: {
 		package require plot									1.0
 		package require addAtom									1.0
 		package require publication								1.0
+		package require loadPrmtop								1.0
 
 
 		package require Tk
@@ -42,7 +43,7 @@ namespace eval molUP:: {
 
 		#### Program Variables
 		## General
-		variable version	    	"0.2.4"
+		variable version	    	"0.2.5"
 
 		#GUI
         variable topGui         	".molUP"
@@ -66,7 +67,7 @@ namespace eval molUP:: {
 		variable title 				"molUP is awesome"
 		variable actualTitle		"molUP is awesome"
 		variable chargesMultip		""
-		variable keywordsCalc		"%mem=7000MB\n%NProc=4\n%chk=name.chk\n\n# "
+		variable keywordsCalc		"%mem=7000MB\n%NProc=4\n%chk=name.chk\n# "
 		variable structureGaussian	""
 		variable loadingProgress	"0.0"
 		variable atomicSymbolList 		

@@ -1,6 +1,10 @@
 ######### molUP ##############
-Last version: 0.2.4
+Last version: 0.2.5
 ##############################
+Version 0.2.5 (27 MAR 2017)
+- [New feature] Load AMBER parameters from PRMTOP file
+- [Bug fixed] Update the icon of the bond modification tool
+
 Version 0.2.4 (17 MAR 2017)
 - [Bug fixed] Floating numbers on freeze status were converted to integers when saved
 

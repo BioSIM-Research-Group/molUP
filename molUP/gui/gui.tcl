@@ -388,8 +388,8 @@ proc molUP::activateMolecule {molID} {
 	$molUP::tableFreeze columnconfigure 3 -text $resid
 
 	# Specific
-	$molUP::tableCharges columnconfigure 4 -text [$sel get charge] -formatcommand {format %.5s}
-	$molUP::tableFreeze columnconfigure 4 -text [$sel get user]
+	$molUP::tableCharges columnconfigure 4 -text [$sel get charge] -formatcommand {format %8.6f}
+	$molUP::tableFreeze columnconfigure 4 -text [$sel get user] -formatcommand {format %1.0f}
 	$molUP::tableLayer columnconfigure 4 -text [$sel get altloc]
 	
 	#### Update input information
@@ -494,6 +494,8 @@ proc molUP::updateStructuresFromOtherSource {args} {
 		molUP::guiChargeMulti $molUP::chargeMultiFrame
 
 		molUP::checkTags .molUP.frame0.major.mol$mol.tabs.tabInput.keywordsText
+
+		set molUP::allRep 1
 			
 		# Destroy waiting window
 		#destroy $::molUP::error
@@ -518,7 +520,7 @@ proc molUP::collectMolInfo {} {
 	
 	### Clear variables
 	set molUP::title "Gaussian for VMD is a very good plugin :)"
-	set molUP::keywordsCalc "%mem=7000MB\n%NProc=4\n%chk=name.chk\n\n# "
+	set molUP::keywordsCalc "%mem=7000MB\n%NProc=4\n%chk=name.chk\n# "
 	set molUP::chargesMultip ""
 	set molUP::connectivity ""
 	set molUP::parameters ""
@@ -703,7 +705,13 @@ proc molUP::resultSection {molID frame majorHeight} {
 	#### Parameters 
 	place [ttk::label $tInput.paramLabel \
 		-style molUP.cyan.TLabel \
-		-text {Other information (Parameters, Modredundant...)} ] -in $tInput -x 5 -y [expr 405 + $heightBox + 10]
+		-text {Other information (Parameters, Modredundant...)} \
+		] -in $tInput -x 5 -y [expr 405 + $heightBox + 10]
+
+	place [ttk::button $tInput.loadPrmtop \
+		-style molUP.TButton \
+		-command molUP::loadPrmtopParameters \
+		-text {Load PRMTOP} ] -in $tInput -x 290 -y [expr 405 + $heightBox + 10 - 2] -width 100
 
 	place [text $tInput.param \
 		-yscrollcommand "$tInput.yscb2 set" \
