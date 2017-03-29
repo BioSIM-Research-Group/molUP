@@ -47,6 +47,7 @@ proc molUP::loadButton {fileExtension} {
 			molUP::loadGaussianOutputFile lastStructure
 			molUP::getConnectivityFromInputFile
 			molUP::updateStructures
+			molUP::energyLastStructure
 			trace variable ::vmd_initialize_structure w molUP::updateStructuresFromOtherSource
 
 		} elseif {$molUP::loadMode == "First Structure"} {
@@ -99,6 +100,12 @@ proc molUP::getConnectivityFromInputFile {} {
 	set path [join [list [file dirname $molUP::path] "/" $molUP::fileName ".com"] ""]
 	set fileExists [file exists $path]
 
+	mol ssrecalc top
+	mol bondsrecalc top
+	mol reanalyze top
+
+	display resetview
+
 	if {$fileExists == 1} {
 		### Add connectivity to VMD
 		set molID [molinfo top]
@@ -120,11 +127,6 @@ proc molUP::getConnectivityFromInputFile {} {
 		display resetview
 
 	} else {
-		## Place connectivity
-		mol ssrecalc top
-		mol bondsrecalc top
-		mol reanalyze top
-
-		display resetview
+		
 	}
 }

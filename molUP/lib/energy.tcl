@@ -2,7 +2,6 @@ package provide energy 1.0
 
 proc molUP::firstProcEnergy {} {
     set oniomTrue [catch {exec egrep -m 1 "oniom" $molUP::path}]
-    puts $oniomTrue
     if {$oniomTrue == "0"} {
         molUP::energy
     } else {
@@ -12,12 +11,185 @@ proc molUP::firstProcEnergy {} {
 
 proc molUP::firstProcEnergyAll {} {
     set oniomTrue [catch {exec egrep -m 1 "oniom" $molUP::path}]
-    puts $oniomTrue
     if {$oniomTrue == "0"} {
         molUP::energyAll
     } else {
         molUP::energyNotONIOMAll
     }
+}
+
+proc molUP::energyLastStructure {} {
+    set oniomTrue [catch {exec egrep -m 1 "oniom" $molUP::path}]
+    if {$oniomTrue == "0"} {
+        molUP::energyLastStructureOniom
+    } else {
+        molUP::energyLastStructureNotOniom
+    }
+}
+
+proc molUP::energyLastStructureOniom {} {
+    ## Get All energies
+    set energies [molUP::gettingEnergy $molUP::path]
+
+    ## Optimized Energies
+	set lines [split $energies \n]
+
+    ## Variable containing the list of energies for all structures
+    variable listEnergies {}
+    variable listEnergiesOpt {}
+    variable listEnergiesNonOpt {}
+	
+    foreach line $lines {
+		lassign $line column1 column2 column3 column4 column5 column6 column7 column8 value
+
+        if {$value == "******************"} {
+            set value 999999999999999999
+        } else {}
+		
+        if {$column3 == 1} {
+            lappend molUP::listEnergies $value
+		} elseif {$column3 == 2} {
+			lappend molUP::listEnergies $value
+		} elseif {$column3 == 3} {
+			lappend molUP::listEnergies $value
+            lappend molUP::listEnergies "newStruct"
+		} elseif {[regexp {Non-Optimized} $line -> optimizedLine]} {
+			#lappend molUP::listEnergies "nonoptstructure"
+		} elseif {[regexp {Optimized} $line -> optimizedLine]} {
+			#lappend molUP::listEnergies "optstructure"
+		}
+
+	}
+
+    ## Search for optimized strcutures
+    set optEnergy [lsearch -all $molUP::listEnergies "newStruct"]
+
+    set structure 1
+    foreach strut $optEnergy {
+        set highEnergy [lindex $molUP::listEnergies [expr $strut - 2]]
+        set lowEnergy [expr [lindex $molUP::listEnergies [expr $strut - 1]] - [lindex $molUP::listEnergies [expr $strut - 3]]]
+        set totalEnergy [expr $highEnergy + $lowEnergy]
+        set list [list "$structure" "$totalEnergy" "$highEnergy" "$lowEnergy"]
+
+        lappend molUP::listEnergiesOpt $list
+
+        incr structure
+    }
+
+    set energyLastStructure [lindex [lindex $molUP::listEnergiesOpt end] 1]
+    set energyLastStructureHL [lindex [lindex $molUP::listEnergiesOpt end] 2]
+    set energyLastStructureLL [lindex [lindex $molUP::listEnergiesOpt end] 3]
+
+
+    set molID [molinfo top]
+	$molUP::topGui.frame0.major.mol$molID.tabs.tabResults.tabs add [frame $molUP::topGui.frame0.major.mol$molID.tabs.tabResults.tabs.tab6] -text "Energies"
+
+    place [ttk::frame $molUP::topGui.frame0.major.mol$molID.tabs.tabResults.tabs.tab6.graph \
+            -width 380 \
+            -height 250 \
+			] -in $molUP::topGui.frame0.major.mol$molID.tabs.tabResults.tabs.tab6 -x 5 -y 5 -width 380 -height 250
+
+    place [ttk::label $molUP::topGui.frame0.major.mol$molID.tabs.tabResults.tabs.tab6.energyLabel \
+		-style molUP.white.TLabel \
+		-text {Total Energy (Hartree)} \
+        ] -in $molUP::topGui.frame0.major.mol$molID.tabs.tabResults.tabs.tab6 -x 10 -y 10 -width 200
+
+    place [text $molUP::topGui.frame0.major.mol$molID.tabs.tabResults.tabs.tab6.energyEntry \
+		-bd 1 \
+		-highlightcolor #017aff \
+		-highlightthickness 1 \
+		-wrap word \
+		] -in $molUP::topGui.frame0.major.mol$molID.tabs.tabResults.tabs.tab6 -x 200 -y 8 -width 180 -height 25
+	$molUP::topGui.frame0.major.mol$molID.tabs.tabResults.tabs.tab6.energyEntry insert end $energyLastStructure
+    $molUP::topGui.frame0.major.mol$molID.tabs.tabResults.tabs.tab6.energyEntry edit modified false
+
+    place [ttk::label $molUP::topGui.frame0.major.mol$molID.tabs.tabResults.tabs.tab6.energyLabelHL \
+		-style molUP.white.TLabel \
+		-text {High-Level Energy (Hartree)} \
+        ] -in $molUP::topGui.frame0.major.mol$molID.tabs.tabResults.tabs.tab6 -x 10 -y 50 -width 200
+
+    place [text $molUP::topGui.frame0.major.mol$molID.tabs.tabResults.tabs.tab6.energyEntryHL \
+		-bd 1 \
+		-highlightcolor #017aff \
+		-highlightthickness 1 \
+		-wrap word \
+		] -in $molUP::topGui.frame0.major.mol$molID.tabs.tabResults.tabs.tab6 -x 200 -y 48 -width 180 -height 25
+	$molUP::topGui.frame0.major.mol$molID.tabs.tabResults.tabs.tab6.energyEntryHL insert end $energyLastStructureHL
+    $molUP::topGui.frame0.major.mol$molID.tabs.tabResults.tabs.tab6.energyEntryHL edit modified false
+
+
+
+     place [ttk::label $molUP::topGui.frame0.major.mol$molID.tabs.tabResults.tabs.tab6.energyLabelLL \
+		-style molUP.white.TLabel \
+		-text {Low-Level Energy (Hartree)} \
+        ] -in $molUP::topGui.frame0.major.mol$molID.tabs.tabResults.tabs.tab6 -x 10 -y 70 -width 200
+
+    place [text $molUP::topGui.frame0.major.mol$molID.tabs.tabResults.tabs.tab6.energyEntryLL \
+		-bd 1 \
+		-highlightcolor #017aff \
+		-highlightthickness 1 \
+		-wrap word \
+		] -in $molUP::topGui.frame0.major.mol$molID.tabs.tabResults.tabs.tab6 -x 200 -y 68 -width 180 -height 25
+	$molUP::topGui.frame0.major.mol$molID.tabs.tabResults.tabs.tab6.energyEntryLL insert end $energyLastStructureLL
+    $molUP::topGui.frame0.major.mol$molID.tabs.tabResults.tabs.tab6.energyEntryLL edit modified false
+    
+}
+
+
+proc molUP::energyLastStructureNotOniom {} {
+    set energies [exec egrep {SCF Done:  E|Optimized Parameters} $molUP::path]
+    set lines [split $energies \n]
+
+    variable listEnergies {}
+    variable listEnergiesOpt {}
+    variable listEnergiesNonOpt {}
+	
+    foreach line $lines {
+		lassign $line column1 column2 column3 column4 column5 column6 column7 column8 value
+		
+        if {$column1 == "SCF"} {
+            lappend molUP::listEnergies $column5
+		} else {
+
+        }
+	}
+
+    ## Search for optimized strcutures
+
+    set structure 1
+    foreach strut $molUP::listEnergies {
+        set list [list "$structure" "$strut"]
+
+        lappend molUP::listEnergiesOpt $list
+
+        incr structure
+    }
+
+    set energyLastStructure [lindex [lindex $molUP::listEnergiesOpt end] 1]
+
+
+    set molID [molinfo top]
+	$molUP::topGui.frame0.major.mol$molID.tabs.tabResults.tabs add [frame $molUP::topGui.frame0.major.mol$molID.tabs.tabResults.tabs.tab6] -text "Energies"
+
+    place [ttk::frame $molUP::topGui.frame0.major.mol$molID.tabs.tabResults.tabs.tab6.graph \
+            -width 380 \
+            -height 250 \
+			] -in $molUP::topGui.frame0.major.mol$molID.tabs.tabResults.tabs.tab6 -x 5 -y 5 -width 380 -height 250
+
+    place [ttk::label $molUP::topGui.frame0.major.mol$molID.tabs.tabResults.tabs.tab6.energyLabel \
+		-style molUP.white.TLabel \
+		-text {Total Energy (Hartree)} \
+        ] -in $molUP::topGui.frame0.major.mol$molID.tabs.tabResults.tabs.tab6 -x 10 -y 10 -width 200
+
+    place [text $molUP::topGui.frame0.major.mol$molID.tabs.tabResults.tabs.tab6.energyEntry \
+		-bd 1 \
+		-highlightcolor #017aff \
+		-highlightthickness 1 \
+		-wrap word \
+		] -in $molUP::topGui.frame0.major.mol$molID.tabs.tabResults.tabs.tab6 -x 200 -y 8 -width 180 -height 25
+	$molUP::topGui.frame0.major.mol$molID.tabs.tabResults.tabs.tab6.energyEntry insert end $energyLastStructure
+    $molUP::topGui.frame0.major.mol$molID.tabs.tabResults.tabs.tab6.energyEntry edit modified false
+
 }
 
 
@@ -259,6 +431,19 @@ proc molUP::drawGraph {} {
     place [ttk::label $molUP::topGui.frame0.major.mol$molID.tabs.tabResults.tabs.tab6.note1 \
 		-style molUP.white.TLabel \
 		-text {Zoom In: Drag the mouse     Zoom Out: Right or Middle -click} ] -in $molUP::topGui.frame0.major.mol$molID.tabs.tabResults.tabs.tab6 -x 5 -y 305
+
+    place [ttk::label $molUP::topGui.frame0.major.mol$molID.tabs.tabResults.tabs.tab6.totalEnergyLabel \
+		-style molUP.white.TLabel \
+		-text {Total Energy (Hartree)} \
+        ] -in $molUP::topGui.frame0.major.mol$molID.tabs.tabResults.tabs.tab6 -x 5 -y 360 -width 180
+
+    variable totalEnergyValuePick "0.000000"
+
+     place [ttk::entry $molUP::topGui.frame0.major.mol$molID.tabs.tabResults.tabs.tab6.totalEnergy \
+		-style molUP.TEntry \
+		-textvariable molUP::totalEnergyValuePick \
+        -state readonly \
+        ] -in $molUP::topGui.frame0.major.mol$molID.tabs.tabResults.tabs.tab6 -x 200 -y 360 -width 180
  
 
     ## Create a list for each variable
@@ -281,25 +466,12 @@ proc molUP::drawGraph {} {
     set yMin [expr [lindex [lsort -real -increasing $totalE] 0] - (($yMax - [lindex [lsort -real -increasing $totalE] 0])*0.05)]
     set yInt [expr ($yMax - $yMin)/10]
 
-
-
-    #set graph [::Plotchart::createXYPlot $molUP::topGui.frame0.major.mol$molID.tabs.tabResults.tabs.tab6.graph.area [list $xMin $xMax $xInt] [list $yMin $yMax $yInt]]
-    #$graph dataconfig total -type both -color blue -symbol dot -radius 2
-    #foreach x $structure y $totalE {
-    #    $graph plot total $x $y
-    #    $graph bindlast total <1> {molUP::mouseClick}
-    #}
-    ##$graph plotlist total $structure $totalE 1
-    #$graph yconfig -format %.5f
-    #$graph ytext "Energy (hartree)"
-    #$graph xtext "Reaction Coordinate"
-
     
 
 
 
     ## Draw the graph
-    molUP::drawPlot $molUP::topGui.frame0.major.mol$molID.tabs.tabResults.tabs.tab6.graph $structure $totalE "Energetic Profile" black 16 oval black black 5
+    molUP::drawPlot $molUP::topGui.frame0.major.mol$molID.tabs.tabResults.tabs.tab6.graph $structure $totalE "Energetic Profile" black 16 oval black black 7
     #molUP::addData $molUP::topGui.frame0.major.mol$molID.tabs.tabResults.tabs.tab6.graph $structure $hlE oval red red 8
     #molUP::addData $molUP::topGui.frame0.major.mol$molID.tabs.tabResults.tabs.tab6.graph $structure $llE oval blue blue 8
 

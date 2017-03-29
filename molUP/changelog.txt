@@ -1,6 +1,12 @@
 ######### molUP ##############
-Last version: 0.2.5
+Last version: 0.2.6
 ##############################
+Version 0.2.6 (29 MAR 2017)
+- [New feature] Load energies for all structures
+- [New feature] The energy value is presented every time the user clicks on the graph
+- [New feature] Selected point of the  energies graph is green outlined
+- [Bug fixed] Residues are correctly assigned now
+
 Version 0.2.5 (27 MAR 2017)
 - [New feature] Load AMBER parameters from PRMTOP file
 - [Bug fixed] Update the icon of the bond modification tool

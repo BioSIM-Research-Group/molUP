@@ -74,8 +74,8 @@ proc molUP::createMolecule {} {
 	mol color Name
 	mol addrep top
 	## Place connectivity
-	#mol ssrecalc top
-	#mol bondsrecalc top
-	#mol reanalyze top
+	mol ssrecalc top
+	mol bondsrecalc top
+	mol reanalyze top
 }
     
