@@ -14,6 +14,8 @@ package ifneeded guiChargeMulti    	                        1.0 [list source [fi
 package ifneeded guiCalcSetup    	                        1.0 [list source [file join $dir/gui/guiCalcSetup.tcl]]
 package ifneeded guiCredits     	                        1.0 [list source [file join $dir/gui/guiCredits.tcl]]
 package ifneeded guiChangelog     	                        1.0 [list source [file join $dir/gui/guiChangelog.tcl]]
+package ifneeded guiInfo         	                        1.0 [list source [file join $dir/gui/guiInfo.tcl]]
+package ifneeded guiMethodology         	                1.0 [list source [file join $dir/gui/guiMethodology.tcl]]
 
 
 #lib

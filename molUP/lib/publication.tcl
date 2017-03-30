@@ -49,7 +49,7 @@ proc molUP::citations {} {
     wm attributes $::molUP::citations -topmost yes
 
 	#### Title of the windows
-	wm title $molUP::citations "Referenes to cite" ;# titulo da pagina
+	wm title $molUP::citations "References to cite" ;# titulo da pagina
 
     # screen width and height
 	set sWidth [expr [winfo vrootwidth  $::molUP::topGui] -0]
@@ -75,14 +75,13 @@ proc molUP::citations {} {
     set references [molUP::getCitationsFromKeywords]
 
     append content $references
-    puts $references
 
     place [text $molUP::citations.frame.back.label1 \
 		-width 380 \
 		-yscrollcommand "$molUP::citations.frame.back.yscb0 set" \
 		-wrap word \
 		-state normal \
-	] -in $molUP::citations.frame.back -x 10 -y 10 -width 560 -height 180
+	] -in $molUP::citations.frame.back -x 10 -y 10 -width 560 -height 250
 
     $molUP::citations.frame.back.label1 edit modified true
 
@@ -93,35 +92,48 @@ proc molUP::citations {} {
 	place [ttk::scrollbar $molUP::citations.frame.back.yscb0 \
 			-orient vertical \
 			-command [list $molUP::citations.frame.back.label1 yview]\
-	] -in $molUP::citations.frame.back -x 575 -y 10 -width 15 -height 180
+	] -in $molUP::citations.frame.back -x 575 -y 10 -width 15 -height 250
 
     place [ttk::button $molUP::citations.frame.back.copyClipboardButton \
 			-text "Copy to Clipboard" \
-			-command {clipboard append "Hello"} \
-	] -in $molUP::citations.frame.back -x 100 -y 210 -width 300
+            -style molUP.copyButton.TButton \
+			-command {molUP::copyClipboardFromText $molUP::citations.frame.back.label1} \
+	] -in $molUP::citations.frame.back -x 10 -y 260 -width 20 -height 20
+
+    place [ttk::button $molUP::citations.frame.back.closeWindow \
+			-text "Close" \
+            -style molUP.TButton \
+			-command {destroy $molUP::citations} \
+	] -in $molUP::citations.frame.back -x 40 -y 260 -width 70 -height 20
 
 }
 
 proc molUP::getCitationsFromKeywords {} {
     set molID [molinfo top]
-
-    ## Read keywords entry
-    set keywords [.molUP.frame0.major.mol$molID.tabs.tabInput.keywordsText get 1.0 end]
-
-    catch {exec grep "^%" "$::molUPpath/lib/references.txt" | cut -f2 -d%} searchDataBase
-
     set references ""
 
-    foreach word $searchDataBase {
-        set test [string match -nocase "*$word*" $keywords]
-        if {$test == 1} {
-            catch {exec sed -n "/%$word/I,/#################################################/p" "$::molUPpath/lib/references.txt" | egrep -v -e "###################" -e "^%"} ref
+    if {$molID != -1} {
 
-            append references "\n$word: \n$ref\n"
-        } else {
-            #Do nothing
+        ## Read keywords entry
+        set keywords [.molUP.frame0.major.mol$molID.tabs.tabInput.keywordsText get 1.0 end]
+
+        catch {exec grep "^%" "$::molUPpath/references/references.txt" | cut -f2 -d%} searchDataBase
+
+
+        foreach word $searchDataBase {
+            set test [string match -nocase "*$word*" $keywords]
+            if {$test == 1} {
+                catch {exec sed -n "/%$word/I,/#################################################/p" "$::molUPpath/lib/references.txt" | egrep -v -e "###################" -e "^%"} ref
+
+                append references "\n$word: \n$ref\n"
+            } else {
+                #Do nothing
+            }
         }
     }
+
+    set molUPRef "\nmolUP:\nH. S. Fernandes, M. J. Ramos, N. M. F. S. A. Cerqueira, Journal, 0 (2017) 0-0\ndoi.org/XXX.XXX.XXXX/XXXX\n"
+    append references $molUPRef
 
     return $references
 }

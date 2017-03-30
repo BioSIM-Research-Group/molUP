@@ -1,0 +1,16 @@
+          Thermochemical quantities
+
+
+Calculation of the free energy is of great importance for understanding the kinetics and the structural determinants of biomolecular processes. However, some computational methods produce detailed molecular information but no thermodynamic information directly. In these cases, further calculations are required. In these plots only the electronic energy is included and the kinetic energy due to the nuclear motions if often discarded. However, the nuclei in molecules are constantly in motion and neglecting their behaviour has been shown to be the principal source of disagreement between computations and experiment results 88. This motion persists even at 0 K, because the molecule vibrates even at this temperature. At the absolute zero, the internal energy of a system (E₀) is the computed electronic energy (E[elec]) that includes the repulsion energy of the nuclei and the zero point energy (ZPE) (Eq. 1).
+
+Eq. 1: E₀ = E[elec] + Zero-Point energy
+
+Thermal corrections are further added to the computed energy in order to obtain energies at room temperature, which can then be compared with the experimental values. The thermal corrections are determined taking into account the contributions from the translation, rotational and vibrational of the nuclei. The internal energy of a system at a speciﬁc temperature (E[temp]) is thus determined by the sum of the internal thermal energy correction and the computed electronic energy (E[elec]) (Eq. 2).
+
+Eq. 2: E[temp] = E[elec] + (E[translational] + E[rotational] + E[vibrational])[temp]
+
+The rotational part can be calculated based on a rigid rotor model, the translational part is often approximated with a particle in a box model and the vibrational part can be written as a system of harmonic oscillators. The vibrational frequency calculations provide the magnitudes of vibrational frequencies for each vibrational mode of a molecule. One of these magnitudes is non-real (i.e. imaginary) when the stationary point is a transition state which contains one, and one, imaginary frequency (whereas the minima have only non-imaginary frequencies). This outcome is very important as it can be used to identify the nature of the stationary points on the potential energy surface.
+
+It is also desirable to calculate the enthalpies (H) and free energies (G), at the same temperature. To calculate the enthalpy, the expansive work is generally calculated within the ideal gas model (ΔnRT). In order to compute the Gibbs free energy (G) it is necessary to compute the entropy of the system. It is assumed that only the fundamental electronic state is occupied and thus the electronic entropy of non-degenerated systems is zero. Therefore, the entropy is computed only taking into account the translational, rotational and vibrational contributions of the nuclei, using similar approximations that are used to compute the thermal corrections described before.
+
+It is important to note that zero point energies, thermal energies and entropy and therefore the free energies can only be calculated in stationary points, such as reactant, transition state or product.

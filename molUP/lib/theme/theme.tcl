@@ -115,6 +115,28 @@ ttk::style theme create molUPTheme -parent clam -settings {
 
 
 
+    #### Info button
+    ttk::style element create molUP.infoButton.Button image \
+        [list $molUP::images(infoButton) \
+        active $molUP::images(infoButton-a)
+        ] \
+        -width 20 -height 20 -sticky news
+    ttk::style layout molUP.infoButton.TButton {
+        Button.molUP.infoButton.Button
+    }
+
+    #### Copy to clipboard button
+    ttk::style element create molUP.copyButton.Button image \
+        [list $molUP::images(button-copy) \
+        active $molUP::images(button-copy-a)
+        ] \
+        -width 20 -height 20 -sticky news
+    ttk::style layout molUP.copyButton.TButton {
+        Button.molUP.copyButton.Button
+    }
+
+
+
     #### MenuBar
     ttk::style configure molUP.menuBar.TFrame \
         -background $cyan \

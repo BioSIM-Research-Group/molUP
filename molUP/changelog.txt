@@ -1,10 +1,15 @@
 ######### molUP ##############
-Last version: 0.2.6
+Last version: 1.0
 ##############################
-Version 0.2.6 (29 MAR 2017)
+Version 1.0 (30 MAR 2017)
 - [New feature] Load energies for all structures
 - [New feature] The energy value is presented every time the user clicks on the graph
 - [New feature] Selected point of the  energies graph is green outlined
+- [New feature] Info icons were added to provide additional explaination about relevant concepts
+- [new feature] Thermal Corrections are collected from frequency calculations, and the zero-point energy, enthalpy and Gibbs free energy are calculated 
+- [New feature] Copy button nearby the fields with relevant information, i.e. energies
+- [New feature] List of references that must be cited according to the type of calculations performed by user
+- [New feature] List of standard methodolody texts to help user during the article writting process 
 - [Bug fixed] Residues are correctly assigned now
 
 Version 0.2.5 (27 MAR 2017)

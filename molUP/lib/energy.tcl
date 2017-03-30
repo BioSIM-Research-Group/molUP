@@ -29,7 +29,7 @@ proc molUP::energyLastStructure {} {
 
 proc molUP::energyLastStructureOniom {} {
     ## Get All energies
-    set energies [molUP::gettingEnergy $molUP::path]
+    set energies [molUP::gettingEnergyLast $molUP::path]
 
     ## Optimized Energies
 	set lines [split $energies \n]
@@ -86,52 +86,90 @@ proc molUP::energyLastStructureOniom {} {
 
     place [ttk::frame $molUP::topGui.frame0.major.mol$molID.tabs.tabResults.tabs.tab6.graph \
             -width 380 \
-            -height 250 \
-			] -in $molUP::topGui.frame0.major.mol$molID.tabs.tabResults.tabs.tab6 -x 5 -y 5 -width 380 -height 250
+            -height 300 \
+			] -in $molUP::topGui.frame0.major.mol$molID.tabs.tabResults.tabs.tab6 -x 5 -y 5 -width 380 -height 300
+
+    place [ttk::label $molUP::topGui.frame0.major.mol$molID.tabs.tabResults.tabs.tab6.title \
+		-style molUP.white.TLabel \
+		-text {Energy Summary} \
+        ] -in $molUP::topGui.frame0.major.mol$molID.tabs.tabResults.tabs.tab6 -x 150 -y 10 -width 200
+    
+
+    place [ttk::button $molUP::topGui.frame0.major.mol$molID.tabs.tabResults.tabs.tab6.graph.infoButton \
+        -style molUP.infoButton.TButton \
+        -text "Information" \
+		-command {molUP::guiInfo "energy.txt"} \
+		] -in $molUP::topGui.frame0.major.mol$molID.tabs.tabResults.tabs.tab6.graph -x 355 -y 5 -width 20 -height 20
+    balloon $molUP::topGui.frame0.major.mol$molID.tabs.tabResults.tabs.tab6.graph.infoButton -text "Detailed information about energy calculation"
 
     place [ttk::label $molUP::topGui.frame0.major.mol$molID.tabs.tabResults.tabs.tab6.energyLabel \
 		-style molUP.white.TLabel \
-		-text {Total Energy (Hartree)} \
-        ] -in $molUP::topGui.frame0.major.mol$molID.tabs.tabResults.tabs.tab6 -x 10 -y 10 -width 200
+		-text "Total Electronic Energy (Hartree)" \
+        ] -in $molUP::topGui.frame0.major.mol$molID.tabs.tabResults.tabs.tab6 -x 10 -y 50 -width 200
 
     place [text $molUP::topGui.frame0.major.mol$molID.tabs.tabResults.tabs.tab6.energyEntry \
 		-bd 1 \
 		-highlightcolor #017aff \
 		-highlightthickness 1 \
 		-wrap word \
-		] -in $molUP::topGui.frame0.major.mol$molID.tabs.tabResults.tabs.tab6 -x 200 -y 8 -width 180 -height 25
+		] -in $molUP::topGui.frame0.major.mol$molID.tabs.tabResults.tabs.tab6 -x 220 -y 50 -width 130 -height 25
 	$molUP::topGui.frame0.major.mol$molID.tabs.tabResults.tabs.tab6.energyEntry insert end $energyLastStructure
     $molUP::topGui.frame0.major.mol$molID.tabs.tabResults.tabs.tab6.energyEntry edit modified false
+    $molUP::topGui.frame0.major.mol$molID.tabs.tabResults.tabs.tab6.energyEntry configure -state disabled
+
+    place [ttk::button $molUP::topGui.frame0.major.mol$molID.tabs.tabResults.tabs.tab6.graph.copyEnergy \
+        -style molUP.copyButton.TButton \
+        -text "Copy to clipboard" \
+		-command {molUP::copyClipboardFromText $molUP::topGui.frame0.major.mol[molinfo top].tabs.tabResults.tabs.tab6.energyEntry} \
+		] -in $molUP::topGui.frame0.major.mol$molID.tabs.tabResults.tabs.tab6.graph -x 355 -y 46 -width 20 -height 20
+    balloon $molUP::topGui.frame0.major.mol$molID.tabs.tabResults.tabs.tab6.graph.copyEnergy -text "Copy to clipboard"
+
 
     place [ttk::label $molUP::topGui.frame0.major.mol$molID.tabs.tabResults.tabs.tab6.energyLabelHL \
 		-style molUP.white.TLabel \
-		-text {High-Level Energy (Hartree)} \
-        ] -in $molUP::topGui.frame0.major.mol$molID.tabs.tabResults.tabs.tab6 -x 10 -y 50 -width 200
+		-text "      HL Electronic Energy (Hartree)" \
+        ] -in $molUP::topGui.frame0.major.mol$molID.tabs.tabResults.tabs.tab6 -x 10 -y 100 -width 200
 
     place [text $molUP::topGui.frame0.major.mol$molID.tabs.tabResults.tabs.tab6.energyEntryHL \
 		-bd 1 \
 		-highlightcolor #017aff \
 		-highlightthickness 1 \
 		-wrap word \
-		] -in $molUP::topGui.frame0.major.mol$molID.tabs.tabResults.tabs.tab6 -x 200 -y 48 -width 180 -height 25
+		] -in $molUP::topGui.frame0.major.mol$molID.tabs.tabResults.tabs.tab6 -x 220 -y 100 -width 130 -height 25
 	$molUP::topGui.frame0.major.mol$molID.tabs.tabResults.tabs.tab6.energyEntryHL insert end $energyLastStructureHL
     $molUP::topGui.frame0.major.mol$molID.tabs.tabResults.tabs.tab6.energyEntryHL edit modified false
+    $molUP::topGui.frame0.major.mol$molID.tabs.tabResults.tabs.tab6.energyEntryHL configure -state disabled
+
+    place [ttk::button $molUP::topGui.frame0.major.mol$molID.tabs.tabResults.tabs.tab6.graph.copyEnergyHL \
+        -style molUP.copyButton.TButton \
+        -text "Copy to clipboard" \
+		-command {molUP::copyClipboardFromText $molUP::topGui.frame0.major.mol[molinfo top].tabs.tabResults.tabs.tab6.energyEntryHL} \
+		] -in $molUP::topGui.frame0.major.mol$molID.tabs.tabResults.tabs.tab6.graph -x 355 -y 96 -width 20 -height 20
+    balloon $molUP::topGui.frame0.major.mol$molID.tabs.tabResults.tabs.tab6.graph.copyEnergyHL -text "Copy to clipboard"
 
 
 
      place [ttk::label $molUP::topGui.frame0.major.mol$molID.tabs.tabResults.tabs.tab6.energyLabelLL \
 		-style molUP.white.TLabel \
-		-text {Low-Level Energy (Hartree)} \
-        ] -in $molUP::topGui.frame0.major.mol$molID.tabs.tabResults.tabs.tab6 -x 10 -y 70 -width 200
+		-text "      LL Electronic Energy (Hartree)" \
+        ] -in $molUP::topGui.frame0.major.mol$molID.tabs.tabResults.tabs.tab6 -x 10 -y 130 -width 200
 
     place [text $molUP::topGui.frame0.major.mol$molID.tabs.tabResults.tabs.tab6.energyEntryLL \
 		-bd 1 \
 		-highlightcolor #017aff \
 		-highlightthickness 1 \
 		-wrap word \
-		] -in $molUP::topGui.frame0.major.mol$molID.tabs.tabResults.tabs.tab6 -x 200 -y 68 -width 180 -height 25
+		] -in $molUP::topGui.frame0.major.mol$molID.tabs.tabResults.tabs.tab6 -x 220 -y 130 -width 130 -height 25
 	$molUP::topGui.frame0.major.mol$molID.tabs.tabResults.tabs.tab6.energyEntryLL insert end $energyLastStructureLL
     $molUP::topGui.frame0.major.mol$molID.tabs.tabResults.tabs.tab6.energyEntryLL edit modified false
+    $molUP::topGui.frame0.major.mol$molID.tabs.tabResults.tabs.tab6.energyEntryLL configure -state disabled
+
+    place [ttk::button $molUP::topGui.frame0.major.mol$molID.tabs.tabResults.tabs.tab6.graph.copyEnergyLL \
+        -style molUP.copyButton.TButton \
+        -text "Copy to clipboard" \
+		-command {molUP::copyClipboardFromText $molUP::topGui.frame0.major.mol[molinfo top].tabs.tabResults.tabs.tab6.energyEntryLL} \
+		] -in $molUP::topGui.frame0.major.mol$molID.tabs.tabResults.tabs.tab6.graph -x 355 -y 126 -width 20 -height 20
+    balloon $molUP::topGui.frame0.major.mol$molID.tabs.tabResults.tabs.tab6.graph.copyEnergyLL -text "Copy to clipboard"
     
 }
 
@@ -173,24 +211,46 @@ proc molUP::energyLastStructureNotOniom {} {
 
     place [ttk::frame $molUP::topGui.frame0.major.mol$molID.tabs.tabResults.tabs.tab6.graph \
             -width 380 \
-            -height 250 \
-			] -in $molUP::topGui.frame0.major.mol$molID.tabs.tabResults.tabs.tab6 -x 5 -y 5 -width 380 -height 250
+            -height 300 \
+			] -in $molUP::topGui.frame0.major.mol$molID.tabs.tabResults.tabs.tab6 -x 5 -y 5 -width 380 -height 300
+
+    place [ttk::label $molUP::topGui.frame0.major.mol$molID.tabs.tabResults.tabs.tab6.title \
+		-style molUP.white.TLabel \
+		-text {Energy Summary} \
+        ] -in $molUP::topGui.frame0.major.mol$molID.tabs.tabResults.tabs.tab6 -x 150 -y 10 -width 200
+    
+
+    place [ttk::button $molUP::topGui.frame0.major.mol$molID.tabs.tabResults.tabs.tab6.graph.infoButton \
+        -style molUP.infoButton.TButton \
+        -text "Information" \
+		-command {molUP::guiInfo "energy.txt"} \
+		] -in $molUP::topGui.frame0.major.mol$molID.tabs.tabResults.tabs.tab6.graph -x 355 -y 5 -width 20 -height 20
+    balloon $molUP::topGui.frame0.major.mol$molID.tabs.tabResults.tabs.tab6.graph.infoButton -text "Detailed information about energy calculation"
 
     place [ttk::label $molUP::topGui.frame0.major.mol$molID.tabs.tabResults.tabs.tab6.energyLabel \
 		-style molUP.white.TLabel \
-		-text {Total Energy (Hartree)} \
-        ] -in $molUP::topGui.frame0.major.mol$molID.tabs.tabResults.tabs.tab6 -x 10 -y 10 -width 200
+		-text {Total Electronic Energy (Hartree)} \
+        ] -in $molUP::topGui.frame0.major.mol$molID.tabs.tabResults.tabs.tab6 -x 10 -y 50 -width 200
 
     place [text $molUP::topGui.frame0.major.mol$molID.tabs.tabResults.tabs.tab6.energyEntry \
 		-bd 1 \
 		-highlightcolor #017aff \
 		-highlightthickness 1 \
 		-wrap word \
-		] -in $molUP::topGui.frame0.major.mol$molID.tabs.tabResults.tabs.tab6 -x 200 -y 8 -width 180 -height 25
+		] -in $molUP::topGui.frame0.major.mol$molID.tabs.tabResults.tabs.tab6 -x 220 -y 50 -width 130 -height 25
 	$molUP::topGui.frame0.major.mol$molID.tabs.tabResults.tabs.tab6.energyEntry insert end $energyLastStructure
     $molUP::topGui.frame0.major.mol$molID.tabs.tabResults.tabs.tab6.energyEntry edit modified false
+    $molUP::topGui.frame0.major.mol$molID.tabs.tabResults.tabs.tab6.energyEntry configure -state disabled
+
+    place [ttk::button $molUP::topGui.frame0.major.mol$molID.tabs.tabResults.tabs.tab6.graph.copyEnergy \
+        -style molUP.copyButton.TButton \
+        -text "Copy to clipboard" \
+		-command {molUP::copyClipboardFromText $molUP::topGui.frame0.major.mol[molinfo top].tabs.tabResults.tabs.tab6.energyEntry} \
+		] -in $molUP::topGui.frame0.major.mol$molID.tabs.tabResults.tabs.tab6.graph -x 355 -y 46 -width 20 -height 20
+    balloon $molUP::topGui.frame0.major.mol$molID.tabs.tabResults.tabs.tab6.graph.copyEnergy -text "Copy to clipboard"
 
 }
+
 
 
 proc molUP::energyNotONIOM {} {
@@ -400,6 +460,11 @@ proc molUP::gettingEnergy {File} {
         return $energies
 }
 
+proc molUP::gettingEnergyLast {File} {
+        set energies [exec egrep {low   system:  model energy:|high  system:  model energy:|low   system:  real  energy:|ONIOM: extrapolated energy|Optimized Parameters} $File | tail -n 5]
+        return $energies
+}
+
 proc molUP::drawGraph {} {
     #### Create a new tab - Energies
     set molID [molinfo top]
@@ -443,7 +508,14 @@ proc molUP::drawGraph {} {
 		-style molUP.TEntry \
 		-textvariable molUP::totalEnergyValuePick \
         -state readonly \
-        ] -in $molUP::topGui.frame0.major.mol$molID.tabs.tabResults.tabs.tab6 -x 200 -y 360 -width 180
+        ] -in $molUP::topGui.frame0.major.mol$molID.tabs.tabResults.tabs.tab6 -x 200 -y 358 -width 150
+
+    place [ttk::button $molUP::topGui.frame0.major.mol$molID.tabs.tabResults.tabs.tab6.copy \
+        -style molUP.copyButton.TButton \
+        -text "Copy to clipboard" \
+		-command {clipboard clear; clipboard append [format %.7f $molUP::totalEnergyValuePick]} \
+		] -in $molUP::topGui.frame0.major.mol$molID.tabs.tabResults.tabs.tab6 -x 355 -y 360 -width 20 -height 20
+    balloon $molUP::topGui.frame0.major.mol$molID.tabs.tabResults.tabs.tab6.copy -text "Copy to clipboard"
  
 
     ## Create a list for each variable
@@ -565,4 +637,11 @@ proc molUP::exportEnergy {args} {
             close $file
 
         } else {}
+}
+
+
+proc molUP::copyClipboardFromText {pathName} {
+    clipboard clear
+    set text [$pathName get 1.0 end]
+    clipboard append $text
 }

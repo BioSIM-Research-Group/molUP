@@ -16,6 +16,8 @@ namespace eval molUP:: {
 		package require guiCalcSetup							1.0
 		package require guiCredits								1.0
 		package require guiChangelog							1.0
+		package require guiInfo 								1.0
+		package require guiMethodology							1.0
 		
 		package require inputFile 								1.0
 		package require timeControl								1.0
@@ -43,7 +45,7 @@ namespace eval molUP:: {
 
 		#### Program Variables
 		## General
-		variable version	    	"0.2.6"
+		variable version	    	"1.0"
 
 		#GUI
         variable topGui         	".molUP"
@@ -59,6 +61,8 @@ namespace eval molUP:: {
 		variable changelog			".molUP.changelog"
 		variable citeMolUP			".molUP.publication"
 		variable citations			".molUP.citations"
+		variable info				".molUP.info"
+		variable methodology		".molUP.methodology"
 
 		global path
 		variable path 				"/"

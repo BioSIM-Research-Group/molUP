@@ -98,9 +98,6 @@ proc molUP::drawPlot {frame x y title titleColor titleSize markerFormat markerCo
 
     bind $frame.plotBackground.area.canvas <Motion> [list molUP::updateSelectionRectangle %x %y $frame]
 
-    puts "$frame.plotBackground.yscb0"
-
-
 
     ### Plot data
     set numberPoints [llength $x]   
@@ -235,7 +232,6 @@ proc molUP::drawPlot {frame x y title titleColor titleSize markerFormat markerCo
             incr i
         }
 
-        puts "$frame.plotBackground.area.canvas bind point$xValue$yValue"
 
 }
 

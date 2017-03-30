@@ -84,16 +84,14 @@ proc molUP::buildGui {} {
 			-style molUP.menuBar.TMenubutton \
 			] -in $molUP::topGui.frame0.topSection.topMenu -x 210 -y 5 -height 25 -width 95
 	menu $molUP::topGui.frame0.topSection.topMenu.publication.menu -tearoff 0	
-	$molUP::topGui.frame0.topSection.topMenu.publication.menu add command -label "Generate Methodology" -command {}
+	$molUP::topGui.frame0.topSection.topMenu.publication.menu add command -label "Methodology" -command {molUP::methodology}
 	$molUP::topGui.frame0.topSection.topMenu.publication.menu add command -label "References to cite" -command {molUP::citations}
-	$molUP::topGui.frame0.topSection.topMenu.publication.menu add command -label "Cite molUP" -command {molUP::citeMolUP}		
 
 
 	place [ttk::menubutton $molUP::topGui.frame0.topSection.topMenu.about -text "About" -menu $molUP::topGui.frame0.topSection.topMenu.about.menu \
 			-style molUP.menuBar.TMenubutton \
 			] -in $molUP::topGui.frame0.topSection.topMenu -x 325 -y 5 -height 25 -width 65
 	menu $molUP::topGui.frame0.topSection.topMenu.about.menu -tearoff 0
-	$molUP::topGui.frame0.topSection.topMenu.about.menu add command -label "Help" -command {molUP::guiError "This feature is not available yet." "Available soon"}
 	$molUP::topGui.frame0.topSection.topMenu.about.menu add command -label "Credits" -command {molUP::guiCredits}
 	$molUP::topGui.frame0.topSection.topMenu.about.menu add command -label "Changelog" -command {molUP::guiChangelog}
 	$molUP::topGui.frame0.topSection.topMenu.about.menu add command -label "Check for updates" -command {molUP::guiError "No updates available." "Updates"}

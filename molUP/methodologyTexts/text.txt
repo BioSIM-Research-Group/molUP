@@ -1,0 +1,25 @@
+#################################################
+%Description of a general system
+The model system used to study the reaction mechanism contains a total of XXX atoms. 
+#################################################
+%Description of a ONIOM system
+The model system used to study the reaction mechanism contains a total of XXX atoms. The high-level layer contains XXX atoms and includes all the residues of the active site from XXX.
+#################################################
+%Geometry Optimization
+The model system then subjected to geometry optimizations that were carried out using Gaussian 09, applying the XXX theoretical level of theory and the XXX basis set. 
+#################################################
+%B3LYP
+Becke’s three-parameter exchange functional was used together with the functional of Lee et al. (B3LYP) as implemented in Gaussian and the 6-31G(d) basis set. The transition state structure was located from a structure similar to the reactant. This was generally obtained with unidimensional scans along the particular reaction coordinate in which we were interested. Once a putative transition structure was located, and thus was fully optimized (except for the frozen atoms), the reactants and the products associated with it were determined after intrinsic reaction coordinate (IRC) calculations. In all cases, the geometry optimizations and the stationary points were obtained with standard Gaussian convergence criteria. The transition state structures were all verified by vibrational frequency calculations, having exactly one imaginary frequency with the correct transition vector, even using frozen atoms, which shows that the frozen atoms were almost free from steric strain. 
+#################################################
+%Frequency Calculation
+The ZPE and thermal and entropic energy corrections were calculated using the same method and basis set (T = XXX K, P = XXX bar).
+#################################################
+%Single-Point energy Calculation
+The final electronic energies were calculated using the XXX basis set and the functional XXX.
+#################################################
+%Implicit Solvent
+To estimate the interaction of the remaining enzyme in the reactions, single point energy calculations on the optimized geometries were performed with the conductor-like polarizable continuum model using the integral equation formalism variant XXX, as implemented in Gaussian 09, at the XXX level of theory.
+#################################################
+%Enzyme
+This feature is of particular importance for the study of enzymatic catalysis because the use of a continuum model is normally taken as an approximation to the effect of the global enzyme environment in a reaction. A dielectric constant of ε = 4 was chosen to describe the protein environment of the active site. A dielectric continuum can be a reasonable approximation to the effect of the enzyme environment if the most important specific (anisotropic) interactions are represented atomistically and only the longer-range, more isotropic interactions are modeled by the continuum.
+#################################################
