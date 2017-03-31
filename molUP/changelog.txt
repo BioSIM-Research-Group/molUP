@@ -1,6 +1,10 @@
 ######### molUP ##############
-Last version: 1.0
+Last version: 1.0.1
 ##############################
+Version 1.0.1 (31 MAR 2017)
+- [New feature] Set of default calculation types were release. The user can also create their own keywords sections.
+- [Minor fix] Redesign of the input section.
+
 Version 1.0 (30 MAR 2017)
 - [New feature] Load energies for all structures
 - [New feature] The energy value is presented every time the user clicks on the graph

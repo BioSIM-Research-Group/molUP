@@ -1,0 +1,6 @@
+Transition-state optimization
+%mem=7000MB
+%NProc=4
+%chk=TS.chk
+# B3LYP/6-31G(d) geom=connectivity
+opt=(ts,calcall,noeigentest)

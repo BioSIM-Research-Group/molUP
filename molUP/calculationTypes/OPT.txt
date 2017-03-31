@@ -1,0 +1,6 @@
+Geometry optimization
+%mem=7000MB
+%NProc=4
+%chk=optimization.chk
+# B3LYP/6-31G(d) geom=connectivity
+opt

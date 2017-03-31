@@ -567,7 +567,7 @@ proc molUP::checkTags {pathName} {
 	}
 	$pathName tag configure functionalSE -foreground green
 
-	set functionalDFT [list hf b3lyp lsda bpv86 b3pw91 mpw1pw91 pbepbe hseh1pbe hcth tpsstpss wb97xd mp2 mp4 ccsd bd casscf]
+	set functionalDFT [list hf b3lyp lsda bpv86 b3pw91 mpw1pw91 pbepbe hseh1pbe hcth tpsstpss wb97xd mp2 mp4 ccsd bd casscf m062x m06 m08]
 	foreach word $functionalDFT {
 		molUP::textSearch $pathName $word functionalDFT
 	}
@@ -636,17 +636,25 @@ proc molUP::resultSection {molID frame majorHeight} {
 		-highlightcolor #017aff \
 		-highlightthickness 1 \
 		-wrap word \
-		] -in $tInput -x 5 -y 30 -width 375 -height 25
+		] -in $tInput -x 5 -y 25 -width 375 -height 25
 	$tInput.jobTitleEntry insert end $molUP::title
 
 	place [ttk::scrollbar $tInput.yscb0 \
 			-orient vertical \
 			-command [list $tInput.keywordsText yview]\
-			] -in $tInput -x 380 -y 30 -width 15 -height 25
+			] -in $tInput -x 380 -y 25 -width 15 -height 25
 
-	place [ttk::label $tInput.keywordsLabel \
-		-style molUP.cyan.TLabel \
-		-text {Calculation keywords} ] -in $tInput -x 5 -y 60
+
+	#### keywords
+	place [ttk::menubutton $tInput.keywordsLabel -text "Calculation keywords" -menu $tInput.keywordsLabel.menu \
+			-style molUP.menuBar.TMenubutton \
+			] -in $tInput -x 5 -y 60 -height 25 -width 160  
+	menu $tInput.keywordsLabel.menu -tearoff 0
+	molUP::readCalculationTypes [subst $tInput.keywordsLabel.menu]
+	
+	#place [ttk::label $tInput.keywordsLabel \
+	#	-style molUP.cyan.TLabel \
+	#	-text {Calculation keywords} ] -in $tInput -x 5 -y 60
 
 	place [text $tInput.keywordsText \
 		-yscrollcommand "$tInput.yscb set" \
@@ -654,39 +662,46 @@ proc molUP::resultSection {molID frame majorHeight} {
 		-highlightcolor #017aff \
 		-highlightthickness 1 \
 		-wrap word \
-		] -in $tInput -x 5 -y 85 -width 375 -height 80
+		] -in $tInput -x 5 -y 80 -width 375 -height 80
 	$tInput.keywordsText insert end $molUP::keywordsCalc
 	
 	bind $tInput.keywordsText <KeyPress> "molUP::checkTags $tInput.keywordsText"
 
-
 	place [ttk::scrollbar $tInput.yscb \
 			-orient vertical \
 			-command [list $tInput.keywordsText yview]\
-			] -in $tInput -x 380 -y 85 -width 15 -height 80
+			] -in $tInput -x 380 -y 80 -width 15 -height 80
 
 	set resultsHeight [expr $molUP::majorHeight - 30 - 30]
 	set heightBox [expr ($resultsHeight - 405 - 25 - 10) / 2]
 
 	#### Connectivity 
-	place [ttk::label $tInput.connectLabel \
-		-style molUP.cyan.TLabel \
-		-text {Connectivity} ] -in $tInput -x 5 -y 380
+	place [ttk::menubutton $tInput.connectLabel -text "Connectivity" -menu $tInput.connectLabel.menu \
+			-style molUP.menuBar.TMenubutton \
+			] -in $tInput -x 5 -y 380 -height 25 -width 110  
+	menu $tInput.connectLabel.menu -tearoff 0
+	$tInput.connectLabel.menu add command -label "Load connectivity from Gaussian Input File" -command {molUP::loadConnectivityFromOtherInputFile}
+	$tInput.connectLabel.menu add command -label "Apply custom connectivity" -command {molUP::applyNewConnectivity}
+	$tInput.connectLabel.menu add command -label "Rebond" -command {molUP::rebond}
 
-	place [ttk::button $tInput.loadConnect \
-		-style molUP.TButton \
-		-command molUP::loadConnectivityFromOtherInputFile \
-		-text {Load} ] -in $tInput -x 130 -y 378 -width 80
-	
-	place [ttk::button $tInput.applyNewConnectivity \
-		-style molUP.TButton \
-		-command molUP::applyNewConnectivity \
-		-text {Apply} ] -in $tInput -x 220 -y 378 -width 80
-
-	place [ttk::button $tInput.rebond \
-		-style molUP.TButton \
-		-command molUP::rebond \
-		-text {Rebond} ] -in $tInput -x 310 -y 378 -width 80
+	#place [ttk::label $tInput.connectLabel \
+	#	-style molUP.cyan.TLabel \
+	#	-text {Connectivity} ] -in $tInput -x 5 -y 380
+#
+	#place [ttk::button $tInput.loadConnect \
+	#	-style molUP.TButton \
+	#	-command molUP::loadConnectivityFromOtherInputFile \
+	#	-text {Load} ] -in $tInput -x 130 -y 378 -width 80
+	#
+	#place [ttk::button $tInput.applyNewConnectivity \
+	#	-style molUP.TButton \
+	#	-command molUP::applyNewConnectivity \
+	#	-text {Apply} ] -in $tInput -x 220 -y 378 -width 80
+#
+	#place [ttk::button $tInput.rebond \
+	#	-style molUP.TButton \
+	#	-command molUP::rebond \
+	#	-text {Rebond} ] -in $tInput -x 310 -y 378 -width 80
 
 	place [text $tInput.connect \
 		-yscrollcommand "$tInput.yscb1 set" \
@@ -701,15 +716,21 @@ proc molUP::resultSection {molID frame majorHeight} {
 			] -in $tInput -x 380 -y 405 -width 15 -height $heightBox
 
 	#### Parameters 
-	place [ttk::label $tInput.paramLabel \
-		-style molUP.cyan.TLabel \
-		-text {Other information (Parameters, Modredundant...)} \
-		] -in $tInput -x 5 -y [expr 405 + $heightBox + 10]
+	place [ttk::menubutton $tInput.paramLabel -text "Other information (Parameters, Modredundant...)" -menu $tInput.paramLabel.menu \
+			-style molUP.menuBar.TMenubutton \
+			] -in $tInput -x 5 -y [expr 405 + $heightBox + 10] -height 25 -width 340  
+	menu $tInput.paramLabel.menu -tearoff 0
+	$tInput.paramLabel.menu add command -label "Load parameters from a PRMTOP file" -command {molUP::loadPrmtopParameters}
 
-	place [ttk::button $tInput.loadPrmtop \
-		-style molUP.TButton \
-		-command molUP::loadPrmtopParameters \
-		-text {Load PRMTOP} ] -in $tInput -x 290 -y [expr 405 + $heightBox + 10 - 2] -width 100
+	#place [ttk::label $tInput.paramLabel \
+	#	-style molUP.cyan.TLabel \
+	#	-text {Other information (Parameters, Modredundant...)} \
+	#	] -in $tInput -x 5 -y [expr 405 + $heightBox + 10]
+#
+	#place [ttk::button $tInput.loadPrmtop \
+	#	-style molUP.TButton \
+	#	-command molUP::loadPrmtopParameters \
+	#	-text {Load PRMTOP} ] -in $tInput -x 290 -y [expr 405 + $heightBox + 10 - 2] -width 100
 
 	place [text $tInput.param \
 		-yscrollcommand "$tInput.yscb2 set" \
@@ -951,4 +972,92 @@ proc molUP::loadConnectivityFromOtherInputFile {} {
 			molUP::applyNewConnectivity
 
         } else {}
+}
+
+
+
+proc molUP::readCalculationTypes {pathName} {
+	## Common options
+	$pathName add command -label " ~ Save current input section ~ " -command "molUP::saveKeywordsInput"
+
+	set listFiles [glob -directory "$::molUPpath/calculationTypes" *]
+
+	foreach file $listFiles {
+		catch {exec sed -n "1,1p" $file} title
+		$pathName add command -label "$title" -command "molUP::fillKeywordsSection [subst $file]"
+	}
+
+}
+
+proc molUP::fillKeywordsSection {path} {
+	.molUP.frame0.major.mol[molinfo top].tabs.tabInput.keywordsText delete 1.0 end
+	catch {exec sed -n "2,$ p" $path} keywords
+	.molUP.frame0.major.mol[molinfo top].tabs.tabInput.keywordsText insert end $keywords
+
+	# Update Tags
+	molUP::checkTags .molUP.frame0.major.mol[molinfo top].tabs.tabInput.keywordsText
+
+}
+
+proc molUP::saveKeywordsInput {} {
+	#### Check if the window exists
+	if {[winfo exists $::molUP::saveKeywordsInput]} {wm deiconify $::molUP::saveKeywordsInput ;return $::molUP::saveKeywordsInput}
+	toplevel $::molUP::saveKeywordsInput
+
+	#### Title of the windows
+	wm title $molUP::saveKeywordsInput "Save Keywords Section" ;# titulo da pagina
+
+	#### Change the location of window
+	# screen width and height
+	set sWidth [expr [winfo vrootwidth  $::molUP::saveKeywordsInput] -0]
+	set sHeight [expr [winfo vrootheight $::molUP::saveKeywordsInput] -50]
+
+	#### Change the location of window
+    wm geometry $::molUP::saveKeywordsInput 400x100+[expr $sWidth - 400]+100
+	$::molUP::saveKeywordsInput configure -background {white}
+	wm resizable $::molUP::saveKeywordsInput 0 0
+
+	## Apply theme
+	ttk::style theme use molUPTheme
+
+    #### Information
+    pack [ttk::frame $molUP::saveKeywordsInput.frame0]
+	pack [canvas $molUP::saveKeywordsInput.frame0.frame -bg white -width 400 -height 100 -highlightthickness 0] -in $molUP::saveKeywordsInput.frame0
+
+	place [ttk::label $molUP::saveKeywordsInput.frame0.frame.label1 \
+		-text "Please, choose a name to save the current keywords section:" \
+		-style molUP.white.TLabel \
+	] -in $molUP::saveKeywordsInput.frame0.frame -x 10 -y 10 -width 380 -height 30
+
+	place [ttk::entry $molUP::saveKeywordsInput.frame0.frame.entry \
+			-textvariable nameKeywordsSectionSave \
+			-style molUP.TEntry \
+	] -in $molUP::saveKeywordsInput.frame0.frame -x 10 -y 35 -width 380
+
+	place [ttk::button $molUP::saveKeywordsInput.frame0.frame.save \
+			-text "Save" \
+			-command {molUP::saveKeywordsInputLastStep $nameKeywordsSectionSave} \
+			-style molUP.TButton \
+	] -in $molUP::saveKeywordsInput.frame0.frame -x 150 -y 70 -width 100
+
+}
+
+proc molUP::saveKeywordsInputLastStep {name} {
+	set text ""
+	append text "$name\n"
+
+	set keywords [.molUP.frame0.major.mol[molinfo top].tabs.tabInput.keywordsText get 1.0 end]
+	append text "$keywords"
+
+	set currentTime [clock seconds]
+	set file [open "$::molUPpath/calculationTypes/$currentTime.txt" w]
+	set path "$::molUPpath/calculationTypes/$currentTime.txt"
+
+	puts $file "$text"
+	close $file
+
+	.molUP.frame0.major.mol[molinfo top].tabs.tabInput.keywordsLabel.menu add command -label "$name" -command "molUP::fillKeywordsSection [subst $path]"
+
+	destroy $molUP::saveKeywordsInput
+
 }

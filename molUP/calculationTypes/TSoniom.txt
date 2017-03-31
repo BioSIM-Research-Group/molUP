@@ -1,0 +1,7 @@
+Transition-state optimization (ONIOM)
+%mem=7000MB
+%NProc=4
+%chk=TS.chk
+# oniom(B3LYP/6-31G(d):AMBER=softfirst) geom=connectivity
+opt=(ts,calcall,noeigentest)
+scf=(maxcycles=150)

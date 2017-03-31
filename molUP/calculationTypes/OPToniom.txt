@@ -1,0 +1,7 @@
+Geometry optimization (ONIOM)
+%mem=7000MB
+%NProc=4
+%chk=optimization.chk
+# oniom(B3LYP/6-31G(d):AMBER=softfirst) geom=connectivity
+opt
+scf=(maxcycles=150)

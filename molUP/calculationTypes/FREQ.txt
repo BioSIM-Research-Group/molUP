@@ -1,0 +1,6 @@
+Frequency calculation
+%mem=7000MB
+%NProc=4
+%chk=Frequency.chk
+# B3LYP/6-31G(d) geom=connectivity
+freq

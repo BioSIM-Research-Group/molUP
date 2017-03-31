@@ -17,3 +17,11 @@ doi.org/10.1139/p80-159
 P.J. Stephens, F.J. Devlin, C.F. Chabalowski, M.J. Frisch, J.Phys.Chem. 98 (1994) 11623-11627
 doi.org/10.1021/j100096a001
 #################################################
+%DFT
+P. Hohenberg and W. Kohn, “Inhomogeneous Electron Gas,” Phys. Rev., 136 (1964) B864-B71
+doi.org/10.1103/PhysRev.136.B864
+W. Kohn and L. J. Sham, “Self-Consistent Equations Including Exchange and Correlation Effects,” Phys. Rev., 140 (1965) A1133-A38
+doi.org/10.1103/PhysRev.140.A1133
+R. G. Parr and W. Yang, Density-functional theory of atoms and molecules (Oxford Univ. Press, Oxford, 1989)
+The Challenge of d and f Electrons, Ed. D. R. Salahub and M. C. Zerner (ACS, Washington, D.C., 1989)
+doi.org/10.1021/bk-1989-0394

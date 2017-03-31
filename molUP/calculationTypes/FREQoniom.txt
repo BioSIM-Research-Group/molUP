@@ -1,0 +1,6 @@
+Frequency calculation (ONIOM)
+%mem=7000MB
+%NProc=4
+%chk=Frequency.chk
+# oniom(B3LYP/6-31G(d):AMBER=softfirst) geom=connectivity
+freq=(noraman,savenormalmodes,modelmodes)

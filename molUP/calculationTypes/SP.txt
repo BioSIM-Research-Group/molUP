@@ -1,0 +1,5 @@
+Single-Point Energy Calculation
+%mem=7000MB
+%NProc=4
+%chk=SP.chk
+# M062X/6-311++G(3df,2pd) geom=connectivity

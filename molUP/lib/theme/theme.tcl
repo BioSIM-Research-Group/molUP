@@ -354,6 +354,29 @@ ttk::style theme create molUPTheme -parent clam -settings {
      }
 
 
+     ttk::style element create molUP.cyan.Checkbutton.indicator \
+        image [list $molUP::images(check-nu) \
+                 {disabled selected} $molUP::images(check-dc) \
+                 disabled $molUP::images(check-du) \
+                 {pressed selected} $molUP::images(check-pc) \
+                 pressed $molUP::images(check-pu) \
+                 {active selected} $molUP::images(check-ac) \
+                 active $molUP::images(check-au) \
+                 selected $molUP::images(check-nc) \
+                 ]
+
+    ttk::style configure molUP.cyan.TCheckbutton \
+        -background $cyan \
+        -padding {5 0 0 0}   
+
+     ttk::style layout molUP.cyan.TCheckbutton {
+        Checkbutton.molUP.cyan.Checkbutton.indicator -side left
+        Checkbutton.molUP.cyan.Checkbutton.padding -children {
+            Checkbutton.molUP.cyan.Checkbutton.label -side left -expand true
+        }
+     }
+
+
      #### TButton
      ttk::style element create molUP.Button.button \
         image [list $molUP::images(button-n) \

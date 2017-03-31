@@ -45,7 +45,7 @@ namespace eval molUP:: {
 
 		#### Program Variables
 		## General
-		variable version	    	"1.0"
+		variable version	    	"1.0.1"
 
 		#GUI
         variable topGui         	".molUP"
@@ -63,6 +63,7 @@ namespace eval molUP:: {
 		variable citations			".molUP.citations"
 		variable info				".molUP.info"
 		variable methodology		".molUP.methodology"
+		variable saveKeywordsInput	".molUP.saveKeywordsInput"
 
 		global path
 		variable path 				"/"

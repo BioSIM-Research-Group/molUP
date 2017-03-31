@@ -1,0 +1,6 @@
+Single-Point Energy Calculation (ONIOM)
+%mem=7000MB
+%NProc=4
+%chk=SP.chk
+# oniom(M062X/6-311++G(3df,2pd):AMBER=softfirst) geom=connectivity
+scf=(maxcycles=150)
