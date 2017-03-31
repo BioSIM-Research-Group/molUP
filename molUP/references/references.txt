@@ -1,11 +1,33 @@
 #################################################
 %ONIOM
-Maseras, F. and K. Morokuma, IMOMM: A new integrated ab initio + molecular mechanics geometry optimization scheme of equilibrium structures and transition states. Journal of Computational Chemistry, 1995. 16(9): p. 1170-1179.
-doi.org/10.1002/jcc.540160911
-Svensson, M., et al., ONIOM: A Multilayered Integrated MO + MM Method for Geometry Optimizations and Single Point Energy Predictions. A Test for Diels−Alder Reactions and Pt(P(t- Bu)3)2 + H2 Oxidative Addition. The Journal of Physical Chemistry, 1996. 100(50): p. 19357-19363.
+Vreven, Thom and Keiji Morokuma. "Chapter 3 Hybrid Methods: Oniom(Qm:Mm) and Qm/Mm." In Annual Reports in Computational Chemistry, edited by C. Spellmeyer David, vol Volume 2, 35-51: Elsevier, 2006.
+
+Clemente, Fernando R., Thom Vreven, and Michael J. Frisch. "Getting the Most out of Oniom: Guidelines and Pitfalls." In Quantum Biochemistry, 61-83: Wiley-VCH Verlag GmbH & Co. KGaA, 2010.
+
+Orozco, Modesto, Ivan Marchán, Ignacio Soteras, Thom Vreven, Keiji Morokuma, Kurt V. Mikkelsen, Alberto Milani, Matteo Tommasini, Mirella Del Zoppo, Chiara Castiglioni, Manuel A. Aguilar, Maria L. Sánchez, M. Elena Martín, Ignacio Fdez Galván, and Hirofumi Sato. "Beyond the Continuum Approach." In Continuum Solvation Models in Chemical Physics, 499-605: John Wiley & Sons, Ltd, 2007.
+
+Vreven, Thom, K. Suzie Byun, István Komáromi, Stefan Dapprich, John A. Montgomery, Keiji Morokuma, and Michael J. Frisch. "Combining Quantum Mechanics Methods with Molecular Mechanics Methods in Oniom." Journal of Chemical Theory and Computation 2, no. 3 (2006/05/09 2006): 815-26. 
+doi.org/10.1021/ct050289g
+Humbel, Stéphane, Stefan Sieber, and Keiji Morokuma. "The Imomo Method: Integration of Different Levels of Molecular Orbital Approximations for Geometry Optimization of Large Systems: Test for N‐Butane Conformation and Sn2 Reaction: Rcl+Cl−." The Journal of Chemical Physics 105, no. 5 (1996): 1959-67. 
+doi.org/10.1063/1.472065
+Svensson, Mats, Stéphane Humbel, Robert D. J. Froese, Toshiaki Matsubara, Stefan Sieber, and Keiji Morokuma. "Oniom:  A Multilayered Integrated Mo + Mm Method for Geometry Optimizations and Single Point Energy Predictions. A Test for Diels−Alder Reactions and Pt(P(T-Bu)3)2 + H2 Oxidative Addition." The Journal of Physical Chemistry 100, no. 50 (1996/01/01 1996): 19357-63. 
 doi.org/10.1021/jp962071j
-Dapprich, S., et al., A new ONIOM implementation in Gaussian98. Part I. The calculation of energies, gradients, vibrational frequencies and electric field derivatives. Journal of Molecular Structure- Theochem, 1999. 461: p. 1-21.
-doi.org/10.1016/S0166-1280(98)00475-8
+Maseras, Feliu and Keiji Morokuma. "Imomm: A New Integrated Ab Initio + Molecular Mechanics Geometry Optimization Scheme of Equilibrium Structures and Transition States." Journal of Computational Chemistry 16, no. 9 (1995): 1170-79. 
+doi.org/10.1002/jcc.540160911
+Matsubara, Toshiaki, Stefan Sieber, and Keiji Morokuma. "A Test of the New “Integrated Mo + Mm” (Imomm) Method for the Conformational Energy of Ethane and N-Butane." International Journal of Quantum Chemistry 60, no. 6 (1996): 1101-09. 
+doi.org/10.1002/(SICI)1097-461X(1996)60:6<1101::AID-QUA1>3.0.CO;2-3
+Vreven, Thom and Keiji Morokuma. "On the Application of the Imomo (Integrated Molecular Orbital + Molecular Orbital) Method." Journal of Computational Chemistry 21, no. 16 (2000): 1419-32. 
+doi.org/10.1002/1096-987X(200012)21:16<1419::AID-JCC1>3.0.CO;2-C
+#################################################
+%DFT
+Ed. D. R. Salahu, M. C. Zerner. The Challenge of D and F Electrons. Washington, D.C.: ACS, 1989.
+
+R. G. Parr, W. Yang. "Density-Functional Theory of Atoms and Molecules." Oxford Univ. Press  (1989).
+
+Kohn, W. and L. J. Sham. "Self-Consistent Equations Including Exchange and Correlation Effects." Physical Review 140, no. 4A (1965): 1133-&. 
+doi.org/10.1103/PhysRev.140.A1133
+Hohenberg, P. and W. Kohn. "Inhomogeneous Electron Gas." Physical Review B 136, no. 3B (1964): B864-+. 
+doi.org/10.1103/PhysRev.136.B864
 #################################################
 %B3LYP
 A.D. Becke, J.Chem.Phys. 98 (1993) 5648-5652
@@ -17,11 +39,25 @@ doi.org/10.1139/p80-159
 P.J. Stephens, F.J. Devlin, C.F. Chabalowski, M.J. Frisch, J.Phys.Chem. 98 (1994) 11623-11627
 doi.org/10.1021/j100096a001
 #################################################
-%DFT
-P. Hohenberg and W. Kohn, “Inhomogeneous Electron Gas,” Phys. Rev., 136 (1964) B864-B71
-doi.org/10.1103/PhysRev.136.B864
-W. Kohn and L. J. Sham, “Self-Consistent Equations Including Exchange and Correlation Effects,” Phys. Rev., 140 (1965) A1133-A38
-doi.org/10.1103/PhysRev.140.A1133
-R. G. Parr and W. Yang, Density-functional theory of atoms and molecules (Oxford Univ. Press, Oxford, 1989)
-The Challenge of d and f Electrons, Ed. D. R. Salahub and M. C. Zerner (ACS, Washington, D.C., 1989)
-doi.org/10.1021/bk-1989-0394
+%HFS
+Kohn, W. and L. J. Sham. "Self-Consistent Equations Including Exchange and Correlation Effects." Physical Review 140, no. 4A (11/15/ 1965): A1133-A38. 
+link.aps.org/doi/10.1103/PhysRev.140.A1133
+Hohenberg, P. and W. Kohn. "Inhomogeneous Electron Gas." Physical Review 136, no. 3B (11/09/ 1964): B864-B71. 
+link.aps.org/doi/10.1103/PhysRev.136.B864
+#################################################
+%XAlpha
+Kohn, W. and L. J. Sham. "Self-Consistent Equations Including Exchange and Correlation Effects." Physical Review 140, no. 4A (11/15/ 1965): A1133-A38. 
+link.aps.org/doi/10.1103/PhysRev.140.A1133
+Hohenberg, P. and W. Kohn. "Inhomogeneous Electron Gas." Physical Review 136, no. 3B (11/09/ 1964): B864-B71. 
+link.aps.org/doi/10.1103/PhysRev.136.B864
+#################################################
+%HFB
+Becke, A. D. "Density-Functional Exchange-Energy Approximation with Correct Asymptotic Behavior." Physical Review A 38, no. 6 (09/01/ 1988): 3098-100. 
+link.aps.org/doi/10.1103/PhysRevA.38.3098
+#################################################
+%PW91
+Perdew, John P., J. A. Chevary, S. H. Vosko, Koblar A. Jackson, Mark R. Pederson, D. J. Singh, and Carlos Fiolhais. "Atoms, Molecules, Solids, and Surfaces: Applications of the Generalized Gradient Approximation for Exchange and Correlation." Physical Review B 46, no. 11 (09/15/ 1992): 6671-87. 
+link.aps.org/doi/10.1103/PhysRevB.46.6671
+Perdew, John P., J. A. Chevary, S. H. Vosko, Koblar A. Jackson, Mark R. Pederson, D. J. Singh, and Carlos Fiolhais. "Erratum: Atoms, Molecules, Solids, and Surfaces: Applications of the Generalized Gradient Approximation for Exchange and Correlation." Physical Review B 48, no. 7 (08/15/ 1993): 4978-78. 
+link.aps.org/doi/10.1103/PhysRevB.48.4978.2
+
