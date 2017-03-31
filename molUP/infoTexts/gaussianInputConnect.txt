@@ -1,0 +1,4 @@
+Connectivity
+
+This section includes information about the manner each atom is bonded to the remaining ones. 
+You can use molUP to load the connectivity available on another Gaussian Input File, manually edit the connectivity information (and apply), or re-bond the system using the VMD algorithm. This last option could be useful to enhance the way you visualize the structure but can lead to some issues during some further Gaussian calculations. 

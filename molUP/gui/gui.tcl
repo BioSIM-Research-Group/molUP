@@ -644,6 +644,12 @@ proc molUP::resultSection {molID frame majorHeight} {
 			-command [list $tInput.keywordsText yview]\
 			] -in $tInput -x 380 -y 25 -width 15 -height 25
 
+	place [ttk::button $tInput.infoButton \
+        -style molUP.infoButton.TButton \
+        -text "Information" \
+		-command {molUP::guiInfo "gaussianInputTitle.txt"} \
+		] -in $tInput -x 375 -y 5 -width 20 -height 20
+
 
 	#### keywords
 	place [ttk::menubutton $tInput.keywordsLabel -text "Calculation keywords" -menu $tInput.keywordsLabel.menu \
@@ -651,6 +657,12 @@ proc molUP::resultSection {molID frame majorHeight} {
 			] -in $tInput -x 5 -y 60 -height 25 -width 160  
 	menu $tInput.keywordsLabel.menu -tearoff 0
 	molUP::readCalculationTypes [subst $tInput.keywordsLabel.menu]
+
+	place [ttk::button $tInput.infoButtonKeywords \
+        -style molUP.infoButton.TButton \
+        -text "Information" \
+		-command {molUP::methodology} \
+		] -in $tInput -x 375 -y 60 -width 20 -height 20
 	
 	#place [ttk::label $tInput.keywordsLabel \
 	#	-style molUP.cyan.TLabel \
@@ -683,6 +695,12 @@ proc molUP::resultSection {molID frame majorHeight} {
 	$tInput.connectLabel.menu add command -label "Load connectivity from Gaussian Input File" -command {molUP::loadConnectivityFromOtherInputFile}
 	$tInput.connectLabel.menu add command -label "Apply custom connectivity" -command {molUP::applyNewConnectivity}
 	$tInput.connectLabel.menu add command -label "Rebond" -command {molUP::rebond}
+
+	place [ttk::button $tInput.infoButtonConnect \
+        -style molUP.infoButton.TButton \
+        -text "Information" \
+		-command {molUP::guiInfo "gaussianInputConnect.txt"} \
+		] -in $tInput -x 375 -y 380 -width 20 -height 20
 
 	#place [ttk::label $tInput.connectLabel \
 	#	-style molUP.cyan.TLabel \
@@ -721,6 +739,12 @@ proc molUP::resultSection {molID frame majorHeight} {
 			] -in $tInput -x 5 -y [expr 405 + $heightBox + 10] -height 25 -width 340  
 	menu $tInput.paramLabel.menu -tearoff 0
 	$tInput.paramLabel.menu add command -label "Load parameters from a PRMTOP file" -command {molUP::loadPrmtopParameters}
+
+	place [ttk::button $tInput.infoButtonParam \
+        -style molUP.infoButton.TButton \
+        -text "Information" \
+		-command {molUP::guiInfo "gaussianInputParam.txt"} \
+		] -in $tInput -x 375 -y [expr 405 + $heightBox + 10] -width 20 -height 20
 
 	#place [ttk::label $tInput.paramLabel \
 	#	-style molUP.cyan.TLabel \

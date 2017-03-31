@@ -1,0 +1,5 @@
+Title section
+
+Brief description of the calculation. This section is required in the input, but is not interpreted in any way by the Gaussian program. It appears in the output for purposes of identification and description. Typically, this section might contain the compound name, its symmetry, the electronic state, and any other relevant information. The title section cannot exceed five lines and must be followed by a terminating blank line. The following characters should be avoided in the title section: @  #  !  –  _  \  control characters (especially Ctrl-G).
+
+Source: Gaussian (http://gaussian.com/input/)

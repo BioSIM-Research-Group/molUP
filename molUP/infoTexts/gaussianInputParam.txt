@@ -1,0 +1,3 @@
+Other information
+
+This is a section that appears immediately after the connectivity information in every Gaussian input file. Here, you can set several information or additional setups related to the job, such as additional molecular mechanics parameters (that can be loaded from a .PRMTOP file), set a ModRedundant calculation, or even set the usage of pseudo-potentials. 
