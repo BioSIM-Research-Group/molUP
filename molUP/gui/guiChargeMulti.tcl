@@ -4,12 +4,29 @@ package provide guiChargeMulti 1.0
 proc molUP::guiChargeMulti {frame} {
 
     #### Information
-	place [canvas $frame.frame -bg #b3dbff -width 400 -height 260 -highlightthickness 0] -in $frame 
+	place [canvas $frame.frame -bg #b3dbff -width 400 -height 160 -highlightthickness 0] -in $frame 
 
     #Evaluate a possible ONIOM System
     set highLayerIndex [$molUP::tableLayer searchcolumn 4 "H" -all]
     set mediumLayerIndex [$molUP::tableLayer searchcolumn 4 "M" -all]
     set lowLayerIndex [$molUP::tableLayer searchcolumn 4 "L" -all]
+
+
+    place [ttk::menubutton $frame.frame.buttons -text "Charge and Multiplicity" -menu $frame.frame.buttons.menu \
+			-style molUP.menuBar.TMenubutton \
+			] -in $frame.frame -x 5 -y 5 -height 25 -width 175  
+	menu $frame.frame.buttons.menu -tearoff 0
+    
+    $frame.frame.buttons.menu add command -label "Show/Hide positive residues" -command {molUP::onOffRepresentation 10}
+    $frame.frame.buttons.menu add command -label "Show/Hide negative residues" -command {molUP::onOffRepresentation 11}
+    
+    
+
+	place [ttk::button $frame.frame.infoButtonChargeMulti \
+        -style molUP.infoButton.TButton \
+        -text "Information" \
+		-command {molUP::guiInfo "chargeMulti.txt"} \
+		] -in $frame.frame -x 375 -y 10 -width 20 -height 20
 
 
 #######################################################################################
@@ -25,50 +42,52 @@ proc molUP::guiChargeMulti {frame} {
 
 
         # Place common items to all possibilities
-        place [ttk::label $frame.frame.initialLabel \
-            -text {Adjust the charge and spin multiplicity for this stytem.} \
-            -style molUP.cyan.TLabel \
-            ] -in $frame.frame -x 10 -y 10 -width 380
+        #place [ttk::label $frame.frame.initialLabel \
+        #    -text {Adjust the charge and spin multiplicity for this stytem.} \
+        #    -style molUP.cyan.TLabel \
+        #    ] -in $frame.frame -x 10 -y 10 -width 380
 
-        place [ttk::checkbutton $frame.frame.showPositiveResidues \
-            -text {Show Positive Residues} \
-            -variable {showPosChargedResidues} \
-            -command {molUP::onOffRepresentation 10} \
-            -style molUP.cyan.TCheckbutton \
-            ] -in $frame.frame -x 10 -y 40 -width 180
-
-        place [ttk::checkbutton $frame.frame.showNegativeResidues \
-            -text {Show Negative Residues} \
-            -variable {showNegChargedResidues} \
-            -command {molUP::onOffRepresentation 11} \
-            -style molUP.cyan.TCheckbutton \
-            ] -in $frame.frame -x 210 -y 40 -width 180
+        #place [ttk::checkbutton $frame.frame.showPositiveResidues \
+        #    -text {Show Positive Residues} \
+        #    -variable {showPosChargedResidues} \
+        #    -command {molUP::onOffRepresentation 10} \
+        #    -style molUP.cyan.TCheckbutton \
+        #    ] -in $frame.frame -x 10 -y 40 -width 180
+#
+        #place [ttk::checkbutton $frame.frame.showNegativeResidues \
+        #    -text {Show Negative Residues} \
+        #    -variable {showNegChargedResidues} \
+        #    -command {molUP::onOffRepresentation 11} \
+        #    -style molUP.cyan.TCheckbutton \
+        #    ] -in $frame.frame -x 210 -y 40 -width 180
 
         place [ttk::label $frame.frame.chargeLabel \
             -text {Charge:} \
             -style molUP.cyan.TLabel \
-            ] -in $frame.frame -x 10 -y 70 -width 50
+            ] -in $frame.frame -x 10 -y 40 -width 50
         
         place [ttk::entry $frame.frame.charge \
             -textvariable {molUP::chargeAll}\
             -style molUP.TEntry \
-            ] -in $frame.frame -x 60 -y 70 -width 90
+            ] -in $frame.frame -x 60 -y 40 -width 90
 
         place [ttk::label $frame.frame.multiLabel \
             -text {Multiplicity:} \
             -style molUP.cyan.TLabel \
-            ] -in $frame.frame -x 200 -y 70 -width 60
+            ] -in $frame.frame -x 200 -y 40 -width 60
         
         place [ttk::entry $frame.frame.multi \
             -textvariable {molUP::multiplicityValue}\
             -style molUP.TEntry \
-            ] -in $frame.frame -x 270 -y 70 -width 90
+            ] -in $frame.frame -x 270 -y 40 -width 90
 
-        place [ttk::button $frame.frame.calculateCharges \
-            -text {Calculate charge based on available MM charges} \
-            -command {molUP::getChargesSum all} \
-            -style molUP.TButton \
-            ] -in $frame.frame -x 10 -y 100 -width 380
+        #place [ttk::button $frame.frame.calculateCharges \
+        #    -text {Calculate charge based on available MM charges} \
+        #    -command {molUP::getChargesSum all} \
+        #    -style molUP.TButton \
+        #    ] -in $frame.frame -x 10 -y 100 -width 380
+
+        $frame.frame.buttons.menu add command -label "Calculate charge based on available MM charges" -command {molUP::getChargesSum all}
 
 
     } elseif {$highLayerIndex != "" && $mediumLayerIndex != "" && $lowLayerIndex == ""} {
@@ -78,24 +97,24 @@ proc molUP::guiChargeMulti {frame} {
 
 
         # Place common items to all possibilities
-        place [ttk::label $frame.frame.initialLabel \
-            -text {Adjust the charge and spin multiplicity for this stytem.} \
-            -style molUP.cyan.TLabel \
-            ] -in $frame.frame -x 10 -y 10 -width 380
-
-        place [ttk::checkbutton $frame.frame.showPositiveResidues \
-            -text {Show Positive Residues} \
-            -variable {showPosChargedResidues} \
-            -command {molUP::onOffRepresentation 10} \
-            -style molUP.cyan.TCheckbutton \
-            ] -in $frame.frame -x 10 -y 40 -width 180
-
-        place [ttk::checkbutton $frame.frame.showNegativeResidues \
-            -text {Show Negative Residues} \
-            -variable {showNegChargedResidues} \
-            -command {molUP::onOffRepresentation 11} \
-            -style molUP.cyan.TCheckbutton \
-            ] -in $frame.frame -x 210 -y 40 -width 180
+        #place [ttk::label $frame.frame.initialLabel \
+        #    -text {Adjust the charge and spin multiplicity for this stytem.} \
+        #    -style molUP.cyan.TLabel \
+        #    ] -in $frame.frame -x 10 -y 10 -width 380
+#
+        #place [ttk::checkbutton $frame.frame.showPositiveResidues \
+        #    -text {Show Positive Residues} \
+        #    -variable {showPosChargedResidues} \
+        #    -command {molUP::onOffRepresentation 10} \
+        #    -style molUP.cyan.TCheckbutton \
+        #    ] -in $frame.frame -x 10 -y 40 -width 180
+#
+        #place [ttk::checkbutton $frame.frame.showNegativeResidues \
+        #    -text {Show Negative Residues} \
+        #    -variable {showNegChargedResidues} \
+        #    -command {molUP::onOffRepresentation 11} \
+        #    -style molUP.cyan.TCheckbutton \
+        #    ] -in $frame.frame -x 210 -y 40 -width 180
 
 
 
@@ -103,57 +122,59 @@ proc molUP::guiChargeMulti {frame} {
         place [ttk::label $frame.frame.layer \
             -text {Layer} \
             -style molUP.cyanCenter.TLabel \
-            ] -in $frame.frame -x 10 -y 70 -width 120
+            ] -in $frame.frame -x 10 -y 40 -width 120
 
         place [ttk::label $frame.frame.charge \
             -text {Charge} \
             -style molUP.cyanCenter.TLabel \
-            ] -in $frame.frame -x 140 -y 70 -width 120
+            ] -in $frame.frame -x 140 -y 40 -width 120
 
         place [ttk::label $frame.frame.multi \
             -text {Multiplicity} \
             -style molUP.cyanCenter.TLabel \
-            ] -in $frame.frame -x 270 -y 70 -width 120
+            ] -in $frame.frame -x 270 -y 40 -width 120
 
         # Line 1
         place [ttk::label $frame.frame.hllayerLabel \
             -text {High Level Layer} \
             -style molUP.cyanCenter.TLabel \
-            ] -in $frame.frame -x 10 -y 100 -width 120
+            ] -in $frame.frame -x 10 -y 70 -width 120
 
         place [ttk::entry $frame.frame.hllayerCharge \
             -textvariable {molUP::chargeHL}\
             -style molUP.TEntry \
-            ] -in $frame.frame -x 140 -y 100 -width 120
+            ] -in $frame.frame -x 140 -y 70 -width 120
 
         place [ttk::entry $frame.frame.hllayerMulti \
             -textvariable {molUP::multiplicityValue}\
             -style molUP.TEntry \
-            ] -in $frame.frame -x 270 -y 100 -width 120
+            ] -in $frame.frame -x 270 -y 70 -width 120
 
         # Line 2
         place [ttk::label $frame.frame.mllayerLabel \
             -text {Medium Level Layer} \
             -style molUP.cyanCenter.TLabel \
-            ] -in $frame.frame -x 10 -y 130 -width 120
+            ] -in $frame.frame -x 10 -y 100 -width 120
 
         place [ttk::entry $frame.frame.mllayerCharge \
             -textvariable {molUP::chargeML}\
             -style molUP.TEntry \
-            ] -in $frame.frame -x 140 -y 130 -width 120
+            ] -in $frame.frame -x 140 -y 100 -width 120
 
         place [ttk::entry $frame.frame.mllayerMulti \
             -textvariable {molUP::multiplicityValue1}\
             -style molUP.TEntry \
-            ] -in $frame.frame -x 270 -y 130 -width 120
+            ] -in $frame.frame -x 270 -y 100 -width 120
 
 
         # Calculate Button
-        place [ttk::button $frame.frame.calculateCharges \
-            -text {Calculate charge based on available MM charges} \
-            -command {molUP::getChargesSum none} \
-            -style molUP.TButton \
-            ] -in $frame.frame -x 10 -y 160 -width 380
+        #place [ttk::button $frame.frame.calculateCharges \
+        #    -text {Calculate charge based on available MM charges} \
+        #    -command {molUP::getChargesSum none} \
+        #    -style molUP.TButton \
+        #    ] -in $frame.frame -x 10 -y 160 -width 380
+
+        $frame.frame.buttons.menu add command -label "Calculate charge based on available MM charges" -command {molUP::getChargesSum none}
 
 
     } elseif {$highLayerIndex != "" && $mediumLayerIndex == "" && $lowLayerIndex != ""} {
@@ -165,24 +186,24 @@ proc molUP::guiChargeMulti {frame} {
 
 
         # Place common items to all possibilities
-        place [ttk::label $frame.frame.initialLabel \
-            -text {Adjust the charge and spin multiplicity for this stytem.} \
-            -style molUP.cyan.TLabel \
-            ] -in $frame.frame -x 10 -y 10 -width 380
-
-        place [ttk::checkbutton $frame.frame.showPositiveResidues \
-            -text {Show Positive Residues} \
-            -variable {showPosChargedResidues} \
-            -command {molUP::onOffRepresentation 10} \
-            -style molUP.cyan.TCheckbutton \
-            ] -in $frame.frame -x 10 -y 40 -width 180
-
-        place [ttk::checkbutton $frame.frame.showNegativeResidues \
-            -text {Show Negative Residues} \
-            -variable {showNegChargedResidues} \
-            -command {molUP::onOffRepresentation 11} \
-            -style molUP.cyan.TCheckbutton \
-            ] -in $frame.frame -x 210 -y 40 -width 180
+        #place [ttk::label $frame.frame.initialLabel \
+        #    -text {Adjust the charge and spin multiplicity for this stytem.} \
+        #    -style molUP.cyan.TLabel \
+        #    ] -in $frame.frame -x 10 -y 10 -width 380
+#
+        #place [ttk::checkbutton $frame.frame.showPositiveResidues \
+        #    -text {Show Positive Residues} \
+        #    -variable {showPosChargedResidues} \
+        #    -command {molUP::onOffRepresentation 10} \
+        #    -style molUP.cyan.TCheckbutton \
+        #    ] -in $frame.frame -x 10 -y 40 -width 180
+#
+        #place [ttk::checkbutton $frame.frame.showNegativeResidues \
+        #    -text {Show Negative Residues} \
+        #    -variable {showNegChargedResidues} \
+        #    -command {molUP::onOffRepresentation 11} \
+        #    -style molUP.cyan.TCheckbutton \
+        #    ] -in $frame.frame -x 210 -y 40 -width 180
 
 
 
@@ -190,57 +211,59 @@ proc molUP::guiChargeMulti {frame} {
         place [ttk::label $frame.frame.layer \
             -text {Layer} \
             -style molUP.cyanCenter.TLabel \
-            ] -in $frame.frame -x 10 -y 70 -width 120
+            ] -in $frame.frame -x 10 -y 40 -width 120
 
         place [ttk::label $frame.frame.charge \
             -text {Charge} \
             -style molUP.cyanCenter.TLabel \
-            ] -in $frame.frame -x 140 -y 70 -width 120
+            ] -in $frame.frame -x 140 -y 40 -width 120
 
         place [ttk::label $frame.frame.multi \
             -text {Multiplicity} \
             -style molUP.cyanCenter.TLabel \
-            ] -in $frame.frame -x 270 -y 70 -width 120
+            ] -in $frame.frame -x 270 -y 40 -width 120
 
         # Line 1
         place [ttk::label $frame.frame.hllayerLabel \
             -text {High Level Layer} \
             -style molUP.cyanCenter.TLabel \
-            ] -in $frame.frame -x 10 -y 100 -width 120
+            ] -in $frame.frame -x 10 -y 70 -width 120
 
         place [ttk::entry $frame.frame.hllayerCharge \
             -textvariable {molUP::chargeHL}\
             -style molUP.TEntry \
-            ] -in $frame.frame -x 140 -y 100 -width 120
+            ] -in $frame.frame -x 140 -y 70 -width 120
 
         place [ttk::entry $frame.frame.hllayerMulti \
             -textvariable {molUP::multiplicityValue}\
             -style molUP.TEntry \
-            ] -in $frame.frame -x 270 -y 100 -width 120
+            ] -in $frame.frame -x 270 -y 70 -width 120
 
         # Line 2
         place [ttk::label $frame.frame.lllayerLabel \
             -text {Low Level Layer} \
             -style molUP.cyanCenter.TLabel \
-            ] -in $frame.frame -x 10 -y 130 -width 120
+            ] -in $frame.frame -x 10 -y 100 -width 120
 
         place [ttk::entry $frame.frame.lllayerCharge \
             -textvariable {molUP::chargeLL}\
             -style molUP.TEntry \
-            ] -in $frame.frame -x 140 -y 130 -width 120
+            ] -in $frame.frame -x 140 -y 100 -width 120
 
         place [ttk::entry $frame.frame.lllayerMulti \
             -textvariable {molUP::multiplicityValue1}\
             -style molUP.TEntry \
-            ] -in $frame.frame -x 270 -y 130 -width 120
+            ] -in $frame.frame -x 270 -y 100 -width 120
 
 
         # Calculate Button
-        place [ttk::button $frame.frame.calculateCharges \
-            -text {Calculate charge based on available MM charges} \
-            -command {molUP::getChargesSum none} \
-            -style molUP.TButton \
-            ] -in $frame.frame -x 10 -y 160 -width 380
+        #place [ttk::button $frame.frame.calculateCharges \
+        #    -text {Calculate charge based on available MM charges} \
+        #    -command {molUP::getChargesSum none} \
+        #    -style molUP.TButton \
+        #    ] -in $frame.frame -x 10 -y 160 -width 380
+
+        $frame.frame.buttons.menu add command -label "Calculate charge based on available MM charges" -command {molUP::getChargesSum none} 
 
 
     } elseif {$highLayerIndex == "" && $mediumLayerIndex != "" && $lowLayerIndex != ""} {
@@ -251,24 +274,24 @@ proc molUP::guiChargeMulti {frame} {
 
 
         # Place common items to all possibilities
-        place [ttk::label $frame.frame.initialLabel \
-            -text {Adjust the charge and spin multiplicity for this stytem.} \
-            -style molUP.cyan.TLabel \
-            ] -in $frame.frame -x 10 -y 10 -width 380
-
-        place [ttk::checkbutton $frame.frame.showPositiveResidues \
-            -text {Show Positive Residues} \
-            -variable {showPosChargedResidues} \
-            -command {molUP::onOffRepresentation 10} \
-            -style molUP.cyan.TCheckbutton \
-            ] -in $frame.frame -x 10 -y 40 -width 180
-
-        place [ttk::checkbutton $frame.frame.showNegativeResidues \
-            -text {Show Negative Residues} \
-            -variable {showNegChargedResidues} \
-            -command {molUP::onOffRepresentation 11} \
-            -style molUP.cyan.TCheckbutton \
-            ] -in $frame.frame -x 210 -y 40 -width 180
+        #place [ttk::label $frame.frame.initialLabel \
+        #    -text {Adjust the charge and spin multiplicity for this stytem.} \
+        #    -style molUP.cyan.TLabel \
+        #    ] -in $frame.frame -x 10 -y 10 -width 380
+#
+        #place [ttk::checkbutton $frame.frame.showPositiveResidues \
+        #    -text {Show Positive Residues} \
+        #    -variable {showPosChargedResidues} \
+        #    -command {molUP::onOffRepresentation 10} \
+        #    -style molUP.cyan.TCheckbutton \
+        #    ] -in $frame.frame -x 10 -y 40 -width 180
+#
+        #place [ttk::checkbutton $frame.frame.showNegativeResidues \
+        #    -text {Show Negative Residues} \
+        #    -variable {showNegChargedResidues} \
+        #    -command {molUP::onOffRepresentation 11} \
+        #    -style molUP.cyan.TCheckbutton \
+        #    ] -in $frame.frame -x 210 -y 40 -width 180
 
 
 
@@ -276,57 +299,59 @@ proc molUP::guiChargeMulti {frame} {
         place [ttk::label $frame.frame.layer \
             -text {Layer} \
             -style molUP.cyanCenter.TLabel \
-            ] -in $frame.frame -x 10 -y 70 -width 120
+            ] -in $frame.frame -x 10 -y 40 -width 120
 
         place [ttk::label $frame.frame.charge \
             -text {Charge} \
             -style molUP.cyanCenter.TLabel \
-            ] -in $frame.frame -x 140 -y 70 -width 120
+            ] -in $frame.frame -x 140 -y 40 -width 120
 
         place [ttk::label $frame.frame.multi \
             -text {Multiplicity} \
             -style molUP.cyanCenter.TLabel \
-            ] -in $frame.frame -x 270 -y 70 -width 120
+            ] -in $frame.frame -x 270 -y 40 -width 120
 
         # Line 1
         place [ttk::label $frame.frame.mllayerLabel \
             -text {Medium Level Layer} \
             -style molUP.cyanCenter.TLabel \
-            ] -in $frame.frame -x 10 -y 100 -width 120
+            ] -in $frame.frame -x 10 -y 70 -width 120
 
         place [ttk::entry $frame.frame.mllayerCharge \
             -textvariable {molUP::chargeML}\
             -style molUP.TEntry \
-            ] -in $frame.frame -x 140 -y 100 -width 120
+            ] -in $frame.frame -x 140 -y 70 -width 120
 
         place [ttk::entry $frame.frame.mllayerMulti \
             -textvariable {molUP::multiplicityValue}\
             -style molUP.TEntry \
-            ] -in $frame.frame -x 270 -y 100 -width 120
+            ] -in $frame.frame -x 270 -y 70 -width 120
 
         # Line 2
         place [ttk::label $frame.frame.lllayerLabel \
             -text {Low Level Layer} \
             -style molUP.cyanCenter.TLabel \
-            ] -in $frame.frame -x 10 -y 130 -width 120
+            ] -in $frame.frame -x 10 -y 100 -width 120
 
         place [ttk::entry $frame.frame.lllayerCharge \
             -textvariable {molUP::chargeLL}\
             -style molUP.TEntry \
-            ] -in $frame.frame -x 140 -y 130 -width 120
+            ] -in $frame.frame -x 140 -y 100 -width 120
 
         place [ttk::entry $frame.frame.lllayerMulti \
             -textvariable {molUP::multiplicityValue1}\
             -style molUP.TEntry \
-            ] -in $frame.frame -x 270 -y 130 -width 120
+            ] -in $frame.frame -x 270 -y 100 -width 120
 
 
         # Calculate Button
-        place [ttk::button $frame.frame.calculateCharges \
-            -text {Calculate charge based on available MM charges} \
-            -command {molUP::getChargesSum none} \
-            -style molUP.TButton \
-            ] -in $frame.frame -x 10 -y 160 -width 380
+        #place [ttk::button $frame.frame.calculateCharges \
+        #    -text {Calculate charge based on available MM charges} \
+        #    -command {molUP::getChargesSum none} \
+        #    -style molUP.TButton \
+        #    ] -in $frame.frame -x 10 -y 160 -width 380
+
+        $frame.frame.buttons.menu add command -label "Calculate charge based on available MM charges" -command {molUP::getChargesSum none}
 
 
     } elseif {$highLayerIndex != "" && $mediumLayerIndex != "" && $lowLayerIndex != ""} {
@@ -337,24 +362,24 @@ proc molUP::guiChargeMulti {frame} {
 
 
         # Place common items to all possibilities
-        place [ttk::label $frame.frame.initialLabel \
-            -text {Adjust the charge and spin multiplicity for this stytem.} \
-            -style molUP.cyan.TLabel \
-            ] -in $frame.frame -x 10 -y 10 -width 380
-
-        place [ttk::checkbutton $frame.frame.showPositiveResidues \
-            -text {Show Positive Residues} \
-            -variable {showPosChargedResidues} \
-            -command {molUP::onOffRepresentation 10} \
-            -style molUP.cyan.TCheckbutton \
-            ] -in $frame.frame -x 10 -y 40 -width 180
-
-        place [ttk::checkbutton $frame.frame.showNegativeResidues \
-            -text {Show Negative Residues} \
-            -variable {showNegChargedResidues} \
-            -command {molUP::onOffRepresentation 11} \
-            -style molUP.cyan.TCheckbutton \
-            ] -in $frame.frame -x 210 -y 40 -width 180
+        #place [ttk::label $frame.frame.initialLabel \
+        #    -text {Adjust the charge and spin multiplicity for this stytem.} \
+        #    -style molUP.cyan.TLabel \
+        #    ] -in $frame.frame -x 10 -y 10 -width 380
+#
+        #place [ttk::checkbutton $frame.frame.showPositiveResidues \
+        #    -text {Show Positive Residues} \
+        #    -variable {showPosChargedResidues} \
+        #    -command {molUP::onOffRepresentation 10} \
+        #    -style molUP.cyan.TCheckbutton \
+        #    ] -in $frame.frame -x 10 -y 40 -width 180
+#
+        #place [ttk::checkbutton $frame.frame.showNegativeResidues \
+        #    -text {Show Negative Residues} \
+        #    -variable {showNegChargedResidues} \
+        #    -command {molUP::onOffRepresentation 11} \
+        #    -style molUP.cyan.TCheckbutton \
+        #    ] -in $frame.frame -x 210 -y 40 -width 180
 
 
 
@@ -362,73 +387,75 @@ proc molUP::guiChargeMulti {frame} {
         place [ttk::label $frame.frame.layer \
             -text {Layer} \
             -style molUP.cyanCenter.TLabel \
-            ] -in $frame.frame -x 10 -y 70 -width 120
+            ] -in $frame.frame -x 10 -y 40 -width 120
 
         place [ttk::label $frame.frame.charge \
             -text {Charge} \
             -style molUP.cyanCenter.TLabel \
-            ] -in $frame.frame -x 140 -y 70 -width 120
+            ] -in $frame.frame -x 140 -y 40 -width 120
 
         place [ttk::label $frame.frame.multi \
             -text {Multiplicity} \
             -style molUP.cyanCenter.TLabel \
-            ] -in $frame.frame -x 270 -y 70 -width 120
+            ] -in $frame.frame -x 270 -y 40 -width 120
 
         # Line 1
         place [ttk::label $frame.frame.hllayerLabel \
             -text {High Level Layer} \
             -style molUP.cyanCenter.TLabel \
-            ] -in $frame.frame -x 10 -y 100 -width 120
+            ] -in $frame.frame -x 10 -y 70 -width 120
 
         place [ttk::entry $frame.frame.hllayerCharge \
             -textvariable {molUP::chargeHL}\
             -style molUP.TEntry \
-            ] -in $frame.frame -x 140 -y 100 -width 120
+            ] -in $frame.frame -x 140 -y 70 -width 120
 
         place [ttk::entry $frame.frame.hllayerMulti \
             -textvariable {molUP::multiplicityValue}\
             -style molUP.TEntry \
-            ] -in $frame.frame -x 270 -y 100 -width 120
+            ] -in $frame.frame -x 270 -y 70 -width 120
 
         # Line 2
         place [ttk::label $frame.frame.mllayerLabel \
             -text {Medium Level Layer} \
             -style molUP.cyanCenter.TLabel \
-            ] -in $frame.frame -x 10 -y 130 -width 120
+            ] -in $frame.frame -x 10 -y 100 -width 120
 
         place [ttk::entry $frame.frame.mllayerCharge \
             -textvariable {molUP::chargeML}\
             -style molUP.TEntry \
-            ] -in $frame.frame -x 140 -y 130 -width 120
+            ] -in $frame.frame -x 140 -y 100 -width 120
 
         place [ttk::entry $frame.frame.mllayerMulti \
             -textvariable {molUP::multiplicityValue1}\
             -style molUP.TEntry \
-            ] -in $frame.frame -x 270 -y 130 -width 120
+            ] -in $frame.frame -x 270 -y 100 -width 120
 
         # Line 3
         place [ttk::label $frame.frame.lllayerLabel \
             -text {Low Level Layer} \
             -style molUP.cyanCenter.TLabel \
-            ] -in $frame.frame -x 10 -y 160 -width 120
+            ] -in $frame.frame -x 10 -y 130 -width 120
 
         place [ttk::entry $frame.frame.lllayerCharge \
             -textvariable {molUP::chargeLL}\
             -style molUP.TEntry \
-            ] -in $frame.frame -x 140 -y 160 -width 120
+            ] -in $frame.frame -x 140 -y 130 -width 120
 
         place [ttk::entry $frame.frame.lllayerMulti \
             -textvariable {molUP::multiplicityValue2}\
             -style molUP.TEntry \
-            ] -in $frame.frame -x 270 -y 160 -width 120
+            ] -in $frame.frame -x 270 -y 130 -width 120
 
 
         # Calculate Button
-        place [ttk::button $frame.frame.calculateCharges \
-            -text {Calculate charge based on available MM charges} \
-            -command {molUP::getChargesSum none} \
-            -style molUP.TButton \
-            ] -in $frame.frame -x 10 -y 190 -width 380
+        #place [ttk::button $frame.frame.calculateCharges \
+        #    -text {Calculate charge based on available MM charges} \
+        #    -command {molUP::getChargesSum none} \
+        #    -style molUP.TButton \
+        #    ] -in $frame.frame -x 10 -y 190 -width 380
+
+        $frame.frame.buttons.menu add command -label "Calculate charge based on available MM charges" -command {molUP::getChargesSum none}
 
 
     } else {

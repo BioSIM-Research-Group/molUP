@@ -1,6 +1,10 @@
 ######### molUP ##############
-Last version: 1.0.1
+Last version: 1.0.2
 ##############################
+Version 1.0.2 (3 APR 2017)
+- [New feature] Redesign of the interface of charge and spin multiplicity setup section.
+- [Bug fixed] Fix a bug that prevent the correct show up of references that must be cited according to the type of calculations.
+
 Version 1.0.1 (31 MAR 2017)
 - [New feature] Set of default calculation types were release. The user can also create their own keywords sections.
 - [Minor fix] Redesign of the input section.

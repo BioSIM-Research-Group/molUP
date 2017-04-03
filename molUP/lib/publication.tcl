@@ -123,7 +123,7 @@ proc molUP::getCitationsFromKeywords {} {
         foreach word $searchDataBase {
             set test [string match -nocase "*$word*" $keywords]
             if {$test == 1} {
-                catch {exec sed -n "/%$word/I,/#################################################/p" "$::molUPpath/lib/references.txt" | egrep -v -e "###################" -e "^%"} ref
+                catch {exec sed -n "/%$word/I,/#################################################/p" "$::molUPpath/references/references.txt" | egrep -v -e "###################" -e "^%"} ref
 
                 append references "\n$word: \n$ref\n"
             } else {
@@ -133,6 +133,9 @@ proc molUP::getCitationsFromKeywords {} {
     }
 
     set molUPRef "\nmolUP:\nH. S. Fernandes, M. J. Ramos, N. M. F. S. A. Cerqueira, Journal, 0 (2017) 0-0\ndoi.org/XXX.XXX.XXXX/XXXX\n"
+    set gaussianRef "\nGaussian09 D.01:\nGaussian 09, Revision D.01, M. J. Frisch, G. W. Trucks, H. B. Schlegel, G. E. Scuseria, M. A. Robb, J. R. Cheeseman, G. Scalmani, V. Barone, B. Mennucci, G. A. Petersson, H. Nakatsuji, M. Caricato, X. Li, H. P. Hratchian, A. F. Izmaylov, J. Bloino, G. Zheng, J. L. Sonnenberg, M. Hada, M. Ehara, K. Toyota, R. Fukuda, J. Hasegawa, M. Ishida, T. Nakajima, Y. Honda, O. Kitao, H. Nakai, T. Vreven, J. A. Montgomery, Jr., J. E. Peralta, F. Ogliaro, M. Bearpark, J. J. Heyd, E. Brothers, K. N. Kudin, V. N. Staroverov, T. Keith, R. Kobayashi, J. Normand, K. Raghavachari, A. Rendell, J. C. Burant, S. S. Iyengar, J. Tomasi, M. Cossi, N. Rega, J. M. Millam, M. Klene, J. E. Knox, J. B. Cross, V. Bakken, C. Adamo, J. Jaramillo, R. Gomperts, R. E. Stratmann, O. Yazyev, A. J. Austin, R. Cammi, C. Pomelli, J. W. Ochterski, R. L. Martin, K. Morokuma, V. G. Zakrzewski, G. A. Voth, P. Salvador, J. J. Dannenberg, S. Dapprich, A. D. Daniels, O. Farkas, J. B. Foresman, J. V. Ortiz, J. Cioslowski, and D. J. Fox, Gaussian, Inc., Wallingford CT, 2013.\n"
+    
+    append references $gaussianRef
     append references $molUPRef
 
     return $references

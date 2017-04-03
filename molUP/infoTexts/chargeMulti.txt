@@ -1,0 +1,3 @@
+Charge and Spin Multiplicity
+
+The global charge and spin multiplicity of all or part of a system (ONIOM methods) is defined in a line after the job title. molUP has a smart interface to help user setting up these two system features. 

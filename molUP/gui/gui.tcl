@@ -685,12 +685,12 @@ proc molUP::resultSection {molID frame majorHeight} {
 			] -in $tInput -x 380 -y 80 -width 15 -height 80
 
 	set resultsHeight [expr $molUP::majorHeight - 30 - 30]
-	set heightBox [expr ($resultsHeight - 405 - 25 - 10) / 2]
+	set heightBox [expr ($resultsHeight - 365 - 25 - 10) / 2]
 
 	#### Connectivity 
 	place [ttk::menubutton $tInput.connectLabel -text "Connectivity" -menu $tInput.connectLabel.menu \
 			-style molUP.menuBar.TMenubutton \
-			] -in $tInput -x 5 -y 380 -height 25 -width 110  
+			] -in $tInput -x 5 -y 340 -height 25 -width 110  
 	menu $tInput.connectLabel.menu -tearoff 0
 	$tInput.connectLabel.menu add command -label "Load connectivity from Gaussian Input File" -command {molUP::loadConnectivityFromOtherInputFile}
 	$tInput.connectLabel.menu add command -label "Apply custom connectivity" -command {molUP::applyNewConnectivity}
@@ -700,7 +700,7 @@ proc molUP::resultSection {molID frame majorHeight} {
         -style molUP.infoButton.TButton \
         -text "Information" \
 		-command {molUP::guiInfo "gaussianInputConnect.txt"} \
-		] -in $tInput -x 375 -y 380 -width 20 -height 20
+		] -in $tInput -x 375 -y 340 -width 20 -height 20
 
 	#place [ttk::label $tInput.connectLabel \
 	#	-style molUP.cyan.TLabel \
@@ -726,17 +726,17 @@ proc molUP::resultSection {molID frame majorHeight} {
 		-bd 1 \
 		-highlightcolor #017aff \
 		-highlightthickness 1 \
-		] -in $tInput -x 5 -y 405 -width 375 -height $heightBox
+		] -in $tInput -x 5 -y 365 -width 375 -height $heightBox
 
 	place [ttk::scrollbar $tInput.yscb1 \
 			-orient vertical \
 			-command [list $tInput.connect yview]\
-			] -in $tInput -x 380 -y 405 -width 15 -height $heightBox
+			] -in $tInput -x 380 -y 365 -width 15 -height $heightBox
 
 	#### Parameters 
 	place [ttk::menubutton $tInput.paramLabel -text "Other information (Parameters, Modredundant...)" -menu $tInput.paramLabel.menu \
 			-style molUP.menuBar.TMenubutton \
-			] -in $tInput -x 5 -y [expr 405 + $heightBox + 10] -height 25 -width 340  
+			] -in $tInput -x 5 -y [expr 365 + $heightBox + 10] -height 25 -width 340  
 	menu $tInput.paramLabel.menu -tearoff 0
 	$tInput.paramLabel.menu add command -label "Load parameters from a PRMTOP file" -command {molUP::loadPrmtopParameters}
 
@@ -744,7 +744,7 @@ proc molUP::resultSection {molID frame majorHeight} {
         -style molUP.infoButton.TButton \
         -text "Information" \
 		-command {molUP::guiInfo "gaussianInputParam.txt"} \
-		] -in $tInput -x 375 -y [expr 405 + $heightBox + 10] -width 20 -height 20
+		] -in $tInput -x 375 -y [expr 365 + $heightBox + 10] -width 20 -height 20
 
 	#place [ttk::label $tInput.paramLabel \
 	#	-style molUP.cyan.TLabel \
@@ -761,12 +761,12 @@ proc molUP::resultSection {molID frame majorHeight} {
 		-bd 1 \
 		-highlightcolor #017aff \
 		-highlightthickness 1 \
-		] -in $tInput -x 5 -y [expr 405 + $heightBox + 10 + 25] -width 375 -height $heightBox
+		] -in $tInput -x 5 -y [expr 365 + $heightBox + 10 + 25] -width 375 -height $heightBox
 
 	place [ttk::scrollbar $tInput.yscb2 \
 			-orient vertical \
 			-command [list $tInput.connect yview]\
-			] -in $tInput -x 380 -y [expr 405 + $heightBox + 10 + 25] -width 15 -height $heightBox
+			] -in $tInput -x 380 -y [expr 365 + $heightBox + 10 + 25] -width 15 -height $heightBox
 
 
 
@@ -965,11 +965,9 @@ proc molUP::resultSection {molID frame majorHeight} {
 
 	#### Charge and Multiplicity
 	place [ttk::frame $tInput.chargeMulti \
-		] -in $tInput -x 0 -y 170 -width 400 -height 200
+		] -in $tInput -x 0 -y 170 -width 400 -height 160
 	variable chargeMultiFrame $tInput.chargeMulti
 	
-
-
 	pack forget $frame.mol$molID
 }
 

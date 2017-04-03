@@ -159,6 +159,10 @@ ttk::style theme create molUPTheme -parent clam -settings {
         -background white \
         -anchor center
 
+    ttk::style configure molUP.cyanCenter.TLabel \
+        -background $cyan \
+        -anchor center
+
     ttk::style configure molUP.lightGreen.TLabel \
         -background $lightGreen
 
