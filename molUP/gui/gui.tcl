@@ -595,6 +595,15 @@ proc molUP::rebond {} {
 	$molUP::topGui.frame0.major.mol$molID.tabs.tabInput.connect insert end $connectivity
 }
 
+proc molUP::getConnectivityFromVMD {} {
+	set molID [molinfo top]
+
+	set connectivity [molUP::connectivityFromVMD all]
+
+	$molUP::topGui.frame0.major.mol$molID.tabs.tabInput.connect delete 1.0 end
+	$molUP::topGui.frame0.major.mol$molID.tabs.tabInput.connect insert end $connectivity
+}
+
 proc molUP::applyNewConnectivity {} {
 	set molID [molinfo top]
 	set molUP::connectivity [.molUP.frame0.major.mol$molID.tabs.tabInput.connect get 1.0 end]
@@ -693,6 +702,7 @@ proc molUP::resultSection {molID frame majorHeight} {
 			] -in $tInput -x 5 -y 340 -height 25 -width 110  
 	menu $tInput.connectLabel.menu -tearoff 0
 	$tInput.connectLabel.menu add command -label "Load connectivity from Gaussian Input File" -command {molUP::loadConnectivityFromOtherInputFile}
+	$tInput.connectLabel.menu add command -label "Get current connectivity from VMD" -command {molUP::getConnectivityFromVMD}
 	$tInput.connectLabel.menu add command -label "Apply custom connectivity" -command {molUP::applyNewConnectivity}
 	$tInput.connectLabel.menu add command -label "Rebond" -command {molUP::rebond}
 
