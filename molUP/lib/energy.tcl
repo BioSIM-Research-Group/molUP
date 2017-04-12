@@ -175,7 +175,7 @@ proc molUP::energyLastStructureOniom {} {
 
 
 proc molUP::energyLastStructureNotOniom {} {
-    set energies [exec egrep {SCF Done:  E|Optimized Parameters} $molUP::path]
+    catch {exec egrep {SCF Done:  E|Optimized Parameters} $molUP::path} energies
     set lines [split $energies \n]
 
     variable listEnergies {}

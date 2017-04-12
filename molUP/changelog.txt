@@ -1,6 +1,9 @@
 ######### molUP ##############
-Last version: 1.0.3
+Last version: 1.0.4
 ##############################
+Version 1.0.4 (14 APR 2017)
+- [Bug fixed] Fix an error when MM calculations were loaded on molUP
+
 Version 1.0.3 (6 APR 2017)
 - [New feature] New option that allows to rewrite the connectivity section based on current VMD connectivity.
 
