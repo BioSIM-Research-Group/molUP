@@ -1,4 +1,4 @@
-package provide gui 1.0
+package provide guiMolUP 1.0
 
 proc molUP::buildGui {} {
 

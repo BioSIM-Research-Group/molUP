@@ -3,7 +3,7 @@
 package ifneeded molUP        	                            1.0 [list source [file join $dir/molUP.tcl]]
 
 #GUI
-package ifneeded gui        	                            1.0 [list source [file join $dir/gui/gui.tcl]]
+package ifneeded guiMolUP        	                        1.0 [list source [file join $dir/gui/gui.tcl]]
 package ifneeded guiBondModif  	                            1.0 [list source [file join $dir/gui/guiBondModif.tcl]]
 package ifneeded guiAngleModif  	                        1.0 [list source [file join $dir/gui/guiAngleModif.tcl]]
 package ifneeded guiDihedModif  	                        1.0 [list source [file join $dir/gui/guiDihedModif.tcl]]

@@ -5,7 +5,7 @@ namespace eval molUP:: {
 	namespace export molUP
 	
 		#### Load Packages				
-		package require gui 									1.0
+		package require guiMolUP 								1.0
 		package require guiBondModif							1.0
 		package require guiAngleModif							1.0
 		package require guiDihedModif							1.0
