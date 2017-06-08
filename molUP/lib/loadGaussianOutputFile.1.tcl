@@ -302,6 +302,7 @@ proc molUP::readOniomStructure {} {
 				set test [regexp {(\S+)[(]PDBName=(\S+),ResName=(\S+),ResNum=(\S+)[)]} $column0 -> \
     		atomicSymbol pdbAtomType resname resid]
 				set charge "0.000000"
+				set gaussianAtomType "X"
 			} else {}
             
 			## Correction for charge signal
