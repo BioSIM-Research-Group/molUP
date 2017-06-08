@@ -26,7 +26,11 @@ proc molUP::loadGaussianInputFile {} {
 	## Get connectivity information about structure
 	set lineNumberConnect [expr $lineNumberLast + 2]
 	set lineNumberLastConnect [expr [molUP::getBlankLines $molUP::path 3] - 1]
-	catch {exec sed -n "$lineNumberConnect,$lineNumberLastConnect p" $molUP::path} molUP::connectivityInputFile
+	if {$lineNumberConnect == [expr $lineNumberLastConnect - 1]} {
+		set molUP::connectivityInputFile ""
+	} else {
+		catch {exec sed -n "$lineNumberConnect,$lineNumberLastConnect p" $molUP::path} molUP::connectivityInputFile
+	}
 
 	set a [expr $lineNumberLastConnect + 1]
 	catch {exec sed -n "$a,\$ p" $molUP::path} molUP::parameters
@@ -51,10 +55,16 @@ proc molUP::loadGaussianInputFile {} {
 	molUP::createMolecule
 
 	### Add connectivity to VMD
-	set connectList [molUP::convertGaussianInputConnectToVMD $molUP::connectivityInputFile]
-	topo clearbonds
-	topo setbondlist $connectList
-	set molUP::connectivity $molUP::connectivityInputFile
+	if {$molUP::connectivityInputFile == ""} {
+		mol ssrecalc top
+		mol bondsrecalc top
+		mol reanalyze top
+	} else {
+		set connectList [molUP::convertGaussianInputConnectToVMD $molUP::connectivityInputFile]
+		topo clearbonds
+		topo setbondlist $connectList
+		set molUP::connectivity $molUP::connectivityInputFile
+	}
 
 	display resetview
 
