@@ -404,10 +404,19 @@ proc molUP::readOniomStructureLastStructure {lastStructure} {
     		set test [regexp {(\S+)[-](\S+)[-](\S+)[(]PDBName=(\S+),ResName=(\S+),ResNum=(\S+)[)]} $column0 -> \
     		atomicSymbol gaussianAtomType charge pdbAtomType resname resid]
     		
+			# Trying to get information when no charge information is provided
 			if {$test == 0} {
-				regexp {(\S+)[-](\S+)[(]PDBName=(\S+),ResName=(\S+),ResNum=(\S+)[)]} $column0 -> \
-    		atomicSymbol gaussianAtomType pdbAtomType resname resid
+				set test [regexp {(\S+)[-](\S+)[(]PDBName=(\S+),ResName=(\S+),ResNum=(\S+)[)]} $column0 -> \
+    		atomicSymbol gaussianAtomType pdbAtomType resname resid]
 				set charge "0.000000"
+			} else {}
+
+			# Trying to get information when no charge and gaussianAtomType information is provided
+			if {$test == 0} {
+				set test [regexp {(\S+)[(]PDBName=(\S+),ResName=(\S+),ResNum=(\S+)[)]} $column0 -> \
+    		atomicSymbol pdbAtomType resname resid]
+				set charge "0.000000"
+				set gaussianAtomType "X"
 			} else {}
             
 			## Correction for charge signal
