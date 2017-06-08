@@ -1,6 +1,9 @@
 ######### molUP ##############
-Last version: 1.0.4
+Last version: 1.0.5
 ##############################
+Version 1.0.5 (8 JUN 2017)
+- [Bug fixed] Fix an error that prevent loading files missing the AtomType Information.
+
 Version 1.0.4 (14 APR 2017)
 - [Bug fixed] Fix an error when MM calculations were loaded on molUP
 
