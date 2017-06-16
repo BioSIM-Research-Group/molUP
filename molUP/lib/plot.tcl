@@ -222,9 +222,11 @@ proc molUP::drawPlot {frame x y title titleColor titleSize markerFormat markerCo
                     -fill $markerColor \
                     -state normal \
                     -activeoutline green \
+                    -activefill green \
+                    -activewidth 3 \
                     -tags [list point$xValue$yValue points]
 
-            $frame.plotBackground.area.canvas bind point$xValue$yValue <Button-1> "animate goto [expr $xValue - 1]; puts \"$xValue $yValue\"; set molUP::totalEnergyValuePick $yValue; $frame.plotBackground.area.canvas itemconfigure points -outline black; $frame.plotBackground.area.canvas itemconfigure point$xValue$yValue -outline green"
+            $frame.plotBackground.area.canvas bind point$xValue$yValue <Button-1> "animate goto [expr $xValue - 1]; puts \"$xValue $yValue\"; set molUP::totalEnergyValuePick $yValue; $frame.plotBackground.area.canvas itemconfigure points -outline black -width 1; $frame.plotBackground.area.canvas itemconfigure point$xValue$yValue -outline green -width 8"
             $frame.plotBackground.area.canvas bind point$xValue$yValue <Enter> "$frame.plotBackground.area.canvas configure -cursor hand2"
             $frame.plotBackground.area.canvas bind point$xValue$yValue <Leave> "$frame.plotBackground.area.canvas configure -cursor crosshair"
 

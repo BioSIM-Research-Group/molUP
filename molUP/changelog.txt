@@ -1,6 +1,9 @@
 ######### molUP ##############
-Last version: 1.0.5
+Last version: 1.0.6
 ##############################
+Version 1.0.6 (16 JUN 2017)
+ - [New feature] The selected point on the energy graph is now more visible.
+
 Version 1.0.5 (8 JUN 2017)
 - [Bug fixed] Fix an error that prevent loading files missing the AtomType Information.
 - [Bug fixed] Recalculate connectivity when no information is provided on the input file.
