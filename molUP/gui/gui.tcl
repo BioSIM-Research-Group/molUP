@@ -608,7 +608,7 @@ proc molUP::resultSection {molID frame majorHeight} {
 	place [ttk::notebook $major.tabs \
 		-style molUP.major.TNotebook
 		] -in $major -x 0 -y 0 -width 400 -height $molUP::majorHeight
-	$major.tabs add [frame $major.tabs.tabResults -background #b3dbff -relief flat] -text "Structure"
+	$major.tabs add [frame $major.tabs.tabResults -background #b3dbff -relief flat] -text "Model"
 	$major.tabs add [frame $major.tabs.tabInput -background #b3dbff -relief flat] -text "Input"
 	$major.tabs add [frame $major.tabs.tabOutput -background #b3dbff -relief flat] -text "Results"
 	
