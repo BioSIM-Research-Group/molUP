@@ -29,7 +29,7 @@ proc molUP::methodology {} {
     pack [canvas $molUP::methodology.frame.back -bg white -width 600 -height 300 -highlightthickness 0] -in $molUP::methodology.frame
 
     ## Grep all options available
-    catch {exec grep "%" "$::molUPpath/methodologyTexts/text.txt" | cut -f2 -d%} listOptions
+    catch {exec grep "%" "$::molUPpath/user/methodology.txt" | cut -f2 -d%} listOptions
 	set listOptions [split $listOptions "\n"]
 
     variable methodOption

@@ -543,41 +543,25 @@ proc molUP::textSearch {w string tag} {
 }
 
 proc molUP::checkTags {pathName} {
-	set calcTypes [list opt freq irc scf]
-	foreach word $calcTypes {
-		molUP::textSearch $pathName $word calcTypes
-	}
-	$pathName tag configure calcTypes -foreground red
+	catch {exec grep "^\$color=" "$::molUPpath/user/references.txt" | cut -f2 -d=} colorTagList
+	set colorTagList [lsort -unique $colorTagList]
 
-	set oniom [list oniom]
-	foreach word $oniom {
-		molUP::textSearch $pathName $word oniom
-	}
-	$pathName tag configure oniom -foreground blue
+	foreach color $colorTagList {
+		catch {exec grep -n "$color" "$::molUPpath/user/references.txt" | cut -f1 -d:} keywordsLineNumber
 
-	set functional [list uff dreiding amber]
-	foreach word $functional {
-		molUP::textSearch $pathName $word functional
-	}
-	$pathName tag configure functional -foreground grey
 
-	set functionalSE [list pm6 am1 pddg pm3 pm3mm pm7 indo cndo]
-	foreach word $functionalSE {
-		molUP::textSearch $pathName $word functionalSE
-	}
-	$pathName tag configure functionalSE -foreground green
+		set keywords {}
 
-	set functionalDFT [list hf b3lyp lsda bpv86 b3pw91 mpw1pw91 pbepbe hseh1pbe hcth tpsstpss wb97xd mp2 mp4 ccsd bd casscf m062x m06 m08]
-	foreach word $functionalDFT {
-		molUP::textSearch $pathName $word functionalDFT
-	}
-	$pathName tag configure functionalDFT -foreground orange
+		foreach lineNumber $keywordsLineNumber {
+			catch {exec sed "[expr $lineNumber + 1],[expr $lineNumber + 1]!d" "$::molUPpath/user/references.txt" | cut -f2 -d%} keyword
+			lappend keywords $keyword
+		}
 
-	set basisset [list sto-3g * ** + ++ 3-21 6-31g 6-31+g 6-31++g (d (2d (3d (df (2df (3df ,p ,2p ,3p ,pd ,2pd ,3pd 6-311g 6-311+g 6-311++g cc-pvdz cc-pvtz cc-pvqz lanl2dz lanl2mb sdd dgdzvp dgdzvp2 dgdzvp gen genecp]
-	foreach word $basisset {
-		molUP::textSearch $pathName $word basisset
+		foreach word $keywords {
+			molUP::textSearch $pathName $word "[subst $color]"
+		}
+		$pathName tag configure "[subst $color]" -foreground "$color"
 	}
-	$pathName tag configure basisset -foreground "deep pink"
 
 }
 
@@ -1012,7 +996,7 @@ proc molUP::readCalculationTypes {pathName} {
 	## Common options
 	$pathName add command -label " ~ Save current input section ~ " -command "molUP::saveKeywordsInput"
 
-	set listFiles [glob -directory "$::molUPpath/calculationTypes" *]
+	set listFiles [glob -directory "$::molUPpath/user/calculationSetup" *]
 
 	foreach file $listFiles {
 		catch {exec sed -n "1,1p" $file} title
@@ -1082,8 +1066,8 @@ proc molUP::saveKeywordsInputLastStep {name} {
 	append text "$keywords"
 
 	set currentTime [clock seconds]
-	set file [open "$::molUPpath/calculationTypes/$currentTime.txt" w]
-	set path "$::molUPpath/calculationTypes/$currentTime.txt"
+	set file [open "$::molUPpath/user/calculationSetup/$currentTime.txt" w]
+	set path "$::molUPpath/user/calculationSetup/$currentTime.txt"
 
 	puts $file "$text"
 	close $file

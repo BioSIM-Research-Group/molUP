@@ -1,4 +1,7 @@
+------------------------------------------------
+METHODOLOGIES
 #################################################
+$color=blue
 %ONIOM
 Vreven, Thom and Keiji Morokuma. "Chapter 3 Hybrid Methods: Oniom(Qm:Mm) and Qm/Mm." In Annual Reports in Computational Chemistry, edited by C. Spellmeyer David, vol Volume 2, 35-51: Elsevier, 2006.
 
@@ -19,6 +22,7 @@ doi.org/10.1002/(SICI)1097-461X(1996)60:6<1101::AID-QUA1>3.0.CO;2-3
 Vreven, Thom and Keiji Morokuma. "On the Application of the Imomo (Integrated Molecular Orbital + Molecular Orbital) Method." Journal of Computational Chemistry 21, no. 16 (2000): 1419-32. 
 doi.org/10.1002/1096-987X(200012)21:16<1419::AID-JCC1>3.0.CO;2-C
 #################################################
+$color=blue
 %DFT
 Ed. D. R. Salahu, M. C. Zerner. The Challenge of D and F Electrons. Washington, D.C.: ACS, 1989.
 
@@ -29,6 +33,10 @@ doi.org/10.1103/PhysRev.140.A1133
 Hohenberg, P. and W. Kohn. "Inhomogeneous Electron Gas." Physical Review B 136, no. 3B (1964): B864-+. 
 doi.org/10.1103/PhysRev.136.B864
 #################################################
+------------------------------------------------
+FUNCTIONALS
+#################################################
+$color=green
 %B3LYP
 A.D. Becke, J.Chem.Phys. 98 (1993) 5648-5652
 doi.org/10.1063/1.464913
@@ -39,25 +47,57 @@ doi.org/10.1139/p80-159
 P.J. Stephens, F.J. Devlin, C.F. Chabalowski, M.J. Frisch, J.Phys.Chem. 98 (1994) 11623-11627
 doi.org/10.1021/j100096a001
 #################################################
+$color=green
 %HFS
 Kohn, W. and L. J. Sham. "Self-Consistent Equations Including Exchange and Correlation Effects." Physical Review 140, no. 4A (11/15/ 1965): A1133-A38. 
 link.aps.org/doi/10.1103/PhysRev.140.A1133
 Hohenberg, P. and W. Kohn. "Inhomogeneous Electron Gas." Physical Review 136, no. 3B (11/09/ 1964): B864-B71. 
 link.aps.org/doi/10.1103/PhysRev.136.B864
 #################################################
+$color=green
 %XAlpha
 Kohn, W. and L. J. Sham. "Self-Consistent Equations Including Exchange and Correlation Effects." Physical Review 140, no. 4A (11/15/ 1965): A1133-A38. 
 link.aps.org/doi/10.1103/PhysRev.140.A1133
 Hohenberg, P. and W. Kohn. "Inhomogeneous Electron Gas." Physical Review 136, no. 3B (11/09/ 1964): B864-B71. 
 link.aps.org/doi/10.1103/PhysRev.136.B864
 #################################################
+$color=green
 %HFB
 Becke, A. D. "Density-Functional Exchange-Energy Approximation with Correct Asymptotic Behavior." Physical Review A 38, no. 6 (09/01/ 1988): 3098-100. 
 link.aps.org/doi/10.1103/PhysRevA.38.3098
 #################################################
+$color=green
 %PW91
 Perdew, John P., J. A. Chevary, S. H. Vosko, Koblar A. Jackson, Mark R. Pederson, D. J. Singh, and Carlos Fiolhais. "Atoms, Molecules, Solids, and Surfaces: Applications of the Generalized Gradient Approximation for Exchange and Correlation." Physical Review B 46, no. 11 (09/15/ 1992): 6671-87. 
 link.aps.org/doi/10.1103/PhysRevB.46.6671
 Perdew, John P., J. A. Chevary, S. H. Vosko, Koblar A. Jackson, Mark R. Pederson, D. J. Singh, and Carlos Fiolhais. "Erratum: Atoms, Molecules, Solids, and Surfaces: Applications of the Generalized Gradient Approximation for Exchange and Correlation." Physical Review B 48, no. 7 (08/15/ 1993): 4978-78. 
 link.aps.org/doi/10.1103/PhysRevB.48.4978.2
+#################################################
+------------------------------------------------
+BASIS SET
+#################################################
+$color=purple
+%6-31G(d)
+
+
+#################################################
+$color=purple
+%6-31G(3df,2pd)
+
+
+#################################################
+$color=purple
+%6-31G(d,p)
+
+
+#################################################
+$color=purple
+%6-311++G(d)
+
+
+#################################################
+$color=purple
+%6-31++G(d)
+
+
 

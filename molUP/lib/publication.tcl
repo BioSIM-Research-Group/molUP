@@ -117,13 +117,13 @@ proc molUP::getCitationsFromKeywords {} {
         ## Read keywords entry
         set keywords [.molUP.frame0.major.mol$molID.tabs.tabInput.keywordsText get 1.0 end]
 
-        catch {exec grep "^%" "$::molUPpath/references/references.txt" | cut -f2 -d%} searchDataBase
+        catch {exec grep "^%" "$::molUPpath/user/references.txt" | cut -f2 -d%} searchDataBase
 
 
         foreach word $searchDataBase {
             set test [string match -nocase "*$word*" $keywords]
             if {$test == 1} {
-                catch {exec sed -n "/%$word/I,/#################################################/p" "$::molUPpath/references/references.txt" | egrep -v -e "###################" -e "^%"} ref
+                catch {exec sed -n "/%$word/I,/#################################################/p" "$::molUPpath/user/references.txt" | egrep -v -e "###################" -e "^%"} ref
 
                 append references "\n$word: \n$ref\n"
             } else {

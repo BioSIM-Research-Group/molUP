@@ -4,6 +4,12 @@ package provide guiChargeMulti 1.0
 proc molUP::guiChargeMulti {frame} {
 
     #### Information
+    #if {[info exists $frame.frame] == 1} {
+        destroy $frame.frame
+    #} else {
+        # Do Nothing
+    #}
+
 	place [canvas $frame.frame -bg #b3dbff -width 400 -height 160 -highlightthickness 0] -in $frame 
 
     #Evaluate a possible ONIOM System
