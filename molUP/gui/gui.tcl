@@ -608,8 +608,9 @@ proc molUP::resultSection {molID frame majorHeight} {
 	place [ttk::notebook $major.tabs \
 		-style molUP.major.TNotebook
 		] -in $major -x 0 -y 0 -width 400 -height $molUP::majorHeight
-	$major.tabs add [frame $major.tabs.tabResults -background #b3dbff -relief flat] -text "Results"
+	$major.tabs add [frame $major.tabs.tabResults -background #b3dbff -relief flat] -text "Structure"
 	$major.tabs add [frame $major.tabs.tabInput -background #b3dbff -relief flat] -text "Input"
+	$major.tabs add [frame $major.tabs.tabOutput -background #b3dbff -relief flat] -text "Results"
 	
 	
 	#####################################################
@@ -766,7 +767,7 @@ proc molUP::resultSection {molID frame majorHeight} {
 
 	#####################################################
 	#####################################################
-	################# TAB RESULTS #######################
+	################# TAB STRUCTURE #####################
 	#####################################################
 	#####################################################
 
@@ -886,7 +887,7 @@ proc molUP::resultSection {molID frame majorHeight} {
 	$tResults.tabs.tab2.tableLayer configcolumns 1 -labelrelief raised 1 -labelbackground #b3dbff 1 -labelbd 1
 	$tResults.tabs.tab2.tableLayer configcolumns 2 -labelrelief raised 2 -labelbackground #b3dbff 2 -labelbd 1
 	$tResults.tabs.tab2.tableLayer configcolumns 3 -labelrelief raised 3 -labelbackground #b3dbff 3 -labelbd 1
-	$tResults.tabs.tab2.tableLayer configcolumns 4 -editable true 4 -labelrelief raised 4 -labelbackground #b3dbff 4 -labelbd 1
+	$tResults.tabs.tab2.tableLayer configcolumns 4 -editable false 4 -labelrelief raised 4 -labelbackground #b3dbff 4 -labelbd 1
 
 	bind $tResults.tabs.tab2.tableLayer <<TablelistSelect>> {molUP::changeRepCurSelection oniom}
 
@@ -951,7 +952,7 @@ proc molUP::resultSection {molID frame majorHeight} {
 	$tResults.tabs.tab3.tableLayer configcolumns 1 -labelrelief raised 1 -labelbackground #b3dbff 1 -labelbd 1
 	$tResults.tabs.tab3.tableLayer configcolumns 2 -labelrelief raised 2 -labelbackground #b3dbff 2 -labelbd 1
 	$tResults.tabs.tab3.tableLayer configcolumns 3 -labelrelief raised 3 -labelbackground #b3dbff 3 -labelbd 1
-	$tResults.tabs.tab3.tableLayer configcolumns 4 -editable true 4 -labelrelief raised 4 -labelbackground #b3dbff 4 -labelbd 1
+	$tResults.tabs.tab3.tableLayer configcolumns 4 -editable false 4 -labelrelief raised 4 -labelbackground #b3dbff 4 -labelbd 1
 
 	bind $tResults.tabs.tab3.tableLayer <<TablelistSelect>> {molUP::changeRepCurSelection freeze}
 
@@ -963,6 +964,26 @@ proc molUP::resultSection {molID frame majorHeight} {
 	variable chargeMultiFrame $tInput.chargeMulti
 	
 	pack forget $frame.mol$molID
+
+
+	#####################################################
+	#####################################################
+	################# TAB OUTPUT ########################
+	#####################################################
+	#####################################################
+
+	set tOutput $major.tabs.tabOutput
+
+
+	place [ttk::notebook $tOutput.tabs \
+		-style molUP.results.TNotebook \
+		] -in $tOutput -x 0 -y 0 -width 400 -height [expr $resultsHeight + 30]
+
+	place [ttk::label $tOutput.tabs.warningText \
+		-text {No results to show.} \
+		-style molUP.cyan.TLabel \
+		] -in $tOutput.tabs -x 140 -y [expr $resultsHeight / 2] -width 120 -height 30
+
 }
 
 

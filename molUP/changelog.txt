@@ -4,6 +4,7 @@ Last version: 1.0.7
 Version 1.0.7 (14 JUL 2017)
 - [Big fixed] The section for set up charges and spin multiplicity updates every time you change the layer system.
 - [New feature] The list of bibliographic references, methodology texts, and calculations setup are now available on a folder (/user/) that can be modified by users to fit their needs.
+- [New feature] The Layer, Freeze and Charges sections were placed on an individual category called "Structure".
 
 Version 1.0.6 (16 JUN 2017)
  - [New feature] The selected point on the energy graph is now more visible.
