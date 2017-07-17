@@ -23,6 +23,20 @@ Vreven, Thom and Keiji Morokuma. "On the Application of the Imomo (Integrated Mo
 doi.org/10.1002/1096-987X(200012)21:16<1419::AID-JCC1>3.0.CO;2-C
 #################################################
 $color=blue
+%EmbedCharge
+Cisneros, G. A.; Piquemal, J.-P.; Darden, T. A., Quantum Mechanics/Molecular Mechanics Electrostatic Embedding with Continuous and Discrete Functions. The journal of physical chemistry. B 2006, 110 (28), 13682-13684.
+http://dx.doi.org/10.1021/jp062768x
+Vreven, T.; Byun, K. S.; Komáromi, I.; Dapprich, S.; Montgomery, J. A.; Morokuma, K.; Frisch, M. J., Combining Quantum Mechanics Methods with Molecular Mechanics Methods in ONIOM. Journal of Chemical Theory and Computation 2006, 2 (3), 815-826.
+http://dx.doi.org/10.1021/ct050289g
+#################################################
+$color=blue
+%Embed
+Cisneros, G. A.; Piquemal, J.-P.; Darden, T. A., Quantum Mechanics/Molecular Mechanics Electrostatic Embedding with Continuous and Discrete Functions. The journal of physical chemistry. B 2006, 110 (28), 13682-13684.
+http://dx.doi.org/10.1021/jp062768x
+Vreven, T.; Byun, K. S.; Komáromi, I.; Dapprich, S.; Montgomery, J. A.; Morokuma, K.; Frisch, M. J., Combining Quantum Mechanics Methods with Molecular Mechanics Methods in ONIOM. Journal of Chemical Theory and Computation 2006, 2 (3), 815-826.
+http://dx.doi.org/10.1021/ct050289g
+#################################################
+$color=blue
 %DFT
 Ed. D. R. Salahu, M. C. Zerner. The Challenge of D and F Electrons. Washington, D.C.: ACS, 1989.
 
