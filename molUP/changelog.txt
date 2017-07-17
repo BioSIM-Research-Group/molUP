@@ -1,6 +1,9 @@
 ######### molUP ##############
-Last version: 1.0.7
+Last version: 1.0.78
 ##############################
+Version 1.0.8 (17 JUL 2017)
+- [New feature] The list of basis set was updated to include all the basis sets available in Gaussian software (http://gaussian.com/basissets/). Users can also add more basis set or keywords by their own.
+
 Version 1.0.7 (14 JUL 2017)
 - [Big fixed] The section for set up charges and spin multiplicity updates every time you change the layer system.
 - [New feature] The list of bibliographic references, methodology texts, and calculations setup are now available on a folder (/user/) that can be modified by users to fit their needs.
