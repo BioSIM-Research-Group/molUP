@@ -542,22 +542,28 @@ proc molUP::textSearch {w string tag} {
    }
 }
 
-proc molUP::checkTags {pathName} {
+proc molUP::readKeywordsTags {} {
 	catch {exec grep "^\$color=" "$::molUPpath/user/references.txt" | cut -f2 -d=} colorTagList
-	set colorTagList [lsort -unique $colorTagList]
+	variable keywordsTagColor [lsort -unique $colorTagList]
 
-	foreach color $colorTagList {
+	foreach color $molUP::keywordsTagColor {
+		variable keywordsTagColor[subst $color] {} 
+		
 		catch {exec grep -n "$color" "$::molUPpath/user/references.txt" | cut -f1 -d:} keywordsLineNumber
-
-
-		set keywords {}
 
 		foreach lineNumber $keywordsLineNumber {
 			catch {exec sed "[expr $lineNumber + 1],[expr $lineNumber + 1]!d" "$::molUPpath/user/references.txt" | cut -f2 -d%} keyword
-			lappend keywords $keyword
+			lappend keywordsTagColor[subst $color] $keyword
 		}
+	}
 
-		foreach word $keywords {
+}
+
+proc molUP::checkTags {pathName} {
+
+	foreach color $molUP::keywordsTagColor {
+		set list [subst $[subst molUP::keywordsTagColor$color]]
+		foreach word $list {
 			molUP::textSearch $pathName $word "[subst $color]"
 		}
 		$pathName tag configure "[subst $color]" -foreground "$color"

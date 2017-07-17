@@ -182,6 +182,10 @@ namespace eval molUP:: {
 proc molUP::start {} {
 	if {[winfo exists $::molUP::topGui]} {wm deiconify $::molUP::topGui ;return $::molUP::topGui}
 
+	### Rload keywords to color tag text
+	molUP::readKeywordsTags
+
+	### Open the GUI
 	molUP::buildGui
 	update
 	return $::molUP::topGui
