@@ -12,7 +12,7 @@ package provide plot 1.0
 ## markerColorLine  - 
 
 
-proc molUP::drawPlot {frame x y title titleColor titleSize markerFormat markerColor markerColorLine markerSize} {
+proc molUP::drawPlot {frame x y title titleColor titleSize markerFormat markerColor markerColorLine markerSize yAxisLabel} {
 
     set width [$frame cget -width]
     set height [$frame cget -height]
@@ -64,8 +64,8 @@ proc molUP::drawPlot {frame x y title titleColor titleSize markerFormat markerCo
 
     $frame.plotBackground.yAxis.canvas create text \
         25 15 \
-        -text "Energy" \
-        -font {Helvetica -12 bold}
+        -text $yAxisLabel \
+        -font {Helvetica -9 bold}
 
 
 
@@ -155,22 +155,22 @@ proc molUP::drawPlot {frame x y title titleColor titleSize markerFormat markerCo
         set yMax [lindex $ySorted end]
         set yCount [llength $ySorted]
         set pixelValueY [expr ([format %.10f $yMax] - [format %.10f $yMin]) / ($areaHeight - 20)]
-        set howManyGaps [format %.0f [expr ($areaHeight -20) / 40]]
+        set howManyGaps 6
         set gapHeight [expr ($areaHeight - 20) / ($howManyGaps - 1)]
         # Tics
         for {set index 0} { $index < $howManyGaps } { incr index } {
             $frame.plotBackground.yAxis.canvas create line \
-            40 [expr ($areaHeight +15) - $gapHeight * $index]  \
+            42 [expr ($areaHeight +15) - $gapHeight * $index]  \
             45 [expr ($areaHeight +15) - $gapHeight * $index]  \
             -width 2 \
             -tags yAxis
             
-            set scaleValue [format %.3f [expr $yMin + ($index * $pixelValueY * $gapHeight)]]
+            set scaleValue [format %.2f [expr $yMin + ($index * $pixelValueY * $gapHeight)]]
 
             $frame.plotBackground.yAxis.canvas create text \
-            37 [expr ($areaHeight +15) - $gapHeight * $index] \
+            40 [expr ($areaHeight +15) - $gapHeight * $index] \
             -text "$scaleValue" \
-            -font {Helvetica 8} \
+            -font {Helvetica 9} \
             -anchor e  \
             -tags yAxis
         }

@@ -1,4 +1,4 @@
-package provide loadGaussianInputFile 1.0 
+package provide loadGaussianInputFile 2.0 
 
 ### This procedure load a gaussian input file and converts it to PDB
 proc molUP::loadGaussianInputFile {} {
@@ -13,7 +13,7 @@ proc molUP::loadGaussianInputFile {} {
 
 	#### Keywords of the calculations
 	set lineNumberKeyword [expr [molUP::getBlankLines $molUP::path 0] - 1]
-	set molUP::keywordsCalc [exec sed -n "$lineNumberKeyword p" $molUP::path]
+	set molUP::keywordsCalc [exec sed -n "1,$lineNumberKeyword p" $molUP::path]
 
 	#### Number of Atoms
 	set lineNumberFirst [expr [molUP::getBlankLines $molUP::path 1] + 2]
@@ -24,179 +24,68 @@ proc molUP::loadGaussianInputFile {} {
 	catch {exec sed -n "$lineNumberFirst,$lineNumberLast p" $molUP::path} molUP::structureGaussian
 
 	## Get connectivity information about structure
-	set lineNumberConnect [expr $lineNumberLast + 1]
-	catch {exec sed -n "$lineNumberConnect,$ p" $molUP::path} molUP::connectivityInputFile
+	set lineNumberConnect [expr $lineNumberLast + 2]
+	set lineNumberLastConnect [expr [molUP::getBlankLines $molUP::path 3] - 1]
+	if {$lineNumberConnect == [expr $lineNumberLastConnect - 1]} {
+		set molUP::connectivityInputFile ""
+	} else {
+		catch {exec sed -n "$lineNumberConnect,$lineNumberLastConnect p" $molUP::path} molUP::connectivityInputFile
+	}
 
-	## Set actual time
-	set molUP::actualTime [clock seconds]
-
-	## Create a temporary folder
-	catch {exec mktemp -d} molUP::tmpFolder
-	exec mkdir -p $molUP::tmpFolder/[subst $molUP::actualTime]
-
-
-	## Create a temporary file PDB
-	set molUP::temporaryPDBFile [open "$molUP::tmpFolder/[subst $molUP::actualTime]/[subst $molUP::fileName].pdb" w]
-
-	## Add a header to the file
-	puts $molUP::temporaryPDBFile "HEADER\n $molUP::title"
+	set a [expr $lineNumberLastConnect + 1]
+	catch {exec sed -n "$a,\$ p" $molUP::path} molUP::parameters
 
     #### Organize the structure info
-    set allAtoms [split $molUP::structureGaussian \n]
-
-	set numberColumns [llength [lindex $allAtoms 0]]
+    set molUP::structureGaussian [split $molUP::structureGaussian \n]
+	set numberColumns [llength [lindex $molUP::structureGaussian 0]]
 
 	if {$numberColumns == 4} {
-
-		#### Read an input file that has 4 columns
-
-		set i 0
-		foreach atom $allAtoms {
-			lassign $atom column0 column1 column2 column3
-
-			incr i
-
-			set resname "XXX"
-			set resid "1"
-			set pdbAtomType $column0
-			set column5 "A"
-			set atomicSymbol $column0
-
-			regexp {(\S+)\.+(\S+)} $column1 -> xbefore xafter
-		    set x $xbefore\.[format %.3s $xafter]
-		    regexp {(\S+)\.+(\S+)} $column2 -> ybefore yafter
-		    set y $ybefore\.[format %.3s $yafter]
-		    regexp {(\S+)\.+(\S+)} $column3 -> zbefore zafter
-		    set z $zbefore\.[format %.3s $zafter]
-
-			puts $molUP::temporaryPDBFile "[format %-4s "ATOM"] [format %6s $i] [format %-4s $pdbAtomType][format %4s $resname] [format %-1s $column5] [format %-7s $resid] [format %7s $x] [format %7s $y] [format %7s $z] [format %5s "1.00"] [format %-8s "00.00"] [format %8s $atomicSymbol]"
-
-			$molUP::topGui.frame0.tabs.tabsAtomList.tab4.tableLayer insert end [list \
-		   			"$i" \
-		   			"$column0" \
-		   			"X" \
-		   			"0" \
-		   			""\
-		   			]
-				   
-				$molUP::topGui.frame0.tabs.tabsAtomList.tab2.tableLayer insert end [list \
-		   			"$i" \
-		   			"$column0" \
-		   			"X" \
-		   			"0" \
-		   			"L"\
-		   			]
-				   
-				$molUP::topGui.frame0.tabs.tabsAtomList.tab3.tableLayer insert end [list \
-		   			"$i" \
-		   			"$column0" \
-		   			"X" \
-		   			"0" \
-		   			"0"\
-		   			]
-
-				set atomicSymbol 		""
-				set gaussianAtomType 	"" 
-				set charge				""
-				set pdbAtomType			""
-				set resname				""
-				set resid				""
-				set x					""
-				set y					""
-				set z					""
-				set column0				""
-				set column1				""
-				set column2				""
-				set column3				""
-		}
+		molUP::readSmallModelStructure
+		variable attributes [list "x" "y" "z" "element" "name" "type" "resname" "resid"]
 
 	} elseif {$numberColumns > 4} {
-		
-		#### Read an input file that has 9 columns
-
-		set i 0
-		foreach atom $allAtoms {
-
-				lassign $atom column0 column1 column2 column3 column4 column5 column6 column7 column8
-
-		    	#### Condition to distinguish between ONIOM and simple calculations
-				incr i
-				regexp {(\S+)[-](\S+)[-](\S+)[(]PDBName=(\S+),ResName=(\S+),ResNum=(\S+)[)]} $column0 -> \
-				atomicSymbol gaussianAtomType charge pdbAtomType resname resid
-
-				regexp {(\S+)\.+(\S+)} $column2 -> xbefore xafter
-		    	set x $xbefore\.[format %.3s $xafter]
-		    	regexp {(\S+)\.+(\S+)} $column3 -> ybefore yafter
-		    	set y $ybefore\.[format %.3s $yafter]
-		    	regexp {(\S+)\.+(\S+)} $column4 -> zbefore zafter
-		    	set z $zbefore\.[format %.3s $zafter]
-
-				if {[string match "*--*" $column0]==1} {
-					set charge [expr $charge * -1] } else {
-				 }
-				set charge [format %.6f $charge]
-
-				puts $molUP::temporaryPDBFile "[format %-4s "ATOM"] [format %6s $i] [format %-4s $pdbAtomType][format %4s $resname] [format %-1s $column5] [format %-7s $resid] [format %7s $x] [format %7s $y] [format %7s $z] [format %5s "1.00"] [format %-8s "00.00"] [format %8s $atomicSymbol]"
-
-				$molUP::topGui.frame0.tabs.tabsAtomList.tab4.tableLayer insert end [list \
-		   			"$i" \
-		   			"[lindex [split $gaussianAtomType "-"] 0]" \
-		   			"$resname" \
-		   			"$resid" \
-		   			"$charge"\
-		   			]
-				   
-				$molUP::topGui.frame0.tabs.tabsAtomList.tab2.tableLayer insert end [list \
-		   			"$i" \
-		   			"$pdbAtomType" \
-		   			"$resname" \
-		   			"$resid" \
-		   			"$column5"\
-		   			]
-				   
-				$molUP::topGui.frame0.tabs.tabsAtomList.tab3.tableLayer insert end [list \
-		   			"$i" \
-		   			"$pdbAtomType" \
-		   			"$resname" \
-		   			"$resid" \
-		   			"$column1"\
-		   			]
-
-				set atomicSymbol 		""
-				set gaussianAtomType 	"" 
-				set charge				""
-				set pdbAtomType			""
-				set resname				""
-				set resid				""
-				set x					""
-				set y					""
-				set z					""
-				set column0				""
-				set column1				""
-				set column2				""
-				set column3				""
-				set column4				""
-				set column5				""
-				set column6				""
-				set column7				""
-				set column8				""
-
-		}
+		molUP::readOniomStructure
+		variable attributes [list "x" "y" "z" "element" "name" "type" "resname" "resid" "altloc" "user" "charge"]
 
 	} else {
 		molUP::guiError "The file has a strange structure. The file cannot be openned."
 	}
 
-	
-	## Add a footer to the file
-	  puts $molUP::temporaryPDBFile "END"
+	#### Load and prepara structure on VMD
+	molUP::createMolecule
 
-    #### Close the temporary file
-	  close $molUP::temporaryPDBFile
+	### Add connectivity to VMD
+	if {$molUP::connectivityInputFile == ""} {
+		mol ssrecalc top
+		mol bondsrecalc top
+		mol reanalyze top
+	} else {
+		set connectList [molUP::convertGaussianInputConnectToVMD $molUP::connectivityInputFile]
+		topo clearbonds
+		topo setbondlist $connectList
+		set molUP::connectivity $molUP::connectivityInputFile
+	}
 
+	display resetview
 
+}
 
-	## Deactivate the ability to load a new molecule
-	set molUP::openNewFileMode "NO"
+proc molUP::createMolecule {} {
+	## Create a new Molecule
+	mol new atoms $molUP::numberAtoms
+	## Change the name
+	mol rename top "[subst $molUP::fileName]"
+	## Create a frame
+	animate dup top
+	## Add the info
+	[atomselect top all] set $molUP::attributes $molUP::structureReadyToLoad
+	## Create the first representantion
+	mol selection all
+	mol color Name
+	mol addrep top
+	## Place connectivity
+	mol ssrecalc top
+	mol bondsrecalc top
+	mol reanalyze top
 }
     

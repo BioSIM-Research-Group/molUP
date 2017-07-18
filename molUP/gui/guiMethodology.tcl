@@ -78,7 +78,7 @@ proc molUP::methodology {} {
 
 
 proc molUP::readMethodText {args} {
-    catch {exec sed -n "/%$molUP::methodOption/I,/#################################################/p" "$::molUPpath/methodologyTexts/text.txt" | egrep -v -e "###################" -e "^%"} text
+    catch {exec sed -n "/%$molUP::methodOption/I,/#################################################/p" "$::molUPpath/user/methodology.txt" | egrep -v -e "###################" -e "^%"} text
 
     $molUP::methodology.frame.back.label1 configure -state normal
     $molUP::methodology.frame.back.label1 delete 1.0 end

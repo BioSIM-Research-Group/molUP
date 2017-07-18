@@ -1,6 +1,11 @@
 ######### molUP ##############
-Last version: 1.0.78
+Last version: 1.0.9
 ##############################
+Version 1.0.9 (18 JUL 2017)
+- [New feature] Several features were added to the energy section namely energy untis adjustment, set zero for the energy of the first structure, and choose which layer must be plotted.
+- [New feature] Files missing information about layer and/or freeze status will be automatically set "H" and/or "0", respectively.
+- [Bug fixed] Fixed a bug that prevents the correct work of the Methodology GUI.
+
 Version 1.0.8 (17 JUL 2017)
 - [New feature] The list of basis set was updated to include all the basis sets available in Gaussian software (http://gaussian.com/basissets/). Users can also add more basis set or keywords by their own.
 
