@@ -84,7 +84,7 @@ proc molUP::buildGui {} {
 			-style molUP.menuBar.TMenubutton \
 			] -in $molUP::topGui.frame0.topSection.topMenu -x 210 -y 5 -height 25 -width 95
 	menu $molUP::topGui.frame0.topSection.topMenu.publication.menu -tearoff 0	
-	$molUP::topGui.frame0.topSection.topMenu.publication.menu add command -label "Methodology" -command {molUP::methodology}
+	#$molUP::topGui.frame0.topSection.topMenu.publication.menu add command -label "Methodology" -command {molUP::methodology}
 	$molUP::topGui.frame0.topSection.topMenu.publication.menu add command -label "References to cite" -command {molUP::citations}
 
 
