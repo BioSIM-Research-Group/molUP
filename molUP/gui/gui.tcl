@@ -64,6 +64,7 @@ proc molUP::buildGui {} {
 			-style molUP.menuBar.TMenubutton \
 			] -in $molUP::topGui.frame0.topSection.topMenu -x 54 -y 5 -height 25 -width 60
 	menu $molUP::topGui.frame0.topSection.topMenu.tools.menu -tearoff 0
+	$molUP::topGui.frame0.topSection.topMenu.tools.menu add command -label "Measure Bonds, Angles, and Dihedral" -command {molUP::badParams}
 	$molUP::topGui.frame0.topSection.topMenu.tools.menu add command -label "Reset view" -command {display resetview}
 	$molUP::topGui.frame0.topSection.topMenu.tools.menu add command -label "Center atom" -command {mouse mode center}
 	$molUP::topGui.frame0.topSection.topMenu.tools.menu add command -label "Delete all labels" -command {molUP::deleteAllLabels}

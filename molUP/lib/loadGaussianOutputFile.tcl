@@ -5,6 +5,16 @@ package provide loadGaussianOutputFile 2.0
 ### This procedure load a gaussian input file and converts it to PDB
 proc molUP::loadGaussianOutputFile {option} {
     
+	## Check Normal Termination
+	catch {exec tail -n 1 $molUP::path | cut -f2 -d\ } checkNormalTermination
+	if {$checkNormalTermination != "Normal"} {
+		catch {exec tail -n 5 $molUP::path} errorMessage
+		molUP::guiError "This file does not report \"Normal Termination\". Please check the file. " "Incomplete calculation or Error" 
+	} else {
+		#ignore
+	}
+
+
 	## Clear Structure
 	set molUP::structureReadyToLoad {}
 
@@ -135,12 +145,17 @@ proc molUP::loadGaussianOutputFile {option} {
 		
 			}
 
-			
+		molUP::getConnectivityFromInputFile
+		molUP::updateStructures
+		molUP::firstProcEnergy
 		
 		} else {
 			#### Put the last structure if no optimized structure was found
 			molUP::loadGaussianOutputFile lastStructure
 			molUP::guiError "No optimized structure found, therefore the last structure was loaded." "Error"
+			molUP::getConnectivityFromInputFile
+			molUP::updateStructures
+			molUP::energyLastStructure
 		}
 
         

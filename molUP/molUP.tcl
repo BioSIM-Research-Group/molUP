@@ -18,6 +18,7 @@ namespace eval molUP:: {
 		package require guiChangelog							1.0
 		package require guiInfo 								1.0
 		package require guiMethodology							1.0
+		package require guiBADparam								1.0
 		
 		package require inputFile 								1.0
 		package require timeControl								1.0
@@ -45,7 +46,7 @@ namespace eval molUP:: {
 
 		#### Program Variables
 		## General
-		variable version	    	"1.0.9"
+		variable version	    	"1.0.10"
 
 		#GUI
         variable topGui         	".molUP"
@@ -176,6 +177,10 @@ namespace eval molUP:: {
 		variable multiplicityValue		1
 		variable multiplicityValue1		1
 		variable multiplicityValue2		1
+
+
+		variable graphicsID ""
+    	variable pickedAtomsBAD {}
 		
 }
 

@@ -1,6 +1,11 @@
 ######### molUP ##############
-Last version: 1.0.9
+Last version: 1.0.10
 ##############################
+Version 1.0.10 (19 JUL 2017)
+- [New feature] New tool to help users to measure bond, angles, and dihedral angles. Available in the "Tools" menu.
+- [New feature] New dialog alert when the loaded output file does not finish with the Normal termination message.
+- [Bug fixed] Fixed error that occurs when no optimized structure is founded during the load of an output file using the "All optimized structures" option.
+
 Version 1.0.9 (18 JUL 2017)
 - [New feature] Several features were added to the energy section namely energy untis adjustment, set zero for the energy of the first structure, and choose which layer must be plotted.
 - [New feature] Files missing information about layer and/or freeze status will be automatically set "H" and/or "0", respectively.

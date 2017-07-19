@@ -60,9 +60,9 @@ proc molUP::loadButton {fileExtension} {
 		} elseif {$molUP::loadMode == "All optimized structures"} {
 			trace remove variable ::vmd_initialize_structure write molUP::updateStructuresFromOtherSource
 			molUP::loadGaussianOutputFile optimizedStructures
-			molUP::getConnectivityFromInputFile
-			molUP::updateStructures
-			molUP::firstProcEnergy
+			#molUP::getConnectivityFromInputFile
+			#molUP::updateStructures
+			#molUP::firstProcEnergy
 			trace variable ::vmd_initialize_structure w molUP::updateStructuresFromOtherSource
 
 		} elseif {$molUP::loadMode == "All structures (may take a long time to load)"} {
