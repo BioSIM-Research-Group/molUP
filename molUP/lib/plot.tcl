@@ -132,7 +132,12 @@ proc molUP::drawPlot {frame x y title titleColor titleSize markerFormat markerCo
         set xMax [lindex $xSorted end]
         set xCount [llength $xSorted]
         set pixelValueX [expr ([format %.10f $xMax] - [format %.10f $xMin]) / ($areaWidth - 20)]
-        set gapWidth [expr ($areaWidth - 20) / ($xCount - 1)]
+        if {$xCount != 1} {
+            set a $xCount
+        } else {
+            set a 2
+        }
+        set gapWidth [expr ($areaWidth - 20) / ($a - 1)]
         # Tics
         #set i 0
         #foreach value $x {
