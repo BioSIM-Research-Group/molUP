@@ -480,7 +480,13 @@ proc molUP::energyNotONIOM {} {
             lappend molUP::listEnergiesNonOpt [expr $b + 1]
         }
 
-        molUP::drawGraph 
+        if {[llength $molUP::listEnergiesOpt] != 1} {
+            ### Draw the Graph
+            molUP::drawGraph 
+        } else {
+            ### Get the last structure
+            molUP::energyLastStructureNotOniom
+        }  
 
     }
 
@@ -515,7 +521,13 @@ proc molUP::energyNotONIOMAll {} {
         incr structure
     }
 
-    molUP::drawGraph 
+   if {[llength $molUP::listEnergiesOpt] != 1} {
+        ### Draw the Graph
+        molUP::drawGraph 
+    } else {
+        ### Get the last structure
+        molUP::energyLastStructureNotOniom
+    } 
 }
 
 
@@ -770,7 +782,13 @@ proc molUP::energyAll {} {
         }
     }
 
-    molUP::drawGraph 
+    if {[llength $molUP::listEnergiesOpt] != 1} {
+        ### Draw the Graph
+        molUP::drawGraph 
+    } else {
+        ### Get the last structure
+        molUP::energyLastStructureOniom
+    }
 }
 
 

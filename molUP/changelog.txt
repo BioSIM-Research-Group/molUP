@@ -1,6 +1,9 @@
 ######### molUP ##############
-Last version: 1.0.10
+Last version: 1.0.11
 ##############################
+Version 1.0.11 (20 JUL 2017)
+- [Bug fixed] Fixed a issue that returns an error when a scan has onyl one structure to load.
+
 Version 1.0.10 (19 JUL 2017)
 - [New feature] New tool to help users to measure bond, angles, and dihedral angles. Available in the "Tools" menu.
 - [New feature] New dialog alert when the loaded output file does not finish with the Normal termination message.

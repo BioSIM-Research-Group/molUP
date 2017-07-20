@@ -1,4 +1,0 @@
-Incomplete Calculation
-
-The file you load resulted from an incomplete calculation or an error occured during the Gaussian calculation. 
-Please check your output file.
