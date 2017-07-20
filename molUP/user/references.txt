@@ -87,6 +87,208 @@ link.aps.org/doi/10.1103/PhysRevB.46.6671
 Perdew, John P., J. A. Chevary, S. H. Vosko, Koblar A. Jackson, Mark R. Pederson, D. J. Singh, and Carlos Fiolhais. "Erratum: Atoms, Molecules, Solids, and Surfaces: Applications of the Generalized Gradient Approximation for Exchange and Correlation." Physical Review B 48, no. 7 (08/15/ 1993): 4978-78. 
 link.aps.org/doi/10.1103/PhysRevB.48.4978.2
 #################################################
+$color=green
+%mPW
+C. Adamo and V. Barone, “Exchange functionals with improved long-range behavior and adiabatic connection methods without adjustable parameters: The mPW and mPW1PW models,” J. Chem. Phys., 108 (1998) 664-75.
+10.1063/1.475428
+#################################################
+$color=green
+%G96
+P. M. W. Gill, “A new gradient-corrected exchange functional,” Mol. Phys., 89 (1996) 433-45.
+10.1080/002689796173813
+C. Adamo and V. Barone, “Implementation and validation of the Lacks-Gordon exchange functional in conventional density functional and adiabatic connection methods,” J. Comp. Chem., 19 (1998) 418-29.
+3.0.CO;2-V>10.1002/(SICI)1096-987X(199803)19:4<418::AID-JCC4>3.0.CO;2-V
+#################################################
+$color=green
+%PBE
+N. C. Handy and A. J. Cohen, “Left-right correlation energy,” Mol. Phys., 99 (2001) 403-12.
+10.1080/00268970010018431
+J. P. Perdew, K. Burke, and M. Ernzerhof, “Errata: Generalized gradient approximation made simple,” Phys. Rev. Lett., 78 (1997) 1396.
+10.1103/PhysRevLett.78.1396
+#################################################
+$color=green
+%TPSS
+J. M. Tao, J. P. Perdew, V. N. Staroverov, and G. E. Scuseria, “Climbing the density functional ladder: Nonempirical meta-generalized gradient approximation designed for molecules and solids,” Phys. Rev. Lett., 91 (2003) 146401.
+10.1103/PhysRevLett.91.146401
+#################################################
+$color=green
+%RevTPSS
+John P. Perdew, Adrienn Ruzsinszky, Gábor I. Csonka, Lucian A. Constantin, and Jianwei Sun, “Workhorse Semilocal Density Functional for Condensed Matter Physics and Quantum Chemistry,” Phys. Rev. Lett. 103 (2009) 026403.
+10.1103/PhysRevLett.103.026403
+John P. Perdew, Adrienn Ruzsinszky, Gábor I. Csonka, Lucian A. Constantin, and Jianwei Sun, “Erratum: ‘Workhorse Semilocal Density Functional for Condensed Matter Physics and Quantum Chemistry’ [Phys. Rev. Lett. 103, 026403 (2009)]” Phys. Rev. Lett. 106 (2011) 179902(E).
+10.1103/PhysRevLett.106.179902
+#################################################
+$color=green
+%BRx
+A. D. Becke and M. R. Roussel, “Exchange holes in inhomogeneous systems: A coordinate-space model,” Phys. Rev. A, 39 (1989) 3761-67.
+10.1103/PhysRevA.39.3761
+#################################################
+$color=green
+%PKZB
+J. P. Perdew, S. Kurth, A. Zupan, and P. Blaha, “Accurate density functional with correct formal properties: A step beyond the generalized gradient approximation,” Phys. Rev. Lett., 82 (1999) 2544-47.
+10.1103/PhysRevLett.82.2544
+#################################################
+$color=green
+%wPBEh
+J. Heyd, G. Scuseria, and M. Ernzerhof, “Hybrid functionals based on a screened Coulomb potential,” J. Chem. Phys., 118 (2003) 8207-15.
+10.1063/1.1564060
+A. F. Izmaylov, G. Scuseria, and M. J. Frisch, “Efficient evaluation of short-range Hartree-Fock exchange in large molecules and periodic systems,” J. Chem. Phys., 125 (2006) 104103: 1-8.
+10.1063/1.2347713
+T. M. Henderson, A. F. Izmaylov, G. Scalmani, and G. E. Scuseria, “Can short-range hybrids describe long-range-dependent properties?,” J. Chem. Phys., 131 (2009) 044108.
+10.1063/1.3185673
+#################################################
+$color=green
+%PBEh
+M. Ernzerhof and J. P. Perdew, “Generalized gradient approximation to the angle- and system-averaged exchange hole,” J. Chem. Phys., 109 (1998). 
+10.1063/1.476928
+#################################################
+$color=green
+%VWN
+S. H. Vosko, L. Wilk, and M. Nusair, “Accurate spin-dependent electron liquid correlation energies for local spin density calculations: A critical analysis,” Can. J. Phys., 58 (1980) 1200-11.
+10.1139/p80-159
+#################################################
+$color=green
+%VWN5
+S. H. Vosko, L. Wilk, and M. Nusair, “Accurate spin-dependent electron liquid correlation energies for local spin density calculations: A critical analysis,” Can. J. Phys., 58 (1980) 1200-11.
+10.1139/p80-159
+#################################################
+$color=green
+%LYP
+C. Lee, W. Yang, and R. G. Parr, “Development of the Colle-Salvetti correlation-energy formula into a functional of the electron density,” Phys. Rev. B, 37 (1988) 785-89.
+10.1103/PhysRevB.37.785
+B. Miehlich, A. Savin, H. Stoll, and H. Preuss, “Results obtained with the correlation-energy density functionals of Becke and Lee, Yang and Parr,” Chem. Phys. Lett., 157 (1989) 200-06.
+10.1016/0009-2614(89)87234-3
+#################################################
+$color=green
+%PL
+J. P. Perdew and A. Zunger, “Self-interaction correction to density-functional approximations for many-electron systems,” Phys. Rev. B, 23 (1981) 5048-79.
+10.1103/PhysRevB.23.5048
+#################################################
+$color=green
+%P86
+J. P. Perdew, “Density-functional approximation for the correlation energy of the inhomogeneous electron gas,” Phys. Rev. B, 33 (1986) 8822-24.
+10.1103/PhysRevB.33.8822
+#################################################
+$color=green
+%PW91
+J. P. Perdew, in Electronic Structure of Solids 91, Ed. P. Ziesche and H. Eschrig (Akademie Verlag, Berlin, 1991) 11.
+
+J. P. Perdew, J. A. Chevary, S. H. Vosko, K. A. Jackson, M. R. Pederson, D. J. Singh, and C. Fiolhais, “Atoms, molecules, solids, and surfaces: Applications of the generalized gradient approximation for exchange and correlation,” Phys. Rev. B, 46 (1992) 6671-87.
+10.1103/PhysRevB.46.6671
+J. P. Perdew, J. A. Chevary, S. H. Vosko, K. A. Jackson, M. R. Pederson, D. J. Singh, and C. Fiolhais, “Erratum: Atoms, molecules, solids, and surfaces - Applications of the generalized gradient approximation for exchange and correlation,” Phys. Rev. B, 48 (1993) 4978.
+10.1103/PhysRevB.48.4978.2
+J. P. Perdew, K. Burke, and Y. Wang, “Generalized gradient approximation for the exchange-correlation hole of a many-electron system,” Phys. Rev. B, 54 (1996) 16533-39.
+10.1103/PhysRevB.54.16533
+K. Burke, J. P. Perdew, and Y. Wang, in Electronic Density Functional Theory: Recent Progress and New Directions, Ed. J. F. Dobson, G. Vignale, and M. P. Das (Plenum, 1998).
+
+#################################################
+$color=green
+%B95
+A. D. Becke, “Density-functional thermochemistry. IV. A new dynamical correlation functional and implications for exact-exchange mixing,” J. Chem. Phys., 104 (1996) 1040-46.
+10.1063/1.470829
+#################################################
+$color=green
+%PBE
+J. P. Perdew, K. Burke, and M. Ernzerhof, “Generalized gradient approximation made simple,” Phys. Rev. Lett., 77 (1996) 3865-68.
+10.1103/PhysRevLett.77.3865
+J. P. Perdew, K. Burke, and M. Ernzerhof, “Errata: Generalized gradient approximation made simple,” Phys. Rev. Lett., 78 (1997) 1396.
+10.1103/PhysRevLett.78.1396
+#################################################
+$color=green
+%KCIS
+J. Rey and A. Savin, “Virtual space level shifting and correlation energies,” Int. J. Quantum Chem., 69 (1998) 581-90.
+3.0.CO;2-2>10.1002/(SICI)1097-461X(1998)69:4<581::AID-QUA16>3.0.CO;2-2
+J. B. Krieger, J. Q. Chen, G. J. Iafrate, and A. Savin, in Electron Correlations and Materials Properties, Ed. A. Gonis, N. Kioussis, and M. Ciftan (Kluwer Academic, New York, 1999) 463-77.
+10.1007/978-1-4615-4715-0
+J. B. Krieger, J. Q. Chen, and S. Kurth, in Density Functional Theory and its Application to Materials, Ed. V. VanDoren, C. VanAlsenoy, and P. Geerlings, A.I.P. Conference Proceedings, Vol. 577 (A.I.P., New York, 2001) 48-69.
+10.1063/1.1390178
+J. Toulouse, A. Savin, and C. Adamo, “Validation and assessment of an accurate approach to the correlation problem in density functional theory: The Krieger-Chen-Iafrate-Savin model,” J. Chem. Phys., 117 (2002) 10465-73.
+10.1063/1.1521432
+#################################################
+$color=green
+%BRC
+A. D. Becke and M. R. Roussel, “Exchange holes in inhomogeneous systems: A coordinate-space model,” Phys. Rev. A, 39 (1989) 3761-67.
+10.1103/PhysRevA.39.3761
+#################################################
+$color=green
+%PKZB
+J. P. Perdew, S. Kurth, A. Zupan, and P. Blaha, “Accurate density functional with correct formal properties: A step beyond the generalized gradient approximation,” Phys. Rev. Lett., 82 (1999) 2544-47.
+10.1103/PhysRevLett.82.2544
+#################################################
+$color=green
+%VSXC
+T. Van Voorhis and G. E. Scuseria, “A never form for the exchange-correlation energy functional,” J. Chem. Phys., 109 (1998) 400-10.
+10.1063/1.476577
+#################################################
+$color=green
+%HCTH
+F. A. Hamprecht, A. Cohen, D. J. Tozer, and N. C. Handy, “Development and assessment of new exchange-correlation functionals,” J. Chem. Phys., 109 (1998) 6264-71.
+10.1063/1.477267
+A. D. Boese, N. L. Doltsinis, N. C. Handy, and M. Sprik, “New generalized gradient approximation functionals,” J. Chem. Phys., 112 (2000) 1670-78.
+10.1063/1.480732
+A. D. Boese and N. C. Handy, “A new parametrization of exchange-correlation generalized gradient approximation functionals,” J. Chem. Phys., 114 (2001) 5497-503.
+10.1063/1.1347371
+#################################################
+$color=green
+%tHCTH
+A. D. Boese and N. C. Handy, “New exchange-correlation density functionals: The role of the kinetic-energy density,” J. Chem. Phys., 116 (2002) 9559-69.
+10.1063/1.1476309
+#################################################
+$color=green
+%B97D
+S. Grimme, S. Ehrlich and L. Goerigk, “Effect of the damping function in dispersion corrected density functional theory,” J. Comp. Chem. 32 (2011) 1456-65.
+10.1021/jcc.21759
+#################################################
+$color=green
+%M06L
+Y. Zhao and D. G. Truhlar, “A new local density functional for main-group thermochemistry, transition metal bonding, thermochemical kinetics, and noncovalent interactions,” J. Chem. Phys., 125 (2006), 194101: 1-18.
+10.1063/1.2370993
+#################################################
+$color=green
+%SOGGA11
+R. Peverati, Y. Zhao and D. G. Truhlar, “Generalized Gradient Approximation That Recovers the Second-Order Density-Gradient Expansion with Optimized Across-the-Board Performance,” J. Phys. Chem. Lett. 2 (2011) 1991-1997.
+10.1021/jz200616w
+#################################################
+$color=green
+%M11L
+R. Peverati and D. G. Truhlar, “M11-L: A Local Density Functional That Provides Improved Accuracy for Electronic Structure Calculations in Chemistry and Physics,” J. Phys. Chem. Lett. 3 (2012) 117-124.
+10.1021/jz201525m
+#################################################
+$color=green
+%MN12L
+R. Peverati and D. G. Truhlar, “An improved and broadly accurate local approximation to the exchangecorrelation density functional: The MN12-L functional for electronic structure calculations in chemistry and physics,” Phys. Chem. Chem. Phys. 10 (2012) 13171.
+10.1039/C2CP42025B
+#################################################
+$color=green
+%MN15L
+H. S. Yu, X. He, and D. G. Truhlar, “MN15-L: A New Local Exchange-Correlation Functional for KohnSham Density Functional Theory with Broad Accuracy for Atoms, Molecules, and Solids,” Journal of Chemical Theory and Computation 2016, 12, 1280-1293.
+10.1021/acs.jctc.5b01082
+#################################################
+$color=green
+%N12
+R. Peverati and D. G. Truhlar, “Exchange-Correlation Functional with Good Accuracy for Both Structural and Energetic Properties while Depending Only on the Density and Its Gradient,” J. Chem. Theory and Comput. 8 (2012) 2310-2319.
+10.1021/ct3002656
+#################################################
+$color=green
+%PFD
+A. Austin, G. Petersson, M. J. Frisch, F. J. Dobek, G. Scalmani, and K. Throssell, “A density functional with spherical atom dispersion terms,” J. Chem. Theory and Comput. 8 (2012) 4989.
+10.1021/ct300778e
+#################################################
+$color=green
+%GD2
+S. Grimme, “Semiempirical GGA-type density functional constructed with a long-range dispersion correction,” J. Comp. Chem., 27 (2006) 1787-99.
+10.1002/jcc.20495
+#################################################
+$color=green
+%GD3
+S. Grimme, J. Antony, S. Ehrlich and H. Krieg, “A consistent and accurate ab initio parameterization of density functional dispersion correction (DFT-D) for the 94 elements H-Pu,” J. Chem. Phys., 132 (2010) 154104.
+10.1063/1.3382344
+#################################################
+$color=green
+%GD3BJ
+S. Grimme, S. Ehrlich and L. Goerigk, “Effect of the damping function in dispersion corrected density functional theory,” J. Comp. Chem. 32 (2011) 1456-65.
+10.1021/jcc.21759
+#################################################
 ------------------------------------------------
 BASIS SET
 #################################################
