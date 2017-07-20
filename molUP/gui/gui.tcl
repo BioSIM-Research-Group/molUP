@@ -741,6 +741,7 @@ proc molUP::resultSection {molID frame majorHeight} {
 			] -in $tInput -x 5 -y [expr 365 + $heightBox + 10] -height 25 -width 340  
 	menu $tInput.paramLabel.menu -tearoff 0
 	$tInput.paramLabel.menu add command -label "Load parameters from a PRMTOP file" -command {molUP::loadPrmtopParameters}
+	$tInput.paramLabel.menu add command -label "ModRedundant Editor" -command {molUP::guiModRed}
 
 	place [ttk::button $tInput.infoButtonParam \
         -style molUP.infoButton.TButton \

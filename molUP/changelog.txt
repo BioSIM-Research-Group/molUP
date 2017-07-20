@@ -1,6 +1,9 @@
 ######### molUP ##############
-Last version: 1.0.11
+Last version: 1.1.0
 ##############################
+Version 1.1.0 (20 JUL 2017)
+- [New feature] molUP provides a new tool to easily setup scans (ModRedundant) of bonds, angles, and dihedrals. This new tool is available in the "Other Informations" menu within the "Input" tab.
+
 Version 1.0.11 (20 JUL 2017)
 - [Bug fixed] Fixed a issue that returns an error when a scan has onyl one structure to load.
 

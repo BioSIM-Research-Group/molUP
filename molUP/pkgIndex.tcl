@@ -17,6 +17,7 @@ package ifneeded guiChangelog     	                        1.0 [list source [fil
 package ifneeded guiInfo         	                        1.0 [list source [file join $dir/gui/guiInfo.tcl]]
 package ifneeded guiMethodology         	                1.0 [list source [file join $dir/gui/guiMethodology.tcl]]
 package ifneeded guiBADparam             	                1.0 [list source [file join $dir/gui/guiBADparameters.tcl]]
+package ifneeded guiModRedundant                            1.0 [list source [file join $dir/gui/guiModRedundant.tcl]]
 
 
 #lib

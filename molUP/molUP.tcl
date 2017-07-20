@@ -19,6 +19,7 @@ namespace eval molUP:: {
 		package require guiInfo 								1.0
 		package require guiMethodology							1.0
 		package require guiBADparam								1.0
+		package require guiModRedundant							1.0
 		
 		package require inputFile 								1.0
 		package require timeControl								1.0
@@ -46,7 +47,7 @@ namespace eval molUP:: {
 
 		#### Program Variables
 		## General
-		variable version	    	"1.0.11"
+		variable version	    	"1.1.0"
 
 		#GUI
         variable topGui         	".molUP"
@@ -65,6 +66,7 @@ namespace eval molUP:: {
 		variable info				".molUP.info"
 		variable methodology		".molUP.methodology"
 		variable saveKeywordsInput	".molUP.saveKeywordsInput"
+		variable modRedundant		".molUP.modRedundant"
 
 		global path
 		variable path 				"/"
