@@ -650,9 +650,14 @@ proc molUP::energy {} {
     }
 
     
+    if {[llength $molUP::listEnergiesOpt] != 1} {
+        ### Draw the Graph
+        molUP::drawGraph 
+    } else {
+        ### Get the last structure
+        molUP::energyLastStructureOniom
+    }
     
-    ### Draw the Graph
-    molUP::drawGraph 
 }
 
 proc molUP::energyAll {} {
