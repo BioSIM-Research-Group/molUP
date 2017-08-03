@@ -653,7 +653,7 @@ proc molUP::resultSection {molID frame majorHeight} {
 
 
 	#### keywords
-	place [ttk::menubutton $tInput.keywordsLabel -text "Calculation keywords" -menu $tInput.keywordsLabel.menu \
+	place [ttk::menubutton $tInput.keywordsLabel -text "Calculations" -menu $tInput.keywordsLabel.menu \
 			-style molUP.menuBar.TMenubutton \
 			] -in $tInput -x 5 -y 60 -height 25 -width 160  
 	menu $tInput.keywordsLabel.menu -tearoff 0
