@@ -1,7 +1,5 @@
 # PKG Index - Gaussian for VMD
 
-variable molUPpath [exec pwd]
-
 package ifneeded molUP        	                            1.0 [list source [file join $dir/molUP.tcl]]
 
 #GUI
