@@ -299,7 +299,11 @@ proc molUP::calcBondDistance {bondlength} {
 
             ## Atoms to be moved
             #set indexes1 [join [::util::bondedsel top $molUP::atom2BondSel $molUP::atom1BondSel -maxdepth $atomsToBeMoved1]]
-            set indexes2 [join [::util::bondedsel top $molUP::atom1BondSel $molUP::atom2BondSel -maxdepth $atomsToBeMoved2]]
+            if {[catch {::util::bondedsel top $molUP::atom1BondSel $molUP::atom2BondSel -maxdepth $atomsToBeMoved2}] == 0} {
+                set indexes2 [join [::util::bondedsel top $molUP::atom1BondSel $molUP::atom2BondSel -maxdepth $atomsToBeMoved2]]
+            } else {
+                set indexes2 $molUP::atom2BondSel
+            }
             #set selection1 [atomselect top "index $indexes1 and not index $molUP::atom2BondSel"]
             set selection2 [atomselect top "index $indexes2 and not index $molUP::atom1BondSel"]
             ## Move atoms according to distance
@@ -313,7 +317,11 @@ proc molUP::calcBondDistance {bondlength} {
             set atomsToBeMoved1 1
 
             ## Atoms to be moved
-            set indexes1 [join [::util::bondedsel top $molUP::atom2BondSel $molUP::atom1BondSel -maxdepth $atomsToBeMoved1]]
+            if {[catch {::util::bondedsel top $molUP::atom2BondSel $molUP::atom1BondSel -maxdepth $atomsToBeMoved1}] == 0} {
+                set indexes1 [join [::util::bondedsel top $molUP::atom2BondSel $molUP::atom1BondSel -maxdepth $atomsToBeMoved1]]
+            } else {
+                set indexes1 $molUP::atom1BondSel
+            }
             #set indexes2 [join [::util::bondedsel top $molUP::atom1BondSel $molUP::atom2BondSel -maxdepth $atomsToBeMoved2]]
             set selection1 [atomselect top "index $indexes1 and not index $molUP::atom2BondSel"]
             #set selection2 [atomselect top "index $indexes2 and not index $molUP::atom1BondSel"]
@@ -329,8 +337,17 @@ proc molUP::calcBondDistance {bondlength} {
             set atomsToBeMoved2 1
 
             ## Atoms to be moved
-            set indexes1 [join [::util::bondedsel top $molUP::atom2BondSel $molUP::atom1BondSel -maxdepth $atomsToBeMoved1]]
-            set indexes2 [join [::util::bondedsel top $molUP::atom1BondSel $molUP::atom2BondSel -maxdepth $atomsToBeMoved2]]
+            if {[catch {::util::bondedsel top $molUP::atom2BondSel $molUP::atom1BondSel -maxdepth $atomsToBeMoved1}] == 0} {
+                set indexes1 [join [::util::bondedsel top $molUP::atom2BondSel $molUP::atom1BondSel -maxdepth $atomsToBeMoved1]]
+            } else {
+                set indexes1 $molUP::atom1BondSel
+            }
+
+            if {[catch {::util::bondedsel top $molUP::atom1BondSel $molUP::atom2BondSel -maxdepth $atomsToBeMoved2}] == 0} {
+                set indexes2 [join [::util::bondedsel top $molUP::atom1BondSel $molUP::atom2BondSel -maxdepth $atomsToBeMoved2]]
+            } else {
+                set indexes2 $molUP::atom2BondSel
+            }
             set selection1 [atomselect top "index $indexes1 and not index $molUP::atom2BondSel"]
             set selection2 [atomselect top "index $indexes2 and not index $molUP::atom1BondSel"]
             ## Move atoms according to distance
@@ -344,8 +361,17 @@ proc molUP::calcBondDistance {bondlength} {
             set atomsToBeMoved1 1
 
             ## Atoms to be moved
-            set indexes1 [join [::util::bondedsel top $molUP::atom2BondSel $molUP::atom1BondSel -maxdepth $atomsToBeMoved1]]
-            set indexes2 [join [::util::bondedsel top $molUP::atom1BondSel $molUP::atom2BondSel]]
+            if {[catch {::util::bondedsel top $molUP::atom2BondSel $molUP::atom1BondSel -maxdepth $atomsToBeMoved1}] == 0} {
+                set indexes1 [join [::util::bondedsel top $molUP::atom2BondSel $molUP::atom1BondSel -maxdepth $atomsToBeMoved1]]
+            } else {
+                set indexes1 $molUP::atom1BondSel
+            }
+
+            if {[catch {::util::bondedsel top $molUP::atom1BondSel $molUP::atom2BondSel}] == 0} {
+                set indexes2 [join [::util::bondedsel top $molUP::atom1BondSel $molUP::atom2BondSel]]
+            } else {
+                set indexes2 $molUP::atom2BondSel
+            }
             set selection1 [atomselect top "index $indexes1 and not index $molUP::atom2BondSel"]
             set selection2 [atomselect top "index $indexes2 and not index $molUP::atom1BondSel"]
             ## Move atoms according to distance
@@ -359,8 +385,17 @@ proc molUP::calcBondDistance {bondlength} {
             set atomsToBeMoved2 1
 
             ## Atoms to be moved
-            set indexes1 [join [::util::bondedsel top $molUP::atom2BondSel $molUP::atom1BondSel]]
-            set indexes2 [join [::util::bondedsel top $molUP::atom1BondSel $molUP::atom2BondSel -maxdepth $atomsToBeMoved2]]
+            if {[catch {::util::bondedsel top $molUP::atom2BondSel $molUP::atom1BondSel}] == 0} {
+                set indexes1 [join [::util::bondedsel top $molUP::atom2BondSel $molUP::atom1BondSel]]
+            } else {
+                set indexes1 $molUP::atom1BondSel
+            }
+
+            if {[catch {::util::bondedsel top $molUP::atom1BondSel $molUP::atom2BondSel -maxdepth $atomsToBeMoved2}] == 0} {
+                set indexes2 [join [::util::bondedsel top $molUP::atom1BondSel $molUP::atom2BondSel -maxdepth $atomsToBeMoved2]]
+            } else {
+                set indexes2 $molUP::atom2BondSel
+            }
             set selection1 [atomselect top "index $indexes1 and not index $molUP::atom2BondSel"]
             set selection2 [atomselect top "index $indexes2 and not index $molUP::atom1BondSel"]
             ## Move atoms according to distance
@@ -372,8 +407,17 @@ proc molUP::calcBondDistance {bondlength} {
         } elseif {$molUP::atom1BondOpt == "Move Atoms" && $molUP::atom2BondOpt == "Move Atoms"} {
 
             ## Atoms to be moved
-            set indexes1 [join [::util::bondedsel top $molUP::atom2BondSel $molUP::atom1BondSel]]
-            set indexes2 [join [::util::bondedsel top $molUP::atom1BondSel $molUP::atom2BondSel]]
+            if {[catch {::util::bondedsel top $molUP::atom2BondSel $molUP::atom1BondSel}] == 0} {
+                set indexes1 [join [::util::bondedsel top $molUP::atom2BondSel $molUP::atom1BondSel]]
+            } else {
+                set indexes1 $molUP::atom1BondSel
+            }
+
+            if {[catch {::util::bondedsel top $molUP::atom1BondSel $molUP::atom2BondSel}] == 0} {
+                set indexes2 [join [::util::bondedsel top $molUP::atom1BondSel $molUP::atom2BondSel]]
+            } else {
+                set indexes2 $molUP::atom2BondSel
+            }
             set selection1 [atomselect top "index $indexes1 and not index $molUP::atom2BondSel"]
             set selection2 [atomselect top "index $indexes2 and not index $molUP::atom1BondSel"]
             ## Move atoms according to distance
@@ -386,7 +430,11 @@ proc molUP::calcBondDistance {bondlength} {
 
             ## Atoms to be moved
             #set indexes1 [join [::util::bondedsel top $molUP::atom2BondSel $molUP::atom1BondSel -maxdepth $atomsToBeMoved1]]
-            set indexes2 [join [::util::bondedsel top $molUP::atom1BondSel $molUP::atom2BondSel]]
+            if {[catch {::util::bondedsel top $molUP::atom1BondSel $molUP::atom2BondSel}] == 0} {
+                set indexes2 [join [::util::bondedsel top $molUP::atom1BondSel $molUP::atom2BondSel]]
+            } else {
+                set indexes2 $molUP::atom2BondSel
+            }
             #set selection1 [atomselect top "index $indexes1 and not index $molUP::atom2BondSel"]
             set selection2 [atomselect top "index $indexes2 and not index $molUP::atom1BondSel"]
             ## Move atoms according to distance
@@ -398,7 +446,11 @@ proc molUP::calcBondDistance {bondlength} {
         } elseif {$molUP::atom1BondOpt == "Move Atoms" && $molUP::atom2BondOpt == "Fixed Atom"} {
 
             ## Atoms to be moved
-            set indexes1 [join [::util::bondedsel top $molUP::atom2BondSel $molUP::atom1BondSel]]
+            if {[catch {::util::bondedsel top $molUP::atom2BondSel $molUP::atom1BondSel}] == 0} {
+                set indexes1 [join [::util::bondedsel top $molUP::atom2BondSel $molUP::atom1BondSel]]
+            } else {
+                set indexes1 $molUP::atom1BondSel
+            }
             #set indexes2 [join [::util::bondedsel top $molUP::atom1BondSel $molUP::atom2BondSel -maxdepth $atomsToBeMoved2]]
             set selection1 [atomselect top "index $indexes1 and not index $molUP::atom2BondSel"]
             #set selection2 [atomselect top "index $indexes2 and not index $molUP::atom1BondSel"]
@@ -443,7 +495,11 @@ proc molUP::calcAngleDistance {newangle} {
             set atomsToBeMoved3 1
 
             ## Atoms to be moved
-            set indexes3 [join [::util::bondedsel top $molUP::atom1AngleSel $molUP::atom3AngleSel -maxdepth $atomsToBeMoved3]]
+            if {[catch {::util::bondedsel top $molUP::atom1AngleSel $molUP::atom3AngleSel -maxdepth $atomsToBeMoved3}] == 0} {
+                set indexes3 [join [::util::bondedsel top $molUP::atom1AngleSel $molUP::atom3AngleSel -maxdepth $atomsToBeMoved3]]
+            } else {
+                set indexes3 $molUP::atom3AngleSel
+            }
             set selection3 [atomselect top "index $indexes3 and not index $molUP::atom1AngleSel $molUP::atom2AngleSel"]
             ## Move atoms according to distance
             $selection3 move [trans bond $molUP::pos2 [vecadd $molUP::normvec $molUP::pos2] $delta deg]
@@ -454,7 +510,11 @@ proc molUP::calcAngleDistance {newangle} {
             set atomsToBeMoved1 1
 
             ## Atoms to be moved
-            set indexes1 [join [::util::bondedsel top $molUP::atom3AngleSel $molUP::atom1AngleSel -maxdepth $atomsToBeMoved1]]
+            if {[catch {::util::bondedsel top $molUP::atom3AngleSel $molUP::atom1AngleSel -maxdepth $atomsToBeMoved1}] == 0} {
+                set indexes1 [join [::util::bondedsel top $molUP::atom3AngleSel $molUP::atom1AngleSel -maxdepth $atomsToBeMoved1]]
+            } else {
+                set indexes1 $molUP::atom1AngleSel
+            }
             set selection1 [atomselect top "index $indexes1 and not index $molUP::atom3AngleSel $molUP::atom2AngleSel"]
             ## Move atoms according to distance
             $selection1 move [trans bond $molUP::pos2 [vecadd $molUP::normvec $molUP::pos2] $delta deg]
@@ -466,8 +526,16 @@ proc molUP::calcAngleDistance {newangle} {
             set atomsToBeMoved2 1
 
             ## Atoms to be moved
-            set indexes1 [join [::util::bondedsel top $molUP::atom3AngleSel $molUP::atom1AngleSel -maxdepth $atomsToBeMoved1]]
-            set indexes3 [join [::util::bondedsel top $molUP::atom1AngleSel $molUP::atom3AngleSel -maxdepth $atomsToBeMoved2]]
+            if {[catch {::util::bondedsel top $molUP::atom3AngleSel $molUP::atom1AngleSel -maxdepth $atomsToBeMoved1}] == 0} {
+                set indexes1 [join [::util::bondedsel top $molUP::atom3AngleSel $molUP::atom1AngleSel -maxdepth $atomsToBeMoved1]]
+            } else {
+                set indexes1 $molUP::atom1AngleSel
+            }
+            if {[catch {::util::bondedsel top $molUP::atom1AngleSel $molUP::atom3AngleSel -maxdepth $atomsToBeMoved3}] == 0} {
+                set indexes3 [join [::util::bondedsel top $molUP::atom1AngleSel $molUP::atom3AngleSel -maxdepth $atomsToBeMoved3]]
+            } else {
+                set indexes3 $molUP::atom3AngleSel
+            }
             set selection1 [atomselect top "index $indexes1 and not index $molUP::atom3AngleSel $molUP::atom2AngleSel"]
             set selection3 [atomselect top "index $indexes3 and not index $molUP::atom1AngleSel $molUP::atom2AngleSel"]
             ## Move atoms according to distance
@@ -481,8 +549,16 @@ proc molUP::calcAngleDistance {newangle} {
             set atomsToBeMoved1 1
 
             ## Atoms to be moved
-            set indexes1 [join [::util::bondedsel top $molUP::atom3AngleSel $molUP::atom1AngleSel -maxdepth $atomsToBeMoved1]]
-            set indexes3 [join [::util::bondedsel top $molUP::atom2AngleSel $molUP::atom3AngleSel]]
+            if {[catch {::util::bondedsel top $molUP::atom3AngleSel $molUP::atom1AngleSel -maxdepth $atomsToBeMoved1}] == 0} {
+                set indexes1 [join [::util::bondedsel top $molUP::atom3AngleSel $molUP::atom1AngleSel -maxdepth $atomsToBeMoved1]]
+            } else {
+                set indexes1 $molUP::atom1AngleSel
+            }
+            if {[catch {::util::bondedsel top $molUP::atom1AngleSel $molUP::atom3AngleSel}] == 0} {
+                set indexes3 [join [::util::bondedsel top $molUP::atom1AngleSel $molUP::atom3AngleSel]]
+            } else {
+                set indexes3 $molUP::atom3AngleSel
+            }
             set selection1 [atomselect top "index $indexes1 and not index $molUP::atom3AngleSel $molUP::atom2AngleSel"]
             set selection3 [atomselect top "index $indexes3 and not index $molUP::atom1AngleSel $molUP::atom2AngleSel"]
             ## Move atoms according to distance
@@ -496,8 +572,16 @@ proc molUP::calcAngleDistance {newangle} {
             set atomsToBeMoved2 1
 
             ## Atoms to be moved
-            set indexes1 [join [::util::bondedsel top $molUP::atom2AngleSel $molUP::atom1AngleSel]]
-            set indexes3 [join [::util::bondedsel top $molUP::atom1AngleSel $molUP::atom3AngleSel -maxdepth $atomsToBeMoved2]]
+            if {[catch {::util::bondedsel top $molUP::atom3AngleSel $molUP::atom1AngleSel}] == 0} {
+                set indexes1 [join [::util::bondedsel top $molUP::atom3AngleSel $molUP::atom1AngleSel]]
+            } else {
+                set indexes1 $molUP::atom1AngleSel
+            }
+            if {[catch {::util::bondedsel top $molUP::atom1AngleSel $molUP::atom3AngleSel -maxdepth $atomsToBeMoved3}] == 0} {
+                set indexes3 [join [::util::bondedsel top $molUP::atom1AngleSel $molUP::atom3AngleSel -maxdepth $atomsToBeMoved3]]
+            } else {
+                set indexes3 $molUP::atom3AngleSel
+            }
             set selection1 [atomselect top "index $indexes1 and not index $molUP::atom3AngleSel $molUP::atom2AngleSel"]
             set selection3 [atomselect top "index $indexes3 and not index $molUP::atom1AngleSel $molUP::atom2AngleSel"]
             ## Move atoms according to distance
@@ -509,8 +593,16 @@ proc molUP::calcAngleDistance {newangle} {
         } elseif {$molUP::atom1AngleOpt == "Move Atoms" && $molUP::atom3AngleOpt == "Move Atoms"} {
 
             ## Atoms to be moved
-            set indexes1 [join [::util::bondedsel top $molUP::atom2AngleSel $molUP::atom1AngleSel]]
-            set indexes3 [join [::util::bondedsel top $molUP::atom2AngleSel $molUP::atom3AngleSel]]
+            if {[catch {::util::bondedsel top $molUP::atom3AngleSel $molUP::atom1AngleSel}] == 0} {
+                set indexes1 [join [::util::bondedsel top $molUP::atom3AngleSel $molUP::atom1AngleSel]]
+            } else {
+                set indexes1 $molUP::atom1AngleSel
+            }
+            if {[catch {::util::bondedsel top $molUP::atom1AngleSel $molUP::atom3AngleSel}] == 0} {
+                set indexes3 [join [::util::bondedsel top $molUP::atom1AngleSel $molUP::atom3AngleSel]]
+            } else {
+                set indexes3 $molUP::atom3AngleSel
+            }
             set selection1 [atomselect top "index $indexes1 and not index $molUP::atom3AngleSel $molUP::atom2AngleSel"]
             set selection3 [atomselect top "index $indexes3 and not index $molUP::atom1AngleSel $molUP::atom2AngleSel"]
             ## Move atoms according to distance
@@ -522,7 +614,11 @@ proc molUP::calcAngleDistance {newangle} {
         } elseif {$molUP::atom1AngleOpt == "Fixed Atom" && $molUP::atom3AngleOpt == "Move Atoms"} {
 
             ## Atoms to be moved
-            set indexes3 [join [::util::bondedsel top $molUP::atom2AngleSel $molUP::atom3AngleSel]]
+            if {[catch {::util::bondedsel top $molUP::atom1AngleSel $molUP::atom3AngleSel}] == 0} {
+                set indexes3 [join [::util::bondedsel top $molUP::atom1AngleSel $molUP::atom3AngleSel]]
+            } else {
+                set indexes3 $molUP::atom3AngleSel
+            }
             set selection3 [atomselect top "index $indexes3 and not index $molUP::atom1AngleSel $molUP::atom2AngleSel"]
             ## Move atoms according to distance
             $selection3 move [trans bond $molUP::pos2 [vecadd $molUP::normvec $molUP::pos2] $delta deg]
@@ -531,7 +627,11 @@ proc molUP::calcAngleDistance {newangle} {
         } elseif {$molUP::atom1AngleOpt == "Move Atoms" && $molUP::atom3AngleOpt == "Fixed Atom"} {
 
             ## Atoms to be moved
-            set indexes1 [join [::util::bondedsel top $molUP::atom2AngleSel $molUP::atom1AngleSel]]
+            if {[catch {::util::bondedsel top $molUP::atom3AngleSel $molUP::atom1AngleSel}] == 0} {
+                set indexes1 [join [::util::bondedsel top $molUP::atom3AngleSel $molUP::atom1AngleSel]]
+            } else {
+                set indexes1 $molUP::atom1AngleSel
+            }
             set selection1 [atomselect top "index $indexes1 and not index $molUP::atom3AngleSel $molUP::atom2AngleSel"]
             ## Move atoms according to distance
             $selection1 move [trans bond $molUP::pos2 [vecadd $molUP::normvec $molUP::pos2] $delta deg]
@@ -571,7 +671,11 @@ proc molUP::calcDihedDistance {newdihed} {
             set atomsToBeMoved4 1
 
             ## Atoms to be moved
-            set indexes4 [join [::util::bondedsel top $molUP::atom1DihedSel $molUP::atom4DihedSel -maxdepth $atomsToBeMoved4]]
+            if {[catch {::util::bondedsel top $molUP::atom1DihedSel $molUP::atom4DihedSel -maxdepth $atomsToBeMoved4}] == 0} {
+                set indexes4 [join [::util::bondedsel top $molUP::atom1DihedSel $molUP::atom4DihedSel -maxdepth $atomsToBeMoved4]]
+            } else {
+                set indexes4 $molUP::atom4DihedSel
+            }
             set selection4 [atomselect top "index $indexes4 and not index $molUP::atom1DihedSel $molUP::atom2DihedSel $molUP::atom3DihedSel"]
             ## Move atoms according to distance
             $selection4 move [trans bond $molUP::pos2 $molUP::pos3 $delta deg]
@@ -582,7 +686,11 @@ proc molUP::calcDihedDistance {newdihed} {
             set atomsToBeMoved1 1
 
             ## Atoms to be moved
-            set indexes1 [join [::util::bondedsel top $molUP::atom4DihedSel $molUP::atom1DihedSel -maxdepth $atomsToBeMoved1]]
+            if {[catch {::util::bondedsel top $molUP::atom4DihedSel $molUP::atom1DihedSel -maxdepth $atomsToBeMoved1}] == 0} {
+                set indexes1 [join [::util::bondedsel top $molUP::atom4DihedSel $molUP::atom1DihedSel -maxdepth $atomsToBeMoved1]]
+            } else {
+                set indexes1 $molUP::atom1DihedSel
+            }
             set selection1 [atomselect top "index $indexes1 and not index $molUP::atom3DihedSel $molUP::atom2DihedSel $molUP::atom4DihedSel"]
             ## Move atoms according to distance
             $selection1 move [trans bond $molUP::pos2 $molUP::pos3 $delta deg]
@@ -594,8 +702,16 @@ proc molUP::calcDihedDistance {newdihed} {
             set atomsToBeMoved2 1
 
             ## Atoms to be moved
-            set indexes1 [join [::util::bondedsel top $molUP::atom4DihedSel $molUP::atom1DihedSel -maxdepth $atomsToBeMoved1]]
-            set indexes4 [join [::util::bondedsel top $molUP::atom1DihedSel $molUP::atom4DihedSel -maxdepth $atomsToBeMoved2]]
+            if {[catch {::util::bondedsel top $molUP::atom4DihedSel $molUP::atom1DihedSel -maxdepth $atomsToBeMoved1}] == 0} {
+                set indexes1 [join [::util::bondedsel top $molUP::atom4DihedSel $molUP::atom1DihedSel -maxdepth $atomsToBeMoved1]]
+            } else {
+                set indexes1 $molUP::atom1DihedSel
+            }
+            if {[catch {::util::bondedsel top $molUP::atom1DihedSel $molUP::atom4DihedSel -maxdepth $atomsToBeMoved4}] == 0} {
+                set indexes4 [join [::util::bondedsel top $molUP::atom1DihedSel $molUP::atom4DihedSel -maxdepth $atomsToBeMoved4]]
+            } else {
+                set indexes4 $molUP::atom4DihedSel
+            }
             set selection1 [atomselect top "index $indexes1 and not index $molUP::atom3DihedSel $molUP::atom2DihedSel $molUP::atom4DihedSel"]
             set selection4 [atomselect top "index $indexes4 and not index $molUP::atom1DihedSel $molUP::atom2DihedSel $molUP::atom3DihedSel"]
             ## Move atoms according to distance
@@ -609,8 +725,16 @@ proc molUP::calcDihedDistance {newdihed} {
             set atomsToBeMoved1 1
 
             ## Atoms to be moved
-            set indexes1 [join [::util::bondedsel top $molUP::atom4DihedSel $molUP::atom1DihedSel -maxdepth $atomsToBeMoved1]]
-            set indexes4 [join [::util::bondedsel top $molUP::atom2DihedSel $molUP::atom4DihedSel]]
+            if {[catch {::util::bondedsel top $molUP::atom4DihedSel $molUP::atom1DihedSel -maxdepth $atomsToBeMoved1}] == 0} {
+                set indexes1 [join [::util::bondedsel top $molUP::atom4DihedSel $molUP::atom1DihedSel -maxdepth $atomsToBeMoved1]]
+            } else {
+                set indexes1 $molUP::atom1DihedSel
+            }
+            if {[catch {::util::bondedsel top $molUP::atom1DihedSel $molUP::atom4DihedSel}] == 0} {
+                set indexes4 [join [::util::bondedsel top $molUP::atom1DihedSel $molUP::atom4DihedSel]]
+            } else {
+                set indexes4 $molUP::atom4DihedSel
+            }
             set selection1 [atomselect top "index $indexes1 and not index $molUP::atom3DihedSel $molUP::atom2DihedSel $molUP::atom4DihedSel"]
             set selection4 [atomselect top "index $indexes4 and not index $molUP::atom1DihedSel $molUP::atom2DihedSel $molUP::atom3DihedSel"]
             ## Move atoms according to distance
@@ -624,8 +748,16 @@ proc molUP::calcDihedDistance {newdihed} {
             set atomsToBeMoved2 1
 
             ## Atoms to be moved
-            set indexes1 [join [::util::bondedsel top $molUP::atom3DihedSel $molUP::atom1DihedSel]]
-            set indexes4 [join [::util::bondedsel top $molUP::atom1DihedSel $molUP::atom4DihedSel -maxdepth $atomsToBeMoved2]]
+            if {[catch {::util::bondedsel top $molUP::atom4DihedSel $molUP::atom1DihedSel}] == 0} {
+                set indexes1 [join [::util::bondedsel top $molUP::atom4DihedSel $molUP::atom1DihedSel]]
+            } else {
+                set indexes1 $molUP::atom1DihedSel
+            }
+            if {[catch {::util::bondedsel top $molUP::atom1DihedSel $molUP::atom4DihedSel -maxdepth $atomsToBeMoved4}] == 0} {
+                set indexes4 [join [::util::bondedsel top $molUP::atom1DihedSel $molUP::atom4DihedSel -maxdepth $atomsToBeMoved4]]
+            } else {
+                set indexes4 $molUP::atom4DihedSel
+            }
             set selection1 [atomselect top "index $indexes1 and not index $molUP::atom3DihedSel $molUP::atom2DihedSel $molUP::atom4DihedSel"]
             set selection4 [atomselect top "index $indexes4 and not index $molUP::atom1DihedSel $molUP::atom2DihedSel $molUP::atom3DihedSel"]
             ## Move atoms according to distance
@@ -637,8 +769,16 @@ proc molUP::calcDihedDistance {newdihed} {
         } elseif {$molUP::atom1DihedOpt == "Move Atoms" && $molUP::atom4DihedOpt == "Move Atoms"} {
 
             ## Atoms to be moved
-            set indexes1 [join [::util::bondedsel top $molUP::atom3DihedSel $molUP::atom1DihedSel]]
-            set indexes4 [join [::util::bondedsel top $molUP::atom2DihedSel $molUP::atom4DihedSel]]
+            if {[catch {::util::bondedsel top $molUP::atom4DihedSel $molUP::atom1DihedSel}] == 0} {
+                set indexes1 [join [::util::bondedsel top $molUP::atom4DihedSel $molUP::atom1DihedSel]]
+            } else {
+                set indexes1 $molUP::atom1DihedSel
+            }
+            if {[catch {::util::bondedsel top $molUP::atom1DihedSel $molUP::atom4DihedSel}] == 0} {
+                set indexes4 [join [::util::bondedsel top $molUP::atom1DihedSel $molUP::atom4DihedSel]]
+            } else {
+                set indexes4 $molUP::atom4DihedSel
+            }
             set selection1 [atomselect top "index $indexes1 and not index $molUP::atom3DihedSel $molUP::atom2DihedSel $molUP::atom4DihedSel"]
             set selection4 [atomselect top "index $indexes4 and not index $molUP::atom1DihedSel $molUP::atom2DihedSel $molUP::atom3DihedSel"]
             ## Move atoms according to distance
@@ -650,7 +790,11 @@ proc molUP::calcDihedDistance {newdihed} {
         } elseif {$molUP::atom1DihedOpt == "Fixed Atom" && $molUP::atom4DihedOpt == "Move Atoms"} {
 
             ## Atoms to be moved
-            set indexes4 [join [::util::bondedsel top $molUP::atom2DihedSel $molUP::atom4DihedSel]]
+            if {[catch {::util::bondedsel top $molUP::atom1DihedSel $molUP::atom4DihedSel}] == 0} {
+                set indexes4 [join [::util::bondedsel top $molUP::atom1DihedSel $molUP::atom4DihedSel]]
+            } else {
+                set indexes4 $molUP::atom4DihedSel
+            }
             set selection4 [atomselect top "index $indexes4 and not index $molUP::atom1DihedSel $molUP::atom2DihedSel $molUP::atom3DihedSel"]
             ## Move atoms according to distance
             $selection4 move [trans bond $molUP::pos2 $molUP::pos3 $delta deg]
@@ -659,7 +803,11 @@ proc molUP::calcDihedDistance {newdihed} {
         } elseif {$molUP::atom1DihedOpt == "Move Atoms" && $molUP::atom4DihedOpt == "Fixed Atom"} {
 
             ## Atoms to be moved
-            set indexes1 [join [::util::bondedsel top $molUP::atom3DihedSel $molUP::atom1DihedSel]]
+            if {[catch {::util::bondedsel top $molUP::atom4DihedSel $molUP::atom1DihedSel}] == 0} {
+                set indexes1 [join [::util::bondedsel top $molUP::atom4DihedSel $molUP::atom1DihedSel]]
+            } else {
+                set indexes1 $molUP::atom1DihedSel
+            }
             set selection1 [atomselect top "index $indexes1 and not index $molUP::atom3DihedSel $molUP::atom2DihedSel $molUP::atom4DihedSel"]
             ## Move atoms according to distance
             $selection1 move [trans bond $molUP::pos2 $molUP::pos3 $delta deg]
