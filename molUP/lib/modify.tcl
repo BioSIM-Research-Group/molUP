@@ -791,7 +791,7 @@ proc molUP::calcDihedDistance {newdihed} {
 
             ## Atoms to be moved
             if {[catch {::util::bondedsel top $molUP::atom1DihedSel $molUP::atom4DihedSel}] == 0} {
-                set indexes4 [join [::util::bondedsel top $molUP::atom1DihedSel $molUP::atom4DihedSel]]
+                set indexes4 [join [::util::bondedsel top $molUP::atom2DihedSel $molUP::atom4DihedSel]]
             } else {
                 set indexes4 $molUP::atom4DihedSel
             }
@@ -804,7 +804,7 @@ proc molUP::calcDihedDistance {newdihed} {
 
             ## Atoms to be moved
             if {[catch {::util::bondedsel top $molUP::atom4DihedSel $molUP::atom1DihedSel}] == 0} {
-                set indexes1 [join [::util::bondedsel top $molUP::atom4DihedSel $molUP::atom1DihedSel]]
+                set indexes1 [join [::util::bondedsel top $molUP::atom3DihedSel $molUP::atom1DihedSel]]
             } else {
                 set indexes1 $molUP::atom1DihedSel
             }
