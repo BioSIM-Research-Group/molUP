@@ -19,3 +19,5 @@ Main Features:
 If you have any suggestion of new features, please contact us: henrique.fernandes@fc.up.pt
 
 ## ScreenShots
+
+![Image 1](/Sreenshots/image1.gif)
