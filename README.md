@@ -35,7 +35,7 @@ Visual Molecular Dynamics (VMD) 1.9.3 or later
 
 ## Installation
 
-You could install molUP trough [vmdStore](https://github.com/portobiocomp/vmdStore) (Recommended).
+You could install molUP through [vmdStore](https://github.com/portobiocomp/vmdStore) (Recommended).
 
 ## Contacts
 If you have any suggestion of new features, please contact us: henrique.fernandes@fc.up.pt
