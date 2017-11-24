@@ -18,4 +18,4 @@ Main Features:
 
 If you have any suggestion of new features, please contact us: henrique.fernandes@fc.up.pt
 
-#ScreenShots
+## ScreenShots
