@@ -20,4 +20,4 @@ If you have any suggestion of new features, please contact us: henrique.fernande
 
 ## ScreenShots
 
-![Image 1](/Sreenshots/image1.gif)
+![Adjusting a dihedral angles using molUP](Screenshots/image1.gif)
