@@ -21,3 +21,11 @@ If you have any suggestion of new features, please contact us: henrique.fernande
 ## ScreenShots
 
 ![Adjusting a dihedral angles using molUP](Screenshots/image1.gif)
+
+![Energies](Screenshots/image2.gif)
+
+![Input section](Screenshots/image3.gif)
+
+![ONIOM layers](Screenshots/image4.gif)
+
+![Loading a file](Screenshots/image5.gif)
