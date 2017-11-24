@@ -16,8 +16,6 @@ Main Features:
 - Among others.
 
 
-If you have any suggestion of new features, please contact us: henrique.fernandes@fc.up.pt
-
 ## ScreenShots
 
 ![Adjusting a dihedral angles using molUP](Screenshots/image1.gif)
@@ -29,3 +27,15 @@ If you have any suggestion of new features, please contact us: henrique.fernande
 ![ONIOM layers](Screenshots/image4.gif)
 
 ![Loading a file](Screenshots/image5.gif)
+
+## Minimum Requirements
+
+Operating System: macOS or Linux (Windows version will be available soon)
+Visual Molecular Dynamics (VMD) 1.9.3 or later
+
+## Installation
+
+You could install molUP trough [vmdStore](https://github.com/portobiocomp/vmdStore) (Recommended).
+
+## Contacts
+If you have any suggestion of new features, please contact us: henrique.fernandes@fc.up.pt
