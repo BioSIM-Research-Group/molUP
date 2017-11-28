@@ -15,9 +15,6 @@ Main Features:
 - Provide a complete bibliographic list of references according to the type of methods and functionals that were employed in the calculation;
 - Among others.
 
-
-## ScreenShots
-
 ![Adjusting a dihedral angles using molUP](Screenshots/image1.gif)
 
 ![Energies](Screenshots/image2.gif)
