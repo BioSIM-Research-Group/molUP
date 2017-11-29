@@ -38,7 +38,7 @@ You could install molUP through [vmdStore](https://github.com/portobiocomp/vmdSt
 If you have any suggestion of new features, please contact us: henrique.fernandes@fc.up.pt
 
 ## Citation
-
+Not available
 
 ## DOI
-
+https://github.com/portobiocomp/molUP
