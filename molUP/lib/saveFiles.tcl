@@ -414,7 +414,7 @@ proc molUP::linkAtoms {} {
                     lappend molUP::linkAtomsList "H-[lindex $Hlist 0] [expr $atomNumber + 1]   0.0000"
                 } else {
                     set atomNumber [lindex $bond 1]
-                    lappend molUP::linkAtomsList "H [expr $atomNumber + 1]   0.0000"
+                    lappend molUP::linkAtomsList "H-H [expr $atomNumber + 1]   0.0000"
                 }
         } elseif {[lindex $layer1 4] == "H" && [lindex $layer2 4] == "L"} {
                 lappend molUP::linkAtomsListIndex [lindex $bond 1]
@@ -432,7 +432,7 @@ proc molUP::linkAtoms {} {
                     lappend molUP::linkAtomsList "H-[lindex $Hlist 0] [expr $atomNumber + 1]   0.0000"
                 } else {
                     set atomNumber [lindex $bond 0]
-                    lappend molUP::linkAtomsList "H [expr $atomNumber + 1]   0.0000"
+                    lappend molUP::linkAtomsList "H-H [expr $atomNumber + 1]   0.0000"
                 }
         }
     }

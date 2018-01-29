@@ -768,7 +768,7 @@ proc molUP::resultSection {molID frame majorHeight} {
 
 	place [ttk::scrollbar $tInput.yscb2 \
 			-orient vertical \
-			-command [list $tInput.connect yview]\
+			-command [list $tInput.param yview]\
 			] -in $tInput -x 380 -y [expr 365 + $heightBox + 10 + 25] -width 15 -height $heightBox
 
 
