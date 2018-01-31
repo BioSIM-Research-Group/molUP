@@ -47,7 +47,7 @@ namespace eval molUP:: {
 
 		#### Program Variables
 		## General
-		variable version	    	"1.1.2"
+		variable version	    	"1.2.0"
 
 		#GUI
         variable topGui         	".molUP"
@@ -183,6 +183,36 @@ namespace eval molUP:: {
 
 		variable graphicsID ""
     	variable pickedAtomsBAD {}
+
+		## sift (alternative to grep)
+		if {[string first "Windows" $::tcl_platform(os)] != -1} {
+			if {$tcl_platform(wordSize) <= 4 } {
+			  variable sift "$molUPpath/sift/windows/32bits/sift.exe"
+			} else {
+			  variable sift "$molUPpath/sift/windows/64bits/sift.exe"
+			}
+		} else {
+			if {[string first "Darwin" $::tcl_platform(os)] != -1} {
+				if {$tcl_platform(wordSize) <= 4 } {
+				  variable sift "$molUPpath/sift/macOS/32bits/sift"
+				} else {
+				  variable sift "$molUPpath/sift/macOS/64bits/sift"
+				}
+			} else {
+				if {$tcl_platform(wordSize) <= 4 } {
+				  variable sift "$molUPpath/sift/linux/32bits/sift"
+				} else {
+				  variable sift "$molUPpath/sift/linux/64bits/sift"
+				}
+			}
+		} 
+
+		## sed
+		if {[string first "Windows" $::tcl_platform(os)] != -1} {
+			variable sed "$molUPpath/sed/windows/sed.exe"
+		} else {
+			variable sed "sed"
+		}
 		
 }
 

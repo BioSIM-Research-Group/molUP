@@ -5,15 +5,15 @@ proc molUP::loadGaussianInputFile {} {
     
     #### Get the title line
 	set lineNumberTitle [expr [molUP::getBlankLines $molUP::path 0] + 1]
-	set molUP::title [exec sed -n "$lineNumberTitle p" $molUP::path]
+	set molUP::title [exec $molUP::sed -n "$lineNumberTitle p" $molUP::path]
 
 	#### Get the Charge and Multiplicity
 	set lineNumberCharge [expr [molUP::getBlankLines $molUP::path 1] + 1]
-	set molUP::chargesMultip [exec sed -n "$lineNumberCharge p" $molUP::path]
+	set molUP::chargesMultip [exec $molUP::sed -n "$lineNumberCharge p" $molUP::path]
 
 	#### Keywords of the calculations
 	set lineNumberKeyword [expr [molUP::getBlankLines $molUP::path 0] - 1]
-	set molUP::keywordsCalc [exec sed -n "1,$lineNumberKeyword p" $molUP::path]
+	set molUP::keywordsCalc [exec $molUP::sed -n "1,$lineNumberKeyword p" $molUP::path]
 
 	#### Number of Atoms
 	set lineNumberFirst [expr [molUP::getBlankLines $molUP::path 1] + 2]
@@ -21,7 +21,7 @@ proc molUP::loadGaussianInputFile {} {
 	set molUP::numberAtoms [expr $lineNumberLast - $lineNumberFirst + 1]
 	
 	## Get the Initial Structure
-	catch {exec sed -n "$lineNumberFirst,$lineNumberLast p" $molUP::path} molUP::structureGaussian
+	catch {exec $molUP::sed -n "$lineNumberFirst,$lineNumberLast p" $molUP::path} molUP::structureGaussian
 
 	## Get connectivity information about structure
 	set lineNumberConnect [expr $lineNumberLast + 2]
@@ -29,11 +29,11 @@ proc molUP::loadGaussianInputFile {} {
 	if {$lineNumberConnect == [expr $lineNumberLastConnect - 1]} {
 		set molUP::connectivityInputFile ""
 	} else {
-		catch {exec sed -n "$lineNumberConnect,$lineNumberLastConnect p" $molUP::path} molUP::connectivityInputFile
+		catch {exec $molUP::sed -n "$lineNumberConnect,$lineNumberLastConnect p" $molUP::path} molUP::connectivityInputFile
 	}
 
 	set a [expr $lineNumberLastConnect + 1]
-	catch {exec sed -n "$a,\$ p" $molUP::path} molUP::parameters
+	catch {exec $molUP::sed -n "$a,\$ p" $molUP::path} molUP::parameters
 
     #### Organize the structure info
     set molUP::structureGaussian [split $molUP::structureGaussian \n]

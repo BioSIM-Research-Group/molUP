@@ -90,7 +90,7 @@ proc molUP::loadButton {fileExtension} {
 
 #### Get Blank Lines Numbers
 proc molUP::getBlankLines {path numberLine} {
-	catch {exec egrep -n -m 8 -e "^ \+$" -e "^$" $path} blankLines
+	catch {exec $molUP::sift -n --limit=8 -e "^ \+$" -e "^$" $path} blankLines
 	set eachBlankLine [split $blankLines ":"]
 	set lineNumber [lindex $eachBlankLine $numberLine]
 	return $lineNumber
@@ -112,10 +112,10 @@ proc molUP::getConnectivityFromInputFile {} {
 
 		set firstLine [expr [molUP::getBlankLines $path 2] + 1]
 		set lastLine [expr [molUP::getBlankLines $path 3] - 1]
-		catch {exec sed -n "$firstLine,$lastLine p" $path} connectivity
+		catch {exec $molUP::sed -n "$firstLine,$lastLine p" $path} connectivity
 
 		set firstParam [expr [molUP::getBlankLines $path 3] + 1]
-		catch {exec sed -n "$firstParam,\$ p" $path} param
+		catch {exec $molUP::sed -n "$firstParam,\$ p" $path} param
 
 		set molUP::connectivityInputFile $connectivity
 		set molUP::parameters $param

@@ -1,6 +1,10 @@
 ######### molUP ##############
-Last version: 1.1.2
+Last version: 1.2.0
 ##############################
+Version 1.2.0 (31 JAN 2018)
+- [New feature] molUP is now compatible with Windows OS.
+- [New feature] Extracting information from Gaussian files became faster with Sift.
+
 Version 1.1.2 (29 JAN 2018)
 - [Bug fixed] The scrollbar of the parameters sections was scrolling on connectivy section.
 - [Bug fixed] Link atoms were not written in the input file when the adjacent atoms had no hydrogen atom bonded. 

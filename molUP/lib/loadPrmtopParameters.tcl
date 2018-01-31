@@ -335,7 +335,7 @@ proc molUP::loadPrmtopParameters {} {
 }
 
 proc molUP::prmtopGetDataFromFlag {flag path} {
-    catch {exec grep -n "%FLAG" $path} listFlagLines
+    catch {exec $molUP::sift -n "%FLAG" $path} listFlagLines
 
     set listFlagLines [split $listFlagLines "\n"]
     
@@ -344,7 +344,7 @@ proc molUP::prmtopGetDataFromFlag {flag path} {
     set firstLine [expr [lindex [split [lindex $listFlagLines $pos] ":" ] 0] + 2]
     set lastLine [expr [lindex [split [lindex $listFlagLines [expr $pos + 1]] ":" ] 0] -1]
 
-    catch {exec sed -n "$firstLine,$lastLine p" $path} data
+    catch {exec $molUP::sed -n "$firstLine,$lastLine p" $path} data
 
     return $data
 
