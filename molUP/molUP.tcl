@@ -47,7 +47,7 @@ namespace eval molUP:: {
 
 		#### Program Variables
 		## General
-		variable version	    	"1.2.0"
+		variable version	    	"1.2.1"
 
 		#GUI
         variable topGui         	".molUP"

@@ -1,6 +1,9 @@
 ######### molUP ##############
-Last version: 1.2.0
+Last version: 1.2.1
 ##############################
+Version 1.2.1 (31 JAN 2018)
+- [Bug fixed] The user gets the control over the blank lines between the connectivity and parameters sections.
+
 Version 1.2.0 (31 JAN 2018)
 - [New feature] molUP is now compatible with Windows OS. The compatibility was possible thanks to the open source tool Cygwin (http://www.cygwin.com).
 

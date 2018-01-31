@@ -304,11 +304,16 @@ proc molUP::writeGaussianFile {path} {
         incr i
     }
 
-    set connectivity [.molUP.frame0.major.mol$molID.tabs.tabInput.connect get 1.0 end]
-    puts $file "\n$connectivity"
+    set connectivity [split [.molUP.frame0.major.mol$molID.tabs.tabInput.connect get 1.0 end] "\n"]
+    puts $file ""
+    foreach line $connectivity {
+        if {$line != ""} {
+            puts $file $line
+        }
+    }
 
     set parameters [.molUP.frame0.major.mol$molID.tabs.tabInput.param get 1.0 end]
-    puts $file "$parameters"
+    puts  $file "$parameters"
 
     close $file
 
