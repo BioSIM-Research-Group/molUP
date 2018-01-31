@@ -544,16 +544,16 @@ proc molUP::textSearch {w string tag} {
 }
 
 proc molUP::readKeywordsTags {} {
-	catch {exec grep "^\$color=" "$::molUPpath/user/references.txt" | cut -f2 -d=} colorTagList
+	catch {exec $molUP::grep "^\$color=" "$::molUPpath/user/references.txt" | $molUP::cut -f2 -d=} colorTagList
 	variable keywordsTagColor [lsort -unique $colorTagList]
 
 	foreach color $molUP::keywordsTagColor {
 		variable keywordsTagColor[subst $color] {} 
 		
-		catch {exec grep -n "$color" "$::molUPpath/user/references.txt" | cut -f1 -d:} keywordsLineNumber
+		catch {exec $molUP::grep -n "$color" "$::molUPpath/user/references.txt" | $molUP::cut -f1 -d:} keywordsLineNumber
 
 		foreach lineNumber $keywordsLineNumber {
-			catch {exec sed "[expr $lineNumber + 1],[expr $lineNumber + 1]!d" "$::molUPpath/user/references.txt" | cut -f2 -d%} keyword
+			catch {exec $molUP::sed "[expr $lineNumber + 1],[expr $lineNumber + 1]!d" "$::molUPpath/user/references.txt" | $molUP::cut -f2 -d%} keyword
 			lappend keywordsTagColor[subst $color] $keyword
 		}
 	}
@@ -1005,12 +1005,12 @@ proc molUP::loadConnectivityFromOtherInputFile {} {
         if {$path != ""} {
             set firstConnect [expr [molUP::getBlankLines $path 2] + 1]
 			set lastConnect [expr [molUP::getBlankLines $path 3] - 1]
-			catch {exec sed -n "$firstConnect,$lastConnect p" $path} connectivity
+			catch {$molUP::sed -n "$firstConnect,$lastConnect p" $path} connectivity
 			$molUP::topGui.frame0.major.mol$molID.tabs.tabInput.connect delete 1.0 end
 			$molUP::topGui.frame0.major.mol$molID.tabs.tabInput.connect insert end $connectivity
 
 			set firstParam [expr [molUP::getBlankLines $path 3] + 1]
-			catch {exec sed -n "$firstParam,\$ p" $path} param
+			catch {exec $molUP::sed -n "$firstParam,\$ p" $path} param
 			$molUP::topGui.frame0.major.mol$molID.tabs.tabInput.param delete 1.0 end
 			$molUP::topGui.frame0.major.mol$molID.tabs.tabInput.param insert end $param
 
@@ -1028,7 +1028,7 @@ proc molUP::readCalculationTypes {pathName} {
 	set listFiles [glob -directory "$::molUPpath/user/calculationSetup" *]
 
 	foreach file $listFiles {
-		catch {exec sed -n "1,1p" $file} title
+		catch {exec $molUP::sed -n "1,1p" $file} title
 		$pathName add command -label "$title" -command "molUP::fillKeywordsSection [subst $file]"
 	}
 
@@ -1036,7 +1036,7 @@ proc molUP::readCalculationTypes {pathName} {
 
 proc molUP::fillKeywordsSection {path} {
 	.molUP.frame0.major.mol[molinfo top].tabs.tabInput.keywordsText delete 1.0 end
-	catch {exec sed -n "2,$ p" $path} keywords
+	catch {exec $molUP::sed -n "2,$ p" $path} keywords
 	.molUP.frame0.major.mol[molinfo top].tabs.tabInput.keywordsText insert end $keywords
 
 	# Update Tags

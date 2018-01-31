@@ -2,8 +2,7 @@
 Last version: 1.2.0
 ##############################
 Version 1.2.0 (31 JAN 2018)
-- [New feature] molUP is now compatible with Windows OS.
-- [New feature] Extracting information from Gaussian files became faster with Sift.
+- [New feature] molUP is now compatible with Windows OS. The compatibility was possible thanks to the open source tool Cygwin (http://www.cygwin.com).
 
 Version 1.1.2 (29 JAN 2018)
 - [Bug fixed] The scrollbar of the parameters sections was scrolling on connectivy section.

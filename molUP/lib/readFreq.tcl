@@ -235,11 +235,11 @@ proc molUP::readFreq {} {
 proc molUP::readThermalCorrections {path} {
 	set thermalCorrections {}
 
-	catch {exec $molUP::sift --limit=1 "Thermal correction to Energy=" $path | cut -f2 -d=} zpEnergy
+	catch {exec $molUP::grep -m 1 "Thermal correction to Energy=" $path | $molUP::cut -f2 -d=} zpEnergy
 	lappend thermalCorrections $zpEnergy
-	catch {exec $molUP::sift --limit=1 "Thermal correction to Enthalpy=" $path | cut -f2 -d=} enthalpy
+	catch {exec $molUP::grep -m 1 "Thermal correction to Enthalpy=" $path | $molUP::cut -f2 -d=} enthalpy
 	lappend thermalCorrections $enthalpy
-	catch {exec $molUP::sift --limit=1 "Thermal correction to Gibbs Free Energy=" $path | cut -f2 -d=} gibbs
+	catch {exec $molUP::grep -m 1 "Thermal correction to Gibbs Free Energy=" $path | $molUP::cut -f2 -d=} gibbs
 	lappend thermalCorrections $gibbs
 
 	### Return a list containing the thermal corrections for ZPE, Enthalpy and Gibbs Energy, respectively
@@ -252,8 +252,8 @@ proc molUP::readFreqFile {file} {
 	variable freqLine {}
 	variable irList {}
 
-	set a [split [exec $molUP::sift -n "Frequencies --" $file] "\n"]
-	set b [split [exec $molUP::sift -n "IR Inten    --" $file] "\n"]
+	set a [split [exec $molUP::grep -n "Frequencies --" $file] "\n"]
+	set b [split [exec $molUP::grep -n "IR Inten    --" $file] "\n"]
 
 	foreach line  $a {
         	set molUP::freqList [lappend molUP::freqList "[lindex $line 3] [lindex $line 4] [lindex $line 5]"]
@@ -280,7 +280,7 @@ return $answer
 }
 
 proc molUP::extractFreqVectors {file where} {
-	set a [exec $molUP::sed -n "[lindex $molUP::freqLine [lindex $where 0]], [expr [lindex $molUP::freqLine [lindex $where 0]] + 30] p" $file | $molUP::sift -n --limit=1 "  Atom  AN      X      Y      Z"]
+	set a [exec $molUP::sed -n "[lindex $molUP::freqLine [lindex $where 0]], [expr [lindex $molUP::freqLine [lindex $where 0]] + 30] p" $file | $molUP::grep -n -m 1 "  Atom  AN      X      Y      Z"]
 	set lookUpPos [split $a ":"]
 
 	#set vectors [exec $molUP::sed -n "[expr [lindex $molUP::freqLine [lindex $where 0]] + [lindex $lookUpPos 0]], [expr [lindex $molUP::freqLine [expr [lindex $where 0]+1]]-3] p" $file | egrep -v "0.00   0.00   0.00"]

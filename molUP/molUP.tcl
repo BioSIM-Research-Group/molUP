@@ -184,42 +184,30 @@ namespace eval molUP:: {
 		variable graphicsID ""
     	variable pickedAtomsBAD {}
 
-		## sift (alternative to grep)
+		## grep, sed, head, cut, and tail
 		if {[string first "Windows" $::tcl_platform(os)] != -1} {
-			if {$tcl_platform(wordSize) <= 4 } {
-			  variable sift "$molUPpath/sift/windows/32bits/sift.exe"
-			} else {
-			  variable sift "$molUPpath/sift/windows/64bits/sift.exe"
-			}
-		} else {
-			if {[string first "Darwin" $::tcl_platform(os)] != -1} {
-				if {$tcl_platform(wordSize) <= 4 } {
-				  variable sift "$molUPpath/sift/macOS/32bits/sift"
-				} else {
-				  variable sift "$molUPpath/sift/macOS/64bits/sift"
-				}
-			} else {
-				if {$tcl_platform(wordSize) <= 4 } {
-				  variable sift "$molUPpath/sift/linux/32bits/sift"
-				} else {
-				  variable sift "$molUPpath/sift/linux/64bits/sift"
-				}
-			}
-		} 
-
-		## sed
-		if {[string first "Windows" $::tcl_platform(os)] != -1} {
-			variable sed "$molUPpath/sed/windows/sed.exe"
+			variable sed "$molUPpath/windowsDependencies/sed.exe"
+			variable head "$molUPpath/windowsDependencies/head.exe"
+			variable cut "$molUPpath/windowsDependencies/cut.exe"
+			variable tail "$molUPpath/windowsDependencies/tail.exe"
+			variable grep "$molUPpath/windowsDependencies/tail.exe"
 		} else {
 			variable sed "sed"
+			variable head "head"
+			variable cut "cut"
+			variable tail "tail"
+			variable grep "grep"
 		}
 		
 }
 
 proc molUP::start {} {
-	if {[winfo exists $::molUP::topGui]} {wm deiconify $::molUP::topGui ;return $::molUP::topGui}
+	if {[winfo exists $::molUP::topGui]} {
+		wm deiconify $::molUP::topGui
+		return $::molUP::topGui
+		}
 
-	### Rload keywords to color tag text
+	### Reload keywords to color tag text
 	molUP::readKeywordsTags
 
 	### Open the GUI

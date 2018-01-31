@@ -29,7 +29,7 @@ proc molUP::methodology {} {
     pack [canvas $molUP::methodology.frame.back -bg white -width 600 -height 300 -highlightthickness 0] -in $molUP::methodology.frame
 
     ## Grep all options available
-    catch {exec grep "%" "$::molUPpath/user/methodology.txt" | cut -f2 -d%} listOptions
+    catch {exec $molUP::grep "%" "$::molUPpath/user/methodology.txt" | $molUP::cut -f2 -d%} listOptions
 	set listOptions [split $listOptions "\n"]
 
     variable methodOption
@@ -78,7 +78,7 @@ proc molUP::methodology {} {
 
 
 proc molUP::readMethodText {args} {
-    catch {exec sed -n "/%$molUP::methodOption/I,/#################################################/p" "$::molUPpath/user/methodology.txt" | egrep -v -e "###################" -e "^%"} text
+    catch {exec $molUP::sed -n "/%$molUP::methodOption/I,/#################################################/p" "$::molUPpath/user/methodology.txt" | $molUP::grep -v -e "###################" -e "^%"} text
 
     $molUP::methodology.frame.back.label1 configure -state normal
     $molUP::methodology.frame.back.label1 delete 1.0 end

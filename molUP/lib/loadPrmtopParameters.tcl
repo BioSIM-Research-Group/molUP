@@ -335,7 +335,7 @@ proc molUP::loadPrmtopParameters {} {
 }
 
 proc molUP::prmtopGetDataFromFlag {flag path} {
-    catch {exec $molUP::sift -n "%FLAG" $path} listFlagLines
+    catch {exec $molUP::grep -n "%FLAG" $path} listFlagLines
 
     set listFlagLines [split $listFlagLines "\n"]
     
