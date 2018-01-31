@@ -190,7 +190,7 @@ namespace eval molUP:: {
 			variable head "$molUPpath/windowsDependencies/head.exe"
 			variable cut "$molUPpath/windowsDependencies/cut.exe"
 			variable tail "$molUPpath/windowsDependencies/tail.exe"
-			variable grep "$molUPpath/windowsDependencies/tail.exe"
+			variable grep "$molUPpath/windowsDependencies/grep.exe"
 		} else {
 			variable sed "sed"
 			variable head "head"
