@@ -260,7 +260,7 @@ proc molUP::readRemainingStructuresOpt {allAtomsLastStructureCoord} {
 
 proc molUP::evaluateFreqCalc {} {
 	#### Evaluate if a freq calculation was performed
-	set freqCalcTrue [catch {exec $molUP::grep -m 1 "frequencies" $molUP::path}]
+	set freqCalcTrue [catch {exec $molUP::grep -E -m 1 "frequencies" $molUP::path}]
 	if {$freqCalcTrue == "0"} {
 		molUP::readFreq
 	} else {}
@@ -269,7 +269,7 @@ proc molUP::evaluateFreqCalc {} {
 proc molUP::numberAtomsFirstStructure {} {
 	set lineBeforeStructure [split [exec $molUP::head -n 300 $molUP::path | $molUP::grep -n " Charge =" | $molUP::tail -n 1] ":"]
 	set firstLineStructure [expr [lindex $lineBeforeStructure 0] + 1]
-	set lineAfterStructure [split [exec $molUP::grep -n -m 2 "^ $" $molUP::path | $molUP::tail -n 1] ":"]
+	set lineAfterStructure [split [exec $molUP::grep -E -n -m 2 "^ $" $molUP::path | $molUP::tail -n 1] ":"]
 	set lastLineStructure [expr [lindex $lineAfterStructure 0] - 1]
 	set numberAtoms [expr $lastLineStructure - $firstLineStructure + 1]
 	

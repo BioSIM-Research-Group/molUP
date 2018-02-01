@@ -1,6 +1,9 @@
 ######### molUP ##############
-Last version: 1.2.1
+Last version: 1.2.2
 ##############################
+Version 1.2.2 (1 FEV 2018)
+- [Bug fixed] This update fixes a issue that prevented the correct load of Gaussian Input files.
+
 Version 1.2.1 (31 JAN 2018)
 - [Bug fixed] The user gets the control over the blank lines between the connectivity and parameters sections.
 

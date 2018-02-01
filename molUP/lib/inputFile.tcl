@@ -90,7 +90,7 @@ proc molUP::loadButton {fileExtension} {
 
 #### Get Blank Lines Numbers
 proc molUP::getBlankLines {path numberLine} {
-	catch {exec $molUP::grep -n -m 8 -e "^ \+$" -e "^$" $path} blankLines
+	catch {exec $molUP::grep -E -n -m 8 -e "^ \+$" -e "^$" $path} blankLines
 	set eachBlankLine [split $blankLines ":"]
 	set lineNumber [lindex $eachBlankLine $numberLine]
 	return $lineNumber
