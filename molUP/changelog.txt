@@ -1,6 +1,9 @@
 ######### molUP ##############
-Last version: 1.3.0
+Last version: 1.3.1
 ##############################
+Version 1.3.1 (2 FEV 2018)
+- [New feature] Now, molUP will only load the first 15 frequencies (up to 5x faster). The user can load all the structures clicking on the "Load All Freqs" button.
+
 Version 1.3.0 (2 FEV 2018)
 - [Improvement] The way the files are loaded on molUP was improved (up to 2x faster).
 

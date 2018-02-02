@@ -38,19 +38,25 @@ proc molUP::readFreq {} {
 			-text "Stop" \
 			-command {molUP::clearSelectionFreq} \
 			-style molUP.blue.TButton \
-			] -in $molUP::topGui.frame0.major.mol$molID.tabs.tabOutput.tabs.tab5 -x 265 -y 225 -width 120
+			] -in $molUP::topGui.frame0.major.mol$molID.tabs.tabOutput.tabs.tab5 -x 185 -y 225 -width 80
 	
 	place [ttk::button $molUP::topGui.frame0.major.mol$molID.tabs.tabOutput.tabs.tab5.play \
 			-text "Play" \
 			-command {animate forward} \
 			-style molUP.blue.TButton \
-			] -in $molUP::topGui.frame0.major.mol$molID.tabs.tabOutput.tabs.tab5 -x 5 -y 225 -width 120
+			] -in $molUP::topGui.frame0.major.mol$molID.tabs.tabOutput.tabs.tab5 -x 5 -y 225 -width 80
 
 	place [ttk::button $molUP::topGui.frame0.major.mol$molID.tabs.tabOutput.tabs.tab5.pause \
 			-text "Pause" \
 			-command {animate pause} \
 			-style molUP.blue.TButton \
-			] -in $molUP::topGui.frame0.major.mol$molID.tabs.tabOutput.tabs.tab5 -x 135 -y 225 -width 120
+			] -in $molUP::topGui.frame0.major.mol$molID.tabs.tabOutput.tabs.tab5 -x 95 -y 225 -width 80
+
+	place [ttk::button $molUP::topGui.frame0.major.mol$molID.tabs.tabOutput.tabs.tab5.loadAll \
+			-text "Load All Freqs" \
+			-command {molUP::loadAllFreqs} \
+			-style molUP.blue.TButton \
+			] -in $molUP::topGui.frame0.major.mol$molID.tabs.tabOutput.tabs.tab5 -x 275 -y 225 -width 110
 
 	place [ttk::label $molUP::topGui.frame0.major.mol$molID.tabs.tabOutput.tabs.tab5.animFreq \
 			-text "Animation Frequency: " \
@@ -155,79 +161,80 @@ proc molUP::readFreq {} {
 	bind $molUP::topGui.frame0.major.mol$molID.tabs.tabOutput.tabs.tab5.tableLayer <<TablelistSelect>> {molUP::selectFreq}
 
 
+	if {[winfo exists $molUP::topGui.frame0.major.mol$molID.tabs.tabOutput.tabs.tab6.energyEntry] != 0} {
+		#### Thermal Corrections
+		set thermalCorrections [molUP::readThermalCorrections $molUP::path]
 
-	#### Thermal Corrections
-	set thermalCorrections [molUP::readThermalCorrections $molUP::path]
+		## Add information to energy tab
+		set electronicEnergy [$molUP::topGui.frame0.major.mol$molID.tabs.tabOutput.tabs.tab6.energyEntry get 1.0 end]
 
-	## Add information to energy tab
-	set electronicEnergy [$molUP::topGui.frame0.major.mol$molID.tabs.tabOutput.tabs.tab6.energyEntry get 1.0 end]
+		set zpEnergy [expr $electronicEnergy + [lindex $thermalCorrections 0]]
+		set enthalpy [expr $electronicEnergy + [lindex $thermalCorrections 1]]
+		set gibbs [expr $electronicEnergy + [lindex $thermalCorrections 2]]
 
-	set zpEnergy [expr $electronicEnergy + [lindex $thermalCorrections 0]]
-	set enthalpy [expr $electronicEnergy + [lindex $thermalCorrections 1]]
-	set gibbs [expr $electronicEnergy + [lindex $thermalCorrections 2]]
+		place [ttk::label $molUP::topGui.frame0.major.mol$molID.tabs.tabOutput.tabs.tab6.zpEnergyLabel \
+			-style molUP.white.TLabel \
+			-text {Zero-Point Energy (Hartree)} \
+			] -in $molUP::topGui.frame0.major.mol$molID.tabs.tabOutput.tabs.tab6 -x 10 -y 180 -width 200
 
-	place [ttk::label $molUP::topGui.frame0.major.mol$molID.tabs.tabOutput.tabs.tab6.zpEnergyLabel \
-		-style molUP.white.TLabel \
-		-text {Zero-Point Energy (Hartree)} \
-        ] -in $molUP::topGui.frame0.major.mol$molID.tabs.tabOutput.tabs.tab6 -x 10 -y 180 -width 200
+		place [text $molUP::topGui.frame0.major.mol$molID.tabs.tabOutput.tabs.tab6.zpEnergy \
+			-bd 1 \
+			-highlightcolor #017aff \
+			-highlightthickness 1 \
+			-wrap word \
+			] -in $molUP::topGui.frame0.major.mol$molID.tabs.tabOutput.tabs.tab6 -x 220 -y 180 -width 130 -height 25
+		$molUP::topGui.frame0.major.mol$molID.tabs.tabOutput.tabs.tab6.zpEnergy insert end $zpEnergy
+		$molUP::topGui.frame0.major.mol$molID.tabs.tabOutput.tabs.tab6.zpEnergy configure -state disabled
 
-    place [text $molUP::topGui.frame0.major.mol$molID.tabs.tabOutput.tabs.tab6.zpEnergy \
-		-bd 1 \
-		-highlightcolor #017aff \
-		-highlightthickness 1 \
-		-wrap word \
-		] -in $molUP::topGui.frame0.major.mol$molID.tabs.tabOutput.tabs.tab6 -x 220 -y 180 -width 130 -height 25
-	$molUP::topGui.frame0.major.mol$molID.tabs.tabOutput.tabs.tab6.zpEnergy insert end $zpEnergy
-	$molUP::topGui.frame0.major.mol$molID.tabs.tabOutput.tabs.tab6.zpEnergy configure -state disabled
+		place [ttk::button $molUP::topGui.frame0.major.mol$molID.tabs.tabOutput.tabs.tab6.graph.copyEnergyZP \
+			-style molUP.copyButton.TButton \
+			-text "Copy to clipboard" \
+			-command {molUP::copyClipboardFromText $molUP::topGui.frame0.major.mol[molinfo top].tabs.tabOutput.tabs.tab6.zpEnergy} \
+			] -in $molUP::topGui.frame0.major.mol$molID.tabs.tabOutput.tabs.tab6.graph -x 355 -y 176 -width 20 -height 20
+		balloon $molUP::topGui.frame0.major.mol$molID.tabs.tabOutput.tabs.tab6.graph.copyEnergyZP -text "Copy to clipboard"
 
-    place [ttk::button $molUP::topGui.frame0.major.mol$molID.tabs.tabOutput.tabs.tab6.graph.copyEnergyZP \
-        -style molUP.copyButton.TButton \
-        -text "Copy to clipboard" \
-		-command {molUP::copyClipboardFromText $molUP::topGui.frame0.major.mol[molinfo top].tabs.tabOutput.tabs.tab6.zpEnergy} \
-		] -in $molUP::topGui.frame0.major.mol$molID.tabs.tabOutput.tabs.tab6.graph -x 355 -y 176 -width 20 -height 20
-    balloon $molUP::topGui.frame0.major.mol$molID.tabs.tabOutput.tabs.tab6.graph.copyEnergyZP -text "Copy to clipboard"
+		place [ttk::label $molUP::topGui.frame0.major.mol$molID.tabs.tabOutput.tabs.tab6.enthalpyLabel \
+			-style molUP.white.TLabel \
+			-text {Enthalpy (Hartree)} \
+			] -in $molUP::topGui.frame0.major.mol$molID.tabs.tabOutput.tabs.tab6 -x 10 -y 210 -width 200
 
-	place [ttk::label $molUP::topGui.frame0.major.mol$molID.tabs.tabOutput.tabs.tab6.enthalpyLabel \
-		-style molUP.white.TLabel \
-		-text {Enthalpy (Hartree)} \
-        ] -in $molUP::topGui.frame0.major.mol$molID.tabs.tabOutput.tabs.tab6 -x 10 -y 210 -width 200
+		place [text $molUP::topGui.frame0.major.mol$molID.tabs.tabOutput.tabs.tab6.enthalpy \
+			-bd 1 \
+			-highlightcolor #017aff \
+			-highlightthickness 1 \
+			-wrap word \
+			] -in $molUP::topGui.frame0.major.mol$molID.tabs.tabOutput.tabs.tab6 -x 220 -y 210 -width 130 -height 25
+		$molUP::topGui.frame0.major.mol$molID.tabs.tabOutput.tabs.tab6.enthalpy insert end $enthalpy
+		$molUP::topGui.frame0.major.mol$molID.tabs.tabOutput.tabs.tab6.enthalpy configure -state disabled
 
-    place [text $molUP::topGui.frame0.major.mol$molID.tabs.tabOutput.tabs.tab6.enthalpy \
-		-bd 1 \
-		-highlightcolor #017aff \
-		-highlightthickness 1 \
-		-wrap word \
-		] -in $molUP::topGui.frame0.major.mol$molID.tabs.tabOutput.tabs.tab6 -x 220 -y 210 -width 130 -height 25
-	$molUP::topGui.frame0.major.mol$molID.tabs.tabOutput.tabs.tab6.enthalpy insert end $enthalpy
-	$molUP::topGui.frame0.major.mol$molID.tabs.tabOutput.tabs.tab6.enthalpy configure -state disabled
+		place [ttk::button $molUP::topGui.frame0.major.mol$molID.tabs.tabOutput.tabs.tab6.graph.copyEnergyenthalpy \
+			-style molUP.copyButton.TButton \
+			-text "Copy to clipboard" \
+			-command {molUP::copyClipboardFromText $molUP::topGui.frame0.major.mol[molinfo top].tabs.tabOutput.tabs.tab6.enthalpy} \
+			] -in $molUP::topGui.frame0.major.mol$molID.tabs.tabOutput.tabs.tab6.graph -x 355 -y 206 -width 20 -height 20
+		balloon $molUP::topGui.frame0.major.mol$molID.tabs.tabOutput.tabs.tab6.graph.copyEnergyenthalpy -text "Copy to clipboard"
 
-    place [ttk::button $molUP::topGui.frame0.major.mol$molID.tabs.tabOutput.tabs.tab6.graph.copyEnergyenthalpy \
-        -style molUP.copyButton.TButton \
-        -text "Copy to clipboard" \
-		-command {molUP::copyClipboardFromText $molUP::topGui.frame0.major.mol[molinfo top].tabs.tabOutput.tabs.tab6.enthalpy} \
-		] -in $molUP::topGui.frame0.major.mol$molID.tabs.tabOutput.tabs.tab6.graph -x 355 -y 206 -width 20 -height 20
-    balloon $molUP::topGui.frame0.major.mol$molID.tabs.tabOutput.tabs.tab6.graph.copyEnergyenthalpy -text "Copy to clipboard"
+		place [ttk::label $molUP::topGui.frame0.major.mol$molID.tabs.tabOutput.tabs.tab6.gibbsLabel \
+			-style molUP.white.TLabel \
+			-text {Gibbs Free Energy (Hartree)} \
+			] -in $molUP::topGui.frame0.major.mol$molID.tabs.tabOutput.tabs.tab6 -x 10 -y 240 -width 200
 
-	place [ttk::label $molUP::topGui.frame0.major.mol$molID.tabs.tabOutput.tabs.tab6.gibbsLabel \
-		-style molUP.white.TLabel \
-		-text {Gibbs Free Energy (Hartree)} \
-        ] -in $molUP::topGui.frame0.major.mol$molID.tabs.tabOutput.tabs.tab6 -x 10 -y 240 -width 200
+		place [text $molUP::topGui.frame0.major.mol$molID.tabs.tabOutput.tabs.tab6.gibbs \
+			-bd 1 \
+			-highlightcolor #017aff \
+			-highlightthickness 1 \
+			-wrap word \
+			] -in $molUP::topGui.frame0.major.mol$molID.tabs.tabOutput.tabs.tab6 -x 220 -y 240 -width 130 -height 25
+		$molUP::topGui.frame0.major.mol$molID.tabs.tabOutput.tabs.tab6.gibbs insert end $gibbs
+		$molUP::topGui.frame0.major.mol$molID.tabs.tabOutput.tabs.tab6.gibbs configure -state disabled
 
-    place [text $molUP::topGui.frame0.major.mol$molID.tabs.tabOutput.tabs.tab6.gibbs \
-		-bd 1 \
-		-highlightcolor #017aff \
-		-highlightthickness 1 \
-		-wrap word \
-		] -in $molUP::topGui.frame0.major.mol$molID.tabs.tabOutput.tabs.tab6 -x 220 -y 240 -width 130 -height 25
-	$molUP::topGui.frame0.major.mol$molID.tabs.tabOutput.tabs.tab6.gibbs insert end $gibbs
-	$molUP::topGui.frame0.major.mol$molID.tabs.tabOutput.tabs.tab6.gibbs configure -state disabled
-
-    place [ttk::button $molUP::topGui.frame0.major.mol$molID.tabs.tabOutput.tabs.tab6.graph.copyEnergygibbs \
-        -style molUP.copyButton.TButton \
-        -text "Copy to clipboard" \
-		-command {molUP::copyClipboardFromText $molUP::topGui.frame0.major.mol[molinfo top].tabs.tabOutput.tabs.tab6.gibbs} \
-		] -in $molUP::topGui.frame0.major.mol$molID.tabs.tabOutput.tabs.tab6.graph -x 355 -y 236 -width 20 -height 20
-    balloon $molUP::topGui.frame0.major.mol$molID.tabs.tabOutput.tabs.tab6.graph.copyEnergygibbs -text "Copy to clipboard"
+		place [ttk::button $molUP::topGui.frame0.major.mol$molID.tabs.tabOutput.tabs.tab6.graph.copyEnergygibbs \
+			-style molUP.copyButton.TButton \
+			-text "Copy to clipboard" \
+			-command {molUP::copyClipboardFromText $molUP::topGui.frame0.major.mol[molinfo top].tabs.tabOutput.tabs.tab6.gibbs} \
+			] -in $molUP::topGui.frame0.major.mol$molID.tabs.tabOutput.tabs.tab6.graph -x 355 -y 236 -width 20 -height 20
+		balloon $molUP::topGui.frame0.major.mol$molID.tabs.tabOutput.tabs.tab6.graph.copyEnergygibbs -text "Copy to clipboard"
+	}
 
 }
 
@@ -252,8 +259,8 @@ proc molUP::readFreqFile {file} {
 	variable freqLine {}
 	variable irList {}
 
-	set a [split [exec $molUP::grep -n "Frequencies --" $file] "\n"]
-	set b [split [exec $molUP::grep -n "IR Inten    --" $file] "\n"]
+	set a [split [exec $molUP::grep -n -m $molUP::nFreqToRead "Frequencies --" $file] "\n"]
+	set b [split [exec $molUP::grep -n -m $molUP::nFreqToRead "IR Inten    --" $file] "\n"]
 
 	foreach line  $a {
         	set molUP::freqList [lappend molUP::freqList "[lindex $line 3] [lindex $line 4] [lindex $line 5]"]
@@ -445,4 +452,29 @@ proc molUP::changeVectorsColor {} {
 }
 
 
+proc molUP::loadAllFreqs {} {
+	## Get Path
+	set molID [molinfo top]
+	set path [lindex [lindex $molUP::pathsFreq [lsearch -index 0 -all $molUP::pathsFreq $molID]] 1]
 
+	## Read All Freqs
+	set molUP::nFreqToRead 99999999999
+	molUP::readFreqFile $path
+	set molUP::nFreqToRead 5
+
+	## Delete all content on table
+	$molUP::topGui.frame0.major.mol$molID.tabs.tabOutput.tabs.tab5.tableLayer insert anchor end
+	
+	## Add each frequency to the table 
+	set freqIndex 0
+	foreach line $molUP::freqList lineIR $molUP::irList {
+		foreach freq $line ir $lineIR {
+			incr freqIndex
+			$molUP::topGui.frame0.major.mol$molID.tabs.tabOutput.tabs.tab5.tableLayer insert end [list \
+		   			"$freqIndex" \
+		   			"$freq" \
+					"$ir"
+		   			]
+		}
+	}
+}
