@@ -5,15 +5,19 @@ proc molUP::loadGaussianInputFile {} {
     
     #### Get the title line
 	set lineNumberTitle [expr [molUP::getBlankLines $molUP::path 0] + 1]
-	set molUP::title [exec $molUP::sed -n "$lineNumberTitle p" $molUP::path]
+	set molUP::title [exec $molUP::sed -n "$lineNumberTitle {p; :loop n; q; b loop}" $molUP::path]
 
 	#### Get the Charge and Multiplicity
 	set lineNumberCharge [expr [molUP::getBlankLines $molUP::path 1] + 1]
-	set molUP::chargesMultip [exec $molUP::sed -n "$lineNumberCharge p" $molUP::path]
+	set molUP::chargesMultip [exec $molUP::sed -n "$lineNumberCharge {p; :loop n; q; b loop}" $molUP::path]
 
 	#### Keywords of the calculations
 	set lineNumberKeyword [expr [molUP::getBlankLines $molUP::path 0] - 1]
-	set molUP::keywordsCalc [exec $molUP::sed -n "1,$lineNumberKeyword p" $molUP::path]
+	if {$lineNumberKeyword != 1} {
+		catch {exec $molUP::sed -n "1 {p; :loop n; p; $lineNumberKeyword q; b loop}" $molUP::path} molUP::keywordsCalc
+	} else {
+		catch {exec $molUP::sed -n "1 {p; :loop n; q; b loop}" $molUP::path} molUP::keywordsCalc
+	}
 
 	#### Number of Atoms
 	set lineNumberFirst [expr [molUP::getBlankLines $molUP::path 1] + 2]
@@ -21,7 +25,11 @@ proc molUP::loadGaussianInputFile {} {
 	set molUP::numberAtoms [expr $lineNumberLast - $lineNumberFirst + 1]
 	
 	## Get the Initial Structure
-	catch {exec $molUP::sed -n "$lineNumberFirst,$lineNumberLast p" $molUP::path} molUP::structureGaussian
+	if {$lineNumberFirst != $lineNumberLast} {
+		catch {exec $molUP::sed -n "$lineNumberFirst {p; :loop n; p; $lineNumberLast q; b loop}" $molUP::path} molUP::structureGaussian
+	} else {
+		catch {exec $molUP::sed -n "$lineNumberFirst {p; :loop n; q; b loop}" $molUP::path} molUP::structureGaussian
+	}
 
 	## Get connectivity information about structure
 	set lineNumberConnect [expr $lineNumberLast + 2]
@@ -29,7 +37,11 @@ proc molUP::loadGaussianInputFile {} {
 	if {$lineNumberConnect == [expr $lineNumberLastConnect - 1]} {
 		set molUP::connectivityInputFile ""
 	} else {
-		catch {exec $molUP::sed -n "$lineNumberConnect,$lineNumberLastConnect p" $molUP::path} molUP::connectivityInputFile
+		if {$lineNumberConnect != $lineNumberLastConnect} {
+			catch {exec $molUP::sed -n "$lineNumberConnect {p; :loop n; p; $lineNumberLastConnect q; b loop}" $molUP::path} molUP::connectivityInputFile
+		} else {
+			catch {exec $molUP::sed -n "$lineNumberConnect {p; :loop n; q; b loop}" $molUP::path} molUP::connectivityInputFile
+		}
 	}
 
 	set a [expr $lineNumberLastConnect + 1]

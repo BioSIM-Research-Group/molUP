@@ -280,11 +280,18 @@ return $answer
 }
 
 proc molUP::extractFreqVectors {file where} {
-	set a [exec $molUP::sed -n "[lindex $molUP::freqLine [lindex $where 0]], [expr [lindex $molUP::freqLine [lindex $where 0]] + 30] p" $file | $molUP::grep -n -m 1 "  Atom  AN      X      Y      Z"]
+	if {[lindex $molUP::freqLine [lindex $where 0]] != [expr [lindex $molUP::freqLine [lindex $where 0]] + 30]} {
+		catch {exec $molUP::sed -n "[lindex $molUP::freqLine [lindex $where 0]] {p; :loop n; p; [expr [lindex $molUP::freqLine [lindex $where 0]] + 30] q; b loop}" $file | $molUP::grep -n -m 1 "  Atom  AN      X      Y      Z"} a
+	} else {
+		catch {exec $molUP::sed -n "[lindex $molUP::freqLine [lindex $where 0]] {p; :loop n; q; b loop}" $file | $molUP::grep -n -m 1 "  Atom  AN      X      Y      Z"} a
+	}
 	set lookUpPos [split $a ":"]
 
-	#set vectors [exec $molUP::sed -n "[expr [lindex $molUP::freqLine [lindex $where 0]] + [lindex $lookUpPos 0]], [expr [lindex $molUP::freqLine [expr [lindex $where 0]+1]]-3] p" $file | egrep -v "0.00   0.00   0.00"]
-	set vectors [exec $molUP::sed -n "[expr [lindex $molUP::freqLine [lindex $where 0]] + [lindex $lookUpPos 0]], [expr [lindex $molUP::freqLine [expr [lindex $where 0]+1]]-3] p" $file]
+	if {[expr [lindex $molUP::freqLine [lindex $where 0]] + [lindex $lookUpPos 0]] != [expr [lindex $molUP::freqLine [expr [lindex $where 0]+1]]-3]} {
+		catch {exec $molUP::sed -n "[expr [lindex $molUP::freqLine [lindex $where 0]] + [lindex $lookUpPos 0]] {p; :loop n; p; [expr [lindex $molUP::freqLine [expr [lindex $where 0]+1]]-3] q; b loop}" $file} vectors
+	} else {
+		catch {exec $molUP::sed -n "[expr [lindex $molUP::freqLine [lindex $where 0]] + [lindex $lookUpPos 0]] {p; :loop n; q; b loop}" $file} vectors
+	}
 	set vectors_split [split $vectors "\n"]
 
 	set columnX [expr [lindex $where 1] +2 + [lindex $where 1]*2]

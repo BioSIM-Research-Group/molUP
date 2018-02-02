@@ -60,8 +60,12 @@ proc molUP::loadGaussianOutputFile {option} {
 		set lastLineLastStructure [expr $firstLineLastStructure - 1 + $molUP::numberAtoms]
 
 		## Read all information about the last structure
-		catch {exec $molUP::sed -n "$firstLineLastStructure,$lastLineLastStructure p" $molUP::path} structureLastGaussian
-
+		if {$firstLineLastStructure != $lastLineLastStructure} {
+			catch {exec $molUP::sed -n "$firstLineLastStructure {p; :loop n; p; $lastLineLastStructure q; b loop}" $molUP::path} structureLastGaussian
+		} else {
+			catch {exec $molUP::sed -n "$firstLineLastStructure {p; :loop n; q; b loop}" $molUP::path} structureLastGaussian
+		}
+		
 		#### Organize the structure info
     	set allAtomsLastStructureCoord [split $structureLastGaussian \n]
 
@@ -117,7 +121,11 @@ proc molUP::loadGaussianOutputFile {option} {
 				set lastLineLastStructure [expr $firstLineLastStructure - 1 + $molUP::numberAtoms]
 			
 				## Read all information about the last structure
-				catch {exec $molUP::sed -n "$firstLineLastStructure,$lastLineLastStructure p" $molUP::path} structureLastGaussian
+				if {$firstLineLastStructure != $lastLineLastStructure} {
+					catch {exec $molUP::sed -n "$firstLineLastStructure {p; :loop n; p; $lastLineLastStructure q; b loop}" $molUP::path} structureLastGaussian
+				} else {
+					catch {exec $molUP::sed -n "$firstLineLastStructure {p; :loop n; q; b loop}" $molUP::path} structureLastGaussian
+				}
 			
 				#### Organize the structure info
     			set allAtomsLastStructureCoord [split $structureLastGaussian \n]
@@ -181,7 +189,11 @@ proc molUP::loadGaussianOutputFile {option} {
 			set lastLineLastStructure [expr $firstLineLastStructure - 1 + $molUP::numberAtoms]
 
 			## Read all information about the last structure
-		    catch {exec $molUP::sed -n "$firstLineLastStructure,$lastLineLastStructure p" $molUP::path} structureLastGaussian
+			if {$firstLineLastStructure != $lastLineLastStructure} {
+		    	catch {exec $molUP::sed -n "$firstLineLastStructure {p; :loop n; p; $lastLineLastStructure q; b loop}" $molUP::path} structureLastGaussian
+			} else {
+				catch {exec $molUP::sed -n "$firstLineLastStructure {p; :loop n; q; b loop}" $molUP::path} structureLastGaussian
+			}
 
 			#### Organize the structure info
     		set allAtomsLastStructureCoord [split $structureLastGaussian \n]
@@ -221,13 +233,20 @@ proc molUP::globalInfoOutputFile {} {
 		set titleFirstLine [exec $molUP::grep -n -m 6 "^ -" $molUP::path | $molUP::cut -f1 -d:]
 		set titleFirstLine1 [expr [lindex $titleFirstLine 4] + 1]
 		set titleLastLine1 [expr [lindex $titleFirstLine 5] - 1]
-		set molUP::title [exec $molUP::sed -n "$titleFirstLine1,$titleLastLine1 p" $molUP::path]
+		if {$titleFirstLine1 != $titleLastLine1} {
+			catch {exec $molUP::sed -n "$titleFirstLine1 {p; :loop n; p; $titleLastLine1 q; b loop}" $molUP::path} molUP::title 
+		} else {
+			catch {exec $molUP::sed -n "$titleFirstLine1 {p; :loop n; q; b loop}" $molUP::path} molUP::title  
+		}
 
 		#### Keywords of the calculations
 		set keywordFirstLine1 [expr [lindex $titleFirstLine 2] + 1]
 		set keywordLastLine1 [expr [lindex $titleFirstLine 3] - 1]
-		set molUP::keywordsCalc [exec $molUP::sed -n "$keywordFirstLine1,$keywordLastLine1 p" $molUP::path]
-
+		if {$keywordFirstLine1 != $keywordLastLine1} {
+			catch {exec $molUP::sed -n "$keywordFirstLine1 {p; :loop n; p; $keywordLastLine1 q; b loop}" $molUP::path} molUP::keywordsCalc
+		} else {
+			catch {exec $molUP::sed -n "$keywordFirstLine1 {p; :loop n; q; b loop}" $molUP::path} molUP::keywordsCalc
+		}
 		#### Get the charge and Multiplicity
 		set linesChargesMulti [exec $molUP::head -n 300 $molUP::path | $molUP::grep -e "^ Charge ="]
 		set linesChargesMultiSplit [split $linesChargesMulti "\n"]
@@ -274,7 +293,11 @@ proc molUP::numberAtomsFirstStructure {} {
 	set numberAtoms [expr $lastLineStructure - $firstLineStructure + 1]
 	
 	#### Grep the initial structure
-	catch {exec $molUP::sed -n "$firstLineStructure,$lastLineStructure p" $molUP::path} molUP::structureGaussian
+	if {$firstLineStructure != $lastLineStructure} {
+		catch {exec $molUP::sed -n "$firstLineStructure {p; :loop n; p; $lastLineStructure q; b loop}" $molUP::path} molUP::structureGaussian
+	} else {
+		catch {exec $molUP::sed -n "$firstLineStructure {p; :loop n; q; b loop}" $molUP::path} molUP::structureGaussian
+	}
 	set molUP::structureGaussian [split $molUP::structureGaussian \n]
 
 	return $numberAtoms

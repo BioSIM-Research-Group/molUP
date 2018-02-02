@@ -34,11 +34,11 @@ proc molUP::tempo {time0 time1} {
        return $timeDiff
 }
 
-proc molUP::timeBegin {} {
+proc molUP::t0 {} {
     set molUP::time0 [clock format [clock seconds] -format "%Hh %Mm %Ss   %d %b %y"]
 }
 
-proc molUP::timeEnd {} {
+proc molUP::t1 {} {
     set molUP::time1 [clock format [clock seconds] -format "%Hh %Mm %Ss   %d %b %y"]
     set result [molUP::tempo $molUP::time0 $molUP::time1]
     puts "Duration: $result"
