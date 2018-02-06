@@ -28,7 +28,7 @@ proc molUP::onOffRepresentation {repIndex} {
 
 proc molUP::addSelectionRep {} {
     #### Change atom colors
-    color Name C green3
+    color Element C green3
 
     set numberAtoms [[atomselect top all] num]
 
@@ -50,7 +50,7 @@ proc molUP::addSelectionRep {} {
 
         #### Representantion of High layer
         mol selection "altloc H"
-        mol color Name
+        mol color Element
         mol material Diffuse
         mol representation Licorice 0.300000 15.000000 15.000000
         mol addrep top
@@ -58,7 +58,7 @@ proc molUP::addSelectionRep {} {
 
         #### Representantion of Medium layer
         mol selection "altloc M"
-        mol color Name
+        mol color Element
         mol material Diffuse
         mol representation Licorice 0.100000 15.000000 15.000000
         mol addrep top
@@ -66,7 +66,7 @@ proc molUP::addSelectionRep {} {
 
         #### Representantion of Low layer
         mol selection "altloc L"
-        mol color Name
+        mol color Element
         mol material Diffuse
         mol representation Lines 1.000000
         mol addrep top
@@ -74,7 +74,7 @@ proc molUP::addSelectionRep {} {
 
         #### Representantion Protein
         mol selection "protein"
-        mol color Name
+        mol color Element
         mol material Diffuse
         mol representation NewCartoon 0.300000 10.000000 4.100000
         mol addrep top
@@ -82,7 +82,7 @@ proc molUP::addSelectionRep {} {
 
         #### Representantion Non-Protein
         mol selection "all and not (protein or water)"
-        mol color Name
+        mol color Element
         mol material Diffuse
         mol representation Licorice 0.100000 15.000000 15.000000
         mol addrep top
@@ -90,7 +90,7 @@ proc molUP::addSelectionRep {} {
 
         #### Representantion Water
         mol selection "water"
-        mol color Name
+        mol color Element
         mol material Diffuse
         mol representation VDW 0.300000 1.000000
         mol addrep top
@@ -98,7 +98,7 @@ proc molUP::addSelectionRep {} {
 
         #### Representantion Unfreeze
         mol selection "user 0"
-        mol color Name
+        mol color Element
         mol material Diffuse
         mol representation Lines 2.000000
         mol addrep top
@@ -106,7 +106,7 @@ proc molUP::addSelectionRep {} {
 
         #### Representantion Freeze
         mol selection "user \"-1\" \"-2\" \"-3\""
-        mol color Name
+        mol color Element
         mol material Diffuse
         mol representation Licorice 0.100000 15.000000 15.000000
         mol addrep top
@@ -139,7 +139,7 @@ proc molUP::addSelectionRep {} {
         if {$numberAtoms > 250 } {
             # All representations
             mol selection all
-            mol color Name
+            mol color Element
             mol material Diffuse
             mol representation Lines 1.000000
             mol addrep top
@@ -148,7 +148,7 @@ proc molUP::addSelectionRep {} {
         } else {
             # All representations
             mol selection all
-            mol color Name
+            mol color Element
             mol material Diffuse
             mol representation Licorice 0.300000 15.000000 15.000000
             mol addrep top
@@ -169,7 +169,7 @@ proc molUP::addSelectionRep {} {
 
         #### Representantion of High layer
         mol selection "altloc H"
-        mol color Name
+        mol color Element
         mol material Diffuse
         mol representation Licorice 0.300000 15.000000 15.000000
         mol addrep top
@@ -177,7 +177,7 @@ proc molUP::addSelectionRep {} {
 
         #### Representantion of Medium layer
         mol selection "altloc M"
-        mol color Name
+        mol color Element
         mol material Diffuse
         mol representation Licorice 0.100000 15.000000 15.000000
         mol addrep top
@@ -185,7 +185,7 @@ proc molUP::addSelectionRep {} {
 
         #### Representantion of Low layer
         mol selection "altloc L"
-        mol color Name
+        mol color Element
         mol material Diffuse
         mol representation Lines 1.000000
         mol addrep top
@@ -193,7 +193,7 @@ proc molUP::addSelectionRep {} {
 
         #### Representantion Protein
         mol selection "protein"
-        mol color Name
+        mol color Element
         mol material Diffuse
         mol representation NewCartoon 0.300000 10.000000 4.100000
         mol addrep top
@@ -201,7 +201,7 @@ proc molUP::addSelectionRep {} {
 
         #### Representantion Non-Protein
         mol selection "all and not (protein or water)"
-        mol color Name
+        mol color Element
         mol material Diffuse
         mol representation Licorice 0.100000 15.000000 15.000000
         mol addrep top
@@ -209,7 +209,7 @@ proc molUP::addSelectionRep {} {
 
         #### Representantion Water
         mol selection "water"
-        mol color Name
+        mol color Element
         mol material Diffuse
         mol representation VDW 0.300000 1.000000
         mol addrep top
@@ -217,7 +217,7 @@ proc molUP::addSelectionRep {} {
 
         #### Representantion Unfreeze
         mol selection "user 0"
-        mol color Name
+        mol color Element
         mol material Diffuse
         mol representation Lines 2.000000
         mol addrep top
@@ -225,7 +225,7 @@ proc molUP::addSelectionRep {} {
 
         #### Representantion Freeze
         mol selection "user \"-1\" \"-2\" \"-3\""
-        mol color Name
+        mol color Element
         mol material Diffuse
         mol representation Licorice 0.100000 15.000000 15.000000
         mol addrep top

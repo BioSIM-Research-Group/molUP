@@ -1,6 +1,11 @@
 ######### molUP ##############
-Last version: 1.3.1
+Last version: 1.3.2
 ##############################
+Version 1.3.2 (6 FEV 2018)
+- [Bug fixed] Atoms are now colored by element instead of Name to fix the issue that miscolored the atoms after a molecule deletion.
+- [Bug fixed] Error message windows was not loading correctly.
+- [Bug fixed] The user gets the control over the blank lines between the connectivity and parameters sections.
+
 Version 1.3.1 (2 FEV 2018)
 - [New feature] Now, molUP will only load the first 15 frequencies (up to 5x faster). The user can load all the structures clicking on the "Load All Freqs" button.
 

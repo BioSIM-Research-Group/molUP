@@ -60,7 +60,7 @@ proc molUP::loadGaussianInputFile {} {
 		variable attributes [list "x" "y" "z" "element" "name" "type" "resname" "resid" "altloc" "user" "charge"]
 
 	} else {
-		molUP::guiError "The file has a strange structure. The file cannot be openned."
+		molUP::guiError "The file has a strange structure. The file cannot be openned." "Error"
 	}
 
 	#### Load and prepara structure on VMD
