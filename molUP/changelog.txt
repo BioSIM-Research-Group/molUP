@@ -1,6 +1,9 @@
 ######### molUP ##############
-Last version: 1.3.2
+Last version: 1.3.3
 ##############################
+Version 1.3.3 (8 FEV 2018)
+- [Improvement] Huge files are now quickly loaded on molUP through a racionalization of the loading process.
+
 Version 1.3.2 (6 FEV 2018)
 - [Bug fixed] Atoms are now colored by element instead of Name to fix the issue that miscolored the atoms after a molecule deletion.
 - [Bug fixed] Error message windows was not loading correctly.

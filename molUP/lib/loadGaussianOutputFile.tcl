@@ -8,9 +8,11 @@ proc molUP::loadGaussianOutputFile {option} {
 	## Check Normal Termination
 	catch {exec $molUP::tail -n 1 $molUP::path | $molUP::cut -f2 -d\ } checkNormalTermination
 	if {$checkNormalTermination != "Normal"} {
+		set molUP::normalTermination "NO"
 		catch {exec $molUP::tail -n 5 $molUP::path} errorMessage
 		molUP::guiError "This file does not report \"Normal Termination\". Please check the file. " "Incomplete calculation or Error" 
 	} else {
+		set molUP::normalTermination "YES"
 		#ignore
 	}
 
@@ -52,10 +54,15 @@ proc molUP::loadGaussianOutputFile {option} {
 		##############################################################
 		##### Get the last structure
     } elseif {$option == "lastStructure"} {
+		if {$molUP::normalTermination == "YES"} {
+			catch {exec $molUP::grep -n -m 1 -F "1\\1" $molUP::path | $molUP::cut -f1 -d:} molUP::stopLine
+			set lineBeforeLastStructure [split [exec $molUP::head -n $molUP::stopLine $molUP::path | $molUP::grep -n " Number     Number       Type             X           Y           Z" | $molUP::tail -n 1] ":"]
+		} else {
+			#### Get the coordinates of the last structure
+			#### Get line of last structure
+			set lineBeforeLastStructure [split [exec $molUP::grep -n " Number     Number       Type             X           Y           Z" $molUP::path | $molUP::tail -n 1] ":"]
+		}
 
-		#### Get the coordinates of the last structure
-		#### Get line of last structure
-		set lineBeforeLastStructure [split [exec $molUP::grep -n " Number     Number       Type             X           Y           Z" $molUP::path | $molUP::tail -n 1] ":"]
 		set firstLineLastStructure [expr [lindex $lineBeforeLastStructure 0] + 2]
 		set lastLineLastStructure [expr $firstLineLastStructure - 1 + $molUP::numberAtoms]
 
@@ -93,9 +100,14 @@ proc molUP::loadGaussianOutputFile {option} {
 		##############################################################
 		##### Get optimized structures    
     } elseif {$option == "optimizedStructures"} {
+		if {$molUP::normalTermination == "YES"} {
+			catch {exec $molUP::grep -n -m 1 -F "1\\1" $molUP::path | $molUP::cut -f1 -d:} molUP::stopLine
+			set structuresAndOptimized [split [exec $molUP::head -n $molUP::stopLine $molUP::path | $molUP::grep -n -e "Optimized Parameters" -e " Number     Number       Type             X           Y           Z"] \n]
+		} else {
+			#### Get the lines of all structures and optimized tag
+			set structuresAndOptimized [split [exec $molUP::grep -n -e "Optimized Parameters" -e " Number     Number       Type             X           Y           Z" $molUP::path] \n]
+		}
 
-		#### Get the lines of all structures and optimized tag
-		set structuresAndOptimized [split [exec $molUP::grep -n -e "Optimized Parameters" -e " Number     Number       Type             X           Y           Z" $molUP::path] \n]
 		
 		#### Search for optimized Lines
 		set optimizedLines [lsearch -all $structuresAndOptimized "*Optimized Parameters*"]
@@ -175,8 +187,13 @@ proc molUP::loadGaussianOutputFile {option} {
 		##############################################################
 		##### Get all structures 
     } elseif {$option == "allStructures"} {
-		#### Number of Atoms
-		set linesBeforeAllStructures [split [exec $molUP::grep -n " Number     Number       Type             X           Y           Z" $molUP::path | $molUP::cut -f1 -d:] \n]
+		if {$molUP::normalTermination == "YES"} {
+			catch {exec $molUP::grep -n -m 1 -F "1\\1" $molUP::path | $molUP::cut -f1 -d:} molUP::stopLine
+			set linesBeforeAllStructures [split [exec $molUP::head -n $molUP::stopLine  $molUP::path | $molUP::grep -n " Number     Number       Type             X           Y           Z" | $molUP::cut -f1 -d:] \n]
+		} else {
+			#### Number of Atoms
+			set linesBeforeAllStructures [split [exec $molUP::grep -n " Number     Number       Type             X           Y           Z" $molUP::path | $molUP::cut -f1 -d:] \n]
+		}
 		set firstLinesAllStructures ""
 		foreach line $linesBeforeAllStructures {
 			lappend firstLinesAllStructures [expr $line + 2]

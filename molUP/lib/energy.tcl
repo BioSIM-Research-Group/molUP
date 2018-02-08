@@ -28,7 +28,11 @@ proc molUP::energyLastStructure {} {
 }
 
 proc molUP::energyLastStructureOniom {} {
-    catch {exec $molUP::grep "ONIOM: gridpoint" $molUP::path | $molUP::tail -n 1 | $molUP::cut -f5 -d \ } numberGridpoints
+    if {$molUP::normalTermination == "YES"} {
+		catch {exec $molUP::head -n $molUP::stopLine $molUP::path | $molUP::grep "ONIOM: gridpoint" | $molUP::tail -n 1 | $molUP::cut -f5 -d \ } numberGridpoints
+	} else {
+        catch {exec $molUP::grep "ONIOM: gridpoint" $molUP::path | $molUP::tail -n 1 | $molUP::cut -f5 -d \ } numberGridpoints
+	}
 
     if {$numberGridpoints == 3} {
         ## Get All energies
@@ -358,7 +362,11 @@ proc molUP::energyLastStructureOniom {} {
 
 
 proc molUP::energyLastStructureNotOniom {} {
-    catch {exec $molUP::grep -E -e "SCF Done:  E" -e "Optimized Parameters" $molUP::path} energies
+    if {$molUP::normalTermination == "YES"} {
+        catch {exec $molUP::head -n $molUP::stopLine $molUP::path | $molUP::grep -E -e "SCF Done:  E" -e "Optimized Parameters"} energies
+    } else {
+        catch {exec $molUP::grep -E -e "SCF Done:  E" -e "Optimized Parameters" $molUP::path} energies
+	}
     set lines [split $energies \n]
 
     variable listEnergies {}
@@ -437,7 +445,11 @@ proc molUP::energyLastStructureNotOniom {} {
 
 
 proc molUP::energyNotONIOM {} {
-    set energies [exec $molUP::grep -E -e "SCF Done:  E" -e "Optimized Parameters" $molUP::path]
+    if {$molUP::normalTermination == "YES"} {
+        set energies [exec $molUP::head -n $molUP::stopLine $molUP::path | $molUP::grep -E -e "SCF Done:  E" -e "Optimized Parameters"]
+    } else {
+        set energies [exec $molUP::grep -E -e "SCF Done:  E" -e "Optimized Parameters" $molUP::path]
+	}
     set lines [split $energies \n]
 
     variable listEnergies {}
@@ -493,7 +505,11 @@ proc molUP::energyNotONIOM {} {
 }
 
 proc molUP::energyNotONIOMAll {} {
-    set energies [exec $molUP::grep -E -e "SCF Done:  E" -e "Optimized Parameters" $molUP::path]
+    if {$molUP::normalTermination == "YES"} {
+        set energies [exec $molUP::head -n $molUP::stopLine $molUP::path | $molUP::grep -E -e "SCF Done:  E" -e "Optimized Parameters"]
+    } else {
+        set energies [exec $molUP::grep -E -e "SCF Done:  E" -e "Optimized Parameters" $molUP::path]
+	}
     set lines [split $energies \n]
 
     variable listEnergies {}
@@ -532,7 +548,11 @@ proc molUP::energyNotONIOMAll {} {
 
 
 proc molUP::energy {} {
-    catch {exec $molUP::grep "ONIOM: gridpoint" $molUP::path | $molUP::tail -n 1 | $molUP::cut -f5 -d \ } numberGridpoints
+    if {$molUP::normalTermination == "YES"} {
+        catch {exec $molUP::head -n $molUP::stopLine $molUP::path | $molUP::grep "ONIOM: gridpoint" | $molUP::tail -n 1 | $molUP::cut -f5 -d \ } numberGridpoints
+    } else {
+        catch {exec $molUP::grep "ONIOM: gridpoint" $molUP::path | $molUP::tail -n 1 | $molUP::cut -f5 -d \ } numberGridpoints
+	}
 
     if {$numberGridpoints == 3} {
         ## Get All energies
@@ -673,7 +693,11 @@ proc molUP::energy {} {
 }
 
 proc molUP::energyAll {} {
-    catch {exec $molUP::grep "ONIOM: gridpoint" $molUP::path | $molUP::tail -n 1 | $molUP::cut -f5 -d \ } numberGridpoints
+    if {$molUP::normalTermination == "YES"} {
+        catch {exec $molUP::head -n $molUP::stopLine $molUP::path | $molUP::grep "ONIOM: gridpoint" | $molUP::tail -n 1 | $molUP::cut -f5 -d \ } numberGridpoints
+    } else {
+        catch {exec $molUP::grep "ONIOM: gridpoint" $molUP::path | $molUP::tail -n 1 | $molUP::cut -f5 -d \ } numberGridpoints
+	}
 
     if {$numberGridpoints == 3} {
 
@@ -795,22 +819,38 @@ proc molUP::energyAll {} {
 
 ### Procedures to grep the ONIOM energies from the file
 proc molUP::gettingEnergy {File} {
-        set energies [exec $molUP::grep -E -e "low   system:  model energy:" -e "high  system:  model energy:" -e "low   system:  real  energy:" -e "ONIOM: extrapolated energy" -e "Optimized Parameters" $File]
+        if {$molUP::normalTermination == "YES"} {
+            set energies [exec $molUP::head -n $molUP::stopLine $File | $molUP::grep -E -e "low   system:  model energy:" -e "high  system:  model energy:" -e "low   system:  real  energy:" -e "ONIOM: extrapolated energy" -e "Optimized Parameters"]
+        } else {
+            set energies [exec $molUP::grep -E -e "low   system:  model energy:" -e "high  system:  model energy:" -e "low   system:  real  energy:" -e "ONIOM: extrapolated energy" -e "Optimized Parameters" $File]
+	    }
         return $energies
 }
 
 proc molUP::gettingEnergyLast {File} {
-        set energies [exec $molUP::grep -E -e "low   system:  model energy:" -e "high  system:  model energy:" -e "low   system:  real  energy:" -e "ONIOM: extrapolated energy" -e "Optimized Parameters" $File | $molUP::tail -n 5]
+        if {$molUP::normalTermination == "YES"} {
+            set energies [exec $molUP::head -n $molUP::stopLine $File | $molUP::grep -E -e "low   system:  model energy:" -e "high  system:  model energy:" -e "low   system:  real  energy:" -e "ONIOM: extrapolated energy" -e "Optimized Parameters" | $molUP::tail -n 5]
+        } else {
+            set energies [exec $molUP::grep -E -e "low   system:  model energy:" -e "high  system:  model energy:" -e "low   system:  real  energy:" -e "ONIOM: extrapolated energy" -e "Optimized Parameters" $File | $molUP::tail -n 5]
+	    }
         return $energies
 }
 
 proc molUP::gettingEnergy3Layer {File} {
-        set energies [exec $molUP::grep -E -e "low   system:  model energy:" -e "med   system:  model energy:" -e "low   system:  mid   energy:" -e "high  system:  model energy:" -e "med   system:  mid   energy:" -e "low   system:  real  energy:" -e "ONIOM: extrapolated energy" -e "Optimized Parameters" $File]
+        if {$molUP::normalTermination == "YES"} {
+            set energies [exec $molUP::head -n $molUP::stopLine $File | $molUP::grep -E -e "low   system:  model energy:" -e "med   system:  model energy:" -e "low   system:  mid   energy:" -e "high  system:  model energy:" -e "med   system:  mid   energy:" -e "low   system:  real  energy:" -e "ONIOM: extrapolated energy" -e "Optimized Parameters"]
+        } else {
+            set energies [exec $molUP::grep -E -e "low   system:  model energy:" -e "med   system:  model energy:" -e "low   system:  mid   energy:" -e "high  system:  model energy:" -e "med   system:  mid   energy:" -e "low   system:  real  energy:" -e "ONIOM: extrapolated energy" -e "Optimized Parameters" $File]
+	    }
         return $energies
 }
 
 proc molUP::gettingEnergyLast3Layer {File} {
-        set energies [exec $molUP::grep -E -e "low   system:  model energy:" -e "med   system:  model energy:" -e "low   system:  mid   energy:" -e "high  system:  model energy:" -e "med   system:  mid   energy:" -e "low   system:  real  energy:" -e "ONIOM: extrapolated energy" -e "Optimized Parameters" $File | $molUP::tail -n 8]
+        if {$molUP::normalTermination == "YES"} {
+            set energies [exec $molUP::head -n $molUP::stopLine $File | $molUP::grep -E -e "low   system:  model energy:" -e "med   system:  model energy:" -e "low   system:  mid   energy:" -e "high  system:  model energy:" -e "med   system:  mid   energy:" -e "low   system:  real  energy:" -e "ONIOM: extrapolated energy" -e "Optimized Parameters" | $molUP::tail -n 8]
+        } else {
+            set energies [exec $molUP::grep -E -e "low   system:  model energy:" -e "med   system:  model energy:" -e "low   system:  mid   energy:" -e "high  system:  model energy:" -e "med   system:  mid   energy:" -e "low   system:  real  energy:" -e "ONIOM: extrapolated energy" -e "Optimized Parameters" $File | $molUP::tail -n 8]
+	    }
         return $energies
 }
 

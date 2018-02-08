@@ -47,7 +47,7 @@ namespace eval molUP:: {
 
 		#### Program Variables
 		## General
-		variable version	    	"1.3.2"
+		variable version	    	"1.3.3"
 
 		#GUI
         variable topGui         	".molUP"
@@ -180,6 +180,9 @@ namespace eval molUP:: {
 		variable multiplicityValue		1
 		variable multiplicityValue1		1
 		variable multiplicityValue2		1
+
+		variable normalTermination	"NO"
+		variable stopLine 1
 
 
 		variable graphicsID ""
