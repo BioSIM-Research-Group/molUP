@@ -307,7 +307,7 @@ proc molUP::writeGaussianFile {path} {
     set connectivity [split [.molUP.frame0.major.mol$molID.tabs.tabInput.connect get 1.0 end] "\n"]
     puts $file ""
     foreach line $connectivity {
-        if {regexp {^\s*$} $line == 0} {
+        if {[regexp {^\s*$} $line] == 0} {
             puts $file $line
         }
     }
