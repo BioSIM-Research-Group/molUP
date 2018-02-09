@@ -206,6 +206,7 @@ namespace eval molUP:: {
 }
 
 proc molUP::start {} {
+	encoding system utf-8
 	if {[winfo exists $::molUP::topGui]} {
 		wm deiconify $::molUP::topGui
 		return $::molUP::topGui

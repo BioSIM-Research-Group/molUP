@@ -72,7 +72,7 @@ proc molUP::saveGaussian {} {
 
 proc molUP::writeGaussianFileAdvanced {path selection} {
     ## Create a file 
-	set file [open "$path" w]
+	set file [open "$path" wb]
 
     set molID [molinfo top]
 
@@ -213,7 +213,7 @@ proc molUP::writeGaussianFileAdvanced {path selection} {
 
 proc molUP::writeGaussianFile {path} {
     ## Create a file 
-	set file [open "$path" w]
+	set file [open "$path" wb]
 
     set molID [molinfo top]
 
