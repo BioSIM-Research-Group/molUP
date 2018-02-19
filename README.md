@@ -28,13 +28,14 @@ Main Features:
 ## Minimum Requirements
 
 Operating System: macOS, Linux, and Windows
+
 Visual Molecular Dynamics (VMD) 1.9.3 or later
 
 ## Installation
 
 You could easily install molUP through [vmdStore](https://github.com/portobiocomp/vmdStore).
 
-Manual Installation:
+Alternatively, you could install molUP manually:
 1. Download or Clone the repository.
 2. Copy the molUP directory to a location on you computer. (Get that location!)
 3. Copy the text inside "install.txt" file and paste on your .vmdrc file (macOS and Linux ) or vmd.rc file (Windows).
