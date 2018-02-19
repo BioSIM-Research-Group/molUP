@@ -32,7 +32,7 @@ Visual Molecular Dynamics (VMD) 1.9.3 or later
 
 ## Installation
 
-We are working on an easier way to install and use molUP. vmdStore will provide a interface to install, manage, and update VMD plugins. [vmdStore](https://github.com/portobiocomp/vmdStore).
+You could easily install molUP through [vmdStore](https://github.com/portobiocomp/vmdStore).
 
 Manual Installation:
 1. Download or Clone the repository.
