@@ -1005,7 +1005,7 @@ proc molUP::loadConnectivityFromOtherInputFile {} {
         if {$path != ""} {
             set firstConnect [expr [molUP::getBlankLines $path 2] + 1]
 			set lastConnect [expr [molUP::getBlankLines $path 3] - 1]
-			catch {$molUP::sed -n "$firstConnect,$lastConnect p" $path} connectivity
+			catch {exec $molUP::sed -n "$firstConnect,$lastConnect p" $path} connectivity
 			$molUP::topGui.frame0.major.mol$molID.tabs.tabInput.connect delete 1.0 end
 			$molUP::topGui.frame0.major.mol$molID.tabs.tabInput.connect insert end $connectivity
 

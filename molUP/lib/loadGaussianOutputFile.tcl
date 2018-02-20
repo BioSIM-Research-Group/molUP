@@ -56,7 +56,11 @@ proc molUP::loadGaussianOutputFile {option} {
     } elseif {$option == "lastStructure"} {
 		if {$molUP::normalTermination == "YES"} {
 			catch {exec $molUP::grep -n -m 1 -F "1\\1" $molUP::path | $molUP::cut -f1 -d:} molUP::stopLine
-			set lineBeforeLastStructure [split [exec $molUP::head -n $molUP::stopLine $molUP::path | $molUP::grep -n " Number     Number       Type             X           Y           Z" | $molUP::tail -n 1] ":"]
+			if {[string is integer $molUP::stopLine] != 1} {
+				set lineBeforeLastStructure [split [exec $molUP::grep -n " Number     Number       Type             X           Y           Z" $molUP::path | $molUP::tail -n 1] ":"]
+			} else {
+				set lineBeforeLastStructure [split [exec $molUP::head -n $molUP::stopLine $molUP::path | $molUP::grep -n " Number     Number       Type             X           Y           Z" | $molUP::tail -n 1] ":"]
+			}
 		} else {
 			#### Get the coordinates of the last structure
 			#### Get line of last structure
@@ -102,7 +106,11 @@ proc molUP::loadGaussianOutputFile {option} {
     } elseif {$option == "optimizedStructures"} {
 		if {$molUP::normalTermination == "YES"} {
 			catch {exec $molUP::grep -n -m 1 -F "1\\1" $molUP::path | $molUP::cut -f1 -d:} molUP::stopLine
-			set structuresAndOptimized [split [exec $molUP::head -n $molUP::stopLine $molUP::path | $molUP::grep -n -e "Optimized Parameters" -e " Number     Number       Type             X           Y           Z"] \n]
+			if {[string is integer $molUP::stopLine] != 1} {
+				set structuresAndOptimized [split [exec $molUP::grep -n -e "Optimized Parameters" -e " Number     Number       Type             X           Y           Z" $molUP::path] \n]
+			} else {
+				set structuresAndOptimized [split [exec $molUP::head -n $molUP::stopLine $molUP::path | $molUP::grep -n -e "Optimized Parameters" -e " Number     Number       Type             X           Y           Z"] \n]
+			}
 		} else {
 			#### Get the lines of all structures and optimized tag
 			set structuresAndOptimized [split [exec $molUP::grep -n -e "Optimized Parameters" -e " Number     Number       Type             X           Y           Z" $molUP::path] \n]
@@ -189,7 +197,11 @@ proc molUP::loadGaussianOutputFile {option} {
     } elseif {$option == "allStructures"} {
 		if {$molUP::normalTermination == "YES"} {
 			catch {exec $molUP::grep -n -m 1 -F "1\\1" $molUP::path | $molUP::cut -f1 -d:} molUP::stopLine
-			set linesBeforeAllStructures [split [exec $molUP::head -n $molUP::stopLine  $molUP::path | $molUP::grep -n " Number     Number       Type             X           Y           Z" | $molUP::cut -f1 -d:] \n]
+			if {[string is integer $molUP::stopLine] != 1} {
+				set linesBeforeAllStructures [split [exec $molUP::grep -n " Number     Number       Type             X           Y           Z" $molUP::path | $molUP::cut -f1 -d:] \n]
+			} else {
+				set linesBeforeAllStructures [split [exec $molUP::head -n $molUP::stopLine  $molUP::path | $molUP::grep -n " Number     Number       Type             X           Y           Z" | $molUP::cut -f1 -d:] \n]
+			}
 		} else {
 			#### Number of Atoms
 			set linesBeforeAllStructures [split [exec $molUP::grep -n " Number     Number       Type             X           Y           Z" $molUP::path | $molUP::cut -f1 -d:] \n]

@@ -1,6 +1,10 @@
 ######### molUP ##############
-Last version: 1.3.4
+Last version: 1.3.5
 ##############################
+Version 1.3.5
+- [Bug fixed] Fixed an issue that prevented the loading of connectivity from a Gaussian Input File.
+- [Bug fixed] Fixed an issue that prevented the loading of scan that finished with "Normal Termination".
+
 Version 1.3.4 (9 FEV 2018)
 - [Bug fixed] Fixed the issue that prevented the file saving.
 - [Bug fixed] Files are no correctly formated to Gaussian software when they are saved on Windows.
