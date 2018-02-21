@@ -47,7 +47,7 @@ Alternatively, you could install molUP manually:
 If you have any suggestion of new features, please contact us: henrique.fernandes@fc.up.pt
 
 ## Citation
-Not available
+S. Fernandes, H., M.J. Ramos, and N. M. F. S. A. Cerqueira, molUP: A VMD plugin to handle QM and ONIOM calculations using the gaussian software. Journal of Computational Chemistry
 
 ## DOI
-https://github.com/portobiocomp/molUP
+http://doi.org/10.1002/jcc.25189
