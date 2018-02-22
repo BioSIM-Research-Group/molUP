@@ -2,6 +2,7 @@
 
 molUP is a VMD extension that provides a simple manner for loading and saving Gaussian files, and analyze related results. molUP provides a graphical interface for VMD where the users can load and save chemical structures in the Gaussian file formats. This extension includes a set of tools to set up any calculation supported by Gaussian, including ONIOM; analyze energies through interactive plots; animate vibrational frequencies; draw the vectors associated with those frequencies; modify bonds, angles, and dihedrals; and collect bibliographic information on the employed methods.
 
+
 Main Features:
 - Load Gaussian Input (.com) and Output files (.log) on VMD;
 - Assign ONIOM layers (High-, Medium-, and Low-level);
