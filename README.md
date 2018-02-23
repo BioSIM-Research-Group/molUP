@@ -55,6 +55,7 @@ Tutorial:
 1. Add the following line to your .bashrc (Linux) or .bash_profile (macOS) file. (This file is located in the HOME directory) You have to edit the "path of the bashScript.tcl file" field by the complete path of this file that is located in the molUP installation directory: "molUP/lib/bashScript.tcl"
 
 alias molUP='vmd -e "path of the bashScript.tcl file" -args'
+
 2. Call molUP from the command line:
 
 molUP "Gaussian file"
