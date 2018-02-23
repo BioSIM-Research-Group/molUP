@@ -32,7 +32,7 @@ Operating System: macOS, Linux, and Windows
 Visual Molecular Dynamics (VMD) 1.9.3 or later
 
 ## Installation
-
+### Automatic Installation
 You could easily install molUP through [vmdStore](https://github.com/portobiocomp/vmdStore).
 
 ### Manual Installation
