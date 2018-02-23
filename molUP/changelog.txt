@@ -1,6 +1,9 @@
 ######### molUP ##############
-Last version: 1.3.5
+Last version: 1.3.6
 ##############################
+Version 1.3.6 (23 FEV 2018)
+- [New feature] New procedure to initiate molUP and load a Gaussian file from the command line in macOS and Linux. See documentation to know how to implement this new feature.
+
 Version 1.3.5
 - [Bug fixed] Fixed an issue that prevented the loading of connectivity from a Gaussian Input File.
 - [Bug fixed] Fixed an issue that prevented the loading of scan that finished with "Normal Termination".

@@ -130,3 +130,31 @@ proc molUP::getConnectivityFromInputFile {} {
 		
 	}
 }
+
+#### Open the file
+proc molUP::loadBash {fileExtension} {
+	molUP::fileExtension $molUP::path
+	molUP::rootName $molUP::path
+
+	#### Open a .com file
+	if {$molUP::fileExtension == ".com"} {
+		trace remove variable ::vmd_initialize_structure write molUP::updateStructuresFromOtherSource
+		molUP::loadGaussianInputFile
+		molUP::updateStructures
+		trace variable ::vmd_initialize_structure w molUP::updateStructuresFromOtherSource
+
+	#### Open a .log file
+	} elseif {$molUP::fileExtension == ".log"} {
+		trace remove variable ::vmd_initialize_structure write molUP::updateStructuresFromOtherSource
+		molUP::loadGaussianOutputFile optimizedStructures
+		trace variable ::vmd_initialize_structure w molUP::updateStructuresFromOtherSource
+
+		## Evaluate Freq Calculation
+		molUP::evaluateFreqCalc
+
+	#### Display an error when another type of file is loaded
+	} else {
+		set alert [tk_messageBox -message "Oops!\nThe file is not supported.\nYou can only load .com or .log files (Gaussian)." -type ok -icon question]
+	}
+
+}
