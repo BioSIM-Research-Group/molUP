@@ -37,6 +37,7 @@ Visual Molecular Dynamics (VMD) 1.9.3 or later
 
 You could easily install molUP through [vmdStore](https://github.com/portobiocomp/vmdStore).
 
+
 **Manual Installation**
 
 Alternatively, you could install molUP manually:
@@ -46,6 +47,7 @@ Alternatively, you could install molUP manually:
 4. Replace the string "$::vmdStorePath/plugins/molUP" by your installation location (Step 2).
 5. Save the .vmdrc or vmd.rc file.
 6. Restart VMD.
+
 
 **Run molUP from bash**
 
