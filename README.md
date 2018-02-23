@@ -49,7 +49,7 @@ Alternatively, you could install molUP manually:
 6. Restart VMD.
 
 
-**Run molUP from bash**
+**(Optional) Run molUP from bash**
 
 molUP supports now the loading of Gaussian files directly from your command line (available for macOS and Linux).
 
