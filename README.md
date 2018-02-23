@@ -32,6 +32,7 @@ Operating System: macOS, Linux, and Windows
 Visual Molecular Dynamics (VMD) 1.9.3 or later
 
 ## Installation
+
 **Automatic Installation**
 You could easily install molUP through [vmdStore](https://github.com/portobiocomp/vmdStore).
 
@@ -43,8 +44,6 @@ Alternatively, you could install molUP manually:
 4. Replace the string "$::vmdStorePath/plugins/molUP" by your installation location (Step 2).
 5. Save the .vmdrc or vmd.rc file.
 6. Restart VMD.
-
-
 
 **Run molUP from bash**
 molUP supports now the loading of Gaussian files directly from your command line (available for macOS and Linux).
