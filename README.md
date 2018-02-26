@@ -15,15 +15,17 @@ Main Features:
 - Provide a complete bibliographic list of references according to the type of methods and functionals that were employed in the calculation;
 - Among others.
 
-![Adjusting a dihedral angles using molUP](Screenshots/image1.gif)
+![Logo](Screenshots/image1.gif)
 
-![Energies](Screenshots/image2.gif)
+![Adjusting a dihedral angles using molUP](Screenshots/image2.gif)
 
-![Input section](Screenshots/image3.gif)
+![Energies](Screenshots/image3.gif)
 
-![ONIOM layers](Screenshots/image4.gif)
+![Input section](Screenshots/image4.gif)
 
-![Loading a file](Screenshots/image5.gif)
+![ONIOM layers](Screenshots/image5.gif)
+
+![Loading a file](Screenshots/image6.gif)
 
 ## Minimum Requirements
 
