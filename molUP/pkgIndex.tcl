@@ -8,6 +8,7 @@ package ifneeded guiBondModif  	                            1.0 [list source [fi
 package ifneeded guiAngleModif  	                        1.0 [list source [file join $dir/gui/guiAngleModif.tcl]]
 package ifneeded guiDihedModif  	                        1.0 [list source [file join $dir/gui/guiDihedModif.tcl]]
 package ifneeded guiOpenFile      	                        1.0 [list source [file join $dir/gui/guiOpenFile.tcl]]
+package ifneeded guiOpenMultiFile 	                        1.0 [list source [file join $dir/gui/guiOpenMultiFiles.tcl]]
 package ifneeded guiSaveFile      	                        1.0 [list source [file join $dir/gui/guiSaveFile.tcl]]
 package ifneeded guiError         	                        1.0 [list source [file join $dir/gui/guiError.tcl]]
 package ifneeded guiChargeMulti    	                        1.0 [list source [file join $dir/gui/guiChargeMulti.tcl]]

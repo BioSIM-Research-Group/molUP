@@ -20,6 +20,7 @@ namespace eval molUP:: {
 		package require guiMethodology							1.0
 		package require guiBADparam								1.0
 		package require guiModRedundant							1.0
+		package require guiOpenMultiFile 						1.0
 		
 		package require inputFile 								1.0
 		package require timeControl								1.0
@@ -47,7 +48,7 @@ namespace eval molUP:: {
 
 		#### Program Variables
 		## General
-		variable version	    	"1.3.6"
+		variable version	    	"1.3.7"
 
 		#GUI
         variable topGui         	".molUP"
@@ -55,6 +56,7 @@ namespace eval molUP:: {
 		variable angleModif        	".molUP.angleModif"
 		variable dihedModif        	".molUP.dihedModif"
 		variable openFile        	".molUP.openFile"
+		variable openMultiFile		".molUP.openMultiFile"
 		variable saveFile        	".molUP.saveFile"
 		variable error	        	".molUP.error"
 		variable chargeMulti	    ".molUP.chargeMulti"

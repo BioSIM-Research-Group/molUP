@@ -56,6 +56,7 @@ proc molUP::buildGui {} {
 			] -in $molUP::topGui.frame0.topSection.topMenu -x 5 -y 5 -height 25 -width 50  
 	menu $molUP::topGui.frame0.topSection.topMenu.file.menu -tearoff 0
 	$molUP::topGui.frame0.topSection.topMenu.file.menu add command -label "Open" -command {molUP::guiOpenFile}
+	$molUP::topGui.frame0.topSection.topMenu.file.menu add command -label "Open Multiple Files" -command {molUP::guiOpenMultiFile}
 	$molUP::topGui.frame0.topSection.topMenu.file.menu add command -label "Save" -command {molUP::guiSaveFile}
 	#$molUP::topGui.frame0.topSection.topMenu.file.menu add command -label "Close" -command {molUP::quit}
 	#$molUP::topGui.frame0.topSection.topMenu.file.menu add command -label "Close VMD" -command {exec exit}

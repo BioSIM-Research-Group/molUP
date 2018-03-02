@@ -7,7 +7,7 @@ proc molUP::guiOpenFile {} {
 
     #### Contidition to evaluate if a new molecule can or not be loaded.
     if {$molUP::openNewFileMode == "NO"} {
-        molUP::guiError "One molecule has already been loaded on Gaussian for VMD. \n Please click File-Restart to load a new molecule."
+        molUP::guiError "One molecule has already been loaded in molUP. \n Please click File-Restart to load a new molecule."
     } else {
 
     
