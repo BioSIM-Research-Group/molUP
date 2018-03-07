@@ -96,7 +96,7 @@ proc molUP::buildGui {} {
 	menu $molUP::topGui.frame0.topSection.topMenu.about.menu -tearoff 0
 	$molUP::topGui.frame0.topSection.topMenu.about.menu add command -label "Credits" -command {molUP::guiCredits}
 	$molUP::topGui.frame0.topSection.topMenu.about.menu add command -label "Changelog" -command {molUP::guiChangelog}
-	$molUP::topGui.frame0.topSection.topMenu.about.menu add command -label "Check for updates" -command {molUP::guiError "No updates available." "Updates"}
+	#$molUP::topGui.frame0.topSection.topMenu.about.menu add command -label "Check for updates" -command {molUP::guiError "No updates available." "Updates"}
 
 
 	## Molecule Selection #############################################
