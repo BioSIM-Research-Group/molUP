@@ -1,7 +1,11 @@
 ######### molUP ##############
-Last version: 1.3.8
+Last version: 1.3.9
 ##############################
-Version 1.3.8 (5 MAT 2018)
+Version 1.3.9 (7 MAR 2018)
+- [Bugs fixed] Minor bugs fixed
+- [New feature] Add custom selections in the modification (bons, angles, and dihedral angles) tools
+
+Version 1.3.8 (5 MAR 2018)
 - [Bug fixed] Fixed an issue that gave an error collection energies from the last structure of certain Gaussian output files.
 
 Version 1.3.7 (2 MAR 2018)

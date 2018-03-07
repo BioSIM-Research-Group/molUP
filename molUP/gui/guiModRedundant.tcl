@@ -66,32 +66,32 @@ proc molUP::guiModRed {} {
 		        -textvariable {molUP::atom1ModRedSel} \
 				-state readonly \
 				-style molUP.TEntry \
-		        ] -in $molUP::modRedundant.frame0.frame -x 60 -y 60 -width 40
+		        ] -in $molUP::modRedundant.frame0.frame -x 60 -y 60 -width 55
     
     place [ttk::entry $molUP::modRedundant.frame0.frame.atom2Index \
 		        -textvariable {molUP::atom2ModRedSel} \
 				-state readonly \
 				-style molUP.TEntry \
-		        ] -in $molUP::modRedundant.frame0.frame -x 110 -y 60 -width 40
+		        ] -in $molUP::modRedundant.frame0.frame -x 125 -y 60 -width 55
 
     place [ttk::entry $molUP::modRedundant.frame0.frame.atom3Index \
 		        -textvariable {molUP::atom3ModRedSel} \
 				-state disabled \
 				-style molUP.TEntry \
-		        ] -in $molUP::modRedundant.frame0.frame -x 160 -y 60 -width 40
+		        ] -in $molUP::modRedundant.frame0.frame -x 190 -y 60 -width 55
 
     place [ttk::entry $molUP::modRedundant.frame0.frame.atom4Index \
 		        -textvariable {molUP::atom4ModRedSel} \
 				-state disabled \
 				-style molUP.TEntry \
-		        ] -in $molUP::modRedundant.frame0.frame -x 210 -y 60 -width 40
+		        ] -in $molUP::modRedundant.frame0.frame -x 255 -y 60 -width 55
 
     # Pick atoms button
     place [ttk::button $molUP::modRedundant.frame0.frame.pickAtoms \
-		            -text "Pick Atoms" \
+		            -text "Pick" \
 					-style molUP.TButton \
 		            -command {molUP::modRedPickAtoms} \
-		            ] -in $molUP::modRedundant.frame0.frame -x 260 -y 60 -width 130
+		            ] -in $molUP::modRedundant.frame0.frame -x 320 -y 60 -width 70
 
 
     ## Line Three

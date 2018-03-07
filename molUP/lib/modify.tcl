@@ -272,6 +272,14 @@ proc molUP::calcBondDistance {bondlength} {
 
     if {$molUP::atom2BondSel != ""} {
 
+        if {[catch {atomselect top "$molUP::customSelection1"}] == 1} {
+            set molUP::customSelection1 "none"
+        }
+
+        if {[catch {atomselect top "$molUP::customSelection2"}] == 1} {
+            set molUP::customSelection2 "none"
+        }
+
         set atomsToBeMoved1 100
         set atomsToBeMoved2 1
 
@@ -379,7 +387,101 @@ proc molUP::calcBondDistance {bondlength} {
             $selection2 moveby [vecscale [expr 0.5*($curval-$bondlength)] $dir]
             $selection1 delete
             $selection2 delete
+
+        } elseif {$molUP::atom1BondOpt == "Move Atom" && $molUP::atom2BondOpt == "Custom"} {
+
+            set atomsToBeMoved1 1
+
+            ## Atoms to be moved
+            if {[catch {::util::bondedsel top $molUP::atom2BondSel $molUP::atom1BondSel -maxdepth $atomsToBeMoved1}] == 0} {
+                set indexes1 [join [::util::bondedsel top $molUP::atom2BondSel $molUP::atom1BondSel -maxdepth $atomsToBeMoved1]]
+            } else {
+                set indexes1 $molUP::atom1BondSel
+            }
+
+            set selection1 [atomselect top "index $indexes1 and not index $molUP::atom2BondSel"]
+            set selection2 [atomselect top "$molUP::customSelection2 and not index $molUP::atom1BondSel"]
+            ## Move atoms according to distance
+            $selection1 moveby [vecscale [expr -0.5*($curval-$bondlength)] $dir]
+            $selection2 moveby [vecscale [expr 0.5*($curval-$bondlength)] $dir]
+            $selection1 delete
+            $selection2 delete
             
+        } elseif {$molUP::atom1BondOpt == "Custom" && $molUP::atom2BondOpt == "Move Atom"} {
+
+            set atomsToBeMoved2 1
+
+            ## Atoms to be moved
+            if {[catch {::util::bondedsel top $molUP::atom1BondSel $molUP::atom2BondSel -maxdepth $atomsToBeMoved2}] == 0} {
+                set indexes2 [join [::util::bondedsel top $molUP::atom1BondSel $molUP::atom2BondSel -maxdepth $atomsToBeMoved2]]
+            } else {
+                set indexes2 $molUP::atom2BondSel
+            }
+            set selection1 [atomselect top "$molUP::customSelection1 and not index $molUP::atom2BondSel"]
+            set selection2 [atomselect top "index $indexes2 and not index $molUP::atom1BondSel"]
+            ## Move atoms according to distance
+            $selection1 moveby [vecscale [expr -0.5*($curval-$bondlength)] $dir]
+            $selection2 moveby [vecscale [expr 0.5*($curval-$bondlength)] $dir]
+            $selection1 delete
+            $selection2 delete
+
+        } elseif {$molUP::atom1BondOpt == "Custom" && $molUP::atom2BondOpt == "Move Atoms"} {
+
+            ## Atoms to be moved
+            if {[catch {::util::bondedsel top $molUP::atom1BondSel $molUP::atom2BondSel}] == 0} {
+                set indexes2 [join [::util::bondedsel top $molUP::atom1BondSel $molUP::atom2BondSel]]
+            } else {
+                set indexes2 $molUP::atom2BondSel
+            }
+            set selection1 [atomselect top "$molUP::customSelection1 and not index $molUP::atom2BondSel"]
+            set selection2 [atomselect top "index $indexes2 and not index $molUP::atom1BondSel"]
+            ## Move atoms according to distance
+            $selection1 moveby [vecscale [expr -0.5*($curval-$bondlength)] $dir]
+            $selection2 moveby [vecscale [expr 0.5*($curval-$bondlength)] $dir]
+            $selection1 delete
+            $selection2 delete
+
+        } elseif {$molUP::atom1BondOpt == "Move Atoms" && $molUP::atom2BondOpt == "Custom"} {
+
+            ## Atoms to be moved
+            if {[catch {::util::bondedsel top $molUP::atom2BondSel $molUP::atom1BondSel}] == 0} {
+                set indexes1 [join [::util::bondedsel top $molUP::atom2BondSel $molUP::atom1BondSel]]
+            } else {
+                set indexes1 $molUP::atom1BondSel
+            }
+
+            set selection1 [atomselect top "index $indexes1 and not index $molUP::atom2BondSel"]
+            set selection2 [atomselect top "$molUP::customSelection2 and not index $molUP::atom1BondSel"]
+            ## Move atoms according to distance
+            $selection1 moveby [vecscale [expr -0.5*($curval-$bondlength)] $dir]
+            $selection2 moveby [vecscale [expr 0.5*($curval-$bondlength)] $dir]
+            $selection1 delete
+            $selection2 delete
+
+        } elseif {$molUP::atom1BondOpt == "Custom" && $molUP::atom2BondOpt == "Custom"} {
+
+            set selection1 [atomselect top "$molUP::customSelection1 and not index $molUP::atom2BondSel"]
+            set selection2 [atomselect top "$molUP::customSelection2 and not index $molUP::atom1BondSel"]
+            ## Move atoms according to distance
+            $selection1 moveby [vecscale [expr -0.5*($curval-$bondlength)] $dir]
+            $selection2 moveby [vecscale [expr 0.5*($curval-$bondlength)] $dir]
+            $selection1 delete
+            $selection2 delete
+
+        } elseif {$molUP::atom1BondOpt == "Fixed Atom" && $molUP::atom2BondOpt == "Custom"} {
+
+            set selection2 [atomselect top "$molUP::customSelection2 and not index $molUP::atom1BondSel"]
+            ## Move atoms according to distance
+            $selection2 moveby [vecscale [expr 1*($curval-$bondlength)] $dir]
+            $selection2 delete
+            
+        } elseif {$molUP::atom1BondOpt == "Custom" && $molUP::atom2BondOpt == "Fixed Atom"} {
+
+            set selection1 [atomselect top "$molUP::customSelection1 and not index $molUP::atom2BondSel"]
+            ## Move atoms according to distance
+            $selection1 moveby [vecscale [expr -1*($curval-$bondlength)] $dir]
+            $selection1 delete
+
         } elseif {$molUP::atom1BondOpt == "Move Atoms" && $molUP::atom2BondOpt == "Move Atom"} {
 
             set atomsToBeMoved2 1
@@ -479,6 +581,14 @@ proc molUP::calcAngleDistance {newangle} {
 
     if {$molUP::atom3AngleSel != ""} {
 
+        if {[catch {atomselect top "$molUP::customSelection1"}] == 1} {
+            set molUP::customSelection1 "none"
+        }
+
+        if {[catch {atomselect top "$molUP::customSelection2"}] == 1} {
+            set molUP::customSelection2 "none"
+        }
+
         set atomsToBeMoved1 100
         set atomsToBeMoved3 1
 
@@ -523,7 +633,7 @@ proc molUP::calcAngleDistance {newangle} {
         } elseif {$molUP::atom1AngleOpt == "Move Atom" && $molUP::atom3AngleOpt == "Move Atom"} {
 
             set atomsToBeMoved1 1
-            set atomsToBeMoved2 1
+            set atomsToBeMoved3 1
 
             ## Atoms to be moved
             if {[catch {::util::bondedsel top $molUP::atom3AngleSel $molUP::atom1AngleSel -maxdepth $atomsToBeMoved1}] == 0} {
@@ -566,10 +676,102 @@ proc molUP::calcAngleDistance {newangle} {
             $selection3 move [trans bond $molUP::pos2 [vecadd $molUP::normvec $molUP::pos2] [expr $delta * 0.5] deg]
             $selection1 delete
             $selection3 delete
+
+        } elseif {$molUP::atom1AngleOpt == "Move Atom" && $molUP::atom3AngleOpt == "Custom"} {
+
+            set atomsToBeMoved1 1
+
+            ## Atoms to be moved
+            if {[catch {::util::bondedsel top $molUP::atom3AngleSel $molUP::atom1AngleSel -maxdepth $atomsToBeMoved1}] == 0} {
+                set indexes1 [join [::util::bondedsel top $molUP::atom3AngleSel $molUP::atom1AngleSel -maxdepth $atomsToBeMoved1]]
+            } else {
+                set indexes1 $molUP::atom1AngleSel
+            }
+            set selection1 [atomselect top "index $indexes1 and not index $molUP::atom3AngleSel $molUP::atom2AngleSel"]
+            set selection3 [atomselect top "$molUP::customSelection2 and not index $molUP::atom1AngleSel $molUP::atom2AngleSel"]
+            ## Move atoms according to distance
+            $selection1 move [trans bond $molUP::pos2 [vecadd $molUP::normvec $molUP::pos2] [expr $delta * -0.5] deg]
+            $selection3 move [trans bond $molUP::pos2 [vecadd $molUP::normvec $molUP::pos2] [expr $delta * 0.5] deg]
+            $selection1 delete
+            $selection3 delete
+
+        } elseif {$molUP::atom1AngleOpt == "Custom" && $molUP::atom3AngleOpt == "Move Atom"} {
+
+            set atomsToBeMoved3 1
+
+            ## Atoms to be moved
+            if {[catch {::util::bondedsel top $molUP::atom1AngleSel $molUP::atom3AngleSel -maxdepth $atomsToBeMoved3}] == 0} {
+                set indexes3 [join [::util::bondedsel top $molUP::atom1AngleSel $molUP::atom3AngleSel -maxdepth $atomsToBeMoved3]]
+            } else {
+                set indexes3 $molUP::atom3AngleSel
+            }
+            set selection1 [atomselect top "$molUP::customSelection1 and not index $molUP::atom3AngleSel $molUP::atom2AngleSel"]
+            set selection3 [atomselect top "index $indexes3 and not index $molUP::atom1AngleSel $molUP::atom2AngleSel"]
+            ## Move atoms according to distance
+            $selection1 move [trans bond $molUP::pos2 [vecadd $molUP::normvec $molUP::pos2] [expr $delta * -0.5] deg]
+            $selection3 move [trans bond $molUP::pos2 [vecadd $molUP::normvec $molUP::pos2] [expr $delta * 0.5] deg]
+            $selection1 delete
+            $selection3 delete
+
+        } elseif {$molUP::atom1AngleOpt == "Move Atoms" && $molUP::atom3AngleOpt == "Custom"} {
+
+            ## Atoms to be moved
+            if {[catch {::util::bondedsel top $molUP::atom3AngleSel $molUP::atom1AngleSel}] == 0} {
+                set indexes1 [join [::util::bondedsel top $molUP::atom3AngleSel $molUP::atom1AngleSel]]
+            } else {
+                set indexes1 $molUP::atom1AngleSel
+            }
+            set selection1 [atomselect top "index $indexes1 and not index $molUP::atom3AngleSel $molUP::atom2AngleSel"]
+            set selection3 [atomselect top "$molUP::customSelection2 and not index $molUP::atom1AngleSel $molUP::atom2AngleSel"]
+            ## Move atoms according to distance
+            $selection1 move [trans bond $molUP::pos2 [vecadd $molUP::normvec $molUP::pos2] [expr $delta * -0.5] deg]
+            $selection3 move [trans bond $molUP::pos2 [vecadd $molUP::normvec $molUP::pos2] [expr $delta * 0.5] deg]
+            $selection1 delete
+            $selection3 delete
+        
+        } elseif {$molUP::atom1AngleOpt == "Custom" && $molUP::atom3AngleOpt == "Move Atoms"} {
+
+            ## Atoms to be moved
+            if {[catch {::util::bondedsel top $molUP::atom1AngleSel $molUP::atom3AngleSel}] == 0} {
+                set indexes3 [join [::util::bondedsel top $molUP::atom1AngleSel $molUP::atom3AngleSel]]
+            } else {
+                set indexes3 $molUP::atom3AngleSel
+            }
+            set selection1 [atomselect top "$molUP::customSelection1 and not index $molUP::atom3AngleSel $molUP::atom2AngleSel"]
+            set selection3 [atomselect top "index $indexes3 and not index $molUP::atom1AngleSel $molUP::atom2AngleSel"]
+            ## Move atoms according to distance
+            $selection1 move [trans bond $molUP::pos2 [vecadd $molUP::normvec $molUP::pos2] [expr $delta * -0.5] deg]
+            $selection3 move [trans bond $molUP::pos2 [vecadd $molUP::normvec $molUP::pos2] [expr $delta * 0.5] deg]
+            $selection1 delete
+            $selection3 delete
+
+        } elseif {$molUP::atom1AngleOpt == "Fixed Atom" && $molUP::atom3AngleOpt == "Custom"} {
+
+            set selection3 [atomselect top "$molUP::customSelection2 and not index $molUP::atom1AngleSel $molUP::atom2AngleSel"]
+            ## Move atoms according to distance
+            $selection3 move [trans bond $molUP::pos2 [vecadd $molUP::normvec $molUP::pos2] $delta deg]
+            $selection3 delete
             
+        } elseif {$molUP::atom1AngleOpt == "Custom" && $molUP::atom3AngleOpt == "Fixed Atom"} {
+
+            set selection1 [atomselect top "$molUP::customSelection1 and not index $molUP::atom3AngleSel $molUP::atom2AngleSel"]
+            ## Move atoms according to distance
+            $selection1 move [trans bond $molUP::pos2 [vecadd $molUP::normvec $molUP::pos2] $delta deg]
+            $selection1 delete
+
+        } elseif {$molUP::atom1AngleOpt == "Custom" && $molUP::atom3AngleOpt == "Custom"} {
+
+            set selection1 [atomselect top "$molUP::customSelection1 and not index $molUP::atom3AngleSel $molUP::atom2AngleSel"]
+            set selection3 [atomselect top "$molUP::customSelection2 and not index $molUP::atom1AngleSel $molUP::atom2AngleSel"]
+            ## Move atoms according to distance
+            $selection1 move [trans bond $molUP::pos2 [vecadd $molUP::normvec $molUP::pos2] [expr $delta * -0.5] deg]
+            $selection3 move [trans bond $molUP::pos2 [vecadd $molUP::normvec $molUP::pos2] [expr $delta * 0.5] deg]
+            $selection1 delete
+            $selection3 delete
+
         } elseif {$molUP::atom1AngleOpt == "Move Atoms" && $molUP::atom3AngleOpt == "Move Atom"} {
 
-            set atomsToBeMoved2 1
+            set atomsToBeMoved3 1
 
             ## Atoms to be moved
             if {[catch {::util::bondedsel top $molUP::atom3AngleSel $molUP::atom1AngleSel}] == 0} {
@@ -655,8 +857,16 @@ proc molUP::calcDihedDistance {newdihed} {
 
     if {$molUP::atom4DihedSel != ""} {
 
+        if {[catch {atomselect top "$molUP::customSelection1"}] == 1} {
+            set molUP::customSelection1 "none"
+        }
+
+        if {[catch {atomselect top "$molUP::customSelection2"}] == 1} {
+            set molUP::customSelection2 "none"
+        }
+
         set atomsToBeMoved1 100
-        set atomsToBeMoved3 1
+        set atomsToBeMoved4 1
 
 
         ## Set the delta value
@@ -681,6 +891,100 @@ proc molUP::calcDihedDistance {newdihed} {
             $selection4 move [trans bond $molUP::pos2 $molUP::pos3 $delta deg]
             $selection4 delete
             
+        } elseif {$molUP::atom1DihedOpt == "Fixed Atom" && $molUP::atom4DihedOpt == "Custom"} {
+
+            set selection4 [atomselect top "$molUP::customSelection2 and not index $molUP::atom1DihedSel $molUP::atom2DihedSel $molUP::atom3DihedSel"]
+            ## Move atoms according to distance
+            $selection4 move [trans bond $molUP::pos2 $molUP::pos3 $delta deg]
+            $selection4 delete
+
+        } elseif {$molUP::atom1DihedOpt == "Custom" && $molUP::atom4DihedOpt == "Fixed Atom"} {
+
+            set selection1 [atomselect top "$molUP::customSelection1 and not index $molUP::atom3DihedSel $molUP::atom2DihedSel $molUP::atom4DihedSel"]
+            ## Move atoms according to distance
+            $selection1 move [trans bond $molUP::pos2 $molUP::pos3 $delta deg]
+            $selection1 delete
+
+        } elseif {$molUP::atom1DihedOpt == "Move Atom" && $molUP::atom4DihedOpt == "Custom"} {
+
+            set atomsToBeMoved1 1
+
+            ## Atoms to be moved
+            if {[catch {::util::bondedsel top $molUP::atom4DihedSel $molUP::atom1DihedSel -maxdepth $atomsToBeMoved1}] == 0} {
+                set indexes1 [join [::util::bondedsel top $molUP::atom4DihedSel $molUP::atom1DihedSel -maxdepth $atomsToBeMoved1]]
+            } else {
+                set indexes1 $molUP::atom1DihedSel
+            }
+            
+            set selection1 [atomselect top "index $indexes1 and not index $molUP::atom3DihedSel $molUP::atom2DihedSel $molUP::atom4DihedSel"]
+            set selection4 [atomselect top "$molUP::customSelection2 and not index $molUP::atom1DihedSel $molUP::atom2DihedSel $molUP::atom3DihedSel"]
+            ## Move atoms according to distance
+            $selection1 move [trans bond $molUP::pos2 $molUP::pos3 [expr $delta * -0.5] deg]
+            $selection4 move [trans bond $molUP::pos2 $molUP::pos3 [expr $delta * 0.5] deg]
+            $selection1 delete
+            $selection4 delete
+
+        } elseif {$molUP::atom1DihedOpt == "Custom" && $molUP::atom4DihedOpt == "Move Atom"} {
+
+            set atomsToBeMoved4 1
+
+            ## Atoms to be moved
+            if {[catch {::util::bondedsel top $molUP::atom1DihedSel $molUP::atom4DihedSel -maxdepth $atomsToBeMoved4}] == 0} {
+                set indexes4 [join [::util::bondedsel top $molUP::atom1DihedSel $molUP::atom4DihedSel -maxdepth $atomsToBeMoved4]]
+            } else {
+                set indexes4 $molUP::atom4DihedSel
+            }
+            set selection1 [atomselect top "$molUP::customSelection1 and not index $molUP::atom3DihedSel $molUP::atom2DihedSel $molUP::atom4DihedSel"]
+            set selection4 [atomselect top "index $indexes4 and not index $molUP::atom1DihedSel $molUP::atom2DihedSel $molUP::atom3DihedSel"]
+            ## Move atoms according to distance
+            $selection1 move [trans bond $molUP::pos2 $molUP::pos3 [expr $delta * -0.5] deg]
+            $selection4 move [trans bond $molUP::pos2 $molUP::pos3 [expr $delta * 0.5] deg]
+            $selection1 delete
+            $selection4 delete
+
+        } elseif {$molUP::atom1DihedOpt == "Move Atoms" && $molUP::atom4DihedOpt == "Custom"} {
+
+            ## Atoms to be moved
+            if {[catch {::util::bondedsel top $molUP::atom4DihedSel $molUP::atom1DihedSel}] == 0} {
+                set indexes1 [join [::util::bondedsel top $molUP::atom4DihedSel $molUP::atom1DihedSel]]
+            } else {
+                set indexes1 $molUP::atom1DihedSel
+            }
+            
+            set selection1 [atomselect top "index $indexes1 and not index $molUP::atom3DihedSel $molUP::atom2DihedSel $molUP::atom4DihedSel"]
+            set selection4 [atomselect top "$molUP::customSelection2 and not index $molUP::atom1DihedSel $molUP::atom2DihedSel $molUP::atom3DihedSel"]
+            ## Move atoms according to distance
+            $selection1 move [trans bond $molUP::pos2 $molUP::pos3 [expr $delta * -0.5] deg]
+            $selection4 move [trans bond $molUP::pos2 $molUP::pos3 [expr $delta * 0.5] deg]
+            $selection1 delete
+            $selection4 delete
+
+        } elseif {$molUP::atom1DihedOpt == "Custom" && $molUP::atom4DihedOpt == "Move Atoms"} {
+
+            ## Atoms to be moved
+            if {[catch {::util::bondedsel top $molUP::atom1DihedSel $molUP::atom4DihedSel}] == 0} {
+                set indexes4 [join [::util::bondedsel top $molUP::atom1DihedSel $molUP::atom4DihedSel]]
+            } else {
+                set indexes4 $molUP::atom4DihedSel
+            }
+            set selection1 [atomselect top "$molUP::customSelection1 and not index $molUP::atom3DihedSel $molUP::atom2DihedSel $molUP::atom4DihedSel"]
+            set selection4 [atomselect top "index $indexes4 and not index $molUP::atom1DihedSel $molUP::atom2DihedSel $molUP::atom3DihedSel"]
+            ## Move atoms according to distance
+            $selection1 move [trans bond $molUP::pos2 $molUP::pos3 [expr $delta * -0.5] deg]
+            $selection4 move [trans bond $molUP::pos2 $molUP::pos3 [expr $delta * 0.5] deg]
+            $selection1 delete
+            $selection4 delete
+
+        } elseif {$molUP::atom1DihedOpt == "Custom" && $molUP::atom4DihedOpt == "Custom"} {
+
+            set selection1 [atomselect top "$molUP::customSelection1 and not index $molUP::atom3DihedSel $molUP::atom2DihedSel $molUP::atom4DihedSel"]
+            set selection4 [atomselect top "$molUP::customSelection2 and not index $molUP::atom1DihedSel $molUP::atom2DihedSel $molUP::atom3DihedSel"]
+            ## Move atoms according to distance
+            $selection1 move [trans bond $molUP::pos2 $molUP::pos3 [expr $delta * -0.5] deg]
+            $selection4 move [trans bond $molUP::pos2 $molUP::pos3 [expr $delta * 0.5] deg]
+            $selection1 delete
+            $selection4 delete
+
         } elseif {$molUP::atom1DihedOpt == "Move Atom" && $molUP::atom4DihedOpt == "Fixed Atom"} {
 
             set atomsToBeMoved1 1
@@ -699,7 +1003,7 @@ proc molUP::calcDihedDistance {newdihed} {
         } elseif {$molUP::atom1DihedOpt == "Move Atom" && $molUP::atom4DihedOpt == "Move Atom"} {
 
             set atomsToBeMoved1 1
-            set atomsToBeMoved2 1
+            set atomsToBeMoved4 1
 
             ## Atoms to be moved
             if {[catch {::util::bondedsel top $molUP::atom4DihedSel $molUP::atom1DihedSel -maxdepth $atomsToBeMoved1}] == 0} {
@@ -745,7 +1049,7 @@ proc molUP::calcDihedDistance {newdihed} {
             
         } elseif {$molUP::atom1DihedOpt == "Move Atoms" && $molUP::atom4DihedOpt == "Move Atom"} {
 
-            set atomsToBeMoved2 1
+            set atomsToBeMoved4 1
 
             ## Atoms to be moved
             if {[catch {::util::bondedsel top $molUP::atom4DihedSel $molUP::atom1DihedSel}] == 0} {

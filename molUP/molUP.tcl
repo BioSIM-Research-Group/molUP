@@ -48,7 +48,7 @@ namespace eval molUP:: {
 
 		#### Program Variables
 		## General
-		variable version	    	"1.3.8"
+		variable version	    	"1.3.9"
 
 		#GUI
         variable topGui         	".molUP"
@@ -137,6 +137,8 @@ namespace eval molUP:: {
 		variable atom2DihedOpt	""
 		variable atom3DihedOpt	""
 		variable atom4DihedOpt	"Move Atom"
+		variable customSelection1		""
+		variable customSelection2		""
 		variable BondDistance			"0.01"
 		variable initialBondDistance	"0.01"
 		variable AngleValue				"0.00"

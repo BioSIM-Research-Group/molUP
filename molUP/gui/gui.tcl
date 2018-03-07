@@ -638,6 +638,7 @@ proc molUP::resultSection {molID frame majorHeight} {
 		-highlightcolor #017aff \
 		-highlightthickness 1 \
 		-wrap word \
+		-font TkDefaultFont \
 		] -in $tInput -x 5 -y 25 -width 375 -height 25
 	$tInput.jobTitleEntry insert end $molUP::title
 
@@ -676,6 +677,7 @@ proc molUP::resultSection {molID frame majorHeight} {
 		-highlightcolor #017aff \
 		-highlightthickness 1 \
 		-wrap word \
+		-font TkDefaultFont \
 		] -in $tInput -x 5 -y 80 -width 375 -height 80
 	$tInput.keywordsText insert end $molUP::keywordsCalc
 	
@@ -729,6 +731,7 @@ proc molUP::resultSection {molID frame majorHeight} {
 		-bd 1 \
 		-highlightcolor #017aff \
 		-highlightthickness 1 \
+		-font TkDefaultFont \
 		] -in $tInput -x 5 -y 365 -width 375 -height $heightBox
 
 	place [ttk::scrollbar $tInput.yscb1 \
@@ -765,6 +768,7 @@ proc molUP::resultSection {molID frame majorHeight} {
 		-bd 1 \
 		-highlightcolor #017aff \
 		-highlightthickness 1 \
+		-font TkDefaultFont \
 		] -in $tInput -x 5 -y [expr 365 + $heightBox + 10 + 25] -width 375 -height $heightBox
 
 	place [ttk::scrollbar $tInput.yscb2 \

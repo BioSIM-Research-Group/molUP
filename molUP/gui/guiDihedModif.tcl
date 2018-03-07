@@ -18,7 +18,7 @@ proc molUP::guiDihedModif {} {
 	set sHeight [expr [winfo vrootheight $::molUP::dihedModif] -50]
 
 	#### Change the location of window
-    wm geometry $::molUP::dihedModif 400x200+[expr $sWidth - 400]+100
+    wm geometry $::molUP::dihedModif 400x260+[expr $sWidth - 400]+100
 	$::molUP::dihedModif configure -background {white}
 	wm resizable $::molUP::dihedModif 0 0
 
@@ -31,7 +31,7 @@ proc molUP::guiDihedModif {} {
 
     #### Information
     pack [ttk::frame $molUP::dihedModif.frame0]
-	pack [canvas $molUP::dihedModif.frame0.frame -bg white -width 400 -height 200 -highlightthickness 0] -in $molUP::dihedModif.frame0 
+	pack [canvas $molUP::dihedModif.frame0.frame -bg white -width 400 -height 260 -highlightthickness 0] -in $molUP::dihedModif.frame0 
         
     place [ttk::label $molUP::dihedModif.frame0.frame.title \
 		    -text {Four atoms were selected.} \
@@ -58,7 +58,7 @@ proc molUP::guiDihedModif {} {
 		        -textvariable {molUP::atom1DihedOpt} \
 			    -state readonly \
 				-style molUP.TCombobox \
-		        -values "[list "Fixed Atom" "Move Atom" "Move Atoms"]"
+		        -values "[list "Fixed Atom" "Move Atom" "Move Atoms" "Custom"]"
 		        ] -in $molUP::dihedModif.frame0.frame -x 250 -y 30 -width 140
 
         
@@ -101,13 +101,34 @@ proc molUP::guiDihedModif {} {
 				-style molUP.white.TLabel \
 		        ] -in $molUP::dihedModif.frame0.frame -x 190 -y 90 -width 50
             
-    place [ttk::combobox $molUP::dihedModif.frame0.frame.atom3Options \
+    place [ttk::combobox $molUP::dihedModif.frame0.frame.atom4Options \
 		        -textvariable {molUP::atom4DihedOpt} \
 			    -state readonly \
 				-style molUP.TCombobox \
-		        -values "[list "Fixed Atom" "Move Atom" "Move Atoms"]"
+		        -values "[list "Fixed Atom" "Move Atom" "Move Atoms" "Custom"]"
 		        ] -in $molUP::dihedModif.frame0.frame -x 250 -y 90 -width 140
 
+	place [ttk::label $molUP::dihedModif.frame0.frame.customAtom1 \
+		    -text "Custom Selection (Atom 1):" \
+			-style molUP.white.TLabel \
+		    ] -in $molUP::dihedModif.frame0.frame -x 10 -y 120 -width 180
+
+	place [ttk::entry $molUP::dihedModif.frame0.frame.customAtom1Entry \
+		        -textvariable {molUP::customSelection1} \
+				-style molUP.TEntry \
+				-state disabled \
+		        ] -in $molUP::dihedModif.frame0.frame -x 200 -y 120 -width 190
+
+	place [ttk::label $molUP::dihedModif.frame0.frame.customAtom2 \
+		    -text "Custom Selection (Atom 2):" \
+			-style molUP.white.TLabel \
+		    ] -in $molUP::dihedModif.frame0.frame -x 10 -y 150 -width 180
+
+	place [ttk::entry $molUP::dihedModif.frame0.frame.customAtom2Entry \
+		        -textvariable {molUP::customSelection2} \
+				-state disabled \
+				-style molUP.TEntry \
+		        ] -in $molUP::dihedModif.frame0.frame -x 200 -y 150 -width 190
 
 	place [scale $molUP::dihedModif.frame0.frame.scaleBondDistance \
 				-length 280 \
@@ -118,13 +139,13 @@ proc molUP::guiDihedModif {} {
 				-command {molUP::calcDihedDistance} \
 				-orient horizontal \
 				-showvalue 0 \
-			] -in $molUP::dihedModif.frame0.frame -x 10 -y 120 -width 380
+			] -in $molUP::dihedModif.frame0.frame -x 10 -y 180 -width 380
 
 
     place [ttk::label $molUP::dihedModif.frame0.frame.distanceLabel \
 				-text {Dihedral (°): } \
 				-style molUP.white.TLabel \
-		        ] -in $molUP::dihedModif.frame0.frame -x 10 -y 153 -width 60
+		        ] -in $molUP::dihedModif.frame0.frame -x 10 -y 213 -width 60
 
     place [spinbox $molUP::dihedModif.frame0.frame.distance \
 					-from {-180.00} \
@@ -132,22 +153,51 @@ proc molUP::guiDihedModif {} {
 					-increment 0.01 \
 					-textvariable {molUP::DihedValue} \
 					-command {molUP::calcDihedDistance $molUP::DihedValue} \
-                    ] -in $molUP::dihedModif.frame0.frame -x 80 -y 150 -width 100
+                    ] -in $molUP::dihedModif.frame0.frame -x 80 -y 210 -width 100
                 
     place [ttk::button $molUP::dihedModif.frame0.frame.apply \
 		            -text "Apply" \
 					-style molUP.TButton \
 		            -command {molUP::dihedGuiCloseSave} \
-		            ] -in $molUP::dihedModif.frame0.frame -x 230 -y 150 -width 75
+		            ] -in $molUP::dihedModif.frame0.frame -x 230 -y 210 -width 75
 				
 	place [ttk::button $molUP::dihedModif.frame0.frame.cancel \
 		            -text "Cancel" \
 					-style molUP.TButton \
 		            -command {molUP::dihedGuiCloseNotSave} \
-		            ] -in $molUP::dihedModif.frame0.frame -x 315 -y 150 -width 75
+		            ] -in $molUP::dihedModif.frame0.frame -x 315 -y 210 -width 75
 
 
 	bind $molUP::dihedModif.frame0.frame.distance <KeyPress> {molUP::calcDihedDistance $molUP::DihedValue}
 	bind $molUP::dihedModif.frame0.frame.distance <Leave> {molUP::calcDihedDistance $molUP::DihedValue}
+
+	# Custom - Enable Entry
+	bind $molUP::dihedModif.frame0.frame.atom1Options <<ComboboxSelected>> {
+		if {$molUP::atom1DihedOpt == "Custom"} {
+			$molUP::dihedModif.frame0.frame.customAtom1Entry configure -state normal
+		} else {
+			$molUP::dihedModif.frame0.frame.customAtom1Entry configure -state disabled
+		}
+	}
+	bind $molUP::dihedModif.frame0.frame.atom4Options <<ComboboxSelected>> {
+		if {$molUP::atom4DihedOpt == "Custom"} {
+			$molUP::dihedModif.frame0.frame.customAtom2Entry configure -state normal
+		} else {
+			$molUP::dihedModif.frame0.frame.customAtom2Entry configure -state disabled
+		}
+	}
+	if {$molUP::atom1DihedOpt == "Custom"} {
+		$molUP::dihedModif.frame0.frame.customAtom1Entry configure -state normal
+	} else {
+		$molUP::dihedModif.frame0.frame.customAtom1Entry configure -state disabled
+		set molUP::customSelection1 ""
+	}
+
+	if {$molUP::atom4DihedOpt == "Custom"} {
+		$molUP::dihedModif.frame0.frame.customAtom2Entry configure -state normal
+	} else {
+		$molUP::dihedModif.frame0.frame.customAtom2Entry configure -state disabled
+		set molUP::customSelection2 ""
+	}
 
 }
