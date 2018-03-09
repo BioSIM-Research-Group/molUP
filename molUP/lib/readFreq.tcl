@@ -294,8 +294,10 @@ proc molUP::extractFreqVectors {file where} {
 	}
 	set lookUpPos [split $a ":"]
 
+	set numberLines [expr [lindex $molUP::freqLine 1] - [lindex $molUP::freqLine 0]]
+
 	if {[expr [lindex $molUP::freqLine [lindex $where 0]] + [lindex $lookUpPos 0]] != [expr [lindex $molUP::freqLine [expr [lindex $where 0]+1]]-3]} {
-		catch {exec $molUP::sed -n "[expr [lindex $molUP::freqLine [lindex $where 0]] + [lindex $lookUpPos 0]] {p; :loop n; p; [expr [lindex $molUP::freqLine [expr [lindex $where 0]+1]]-3] q; b loop}" $file} vectors
+		catch {exec $molUP::sed -n "[expr [lindex $molUP::freqLine [lindex $where 0]] + [lindex $lookUpPos 0]] {p; :loop n; p; [expr [lindex $molUP::freqLine [lindex $where 0]] + $numberLines -3] q; b loop}" $file} vectors
 	} else {
 		catch {exec $molUP::sed -n "[expr [lindex $molUP::freqLine [lindex $where 0]] + [lindex $lookUpPos 0]] {p; :loop n; q; b loop}" $file} vectors
 	}
@@ -463,7 +465,7 @@ proc molUP::loadAllFreqs {} {
 	set molUP::nFreqToRead 5
 
 	## Delete all content on table
-	$molUP::topGui.frame0.major.mol$molID.tabs.tabOutput.tabs.tab5.tableLayer insert anchor end
+	$molUP::topGui.frame0.major.mol$molID.tabs.tabOutput.tabs.tab5.tableLayer delete anchor end
 	
 	## Add each frequency to the table 
 	set freqIndex 0

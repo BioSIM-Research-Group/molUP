@@ -1,6 +1,9 @@
 ######### molUP ##############
-Last version: 1.3.9
+Last version: 1.3.10
 ##############################
+Version 1.3.10 (9 MAR 2018)
+- [Bug fixed] Fixed a bug that prevented the selection of the last three frequencies.
+
 Version 1.3.9 (7 MAR 2018)
 - [Bugs fixed] Minor bugs fixed
 - [New feature] Add custom selections in the modification (bonds, angles, and dihedral angles) tools
