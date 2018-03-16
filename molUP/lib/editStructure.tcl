@@ -255,11 +255,18 @@ proc molUP::addSelectionRep {} {
 	    mol addrep top
         mol showrep top 11 $molUP::showNegChargedResidues
 
-         if {$numberAtoms > 250 } {
+        # All
+        if {$numberAtoms > 250 } {
             mol representation Lines 1.000000
         } else {
             mol representation Licorice 0.300000 15.000000 15.000000
         }
+        mol selection all
+        mol color Element
+        mol material Diffuse
+        mol addrep top
+        set molUP::allRep 1
+        mol showrep top 12 $molUP::allRep
 
     } else {}
 

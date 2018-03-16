@@ -1,4 +1,4 @@
-# PKG Index - Gaussian for VMD
+# PKG Index - molUP
 
 package ifneeded molUP        	                            1.0 [list source [file join $dir/molUP.tcl]]
 
@@ -19,6 +19,7 @@ package ifneeded guiInfo         	                        1.0 [list source [file
 package ifneeded guiMethodology         	                1.0 [list source [file join $dir/gui/guiMethodology.tcl]]
 package ifneeded guiBADparam             	                1.0 [list source [file join $dir/gui/guiBADparameters.tcl]]
 package ifneeded guiModRedundant                            1.0 [list source [file join $dir/gui/guiModRedundant.tcl]]
+package ifneeded guiDeleteAtoms                             1.0 [list source [file join $dir/gui/guiDeleteAtoms.tcl]]
 
 
 #lib

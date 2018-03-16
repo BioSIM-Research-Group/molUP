@@ -80,6 +80,7 @@ proc molUP::buildGui {} {
 	$molUP::topGui.frame0.topSection.topMenu.structure.menu add command -label "Modify bond" -command {molUP::bondModifInitialProc}
 	$molUP::topGui.frame0.topSection.topMenu.structure.menu add command -label "Modify angle" -command {molUP::angleModifInitialProc}
 	$molUP::topGui.frame0.topSection.topMenu.structure.menu add command -label "Modify dihedral" -command {molUP::dihedModifInitialProc}
+	$molUP::topGui.frame0.topSection.topMenu.structure.menu add command -label "Delete atoms" -command {molUP::guiDeleteAtoms}
 
 
 	place [ttk::menubutton $molUP::topGui.frame0.topSection.topMenu.publication -text "Publication" -menu $molUP::topGui.frame0.topSection.topMenu.publication.menu \
@@ -519,7 +520,7 @@ proc molUP::collectMolInfo {} {
 	lappend molUP::moleculeInfo "molID[molinfo top]" $molUP::title $molUP::keywordsCalc $molUP::chargesMultip $molUP::connectivity $molUP::parameters
 	
 	### Clear variables
-	set molUP::title "Gaussian for VMD is a very good plugin :)"
+	set molUP::title "molUP VMD is a very good plugin :)"
 	set molUP::keywordsCalc "%mem=7000MB\n%NProc=4\n%chk=name.chk\n# "
 	set molUP::chargesMultip ""
 	set molUP::connectivity ""

@@ -1,6 +1,9 @@
 ######### molUP ##############
-Last version: 1.3.10
+Last version: 1.4.0
 ##############################
+Version 1.4.0 (X MAR 2018)
+- [New feature] Now you can delete and add atoms using molUP.
+
 Version 1.3.10 (9 MAR 2018)
 - [Bug fixed] Fixed a bug that prevented the selection of the last three frequencies.
 
