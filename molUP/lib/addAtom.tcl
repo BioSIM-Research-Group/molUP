@@ -53,8 +53,15 @@ proc molUP::deleteAtomProcess {} {
 	# Delete the atomselection to free memory
 	$allWithoutAtom delete
 
+    # Get Parameters
+    set parameters [.molUP.frame0.major.mol$molID.tabs.tabInput.param get 1.0 end]
+
 	# Update structures 
 	molUP::updateStructures
+
+    # Apply Parameters
+    set molIDnew [molinfo top]
+    .molUP.frame0.major.mol$molIDnew.tabs.tabInput.param insert end $parameters
 
 	# Re-Activate tracing
 	trace variable ::vmd_initialize_structure w molUP::updateStructuresFromOtherSource
