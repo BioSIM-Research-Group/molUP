@@ -20,6 +20,7 @@ package ifneeded guiMethodology         	                1.0 [list source [file 
 package ifneeded guiBADparam             	                1.0 [list source [file join $dir/gui/guiBADparameters.tcl]]
 package ifneeded guiModRedundant                            1.0 [list source [file join $dir/gui/guiModRedundant.tcl]]
 package ifneeded guiDeleteAtoms                             1.0 [list source [file join $dir/gui/guiDeleteAtoms.tcl]]
+package ifneeded guiAddAtoms                                1.0 [list source [file join $dir/gui/guiAddAtoms.tcl]]
 
 
 #lib
@@ -35,7 +36,7 @@ package ifneeded readFreq                                 	1.0 [list source [fil
 package ifneeded energy                                 	1.0 [list source [file join $dir/lib/energy.tcl]]
 package ifneeded plot                                    	1.0 [list source [file join $dir/lib/plot.tcl]]
 package ifneeded balloon                                    1.0 [list source [file join $dir/lib/balloon.tcl]]
-package ifneeded addAtom                                    1.0 [list source [file join $dir/lib/addAtom.tcl]]
+package ifneeded addDeleteAtoms                             1.0 [list source [file join $dir/lib/addDeleteAtoms.tcl]]
 package ifneeded publication                                1.0 [list source [file join $dir/lib/publication.tcl]]
 package ifneeded loadPrmtop                                 1.0 [list source [file join $dir/lib/loadPrmtopParameters.tcl]]
 

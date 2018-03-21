@@ -22,6 +22,7 @@ namespace eval molUP:: {
 		package require guiModRedundant							1.0
 		package require guiOpenMultiFile 						1.0
 		package require guiDeleteAtoms							1.0
+		package require guiAddAtoms								1.0
 		
 		package require inputFile 								1.0
 		package require timeControl								1.0
@@ -34,7 +35,7 @@ namespace eval molUP:: {
 		package require readFreq								1.0
 		package require energy									1.0
 		package require plot									1.0
-		package require addAtom									1.0
+		package require addDeleteAtoms							1.0
 		package require publication								1.0
 		package require loadPrmtop								1.0
 
@@ -71,6 +72,8 @@ namespace eval molUP:: {
 		variable saveKeywordsInput	".molUP.saveKeywordsInput"
 		variable modRedundant		".molUP.modRedundant"
 		variable deleteAtoms		".molUP.deleteAtoms"
+		variable addAtoms			".molUP.addAtoms"
+		variable periodicTable		".molUP.addAtoms.periodicTable"
 
 		global path
 		variable path 				"/"
@@ -177,6 +180,7 @@ namespace eval molUP:: {
 		variable vectorThreshold 0
 		variable saveAdvancedOptions "All"
 		variable atomSelectionSave "all"
+		variable addAtomElement	"H"
 
 
 		variable chargeAll	0

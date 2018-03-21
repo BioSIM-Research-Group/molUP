@@ -81,6 +81,7 @@ proc molUP::buildGui {} {
 	$molUP::topGui.frame0.topSection.topMenu.structure.menu add command -label "Modify angle" -command {molUP::angleModifInitialProc}
 	$molUP::topGui.frame0.topSection.topMenu.structure.menu add command -label "Modify dihedral" -command {molUP::dihedModifInitialProc}
 	$molUP::topGui.frame0.topSection.topMenu.structure.menu add command -label "Delete atoms" -command {molUP::guiDeleteAtoms}
+	$molUP::topGui.frame0.topSection.topMenu.structure.menu add command -label "Add atoms" -command {molUP::guiAddAtoms}
 
 
 	place [ttk::menubutton $molUP::topGui.frame0.topSection.topMenu.publication -text "Publication" -menu $molUP::topGui.frame0.topSection.topMenu.publication.menu \
