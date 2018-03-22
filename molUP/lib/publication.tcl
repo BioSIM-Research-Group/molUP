@@ -109,7 +109,7 @@ proc molUP::citations {} {
 }
 
 proc molUP::getCitationsFromKeywords {} {
-    set molID [molinfo top]
+    set molID [lindex $molUP::topMolecule 0]
     set references ""
 
     if {$molID != -1} {

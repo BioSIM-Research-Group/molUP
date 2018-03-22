@@ -14,7 +14,7 @@ proc molUP::savePDB {} {
         set path [tk_getSaveFile -filetypes $fileTypes -defaultextension ".pdb"]
 
         if {$path != ""} {
-            animate write pdb [list $path] beg 0 end 0 skip 1 top
+            animate write pdb [list $path] beg 0 end 0 skip 1 [lindex $molUP::topMolecule 0]
         } else {}
     }
 
@@ -36,7 +36,7 @@ proc molUP::saveXYZ {} {
         set path [tk_getSaveFile -filetypes $fileTypes -defaultextension ".xyz"]
 
         if {$path != ""} {
-            animate write xyz [list $path] beg 0 end 0 skip 1 top
+            animate write xyz [list $path] beg 0 end 0 skip 1 [lindex $molUP::topMolecule 0]
         } else {}
     }
 
@@ -74,7 +74,7 @@ proc molUP::writeGaussianFileAdvanced {path selection} {
     ## Create a file 
 	set file [open "$path" wb]
 
-    set molID [molinfo top]
+    set molID [lindex $molUP::topMolecule 0]
 
     set keywords [.molUP.frame0.major.mol$molID.tabs.tabInput.keywordsText get 1.0 end]
     set title [.molUP.frame0.major.mol$molID.tabs.tabInput.jobTitleEntry get 1.0 end]
@@ -85,7 +85,7 @@ proc molUP::writeGaussianFileAdvanced {path selection} {
     ## Write title
     puts $file "$title"
 
-    set sel [atomselect top $selection]
+    set sel [atomselect [lindex $molUP::topMolecule 0] $selection]
     set indexes [$sel get index]
 
     ## Write Charge and Multi
@@ -175,7 +175,7 @@ proc molUP::writeGaussianFileAdvanced {path selection} {
 
     foreach linkAtom $linkAtomsList {
         if {[lsearch $indexes $linkAtom] == -1} {
-            set sel [atomselect top "index $linkAtom"]
+            set sel [atomselect [lindex $molUP::topMolecule 0] "index $linkAtom"]
 
             set atomLayer [.molUP.frame0.major.mol$molID.tabs.tabResults.tabs.tab2.tableLayer get $linkAtom]
             set atomFreeze [.molUP.frame0.major.mol$molID.tabs.tabResults.tabs.tab3.tableLayer get $linkAtom]
@@ -215,7 +215,7 @@ proc molUP::writeGaussianFile {path} {
     ## Create a file 
 	set file [open "$path" wb]
 
-    set molID [molinfo top]
+    set molID [lindex $molUP::topMolecule 0]
 
 
     set keywords [.molUP.frame0.major.mol$molID.tabs.tabInput.keywordsText get 1.0 end]
@@ -229,7 +229,7 @@ proc molUP::writeGaussianFile {path} {
 
     ## Write Charge and Multi
     set molUP::chargesMultip ""
-    set molID [molinfo top]
+    set molID [lindex $molUP::topMolecule 0]
     set highLayerIndex [.molUP.frame0.major.mol$molID.tabs.tabResults.tabs.tab2.tableLayer searchcolumn 4 "H" -all]
     set mediumLayerIndex [.molUP.frame0.major.mol$molID.tabs.tabResults.tabs.tab2.tableLayer searchcolumn 4 "M" -all]
     set lowLayerIndex [.molUP.frame0.major.mol$molID.tabs.tabResults.tabs.tab2.tableLayer searchcolumn 4 "L" -all]
@@ -254,7 +254,7 @@ proc molUP::writeGaussianFile {path} {
     puts $file $molUP::chargesMultip
 
     ## Get coordinates
-    set allSelection [atomselect top "all"]
+    set allSelection [atomselect [lindex $molUP::topMolecule 0] "all"]
     set allCoord [$allSelection get {x y z}]
     set elementInfo [$allSelection get element]
 
@@ -322,7 +322,7 @@ proc molUP::writeGaussianFile {path} {
 proc molUP::connectivityFromVMD {selection} {
     if {$selection == "all"} {
         set list [topo getbondlist order]
-        set numberAtoms [[atomselect top all] num]
+        set numberAtoms [[atomselect [lindex $molUP::topMolecule 0] all] num]
         set connectivity ""
 
         for {set index 1} { $index <= $numberAtoms } { incr index } {
@@ -345,7 +345,7 @@ proc molUP::connectivityFromVMD {selection} {
         
     } else {
         set list [topo -sel $selection getbondlist order]
-        set numberAtoms [[atomselect top all] num]
+        set numberAtoms [[atomselect [lindex $molUP::topMolecule 0] all] num]
         set connectivity ""
 
         for {set index 1} { $index <= $numberAtoms } { incr index } {
@@ -405,8 +405,8 @@ proc molUP::linkAtoms {} {
             # Do Nothing
         } elseif {[lindex $layer1 4] == "L" && [lindex $layer2 4] == "H"} {
                 lappend molUP::linkAtomsListIndex [lindex $bond 0]
-                set llAtoms [lindex [::util::bondedsel top [lindex $bond 0] [lindex $bond 1] -maxdepth 2] 1]
-                set llAtomsName [[atomselect top "index $llAtoms"] get type]
+                set llAtoms [lindex [::util::bondedsel [lindex $molUP::topMolecule 0] [lindex $bond 0] [lindex $bond 1] -maxdepth 2] 1]
+                set llAtomsName [[atomselect [lindex $molUP::topMolecule 0] "index $llAtoms"] get type]
                 set Hlist {}
                 foreach atom $llAtomsName {
                     set test [string match "H*" $atom]
@@ -423,8 +423,8 @@ proc molUP::linkAtoms {} {
                 }
         } elseif {[lindex $layer1 4] == "H" && [lindex $layer2 4] == "L"} {
                 lappend molUP::linkAtomsListIndex [lindex $bond 1]
-                set llAtoms [lindex [::util::bondedsel top [lindex $bond 1] [lindex $bond 0] -maxdepth 2] 1]
-                set llAtomsName [[atomselect top "index $llAtoms"] get type]
+                set llAtoms [lindex [::util::bondedsel [lindex $molUP::topMolecule 0] [lindex $bond 1] [lindex $bond 0] -maxdepth 2] 1]
+                set llAtomsName [[atomselect [lindex $molUP::topMolecule 0] "index $llAtoms"] get type]
                 set Hlist {}
                 foreach atom $llAtomsName {
                     set test [string match "H*" $atom]

@@ -1,7 +1,7 @@
 package provide readFreq 1.0 
 
 proc molUP::readFreq {} {
-	set molID [molinfo top]
+	set molID [lindex $molUP::topMolecule 0]
 
 	set list [list $molID $molUP::path]
 	lappend molUP::pathsFreq $list
@@ -189,7 +189,7 @@ proc molUP::readFreq {} {
 		place [ttk::button $molUP::topGui.frame0.major.mol$molID.tabs.tabOutput.tabs.tab6.graph.copyEnergyZP \
 			-style molUP.copyButton.TButton \
 			-text "Copy to clipboard" \
-			-command {molUP::copyClipboardFromText $molUP::topGui.frame0.major.mol[molinfo top].tabs.tabOutput.tabs.tab6.zpEnergy} \
+			-command {molUP::copyClipboardFromText $molUP::topGui.frame0.major.mol[lindex $molUP::topMolecule 0].tabs.tabOutput.tabs.tab6.zpEnergy} \
 			] -in $molUP::topGui.frame0.major.mol$molID.tabs.tabOutput.tabs.tab6.graph -x 355 -y 176 -width 20 -height 20
 		balloon $molUP::topGui.frame0.major.mol$molID.tabs.tabOutput.tabs.tab6.graph.copyEnergyZP -text "Copy to clipboard"
 
@@ -210,7 +210,7 @@ proc molUP::readFreq {} {
 		place [ttk::button $molUP::topGui.frame0.major.mol$molID.tabs.tabOutput.tabs.tab6.graph.copyEnergyenthalpy \
 			-style molUP.copyButton.TButton \
 			-text "Copy to clipboard" \
-			-command {molUP::copyClipboardFromText $molUP::topGui.frame0.major.mol[molinfo top].tabs.tabOutput.tabs.tab6.enthalpy} \
+			-command {molUP::copyClipboardFromText $molUP::topGui.frame0.major.mol[lindex $molUP::topMolecule 0].tabs.tabOutput.tabs.tab6.enthalpy} \
 			] -in $molUP::topGui.frame0.major.mol$molID.tabs.tabOutput.tabs.tab6.graph -x 355 -y 206 -width 20 -height 20
 		balloon $molUP::topGui.frame0.major.mol$molID.tabs.tabOutput.tabs.tab6.graph.copyEnergyenthalpy -text "Copy to clipboard"
 
@@ -231,7 +231,7 @@ proc molUP::readFreq {} {
 		place [ttk::button $molUP::topGui.frame0.major.mol$molID.tabs.tabOutput.tabs.tab6.graph.copyEnergygibbs \
 			-style molUP.copyButton.TButton \
 			-text "Copy to clipboard" \
-			-command {molUP::copyClipboardFromText $molUP::topGui.frame0.major.mol[molinfo top].tabs.tabOutput.tabs.tab6.gibbs} \
+			-command {molUP::copyClipboardFromText $molUP::topGui.frame0.major.mol[lindex $molUP::topMolecule 0].tabs.tabOutput.tabs.tab6.gibbs} \
 			] -in $molUP::topGui.frame0.major.mol$molID.tabs.tabOutput.tabs.tab6.graph -x 355 -y 236 -width 20 -height 20
 		balloon $molUP::topGui.frame0.major.mol$molID.tabs.tabOutput.tabs.tab6.graph.copyEnergygibbs -text "Copy to clipboard"
 	}
@@ -319,7 +319,7 @@ return $freq_vector
 
 proc molUP::animateFreq {freqList animationFreq displacement a} {
 	# Delete previous animation
-	animate delete beg 1 end 9999999 top
+	animate delete beg 1 end 9999999 [lindex $molUP::topMolecule 0]
 
 	# Animate stype rock
 	animate style Loop
@@ -332,28 +332,28 @@ proc molUP::animateFreq {freqList animationFreq displacement a} {
 
 
 	for {set index 0} { $index < 40 } { incr index } {
-		animate dup top
+		animate dup [lindex $molUP::topMolecule 0]
 		foreach freq $freqList {
 			set displacement $factor
-			set sel [atomselect top "index [expr [lindex $freq 0] -1 ]"]
+			set sel [atomselect [lindex $molUP::topMolecule 0] "index [expr [lindex $freq 0] -1 ]"]
 			$sel moveby [list "[expr $displacement * [lindex $freq 1]]" "[expr $displacement * [lindex $freq 2]]" "[expr $displacement * [lindex $freq 3]]"]
 			$sel delete
 		}
 	}
 	for {set index 0} { $index < 80 } { incr index } {
-		animate dup top
+		animate dup [lindex $molUP::topMolecule 0]
 		foreach freq $freqList {
 			set displacement -$factor
-			set sel [atomselect top "index [expr [lindex $freq 0] -1 ]"]
+			set sel [atomselect [lindex $molUP::topMolecule 0] "index [expr [lindex $freq 0] -1 ]"]
 			$sel moveby [list "[expr $displacement * [lindex $freq 1]]" "[expr $displacement * [lindex $freq 2]]" "[expr $displacement * [lindex $freq 3]]"]
 			$sel delete
 		}
 	}
 	for {set index 0} { $index < 40 } { incr index } {
-		animate dup top
+		animate dup [lindex $molUP::topMolecule 0]
 		foreach freq $freqList {
 			set displacement $factor
-			set sel [atomselect top "index [expr [lindex $freq 0] -1 ]"]
+			set sel [atomselect [lindex $molUP::topMolecule 0] "index [expr [lindex $freq 0] -1 ]"]
 			$sel moveby [list "[expr $displacement * [lindex $freq 1]]" "[expr $displacement * [lindex $freq 2]]" "[expr $displacement * [lindex $freq 3]]"]
 			$sel delete
 		}
@@ -364,7 +364,7 @@ proc molUP::animateFreq {freqList animationFreq displacement a} {
 }
 
 proc molUP::selectFreq {} {
-	set molID [molinfo top]
+	set molID [molinfo [lindex $molUP::topMolecule 0]]
 	set indexSelectedAtoms [$molUP::topGui.frame0.major.mol$molID.tabs.tabOutput.tabs.tab5.tableLayer curselection]
 	set freqLineTable [$molUP::topGui.frame0.major.mol$molID.tabs.tabOutput.tabs.tab5.tableLayer get $indexSelectedAtoms]
 	set freqToSearch [lindex $freqLineTable 1]
@@ -389,30 +389,30 @@ proc molUP::clearSelectionFreq {} {
 	animate pause
 
 	# Delete previous animation
-	animate delete beg 1 end 9999999 top
+	animate delete beg 1 end 9999999 [lindex $molUP::topMolecule 0]
 
 	# Delete all vectors
-	graphics top delete all
+	graphics [lindex $molUP::topMolecule 0] delete all
 }
 
 proc molUP::drawVectors {freqList none} {
 
 	if {$molUP::showVectors == 0} {
-		graphics top delete all
+		graphics [lindex $molUP::topMolecule 0] delete all
 		
 	} else {
 
 	
 
 	# Delete all vectors
-	graphics top delete all
+	graphics [lindex $molUP::topMolecule 0] delete all
 
-	graphics top color $molUP::freqVectorColor
+	graphics [lindex $molUP::topMolecule 0] color $molUP::freqVectorColor
 	
 	set displacement $molUP::vectorDrawScale
 	
 	foreach freq $freqList {
-			set sel [atomselect top "index [expr [lindex $freq 0] -1 ]"]
+			set sel [atomselect [lindex $molUP::topMolecule 0] "index [expr [lindex $freq 0] -1 ]"]
 			set x [$sel get x]
 			set y [$sel get y]
 			set z [$sel get z]
@@ -424,7 +424,7 @@ proc molUP::drawVectors {freqList none} {
 				set vectorToScale [vecscale $displacement [list "[lindex $freq 1]" "[lindex $freq 2]" "[lindex $freq 3]"]]
 
 				set lastPoint [vecadd $atomCoord $vectorToScale]
-				graphics top cylinder $atomCoord $lastPoint radius 0.05 resolution 10 filled yes
+				graphics [lindex $molUP::topMolecule 0] cylinder $atomCoord $lastPoint radius 0.05 resolution 10 filled yes
 
 				set vectorSize [veclength $vectorToScale]
 				if {$vectorSize == 0} {
@@ -436,7 +436,7 @@ proc molUP::drawVectors {freqList none} {
 				set vectorCone [vecscale $factorCone $vectorToScale]
 				set lastPointCone [vecadd $lastPoint $vectorCone]
 				
-				graphics top cone $lastPoint $lastPointCone radius 0.10 resolution 10
+				graphics [lindex $molUP::topMolecule 0] cone $lastPoint $lastPointCone radius 0.10 resolution 10
 
 			} else {
 				#ignore vector
@@ -456,7 +456,7 @@ proc molUP::changeVectorsColor {} {
 
 proc molUP::loadAllFreqs {} {
 	## Get Path
-	set molID [molinfo top]
+	set molID [lindex $molUP::topMolecule 0]
 	set path [lindex [lindex $molUP::pathsFreq [lsearch -index 0 -all $molUP::pathsFreq $molID]] 1]
 
 	## Read All Freqs

@@ -6,7 +6,7 @@ proc molUP::loadPrmtopParameters {} {
     }
     
     set path [tk_getOpenFile -filetypes $fileTypes -defaultextension ".prmtop" -title "Choose a AMBER prmtop file..."]
-    set molID [molinfo top]
+    set molID [lindex $molUP::topMolecule 0]
 
     set parametersInfoFromPrmtop ""
 
@@ -26,13 +26,13 @@ proc molUP::loadPrmtopParameters {} {
                         lappend lowerCaseList $atomType
 
                         #Change type on VMD lists
-                        set selection [atomselect top "type $atomType"]
+                        set selection [atomselect [lindex $molUP::topMolecule 0] "type $atomType"]
                         set type "[string toupper [string range $atomType 0 0][lindex $alternativeAtomTypes $i]]"
                         $selection set type $type
 
                         #Change type on molUP tablelist
                         set indexes [$selection get index]
-                        set molID [molinfo top]
+                        set molID [lindex $molUP::topMolecule 0]
                         foreach atom $indexes {
                             .molUP.frame0.major.mol$molID.tabs.tabResults.tabs.tab4.tableLayer configcells [subst $atom],1 -text [subst $type]
                         }

@@ -291,7 +291,7 @@ proc molUP::buildGui {} {
 		}
 		
 		# Pack TOP molecule
-		set molID [molinfo top]
+		set molID [lindex $molUP::topMolecule 0]
 		pack $molUP::topGui.frame0.major.mol$molID
 		
 		# Destroy waiting window
@@ -361,7 +361,7 @@ proc molUP::activateMolecule {molID} {
 	$molUP::tableFreeze delete 0 end
 
 	## Add info to tables
-	set sel [atomselect top all]
+	set sel [atomselect [lindex $molUP::topMolecule 0] all]
 	set index [$sel get index]
 	set type [$sel get type]
 	set name [$sel get name]
@@ -505,7 +505,7 @@ proc molUP::updateStructuresFromOtherSource {args} {
 	} else {
 		destroy $molUP::topGui.frame0.major.mol$molID
 		molUP::getMolinfoList
-		set molUP::topMolecule "[molinfo top] : [molinfo top get name]"
+		set molUP::topMolecule "[molinfo top] : [molinfo [lindex $molUP::topMolecule 0] get name]"
 	}
 
 }
@@ -578,10 +578,10 @@ proc molUP::checkTags {pathName} {
 
 
 proc molUP::rebond {} {
-	mol bondsrecalc top
-	mol reanalyze top
+	mol bondsrecalc [lindex $molUP::topMolecule 0]
+	mol reanalyze [lindex $molUP::topMolecule 0]
 
-	set molID [molinfo top]
+	set molID [lindex $molUP::topMolecule 0]
 
 	set connectivity [molUP::connectivityFromVMD all]
 
@@ -590,7 +590,7 @@ proc molUP::rebond {} {
 }
 
 proc molUP::getConnectivityFromVMD {} {
-	set molID [molinfo top]
+	set molID [lindex $molUP::topMolecule 0]
 
 	set connectivity [molUP::connectivityFromVMD all]
 
@@ -599,7 +599,7 @@ proc molUP::getConnectivityFromVMD {} {
 }
 
 proc molUP::applyNewConnectivity {} {
-	set molID [molinfo top]
+	set molID [lindex $molUP::topMolecule 0]
 	set molUP::connectivity [.molUP.frame0.major.mol$molID.tabs.tabInput.connect get 1.0 end]
 
 	set connectList [molUP::convertGaussianInputConnectToVMD $molUP::connectivity]
@@ -709,25 +709,6 @@ proc molUP::resultSection {molID frame majorHeight} {
 		-command {molUP::guiInfo "gaussianInputConnect.txt"} \
 		] -in $tInput -x 375 -y 340 -width 20 -height 20
 
-	#place [ttk::label $tInput.connectLabel \
-	#	-style molUP.cyan.TLabel \
-	#	-text {Connectivity} ] -in $tInput -x 5 -y 380
-#
-	#place [ttk::button $tInput.loadConnect \
-	#	-style molUP.TButton \
-	#	-command molUP::loadConnectivityFromOtherInputFile \
-	#	-text {Load} ] -in $tInput -x 130 -y 378 -width 80
-	#
-	#place [ttk::button $tInput.applyNewConnectivity \
-	#	-style molUP.TButton \
-	#	-command molUP::applyNewConnectivity \
-	#	-text {Apply} ] -in $tInput -x 220 -y 378 -width 80
-#
-	#place [ttk::button $tInput.rebond \
-	#	-style molUP.TButton \
-	#	-command molUP::rebond \
-	#	-text {Rebond} ] -in $tInput -x 310 -y 378 -width 80
-
 	place [text $tInput.connect \
 		-yscrollcommand "$tInput.yscb1 set" \
 		-bd 1 \
@@ -754,16 +735,6 @@ proc molUP::resultSection {molID frame majorHeight} {
         -text "Information" \
 		-command {molUP::guiInfo "gaussianInputParam.txt"} \
 		] -in $tInput -x 375 -y [expr 365 + $heightBox + 10] -width 20 -height 20
-
-	#place [ttk::label $tInput.paramLabel \
-	#	-style molUP.cyan.TLabel \
-	#	-text {Other information (Parameters, Modredundant...)} \
-	#	] -in $tInput -x 5 -y [expr 405 + $heightBox + 10]
-#
-	#place [ttk::button $tInput.loadPrmtop \
-	#	-style molUP.TButton \
-	#	-command molUP::loadPrmtopParameters \
-	#	-text {Load PRMTOP} ] -in $tInput -x 290 -y [expr 405 + $heightBox + 10 - 2] -width 100
 
 	place [text $tInput.param \
 		-yscrollcommand "$tInput.yscb2 set" \
@@ -1008,7 +979,7 @@ proc molUP::loadConnectivityFromOtherInputFile {} {
                 {{Gaussian Input File (.com)}       {.com}        }
         }
         set path [tk_getOpenFile -filetypes $fileTypes -defaultextension ".com" -title "Choose a Gaussian Input File..."]
-		set molID [molinfo top]
+		set molID [lindex $molUP::topMolecule 0]
         if {$path != ""} {
             set firstConnect [expr [molUP::getBlankLines $path 2] + 1]
 			set lastConnect [expr [molUP::getBlankLines $path 3] - 1]
@@ -1042,12 +1013,12 @@ proc molUP::readCalculationTypes {pathName} {
 }
 
 proc molUP::fillKeywordsSection {path} {
-	.molUP.frame0.major.mol[molinfo top].tabs.tabInput.keywordsText delete 1.0 end
+	.molUP.frame0.major.mol[lindex $molUP::topMolecule 0].tabs.tabInput.keywordsText delete 1.0 end
 	catch {exec $molUP::sed -n "2,$ p" $path} keywords
-	.molUP.frame0.major.mol[molinfo top].tabs.tabInput.keywordsText insert end $keywords
+	.molUP.frame0.major.mol[lindex $molUP::topMolecule 0].tabs.tabInput.keywordsText insert end $keywords
 
 	# Update Tags
-	molUP::checkTags .molUP.frame0.major.mol[molinfo top].tabs.tabInput.keywordsText
+	molUP::checkTags .molUP.frame0.major.mol[lindex $molUP::topMolecule 0].tabs.tabInput.keywordsText
 
 }
 
@@ -1098,7 +1069,7 @@ proc molUP::saveKeywordsInputLastStep {name} {
 	set text ""
 	append text "$name\n"
 
-	set keywords [.molUP.frame0.major.mol[molinfo top].tabs.tabInput.keywordsText get 1.0 end]
+	set keywords [.molUP.frame0.major.mol[lindex $molUP::topMolecule 0].tabs.tabInput.keywordsText get 1.0 end]
 	append text "$keywords"
 
 	set currentTime [clock seconds]
@@ -1108,7 +1079,7 @@ proc molUP::saveKeywordsInputLastStep {name} {
 	puts $file "$text"
 	close $file
 
-	.molUP.frame0.major.mol[molinfo top].tabs.tabInput.keywordsLabel.menu add command -label "$name" -command "molUP::fillKeywordsSection [subst $path]"
+	.molUP.frame0.major.mol[lindex $molUP::topMolecule 0].tabs.tabInput.keywordsLabel.menu add command -label "$name" -command "molUP::fillKeywordsSection [subst $path]"
 
 	destroy $molUP::saveKeywordsInput
 

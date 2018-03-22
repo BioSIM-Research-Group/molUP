@@ -169,7 +169,7 @@ proc molUP::deleteAll {} {
 		# clean graphics
 		foreach a $molUP::graphicsID {
 			foreach b $a {
-				graphics [molinfo top] delete $b
+				graphics [molinfo [lindex $molUP::topMolecule 0]] delete $b
 			}
 		} 
 		
@@ -213,7 +213,7 @@ proc molUP::atomPickedBAD {args} {
 		
 		# First Atom
 		$::molUP::topGui.badParams.frame1.entryIndex_None insert 0 "[lindex $molUP::pickedAtomsBAD 0]"
-		set sel [atomselect top "index [lindex $molUP::pickedAtomsBAD 0]"] 
+		set sel [atomselect [lindex $molUP::topMolecule 0] "index [lindex $molUP::pickedAtomsBAD 0]"] 
 		$::molUP::topGui.badParams.frame1.entryAtom_None insert 0 "[$sel get name]"
 		$::molUP::topGui.badParams.frame1.entryResid_None insert 0 "[$sel get resid]"	
 		# Draw
@@ -229,14 +229,14 @@ proc molUP::atomPickedBAD {args} {
 		
 		#BOND
 		$::molUP::topGui.badParams.frame1.entryIndex_Bond insert 0 "[lindex $molUP::pickedAtomsBAD 1]"
-		set sel [atomselect top "index [lindex $molUP::pickedAtomsBAD 1]"] 
+		set sel [atomselect [lindex $molUP::topMolecule 0] "index [lindex $molUP::pickedAtomsBAD 1]"] 
 		$::molUP::topGui.badParams.frame1.entryAtom_Bond insert 0 "[$sel get name]"
 		$::molUP::topGui.badParams.frame1.entryResid_Bond insert 0 "[$sel get resid]"
 	
 		# Value
 		set value [strictformat %7.2f [measure bond  "[lindex $molUP::pickedAtomsBAD 0] [lindex $molUP::pickedAtomsBAD 1]"] ]
 		$::molUP::topGui.badParams.frame1.entryValue_Bond insert 0 "$value"
-		label add Bonds [molinfo top]/[lindex $molUP::pickedAtomsBAD 0] [molinfo top]/[lindex $molUP::pickedAtomsBAD 1]
+		label add Bonds [molinfo [lindex $molUP::topMolecule 0]]/[lindex $molUP::pickedAtomsBAD 0] [molinfo [lindex $molUP::topMolecule 0]]/[lindex $molUP::pickedAtomsBAD 1]
 
 
 		# Draw
@@ -254,7 +254,7 @@ proc molUP::atomPickedBAD {args} {
 		
 		$::molUP::topGui.badParams.frame1.entryIndex_Angle insert 0 "[lindex $molUP::pickedAtomsBAD 2]"
 		
-		set sel [atomselect top "index [lindex $molUP::pickedAtomsBAD 2]"] 
+		set sel [atomselect [lindex $molUP::topMolecule 0] "index [lindex $molUP::pickedAtomsBAD 2]"] 
 		$::molUP::topGui.badParams.frame1.entryAtom_Angle insert 0 "[$sel get name]"
 		$::molUP::topGui.badParams.frame1.entryResid_Angle insert 0 "[$sel get resid]"
 		
@@ -262,7 +262,7 @@ proc molUP::atomPickedBAD {args} {
 		set value [strictformat %7.2f [measure angle "[lindex $molUP::pickedAtomsBAD 0] [lindex $molUP::pickedAtomsBAD 1] [lindex $molUP::pickedAtomsBAD 2]"] ]
 		$::molUP::topGui.badParams.frame1.entryValue_Angle insert 0 "$value"
 		
-		label add Angles [molinfo top]/[lindex $molUP::pickedAtomsBAD 0] [molinfo top]/[lindex $molUP::pickedAtomsBAD 1] [molinfo top]/[lindex $molUP::pickedAtomsBAD 2]
+		label add Angles [molinfo [lindex $molUP::topMolecule 0]]/[lindex $molUP::pickedAtomsBAD 0] [molinfo [lindex $molUP::topMolecule 0]]/[lindex $molUP::pickedAtomsBAD 1] [molinfo [lindex $molUP::topMolecule 0]]/[lindex $molUP::pickedAtomsBAD 2]
 
 		
 		# Draw
@@ -279,7 +279,7 @@ proc molUP::atomPickedBAD {args} {
 		
 		$::molUP::topGui.badParams.frame1.entryIndex_Dihedral insert 0 "[lindex $molUP::pickedAtomsBAD 3]"
 		
-		set sel [atomselect top "index [lindex $molUP::pickedAtomsBAD 3]"] 
+		set sel [atomselect [lindex $molUP::topMolecule 0] "index [lindex $molUP::pickedAtomsBAD 3]"] 
 		$::molUP::topGui.badParams.frame1.entryAtom_Dihedral insert 0 "[$sel get name]"
 		$::molUP::topGui.badParams.frame1.entryResid_Dihedral insert 0 "[$sel get resid]"
 	
@@ -288,7 +288,7 @@ proc molUP::atomPickedBAD {args} {
 		set value [strictformat %7.2f [measure dihed "[lindex $molUP::pickedAtomsBAD 0] [lindex $molUP::pickedAtomsBAD 1] [lindex $molUP::pickedAtomsBAD 2] [lindex $molUP::pickedAtomsBAD 3]"] ]
 		$::molUP::topGui.badParams.frame1.entryValue_Dihedral insert 0 "$value"
 		
-		label add Dihedrals [molinfo top]/[lindex $molUP::pickedAtomsBAD 0] [molinfo top]/[lindex $molUP::pickedAtomsBAD 1] [molinfo top]/[lindex $molUP::pickedAtomsBAD 2]  [molinfo top]/[lindex $molUP::pickedAtomsBAD 3]
+		label add Dihedrals [molinfo [lindex $molUP::topMolecule 0]]/[lindex $molUP::pickedAtomsBAD 0] [molinfo [lindex $molUP::topMolecule 0]]/[lindex $molUP::pickedAtomsBAD 1] [molinfo [lindex $molUP::topMolecule 0]]/[lindex $molUP::pickedAtomsBAD 2]  [molinfo [lindex $molUP::topMolecule 0]]/[lindex $molUP::pickedAtomsBAD 3]
 		
 		# Draw
 		set mem [molUP::sphere [lindex $molUP::pickedAtomsBAD 3] cyan]
@@ -318,12 +318,12 @@ proc molUP::strictformat {fmt value} {
 
 
 proc molUP::sphere {selection color} {	
-	set coordinates [[atomselect top "index $selection"] get {x y z}]
+	set coordinates [[atomselect [lindex $molUP::topMolecule 0] "index $selection"] get {x y z}]
 	
 	# Draw a circle around the coordinate
 	draw color $color
 	draw material Transparent
-	set a [graphics [molinfo top] sphere "[lindex $coordinates 0] [lindex $coordinates 1] [lindex $coordinates 2]" radius 0.9 resolution 25]
+	set a [graphics [molinfo [lindex $molUP::topMolecule 0]] sphere "[lindex $coordinates 0] [lindex $coordinates 1] [lindex $coordinates 2]" radius 0.9 resolution 25]
 	
 	return  $a
 	
@@ -332,12 +332,12 @@ proc molUP::sphere {selection color} {
 
 proc molUP::line {selection0 selection1 color } {
 
-	set coordinates0 [[atomselect top "index $selection0"] get {x y z}]
-	set coordinates1 [[atomselect top "index $selection1"] get {x y z}]
+	set coordinates0 [[atomselect [lindex $molUP::topMolecule 0] "index $selection0"] get {x y z}]
+	set coordinates1 [[atomselect [lindex $molUP::topMolecule 0] "index $selection1"] get {x y z}]
 	
 	# Draw line
 	draw color $color
-	set a [graphics [molinfo top] line "[lindex $coordinates0 0] [lindex $coordinates0 1] [lindex $coordinates0 2]" "[lindex $coordinates1 0] [lindex $coordinates1 1] [lindex $coordinates1 2]" width 5 style dashed]
+	set a [graphics [molinfo [lindex $molUP::topMolecule 0]] line "[lindex $coordinates0 0] [lindex $coordinates0 1] [lindex $coordinates0 2]" "[lindex $coordinates1 0] [lindex $coordinates1 1] [lindex $coordinates1 2]" width 5 style dashed]
 	
 	# Add text
 	#set b [graphics 0 text "[lindex $coordinates0 0] [lindex $coordinates0 1] [lindex $coordinates0 2]" "$value Angstroms"]
@@ -349,31 +349,28 @@ proc molUP::line {selection0 selection1 color } {
 
 
 proc molUP::triangle {selection0 selection1 selection2 color } {
-	set coordinates0 [[atomselect top "index $selection0"] get {x y z}]
-	set coordinates1 [[atomselect top "index $selection1"] get {x y z}]
-	set coordinates2 [[atomselect top "index $selection2"] get {x y z}]
+	set coordinates0 [[atomselect [lindex $molUP::topMolecule 0] "index $selection0"] get {x y z}]
+	set coordinates1 [[atomselect [lindex $molUP::topMolecule 0] "index $selection1"] get {x y z}]
+	set coordinates2 [[atomselect [lindex $molUP::topMolecule 0] "index $selection2"] get {x y z}]
 
 	
 	# Draw line
 	
 	draw color $color
-	set a [graphics [molinfo top] triangle "[lindex $coordinates0 0] [lindex $coordinates0 1] [lindex $coordinates0 2]" "[lindex $coordinates1 0] [lindex $coordinates1 1] [lindex $coordinates1 2]" "[lindex $coordinates2 0] [lindex $coordinates2 1] [lindex $coordinates2 2]"]
-	
-	# Add text
-	#set b [graphics [molinfo top] text "[lindex $coordinates1 0] [lindex $coordinates1 1] [lindex $coordinates1 2]" "$value degrees"]
+	set a [graphics [molinfo [lindex $molUP::topMolecule 0]] triangle "[lindex $coordinates0 0] [lindex $coordinates0 1] [lindex $coordinates0 2]" "[lindex $coordinates1 0] [lindex $coordinates1 1] [lindex $coordinates1 2]" "[lindex $coordinates2 0] [lindex $coordinates2 1] [lindex $coordinates2 2]"]
 	
 	return  "$a"
 }
 
 
 proc molUP::cylinder {selection0 selection1 color} {
-	set coordinates0 [[atomselect top "index $selection0"] get {x y z}]
-	set coordinates1 [[atomselect top "index $selection1"] get {x y z}]
+	set coordinates0 [[atomselect [lindex $molUP::topMolecule 0] "index $selection0"] get {x y z}]
+	set coordinates1 [[atomselect [lindex $molUP::topMolecule 0] "index $selection1"] get {x y z}]
 
 	# Draw
 	
 	draw color $color
-	set a [graphics [molinfo top] cylinder "[lindex $coordinates0 0] [lindex $coordinates0 1] [lindex $coordinates0 2]" "[lindex $coordinates1 0] [lindex $coordinates1 1] [lindex $coordinates1 2]"  radius 0.5 resolution 50]
+	set a [graphics [molinfo [lindex $molUP::topMolecule 0]] cylinder "[lindex $coordinates0 0] [lindex $coordinates0 1] [lindex $coordinates0 2]" "[lindex $coordinates1 0] [lindex $coordinates1 1] [lindex $coordinates1 2]"  radius 0.5 resolution 50]
 	
 	# Add graphics that will be deleted
 	return  $a

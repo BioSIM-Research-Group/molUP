@@ -258,7 +258,7 @@ proc molUP::addAtomDelete {} {
     catch {$selection set occupancy 0}
 
     # Delete the row from the tablelist
-    $molUP::addAtoms.frame0.frame.table $tableRowsSelected
+    $molUP::addAtoms.frame0.frame.table delete $tableRowsSelected
 }
 
 proc molUP::applyAddAtomModification {args} {

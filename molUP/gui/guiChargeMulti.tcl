@@ -479,7 +479,7 @@ proc molUP::guiChargeMulti {frame} {
 
 #### Get the sum of all charges of each layer. Options can be "all" "hl" "ml" "ll"
 proc molUP::getChargesSum {layer} {
-    set mol [molinfo top]
+    set mol [lindex $molUP::topMolecule 0]
     set molUP::tableCharges ".molUP.frame0.major.mol$mol.tabs.tabResults.tabs.tab4.tableLayer"
     set molUP::tableLayer ".molUP.frame0.major.mol$mol.tabs.tabResults.tabs.tab2.tableLayer"
 
@@ -525,14 +525,14 @@ proc molUP::getChargesSum {layer} {
 
 proc molUP::showNegPosResidues {} {
     
-    set sel [atomselect top "all"]
+    set sel [atomselect [lindex $molUP::topMolecule 0] "all"]
     set lastResid [lindex [$sel get residue] end]
 
     set listResidPos ""
     set listResidNeg ""
 
     for {set index 0} { $index <= $lastResid } { incr index } {
-        set sel [atomselect top "residue $index"]
+        set sel [atomselect [lindex $molUP::topMolecule 0] "residue $index"]
         set indexes [$sel list]
         set list [$molUP::tableCharges get $indexes]
         set charge 0
@@ -550,11 +550,11 @@ proc molUP::showNegPosResidues {} {
     }
 
     if {$listResidPos != ""} {
-        mol modselect 10 top "residue $listResidPos"
+        mol modselect 10 [lindex $molUP::topMolecule 0] "residue $listResidPos"
     } else {}
 
     if {$listResidNeg != ""} {
-        mol modselect 11 top "residue $listResidNeg"
+        mol modselect 11 [lindex $molUP::topMolecule 0] "residue $listResidNeg"
     } else {}
 }
 

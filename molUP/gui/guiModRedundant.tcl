@@ -143,7 +143,7 @@ proc molUP::guiModRed {} {
 }
 
 proc molUP::modRedCancel {} {
-    mol modselect 9 top "none"
+    mol modselect 9 [lindex $molUP::topMolecule 0] "none"
 
     set molUP::atom1ModRedSel ""
     set molUP::atom2ModRedSel ""
@@ -194,7 +194,7 @@ proc molUP::modRedChangeScanOpt {} {
     }
 
     set molUP::modRedPickedAtoms {}
-    mol modselect 9 top "none"
+    mol modselect 9 [lindex $molUP::topMolecule 0] "none"
 
     set molUP::atom1ModRedSel ""
     set molUP::atom2ModRedSel ""
@@ -206,7 +206,7 @@ proc molUP::modRedChangeScanOpt {} {
 
 proc molUP::modRedPickAtoms {} {
     set molUP::modRedPickedAtoms {}
-    mol modselect 9 top "none"
+    mol modselect 9 [lindex $molUP::topMolecule 0] "none"
 
     set molUP::atom1ModRedSel ""
     set molUP::atom2ModRedSel ""
@@ -229,12 +229,12 @@ proc molUP::modRedPickAtomsSecond {args} {
         if {[llength $molUP::modRedPickedAtoms] == 0} {
             lappend molUP::modRedPickedAtoms $vmd_pick_atom
             set molUP::atom1ModRedSel [lindex $molUP::modRedPickedAtoms 0]
-            mol modselect 9 top index $molUP::modRedPickedAtoms
+            mol modselect 9 [lindex $molUP::topMolecule 0] index $molUP::modRedPickedAtoms
 
         } else {
             lappend molUP::modRedPickedAtoms $vmd_pick_atom
             set molUP::atom2ModRedSel [lindex $molUP::modRedPickedAtoms 1]
-            mol modselect 9 top index $molUP::modRedPickedAtoms
+            mol modselect 9 [lindex $molUP::topMolecule 0] index $molUP::modRedPickedAtoms
 
             trace remove variable ::vmd_pick_atom write molUP::modRedPickAtomsSecond
             mouse mode rotate
@@ -245,17 +245,17 @@ proc molUP::modRedPickAtomsSecond {args} {
         if {[llength $molUP::modRedPickedAtoms] == 0} {
             lappend molUP::modRedPickedAtoms $vmd_pick_atom
             set molUP::atom1ModRedSel [lindex $molUP::modRedPickedAtoms 0]
-            mol modselect 9 top index $molUP::modRedPickedAtoms
+            mol modselect 9 [lindex $molUP::topMolecule 0] index $molUP::modRedPickedAtoms
 
         } elseif {[llength $molUP::modRedPickedAtoms] == 1} {
             lappend molUP::modRedPickedAtoms $vmd_pick_atom
             set molUP::atom2ModRedSel [lindex $molUP::modRedPickedAtoms 1]
-            mol modselect 9 top index $molUP::modRedPickedAtoms
+            mol modselect 9 [lindex $molUP::topMolecule 0] index $molUP::modRedPickedAtoms
 
         } else {
             lappend molUP::modRedPickedAtoms $vmd_pick_atom
             set molUP::atom3ModRedSel [lindex $molUP::modRedPickedAtoms 2]
-            mol modselect 9 top index $molUP::modRedPickedAtoms
+            mol modselect 9 [lindex $molUP::topMolecule 0] index $molUP::modRedPickedAtoms
 
             trace remove variable ::vmd_pick_atom write molUP::modRedPickAtomsSecond
             mouse mode rotate
@@ -265,23 +265,23 @@ proc molUP::modRedPickAtomsSecond {args} {
         if {[llength $molUP::modRedPickedAtoms] == 0} {
             lappend molUP::modRedPickedAtoms $vmd_pick_atom
             set molUP::atom1ModRedSel [lindex $molUP::modRedPickedAtoms 0]
-            mol modselect 9 top index $molUP::modRedPickedAtoms
+            mol modselect 9 [lindex $molUP::topMolecule 0] index $molUP::modRedPickedAtoms
 
         } elseif {[llength $molUP::modRedPickedAtoms] == 1} {
             lappend molUP::modRedPickedAtoms $vmd_pick_atom
             set molUP::atom2ModRedSel [lindex $molUP::modRedPickedAtoms 1]
-            mol modselect 9 top index $molUP::modRedPickedAtoms
+            mol modselect 9 [lindex $molUP::topMolecule 0] index $molUP::modRedPickedAtoms
 
 
         } elseif {[llength $molUP::modRedPickedAtoms] == 2} {
             lappend molUP::modRedPickedAtoms $vmd_pick_atom
             set molUP::atom3ModRedSel [lindex $molUP::modRedPickedAtoms 2]
-            mol modselect 9 top index $molUP::modRedPickedAtoms
+            mol modselect 9 [lindex $molUP::topMolecule 0] index $molUP::modRedPickedAtoms
             
         } else {
             lappend molUP::modRedPickedAtoms $vmd_pick_atom
             set molUP::atom4ModRedSel [lindex $molUP::modRedPickedAtoms 3]
-            mol modselect 9 top index $molUP::modRedPickedAtoms
+            mol modselect 9 [lindex $molUP::topMolecule 0] index $molUP::modRedPickedAtoms
 
             trace remove variable ::vmd_pick_atom write molUP::modRedPickAtomsSecond
             mouse mode rotate
@@ -311,7 +311,7 @@ proc molUP::modRedApply {} {
 
 
     ## Add line to 
-    set molID [molinfo top]
+    set molID [lindex $molUP::topMolecule 0]
     .molUP.frame0.major.mol$molID.tabs.tabInput.param insert 1.0 $lineToAdd
 
 

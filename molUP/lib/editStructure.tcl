@@ -14,12 +14,12 @@ proc molUP::onOffRepresentation {repIndex} {
         set alert [tk_messageBox -message "No structure was loaded. Please, load a structure before try to visualize it." -type ok -icon error]
 
     } else {
-            set actualOnOffStatus [mol showrep top $repIndex]
+            set actualOnOffStatus [mol showrep [lindex $molUP::topMolecule 0] $repIndex]
 
             if {$actualOnOffStatus == 0} {
-            mol showrep top $repIndex 1
+            mol showrep [lindex $molUP::topMolecule 0] $repIndex 1
         } else {
-            mol showrep top $repIndex 0
+            mol showrep [lindex $molUP::topMolecule 0] $repIndex 0
         }
 
     }
@@ -30,15 +30,15 @@ proc molUP::addSelectionRep {} {
     #### Change atom colors
     color Element C green3
 
-    set numberAtoms [[atomselect top all] num]
+    set numberAtoms [[atomselect [lindex $molUP::topMolecule 0] all] num]
 
-    set a [split [mol list top] "\n"]
+    set a [split [mol list [lindex $molUP::topMolecule 0]] "\n"]
     set numberRep [lindex [lindex $a 2] 2]
 
     if {$numberRep != 0} {
 
         for {set index 0} { $index < $numberRep } { incr index } {
-            mol delrep 0 top
+            mol delrep 0 [lindex $molUP::topMolecule 0]
         }
 
         #### Representation of the atoms selected on the tablelist
@@ -46,78 +46,78 @@ proc molUP::addSelectionRep {} {
 	    mol color ColorID 4
         mol material Diffuse
 	    mol representation VDW 0.300000 1.000000
-	    mol addrep top
+	    mol addrep [lindex $molUP::topMolecule 0]
 
         #### Representantion of High layer
         mol selection "altloc H"
         mol color Element
         mol material Diffuse
         mol representation Licorice 0.300000 15.000000 15.000000
-        mol addrep top
-        mol showrep top 1 $molUP::HLrep
+        mol addrep [lindex $molUP::topMolecule 0]
+        mol showrep [lindex $molUP::topMolecule 0] 1 $molUP::HLrep
 
         #### Representantion of Medium layer
         mol selection "altloc M"
         mol color Element
         mol material Diffuse
         mol representation Licorice 0.100000 15.000000 15.000000
-        mol addrep top
-        mol showrep top 2 $molUP::MLrep
+        mol addrep [lindex $molUP::topMolecule 0]
+        mol showrep [lindex $molUP::topMolecule 0] 2 $molUP::MLrep
 
         #### Representantion of Low layer
         mol selection "altloc L"
         mol color Element
         mol material Diffuse
         mol representation Lines 1.000000
-        mol addrep top
-        mol showrep top 3 $molUP::LLrep
+        mol addrep [lindex $molUP::topMolecule 0]
+        mol showrep [lindex $molUP::topMolecule 0] 3 $molUP::LLrep
 
         #### Representantion Protein
         mol selection "protein"
         mol color Element
         mol material Diffuse
         mol representation NewCartoon 0.300000 10.000000 4.100000
-        mol addrep top
-        mol showrep top 4 $molUP::proteinRep
+        mol addrep [lindex $molUP::topMolecule 0]
+        mol showrep [lindex $molUP::topMolecule 0] 4 $molUP::proteinRep
 
         #### Representantion Non-Protein
         mol selection "all and not (protein or water)"
         mol color Element
         mol material Diffuse
         mol representation Licorice 0.100000 15.000000 15.000000
-        mol addrep top
-        mol showrep top 5 $molUP::nonproteinRep
+        mol addrep [lindex $molUP::topMolecule 0]
+        mol showrep [lindex $molUP::topMolecule 0] 5 $molUP::nonproteinRep
 
         #### Representantion Water
         mol selection "water"
         mol color Element
         mol material Diffuse
         mol representation VDW 0.300000 1.000000
-        mol addrep top
-        mol showrep top 6 $molUP::waterRep
+        mol addrep [lindex $molUP::topMolecule 0]
+        mol showrep [lindex $molUP::topMolecule 0] 6 $molUP::waterRep
 
         #### Representantion Unfreeze
         mol selection "user 0"
         mol color Element
         mol material Diffuse
         mol representation Lines 2.000000
-        mol addrep top
-        mol showrep top 7 $molUP::unfreezeRep
+        mol addrep [lindex $molUP::topMolecule 0]
+        mol showrep [lindex $molUP::topMolecule 0] 7 $molUP::unfreezeRep
 
         #### Representantion Freeze
         mol selection "user \"-1\" \"-2\" \"-3\""
         mol color Element
         mol material Diffuse
         mol representation Licorice 0.100000 15.000000 15.000000
-        mol addrep top
-        mol showrep top 8 $molUP::freezeRep
+        mol addrep [lindex $molUP::topMolecule 0]
+        mol showrep [lindex $molUP::topMolecule 0] 8 $molUP::freezeRep
 
         #### Representantion Selected atoms
         mol selection "none"
 	    mol color ColorID 4
         mol material Transparent
 	    mol representation VDW 0.400000 50.000000
-	    mol addrep top
+	    mol addrep [lindex $molUP::topMolecule 0]
 
         #### Representantion of positive and negative residues
         # Positive
@@ -125,16 +125,16 @@ proc molUP::addSelectionRep {} {
 	    mol color ColorID 0
         mol material Transparent
 	    mol representation QuickSurf 0.500000 0.500000 0.250000 2.000000
-	    mol addrep top
-        mol showrep top 10 $molUP::showPosChargedResidues
+	    mol addrep [lindex $molUP::topMolecule 0]
+        mol showrep [lindex $molUP::topMolecule 0] 10 $molUP::showPosChargedResidues
 
         # Negative
         mol selection "none"
 	    mol color ColorID 1
         mol material Transparent
 	    mol representation QuickSurf 0.500000 0.500000 0.250000 2.000000
-	    mol addrep top
-        mol showrep top 11 $molUP::showNegChargedResidues
+	    mol addrep [lindex $molUP::topMolecule 0]
+        mol showrep [lindex $molUP::topMolecule 0] 11 $molUP::showNegChargedResidues
 
         if {$numberAtoms > 250 } {
             # All representations
@@ -142,18 +142,18 @@ proc molUP::addSelectionRep {} {
             mol color Element
             mol material Diffuse
             mol representation Lines 1.000000
-            mol addrep top
+            mol addrep [lindex $molUP::topMolecule 0]
             set molUP::allRep 1
-            mol showrep top 12 $molUP::allRep
+            mol showrep [lindex $molUP::topMolecule 0] 12 $molUP::allRep
         } else {
             # All representations
             mol selection all
             mol color Element
             mol material Diffuse
             mol representation Licorice 0.300000 15.000000 15.000000
-            mol addrep top
+            mol addrep [lindex $molUP::topMolecule 0]
             set molUP::allRep 1
-            mol showrep top 12 $molUP::allRep
+            mol showrep [lindex $molUP::topMolecule 0] 12 $molUP::allRep
         }
 
 
@@ -165,78 +165,78 @@ proc molUP::addSelectionRep {} {
 	    mol color ColorID 4
         mol material Diffuse
 	    mol representation VDW 0.300000 1.000000
-	    mol addrep top
+	    mol addrep [lindex $molUP::topMolecule 0]
 
         #### Representantion of High layer
         mol selection "altloc H"
         mol color Element
         mol material Diffuse
         mol representation Licorice 0.300000 15.000000 15.000000
-        mol addrep top
-        mol showrep top 1 $molUP::HLrep
+        mol addrep [lindex $molUP::topMolecule 0]
+        mol showrep [lindex $molUP::topMolecule 0] 1 $molUP::HLrep
 
         #### Representantion of Medium layer
         mol selection "altloc M"
         mol color Element
         mol material Diffuse
         mol representation Licorice 0.100000 15.000000 15.000000
-        mol addrep top
-        mol showrep top 2 $molUP::MLrep
+        mol addrep [lindex $molUP::topMolecule 0]
+        mol showrep [lindex $molUP::topMolecule 0] 2 $molUP::MLrep
 
         #### Representantion of Low layer
         mol selection "altloc L"
         mol color Element
         mol material Diffuse
         mol representation Lines 1.000000
-        mol addrep top
-        mol showrep top 3 $molUP::LLrep
+        mol addrep [lindex $molUP::topMolecule 0]
+        mol showrep [lindex $molUP::topMolecule 0] 3 $molUP::LLrep
 
         #### Representantion Protein
         mol selection "protein"
         mol color Element
         mol material Diffuse
         mol representation NewCartoon 0.300000 10.000000 4.100000
-        mol addrep top
-        mol showrep top 4 $molUP::proteinRep
+        mol addrep [lindex $molUP::topMolecule 0]
+        mol showrep [lindex $molUP::topMolecule 0] 4 $molUP::proteinRep
 
         #### Representantion Non-Protein
         mol selection "all and not (protein or water)"
         mol color Element
         mol material Diffuse
         mol representation Licorice 0.100000 15.000000 15.000000
-        mol addrep top
-        mol showrep top 5 $molUP::nonproteinRep
+        mol addrep [lindex $molUP::topMolecule 0]
+        mol showrep [lindex $molUP::topMolecule 0] 5 $molUP::nonproteinRep
 
         #### Representantion Water
         mol selection "water"
         mol color Element
         mol material Diffuse
         mol representation VDW 0.300000 1.000000
-        mol addrep top
-        mol showrep top 6 $molUP::waterRep
+        mol addrep [lindex $molUP::topMolecule 0]
+        mol showrep [lindex $molUP::topMolecule 0] 6 $molUP::waterRep
 
         #### Representantion Unfreeze
         mol selection "user 0"
         mol color Element
         mol material Diffuse
         mol representation Lines 2.000000
-        mol addrep top
-        mol showrep top 7 $molUP::unfreezeRep
+        mol addrep [lindex $molUP::topMolecule 0]
+        mol showrep [lindex $molUP::topMolecule 0] 7 $molUP::unfreezeRep
 
         #### Representantion Freeze
         mol selection "user \"-1\" \"-2\" \"-3\""
         mol color Element
         mol material Diffuse
         mol representation Licorice 0.100000 15.000000 15.000000
-        mol addrep top
-        mol showrep top 8 $molUP::freezeRep
+        mol addrep [lindex $molUP::topMolecule 0]
+        mol showrep [lindex $molUP::topMolecule 0] 8 $molUP::freezeRep
 
         #### Representantion Selected atoms
         mol selection "none"
 	    mol color ColorID 4
         mol material Transparent
 	    mol representation VDW 0.400000 50.000000
-	    mol addrep top
+	    mol addrep [lindex $molUP::topMolecule 0]
 
         #### Representantion of positive and negative residues
         # Positive
@@ -244,16 +244,16 @@ proc molUP::addSelectionRep {} {
 	    mol color ColorID 0
         mol material Transparent
 	    mol representation QuickSurf 0.500000 0.500000 0.250000 2.000000
-	    mol addrep top
-        mol showrep top 10 $molUP::showPosChargedResidues
+	    mol addrep [lindex $molUP::topMolecule 0]
+        mol showrep [lindex $molUP::topMolecule 0] 10 $molUP::showPosChargedResidues
 
         # Negative
         mol selection "none"
 	    mol color ColorID 1
         mol material Transparent
 	    mol representation QuickSurf 0.500000 0.500000 0.250000 2.000000
-	    mol addrep top
-        mol showrep top 11 $molUP::showNegChargedResidues
+	    mol addrep [lindex $molUP::topMolecule 0]
+        mol showrep [lindex $molUP::topMolecule 0] 11 $molUP::showNegChargedResidues
 
         # All
         if {$numberAtoms > 250 } {
@@ -264,9 +264,9 @@ proc molUP::addSelectionRep {} {
         mol selection all
         mol color Element
         mol material Diffuse
-        mol addrep top
+        mol addrep [lindex $molUP::topMolecule 0]
         set molUP::allRep 1
-        mol showrep top 12 $molUP::allRep
+        mol showrep [lindex $molUP::topMolecule 0] 12 $molUP::allRep
 
     } else {}
 
@@ -277,23 +277,23 @@ proc molUP::changeRepCurSelection {option} {
 
     set evaluateLoadedMol [mol list]
 
-    set molID [molinfo top]
+    set molID [lindex $molUP::topMolecule 0]
 
     if {$evaluateLoadedMol == "ERROR) No molecules loaded."} {
         molUP::guiError "No structure was loaded."
     } else {
         if {$option == "charges"} {
             set indexSelectedAtoms [.molUP.frame0.major.mol$molID.tabs.tabResults.tabs.tab4.tableLayer curselection]
-            mol modselect 0 top index $indexSelectedAtoms
+            mol modselect 0 [lindex $molUP::topMolecule 0] index $indexSelectedAtoms
         
         } elseif {$option == "oniom"} {
             set indexSelectedAtoms [.molUP.frame0.major.mol$molID.tabs.tabResults.tabs.tab2.tableLayer curselection]
-            mol modselect 0 top index $indexSelectedAtoms
+            mol modselect 0 [lindex $molUP::topMolecule 0] index $indexSelectedAtoms
             set molUP::atomSelectionONIOM "index $indexSelectedAtoms"
         
         } elseif {$option == "freeze"} {
             set indexSelectedAtoms [.molUP.frame0.major.mol$molID.tabs.tabResults.tabs.tab3.tableLayer curselection]
-            mol modselect 0 top index $indexSelectedAtoms
+            mol modselect 0 [lindex $molUP::topMolecule 0] index $indexSelectedAtoms
             set molUP::atomSelectionFreeze "index $indexSelectedAtoms"
         } else {
             
@@ -303,17 +303,17 @@ proc molUP::changeRepCurSelection {option} {
 
 #### Apply selection to structure 
 proc molUP::applyToStructure {option} {
-    set molID [molinfo top]
+    set molID [lindex $molUP::topMolecule 0]
     if {$option == "oniom"} {
-        [atomselect top "$molUP::atomSelectionONIOM"] set altloc $molUP::selectionModificationValueOniom
-        set index [[atomselect top "$molUP::atomSelectionONIOM"] get index]
+        [atomselect [lindex $molUP::topMolecule 0] "$molUP::atomSelectionONIOM"] set altloc $molUP::selectionModificationValueOniom
+        set index [[atomselect [lindex $molUP::topMolecule 0] "$molUP::atomSelectionONIOM"] get index]
         foreach atom $index {
             .molUP.frame0.major.mol$molID.tabs.tabResults.tabs.tab2.tableLayer configcells [subst $atom],4 -text [subst $molUP::selectionModificationValueOniom]
         }
         molUP::guiChargeMulti $molUP::chargeMultiFrame
     } elseif {$option == "freeze"} {
-        [atomselect top "$molUP::atomSelectionFreeze"] set user $molUP::selectionModificationValueFreeze
-        set index [[atomselect top "$molUP::atomSelectionFreeze"] get index]
+        [atomselect [lindex $molUP::topMolecule 0] "$molUP::atomSelectionFreeze"] set user $molUP::selectionModificationValueFreeze
+        set index [[atomselect [lindex $molUP::topMolecule 0] "$molUP::atomSelectionFreeze"] get index]
         foreach atom $index {
             .molUP.frame0.major.mol$molID.tabs.tabResults.tabs.tab3.tableLayer configcells [subst $atom],4 -text [subst $molUP::selectionModificationValueFreeze]
         }
@@ -327,14 +327,14 @@ proc molUP::applyToStructure {option} {
 #### Clear selection
 proc molUP::clearSelection {option} {
     if {$option == "charges"} {
-        mol modselect 0 top none
+        mol modselect 0 [lindex $molUP::topMolecule 0] none
 
     } elseif {$option == "oniom"} {
-        mol modselect 0 top none
+        mol modselect 0 [lindex $molUP::topMolecule 0] none
         set molUP::atomSelectionONIOM ""
 
     } elseif {$option == "freeze"} {
-        mol modselect 0 top none
+        mol modselect 0 [lindex $molUP::topMolecule 0] none
         set molUP::atomSelectionFreeze ""
     } else {
         

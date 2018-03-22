@@ -100,15 +100,15 @@ proc molUP::getConnectivityFromInputFile {} {
 	set path [join [list [file dirname $molUP::path] "/" $molUP::fileName ".com"] ""]
 	set fileExists [file exists $path]
 
-	mol ssrecalc top
-	mol bondsrecalc top
-	mol reanalyze top
+	mol ssrecalc [lindex $molUP::topMolecule 0]
+	mol bondsrecalc [lindex $molUP::topMolecule 0]
+	mol reanalyze [lindex $molUP::topMolecule 0]
 
 	display resetview
 
 	if {$fileExists == 1} {
 		### Add connectivity to VMD
-		set molID [molinfo top]
+		set molID [lindex $molUP::topMolecule 0]
 
 		set firstLine [expr [molUP::getBlankLines $path 2] + 1]
 		set lastLine [expr [molUP::getBlankLines $path 3] - 1]
