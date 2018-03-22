@@ -137,7 +137,7 @@ proc molUP::addAtomToPickedAtom {args} {
     set molUP::addAtomR 1.0
 
     # Add Atom to the list
-    set newLineTable [list [$atomAdded get index] [$atomAdded get element] [$atomAdded get name] [$atomAdded get type] [$atomAdded get resname] [$atomAdded get resid] [format %.6f [$atomAdded get charge]] [$atomAdded get altloc] [format %.0f [$atomAdded get user]] $::vmd_pick_atom]
+    set newLineTable [list [$atomAdded get index] [$atomAdded get element] [$atomAdded get name] [$atomAdded get type] [$atomAdded get resname] [$atomAdded get resid] [format %.6f [$atomAdded get charge]] [$atomAdded get altloc] [format %.0f [$atomAdded get user]] $::vmd_pick_atom $::vmd_pick_mol]
     $molUP::addAtoms.frame0.frame.table insert end $newLineTable
 
     # Select atom on the tablelist
@@ -158,6 +158,23 @@ proc molUP::addAtomToPickedAtom {args} {
 
 }
 
+proc molUP::geom_center {selection} {
+        ##### Get the geom center of a selection
+        ##### This code was copied from "VMD User's Guide"
+        ##### http://www.ks.uiuc.edu/Research/vmd/vmd-1.7.1/ug/node181.html
+
+        # set the geometrical center to 0
+        set gc [veczero]
+        # [$selection get {x y z}] returns a list of {x y z} 
+        #    values (one per atoms) so get each term one by one
+        foreach coord [$selection get {x y z}] {
+           # sum up the coordinates
+           set gc [vecadd $gc $coord]
+        }
+        # and scale by the inverse of the number of atoms
+        return [vecscale [expr 1.0 /[$selection num]] $gc]
+}
+
 proc molUP::addAtomMove {} {
     # Proc to move the atom when they are being added 
     # index1 is the atom that must be moved
@@ -165,8 +182,14 @@ proc molUP::addAtomMove {} {
 
     # Get tablelist ID
     set tablelistID [$molUP::addAtoms.frame0.frame.table curselection]
-    set index1 [lindex [$molUP::addAtoms.frame0.frame.table get $tablelistID] 0]
-    set index2 [lindex [$molUP::addAtoms.frame0.frame.table get $tablelistID] end]
+    set indexes1 {}
+    foreach id $tablelistID {
+        set index [lindex [$molUP::addAtoms.frame0.frame.table get $id] 0]
+        lappend indexes1 $index
+    }
+    
+    set index2 [lindex [$molUP::addAtoms.frame0.frame.table get [lindex $tablelistID 0]] end-1]
+    variable mol2 [lindex [$molUP::addAtoms.frame0.frame.table get [lindex $tablelistID 0]] end]
 
     # Enable all the GUI elements
     $molUP::addAtoms.frame0.frame.radius configure -state normal
@@ -175,15 +198,17 @@ proc molUP::addAtomMove {} {
     $molUP::addAtoms.frame0.frame.deleteAtom configure -state normal
 
     # Update the variables that have the index of the involved atoms
-    variable addAtomIndex "$index1"
+    variable addAtomIndex "$indexes1"
     variable anchorAtomIndex "$index2"
 
     # Create selections to get the coords
     set selection1 [atomselect top "index $molUP::addAtomIndex"]
-    set selection2 [atomselect $molUP::addAtomMolID "index $molUP::anchorAtomIndex"]
+    set selection1Pos [molUP::geom_center $selection1]
+    set selection2 [atomselect $molUP::mol2 "index $molUP::anchorAtomIndex"]
 
     # Get the coords
-    set moveAtomPos [list [$selection1 get x] [$selection1 get y] [$selection1 get z]]
+    set molUP::moveAtomPosRectInitial $selection1Pos
+    set moveAtomPos $selection1Pos
     set anchorAtomPos [list [$selection2 get x] [$selection2 get y] [$selection2 get z]]
 
     # Update the Gui with the spherical coords
@@ -226,7 +251,7 @@ proc molUP::convertToRectCoords {anchorAtomPos moveAtomPosSpherical} {
 proc molUP::addAtomMoveCommand {args} {
     catch {
         # Get the rectangular coords of the anchor atom
-        set selection [atomselect $molUP::addAtomMolID "index $molUP::anchorAtomIndex"]
+        set selection [atomselect $molUP::mol2 "index $molUP::anchorAtomIndex"]
         set selPos [list [$selection get x] [$selection get y] [$selection get z]]
         $selection delete
 
@@ -237,9 +262,14 @@ proc molUP::addAtomMoveCommand {args} {
         set moveAtomPosRect [molUP::convertToRectCoords $selPos $moveAtomPos]
 
         # Move atom to a certain position
-        set selection [atomselect top "index $molUP::addAtomIndex"]
-        $selection moveto $moveAtomPosRect
-        $selection delete
+        foreach atom $molUP::addAtomIndex {
+            set selection [atomselect top "index $atom"]
+            set vectorDifference [vecsub $moveAtomPosRect $molUP::moveAtomPosRectInitial]
+            $selection moveby $vectorDifference
+            $selection delete
+        }
+
+        set molUP::moveAtomPosRectInitial $moveAtomPosRect
     }
 }
 

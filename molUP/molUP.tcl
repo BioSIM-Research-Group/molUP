@@ -181,6 +181,7 @@ namespace eval molUP:: {
 		variable saveAdvancedOptions "All"
 		variable atomSelectionSave "all"
 		variable addAtomElement	"H"
+		variable moveAtomPosRectInitial	{}
 
 
 		variable chargeAll	0

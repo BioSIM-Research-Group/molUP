@@ -67,7 +67,7 @@ proc molUP::guiAddAtoms {} {
 
     place [tablelist::tablelist $molUP::addAtoms.frame0.frame.table \
 			-showeditcursor true \
-			-columns {0 "Index" center 0 "Element" center 0 "PDB Type" center 0 "Gaussian Type" center 0 "Resname" center 0 "Resid" center 0 "Charge" center 0 "Layer" center 0 "Freeze" center 0 "Anchor Index" center} \
+			-columns {0 "Index" center 0 "Element" center 0 "PDB Type" center 0 "Gaussian Type" center 0 "Resname" center 0 "Resid" center 0 "Charge" center 0 "Layer" center 0 "Freeze" center 0 "Anchor Index" center 0 "Anchor Mol" center} \
 			-stretch all \
 			-background white \
 			-yscrollcommand [list $molUP::addAtoms.frame0.frame.yscb set] \
