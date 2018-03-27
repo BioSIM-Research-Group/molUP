@@ -53,13 +53,13 @@ proc molUP::guiAddAtoms {} {
 
     # Add Fragment Button
     place [ttk::button $molUP::addAtoms.frame0.frame.addFrag \
-		            -text "Add Fragment/Group" \
-		            -command {} \
+		            -text "Add Molecule/Fragment" \
+		            -command {molUP::guiAddMolecule} \
 					-style molUP.TButton \
-		            ] -in $molUP::addAtoms.frame0.frame -x 95 -y 10 -width 150
+		            ] -in $molUP::addAtoms.frame0.frame -x 95 -y 10 -width 190
 
     # Load external Molecular Button
-    place [ttk::button $molUP::addAtoms.frame0.frame.loadExternal \
+   #place [ttk::button $molUP::addAtoms.frame0.frame.loadExternal \
 		            -text "Add External Molecule" \
 		            -command {} \
 					-style molUP.TButton \
@@ -108,7 +108,7 @@ proc molUP::guiAddAtoms {} {
 		    ] -in $molUP::addAtoms.frame0.frame -x 300 -y 170 -width 300
 
 
-	# Manipulation of the atom
+	# Manipulation of the atom - Translation
 	place [ttk::label $molUP::addAtoms.frame0.frame.radiusLabel \
 		    -text "Distance (Angstrom):" \
 			-style molUP.white.TLabel \
@@ -166,20 +166,54 @@ proc molUP::guiAddAtoms {} {
 		            -command {molUP::addAtomDelete} \
 					-style molUP.TButton \
 					-state disabled \
-		            ] -in $molUP::addAtoms.frame0.frame -x 150 -y 330 -width 75
+		            ] -in $molUP::addAtoms.frame0.frame -x 515 -y 300 -width 75
+
+	# Manipulation of the atom - Rotation
+	place [ttk::label $molUP::addAtoms.frame0.frame.angleAlabelRot \
+		    -text "Angle A (Degrees):" \
+			-style molUP.white.TLabel \
+		    ] -in $molUP::addAtoms.frame0.frame -x 310 -y 220 -width 120
+
+	place [scale $molUP::addAtoms.frame0.frame.angleARot \
+				-length 280 \
+				-from 0.0 \
+				-to 360.0 \
+				-resolution 0.1 \
+				-command {molUP::addAtomRotateCommand x} \
+				-orient horizontal \
+				-showvalue 1 \
+				-state disabled \
+			] -in $molUP::addAtoms.frame0.frame -x 430 -y 200 -width 160
+
+	
+	place [ttk::label $molUP::addAtoms.frame0.frame.angleBlabelRot \
+		    -text "Angle B (Degrees):" \
+			-style molUP.white.TLabel \
+		    ] -in $molUP::addAtoms.frame0.frame -x 310 -y 260 -width 120
+
+	place [scale $molUP::addAtoms.frame0.frame.angleBRot \
+				-length 280 \
+				-from 0.0 \
+				-to 360.0 \
+				-resolution 0.1 \
+				-command {molUP::addAtomRotateCommand y} \
+				-orient horizontal \
+				-showvalue 1 \
+				-state disabled \
+			] -in $molUP::addAtoms.frame0.frame -x 430 -y 240 -width 160
 
 	# Buttons to Apply and Cancel
     place [ttk::button $molUP::addAtoms.frame0.frame.apply \
-		            -text "Add" \
+		            -text "Finish & Add Atoms" \
 		            -command {molUP::addAtomGuiApply} \
 					-style molUP.TButton \
-		            ] -in $molUP::addAtoms.frame0.frame -x 415 -y 360 -width 75
+		            ] -in $molUP::addAtoms.frame0.frame -x 355 -y 360 -width 150
 				
 	place [ttk::button $molUP::addAtoms.frame0.frame.cancel \
 		            -text "Cancel" \
 		            -command {molUP::addAtomsGuiCloseSave} \
 					-style molUP.TButton \
-		            ] -in $molUP::addAtoms.frame0.frame -x 500 -y 360 -width 75
+		            ] -in $molUP::addAtoms.frame0.frame -x 515 -y 360 -width 75
 
 }
 

@@ -195,6 +195,8 @@ proc molUP::addAtomMove {} {
     $molUP::addAtoms.frame0.frame.radius configure -state normal
     $molUP::addAtoms.frame0.frame.angleA configure -state normal
     $molUP::addAtoms.frame0.frame.angleB configure -state normal
+    $molUP::addAtoms.frame0.frame.angleARot configure -state normal
+    $molUP::addAtoms.frame0.frame.angleBRot configure -state normal
     $molUP::addAtoms.frame0.frame.deleteAtom configure -state normal
 
     # Update the variables that have the index of the involved atoms
@@ -217,6 +219,10 @@ proc molUP::addAtomMove {} {
     # Delete the Coords 
     $selection1 delete
     $selection2 delete
+
+    # Set rotation variables
+    variable addAtomAngleARotation 0
+    variable addAtomAngleBRotation 0
 
 }
 
@@ -249,6 +255,7 @@ proc molUP::convertToRectCoords {anchorAtomPos moveAtomPosSpherical} {
 }
 
 proc molUP::addAtomMoveCommand {args} {
+    ## Proc that is called every time the translation scales are triggered
     catch {
         # Get the rectangular coords of the anchor atom
         set selection [atomselect $molUP::mol2 "index $molUP::anchorAtomIndex"]
@@ -270,6 +277,31 @@ proc molUP::addAtomMoveCommand {args} {
         }
 
         set molUP::moveAtomPosRectInitial $moveAtomPosRect
+    }
+}
+
+proc molUP::addAtomRotateCommand {axis value} {
+    ## Proc that is called every time the rotation scales are triggered
+    catch {
+        set sel [atomselect top "index $molUP::addAtomIndex"]
+
+        set com [measure center $sel]
+        if {$axis == "x"} {
+            set matrix [transaxis $axis [expr $value - $molUP::addAtomAngleARotation]] 
+        } elseif {$axis == "y"} {
+            set matrix [transaxis $axis [expr $value - $molUP::addAtomAngleBRotation]] 
+        }
+        $sel moveby [vecscale -1.0 $com] 
+        $sel move $matrix 
+        $sel moveby $com 
+
+        $sel delete
+
+        if {$axis == "x"} {
+            set molUP::addAtomAngleARotation $value
+        } elseif {$axis == "y"} {
+            set molUP::addAtomAngleBRotation $value
+        }
     }
 }
 
@@ -299,22 +331,24 @@ proc molUP::applyAddAtomModification {args} {
     set field [lindex $args 2]
     set value [lindex $args 3]
 
-    if {$field == 1} {
-        $selection set element $value
-    } elseif {$field == 2} {
-        $selection set name $value
-    } elseif {$field == 3} {
-        $selection set type $value
-    } elseif {$field == 4} {    
-        $selection set resname $value
-    } elseif {$field == 5} {
-        $selection set resid $value
-    } elseif {$field == 6} {
-        $selection set charge $value
-    } elseif {$field == 7} {
-        $selection set altloc $value
-    } elseif {$field == 8} {
-        $selection set user $value
+    catch {
+        if {$field == 1} {
+            $selection set element $value
+        } elseif {$field == 2} {
+            $selection set name $value
+        } elseif {$field == 3} {
+            $selection set type $value
+        } elseif {$field == 4} {    
+            $selection set resname $value
+        } elseif {$field == 5} {
+            $selection set resid $value
+        } elseif {$field == 6} {
+            $selection set charge $value
+        } elseif {$field == 7} {
+            $selection set altloc $value
+        } elseif {$field == 8} {
+            $selection set user $value
+        }
     }
 
     $selection delete

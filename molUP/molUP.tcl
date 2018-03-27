@@ -23,6 +23,7 @@ namespace eval molUP:: {
 		package require guiOpenMultiFile 						1.0
 		package require guiDeleteAtoms							1.0
 		package require guiAddAtoms								1.0
+		package require guiAddMolecule 							1.0
 		
 		package require inputFile 								1.0
 		package require timeControl								1.0
@@ -74,6 +75,7 @@ namespace eval molUP:: {
 		variable deleteAtoms		".molUP.deleteAtoms"
 		variable addAtoms			".molUP.addAtoms"
 		variable periodicTable		".molUP.addAtoms.periodicTable"
+		variable addMolecule		".molUP.addAtoms.addMolecule"
 
 		global path
 		variable path 				"/"

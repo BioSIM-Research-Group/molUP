@@ -21,6 +21,7 @@ package ifneeded guiBADparam             	                1.0 [list source [file
 package ifneeded guiModRedundant                            1.0 [list source [file join $dir/gui/guiModRedundant.tcl]]
 package ifneeded guiDeleteAtoms                             1.0 [list source [file join $dir/gui/guiDeleteAtoms.tcl]]
 package ifneeded guiAddAtoms                                1.0 [list source [file join $dir/gui/guiAddAtoms.tcl]]
+package ifneeded guiAddMolecule                             1.0 [list source [file join $dir/gui/guiAddMolecule.tcl]]
 
 
 #lib
