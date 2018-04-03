@@ -13,6 +13,8 @@ Main Features:
 - Show quick useful representations such as the protein, the different ONIOM layers, and the fixed atoms;
 - Structural Manipulation: adjust the bond length, angle amplitude, and dihedral angle torsion;
 - Provide a complete bibliographic list of references according to the type of methods and functionals that were employed in the calculation;
+- Add atoms and molecular fragments NEW;
+- Remove atoms NEW;
 - Among others.
 
 ![Logo](Screenshots/image1.gif)
