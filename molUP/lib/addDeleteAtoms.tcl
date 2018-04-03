@@ -36,48 +36,54 @@ proc molUP::deleteAtomProcess {} {
 	# Get indexes of the atoms that must be deleted
 	set indexes [$molUP::deleteAtoms.frame0.frame.table getcolumns 0]
 
-	# Get the ID of the top molecule
-	set molID [molinfo top]
+    if {[llength $indexes] != 0} {
+        # Get the ID of the top molecule
+        set molID [molinfo top]
 
-	# Get the name of the top molecule
-	set molName [molinfo top get name]
-	
-	# Atom selection of all system without the deleted atom
-	set allWithoutAtom [atomselect top "all and not index $indexes"]
+        # Get the name of the top molecule
+        set molName [molinfo top get name]
+        
+        # Atom selection of all system without the deleted atom
+        set allWithoutAtom [atomselect top "all and not index $indexes"]
 
-	# Stop Tracing
-	trace remove variable ::vmd_initialize_structure write molUP::updateStructuresFromOtherSource
+        # Stop Tracing
+        trace remove variable ::vmd_initialize_structure write molUP::updateStructuresFromOtherSource
 
-	# Create a new molecule with the new information
-	set mol [molUP::mergeMolecules $allWithoutAtom]
+        # Create a new molecule with the new information
+        set mol [molUP::mergeMolecules $allWithoutAtom]
 
-	# Delete the atomselection to free memory
-	$allWithoutAtom delete
+        # Delete the atomselection to free memory
+        $allWithoutAtom delete
 
-    # Get Parameters
-    set parameters [.molUP.frame0.major.mol$molID.tabs.tabInput.param get 1.0 end]
+        # Get Parameters
+        set parameters [.molUP.frame0.major.mol$molID.tabs.tabInput.param get 1.0 end]
 
-	# Update structures 
-	molUP::updateStructuresFromOtherSource
+        # Update structures 
+        molUP::updateStructuresFromOtherSource
 
-    # Apply Parameters
-    set molIDnew [molinfo top]
-    .molUP.frame0.major.mol$molIDnew.tabs.tabInput.param insert end $parameters
+        # Apply Parameters
+        set molIDnew [molinfo top]
+        .molUP.frame0.major.mol$molIDnew.tabs.tabInput.param insert end $parameters
 
-	# Re-Activate tracing
-	trace variable ::vmd_initialize_structure w molUP::updateStructuresFromOtherSource
+        # Re-Activate tracing
+        trace variable ::vmd_initialize_structure w molUP::updateStructuresFromOtherSource
 
-	# Rename de molecule to the initial name
-	mol rename top "[subst $molName]"
+        # Rename de molecule to the initial name
+        mol rename top "[subst $molName]"
 
-	# Delete the originary molecule
-	mol delete $molID
+        # Delete the originary molecule
+        mol delete $molID
 
-	# Stop picking trace
-	trace remove variable ::vmd_pick_atom write molUP::deleteAtomProcess
+        # Stop picking trace
+        trace remove variable ::vmd_pick_atom write molUP::deleteAtomProcess
 
-	# Close Gui
-	molUP::deleteAtomsGuiCloseSave
+        # Close Gui
+        molUP::deleteAtomsGuiCloseSave
+
+    } else {
+        molUP::deleteAtomsGuiCloseSave
+    }
+
 }
 
 
@@ -365,6 +371,9 @@ proc molUP::mergeMolecules {sellist} {
 
     # compute total number of atoms and collect
     # offsets and number of atoms of each piece.
+
+    set viewPoint [molinfo top get {center_matrix rotate_matrix scale_matrix global_matrix}]
+
     set ntotal 0
     set offset {}
     set numlist {}
@@ -392,6 +401,7 @@ proc molUP::mergeMolecules {sellist} {
         return -1
     } else {
         animate dup $mol
+	    molinfo top set {center_matrix rotate_matrix scale_matrix global_matrix} $viewPoint
     }
 
     # copy data over piece by piece

@@ -25,14 +25,23 @@ proc molUP::guiAddAtoms {} {
     # Stop Tracing
 	trace remove variable ::vmd_initialize_structure write molUP::updateStructuresFromOtherSource
 
-    # Create a new molecule
-    mol new atoms 1000
-    animate dup top
-	mol rename top "molUP_adding_atoms..."
-	set selection [atomselect top "all"]
+	# Actual molecule 
+	set actualMol [molinfo top]
+
+	set viewPoint [molinfo $actualMol get {center_matrix rotate_matrix scale_matrix global_matrix}]
+
+    catch {mol new atoms 1000} mol
+    animate dup $mol
+
+	molinfo $actualMol set {center_matrix rotate_matrix scale_matrix global_matrix} $viewPoint
+	molinfo $mol set {center_matrix rotate_matrix scale_matrix global_matrix} $viewPoint
+
+	mol rename $mol "molUP_adding_atoms..."
+	set selection [atomselect $mol "all"]
 	$selection set occupancy 0
 	mol selection "occupancy 1"
-	mol addrep top
+	mol addrep $mol
+
 
 	## Apply theme
 	ttk::style theme use molUPTheme
