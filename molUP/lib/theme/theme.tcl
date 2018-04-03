@@ -86,6 +86,15 @@ ttk::style theme create molUPTheme -parent clam -settings {
         Button.molUP.mouseModeScale.Button
     }
 
+    ttk::style element create molUP.addRemoveBonds.Button image \
+        [list $molUP::images(button-mouseModeAddRemoveBonds) \
+        active $molUP::images(button-mouseModeAddRemoveBonds-a)
+        ] \
+        -width 30 -height 30 -sticky news
+    ttk::style layout molUP.addRemoveBonds.TButton {
+        Button.molUP.addRemoveBonds.Button
+    }
+
     ttk::style element create molUP.bondEdit.Button image \
         [list $molUP::images(button-bondEdit) \
         active $molUP::images(button-bondEdit-a)
@@ -111,6 +120,24 @@ ttk::style theme create molUPTheme -parent clam -settings {
         -width 30 -height 30 -sticky news
     ttk::style layout molUP.dihedralEdit.TButton {
         Button.molUP.dihedralEdit.Button
+    }
+
+    ttk::style element create molUP.addAtoms.Button image \
+        [list $molUP::images(button-addAtoms) \
+        active $molUP::images(button-addAtoms-a)
+        ] \
+        -width 30 -height 30 -sticky news
+    ttk::style layout molUP.addAtoms.TButton {
+        Button.molUP.addAtoms.Button
+    }
+
+    ttk::style element create molUP.removeAtoms.Button image \
+        [list $molUP::images(button-removeAtoms) \
+        active $molUP::images(button-removeAtoms-a)
+        ] \
+        -width 30 -height 30 -sticky news
+    ttk::style layout molUP.removeAtoms.TButton {
+        Button.molUP.removeAtoms.Button
     }
 
 

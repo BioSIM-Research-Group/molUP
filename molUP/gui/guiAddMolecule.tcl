@@ -165,7 +165,7 @@ proc molUP::applyAddMoleculeA {args} {
     		$atomAdded set resname "[lindex $line 3]"
     		$atomAdded set resid "999"
     		$atomAdded set user "0"
-    		$atomAdded set altloc "L"
+    		$atomAdded set altloc "H"
 			$atomAdded set x "[lindex $line 5]"
 			$atomAdded set y "[lindex $line 6]"
 			$atomAdded set z "[lindex $line 7]"

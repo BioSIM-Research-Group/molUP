@@ -1,8 +1,9 @@
 ######### molUP ##############
 Last version: 1.4.0
 ##############################
-Version 1.4.0 (X MAR 2018)
+Version 1.4.0 (3 ABR 2018)
 - [New feature] Now you can delete and add atoms using molUP.
+- [Improvement] The footer toolbar includes a shortcut button to enable the Add/Remove Bonds mouse mode, and two icons to use the new tools that enable the addition and deletion of atoms.
 
 Version 1.3.10 (9 MAR 2018)
 - [Bug fixed] Fixed a bug that prevented the selection of the last three frequencies.
