@@ -183,14 +183,14 @@ proc molUP::applyAddMoleculeA {args} {
 		}
 	}
 
-	set connectivity {}
+	set connectivity [topo getbondlist]
     foreach line $connectivityFromFile {
         set lineLength [llength $line]
         if {$lineLength > 1} {
             set numberBonds [expr ($lineLength - 1) / 2]
-            set atom1 [expr [lindex $line 0] -1]
+            set atom1 [lindex $listAddedAtoms [expr [lindex $line 0] -1]]
             for {set index 1} { $index <= $numberBonds } { incr index } {
-                set atom2 [expr [lindex $line [expr $index * 2 - 1]] -1]
+                set atom2 [lindex $listAddedAtoms [expr [lindex $line [expr $index * 2 - 1]] -1]]
                 set order [lindex $line [expr $index * 2]]
                 lappend connectivity [list $atom1 $atom2 $order]
             }
