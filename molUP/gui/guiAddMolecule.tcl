@@ -67,7 +67,7 @@ proc molUP::guiAddMolecule {} {
 			set category [$molUP::addMolecule.frame1.tree item $category -text]
 
 			# Enable Add button
-			$molUP::addMolecule.frame0.addButton configure -state normal -command "molUP::applyAddMolecule [subst $category] [subst $molecule]"
+			$molUP::addMolecule.frame0.addButton configure -state normal -command "molUP::applyAddMolecule \"[subst $category]\" \"[subst $molecule]\""
 		} else {
 			set category ""
 			set molecule ""
@@ -139,6 +139,7 @@ proc molUP::applyAddMoleculeA {args} {
 
 	set coords true
 	set listAddedAtoms {}
+	set connectivityFromFile {}
 	foreach line $content {
 
 		if {$line == ""} {
@@ -176,12 +177,28 @@ proc molUP::applyAddMoleculeA {args} {
 		} else {
 			# Add Connectivity
 			if {$line != ""} {
-				topo addbond [lindex $listAddedAtoms [lindex $line 0]] [lindex $listAddedAtoms [lindex $line 1]]
+				lappend connectivityFromFile $line
 			}
 
 		}
 	}
 
+	set connectivity {}
+    foreach line $connectivityFromFile {
+        set lineLength [llength $line]
+        if {$lineLength > 1} {
+            set numberBonds [expr ($lineLength - 1) / 2]
+            set atom1 [expr [lindex $line 0] -1]
+            for {set index 1} { $index <= $numberBonds } { incr index } {
+                set atom2 [expr [lindex $line [expr $index * 2 - 1]] -1]
+                set order [lindex $line [expr $index * 2]]
+                lappend connectivity [list $atom1 $atom2 $order]
+            }
+        }
+    }
+
+	topo clearbonds
+	topo setbondlist $connectivity
 
 	$molUP::addAtoms.frame0.frame.table selection clear anchor end
     $molUP::addAtoms.frame0.frame.table selection set [expr [$molUP::addAtoms.frame0.frame.table size] - [llength $listAddedAtoms]] end
