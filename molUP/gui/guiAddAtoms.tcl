@@ -39,6 +39,7 @@ proc molUP::guiAddAtoms {} {
 	mol rename $mol "molUP_adding_atoms..."
 	set selection [atomselect $mol "all"]
 	$selection set occupancy 0
+	mol representation Licorice 0.300000 15.000000 15.000000
 	mol selection "occupancy 1"
 	mol addrep $mol
 
@@ -250,6 +251,9 @@ proc molUP::addAtomGuiApply {} {
 
 	# Stop Tracing
 	trace remove variable ::vmd_initialize_structure write molUP::updateStructuresFromOtherSource
+
+	# Get the molid of the template molecule
+	set molUP::addAtomMolID [lindex $molUP::topMolecule 0]
 
 	# Merge the Molecules
 	set addingAtomID [molinfo top]

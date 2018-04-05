@@ -364,7 +364,7 @@ proc molUP::animateFreq {freqList animationFreq displacement a} {
 }
 
 proc molUP::selectFreq {} {
-	set molID [molinfo [lindex $molUP::topMolecule 0]]
+	set molID [lindex $molUP::topMolecule 0]
 	set indexSelectedAtoms [$molUP::topGui.frame0.major.mol$molID.tabs.tabOutput.tabs.tab5.tableLayer curselection]
 	set freqLineTable [$molUP::topGui.frame0.major.mol$molID.tabs.tabOutput.tabs.tab5.tableLayer get $indexSelectedAtoms]
 	set freqToSearch [lindex $freqLineTable 1]

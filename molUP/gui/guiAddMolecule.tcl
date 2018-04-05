@@ -103,7 +103,7 @@ proc molUP::addMoleculePopulateTree {} {
 		$molUP::addMolecule.frame1.tree insert "" end -id $i -text $dir
 
 		# Get subdirs
-		set subdirs [glob -tails -type d -directory "$::molUPpath/molecules/$dir" *]
+		set subdirs [lsort [glob -tails -type d -directory "$::molUPpath/molecules/$dir" *]]
 
 		foreach subdir $subdirs {
 			$molUP::addMolecule.frame1.tree insert $i end -text "$subdir"
