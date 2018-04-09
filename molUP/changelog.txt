@@ -1,6 +1,10 @@
 ######### molUP ##############
-Last version: 1.4.3
+Last version: 1.4.4
 ##############################
+Version 1.4.4 (9 ABR 2018)
+- [Bug fixed] Fixed an issue that originated an error when modification tools were used after the addition or deletion of atoms.
+- [Bug fixed] Fixed an issue that generated random behavior when modification tools were used. 
+
 Version 1.4.3 (9 ABR 2018)
 - [Bug fixed] Fixed an issue that changes the connectivity when a new molecule is loaded.
 

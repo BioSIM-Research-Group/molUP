@@ -3,6 +3,13 @@ package provide modify 1.0
 ##############################################################################
 #### Initial procedute BondGui
 proc molUP::bondModifInitialProc {} {
+    # Remove Trace
+    trace remove variable ::vmd_pick_atom write molUP::atomPicked
+    trace remove variable ::vmd_pick_atom write molUP::atomPickedAngle
+    trace remove variable ::vmd_pick_atom write molUP::atomPickedDihed
+
+    mol modselect 9 [lindex $molUP::topMolecule 0] "none"
+    
     ## Clear the pickedAtoms variable
 	set molUP::pickedAtoms {}
 	## Trace the variable to run a command each time a atom is picked
@@ -14,6 +21,13 @@ proc molUP::bondModifInitialProc {} {
 
 #### Initial procedute AngleGui
 proc molUP::angleModifInitialProc {} {
+    # Remove Trace
+    trace remove variable ::vmd_pick_atom write molUP::atomPicked
+    trace remove variable ::vmd_pick_atom write molUP::atomPickedAngle
+    trace remove variable ::vmd_pick_atom write molUP::atomPickedDihed
+
+    mol modselect 9 [lindex $molUP::topMolecule 0] "none"
+
     ## Clear the pickedAtoms variable
 	set molUP::pickedAtoms {}
 	## Trace the variable to run a command each time a atom is picked
@@ -24,6 +38,13 @@ proc molUP::angleModifInitialProc {} {
 
 #### Initial procedute DihedGui
 proc molUP::dihedModifInitialProc {} {
+    # Remove Trace
+    trace remove variable ::vmd_pick_atom write molUP::atomPicked
+    trace remove variable ::vmd_pick_atom write molUP::atomPickedAngle
+    trace remove variable ::vmd_pick_atom write molUP::atomPickedDihed
+
+    mol modselect 9 [lindex $molUP::topMolecule 0] "none"
+
     ## Clear the pickedAtoms variable
 	set molUP::pickedAtoms {}
 	## Trace the variable to run a command each time a atom is picked
@@ -37,9 +58,9 @@ proc molUP::dihedModifInitialProc {} {
 #### Initial procedure BondGui
 proc molUP::guiBondModifInitialProc {} {
     ## Get the index of the atoms picked
-    set indexes1 [join [::util::bondedsel [lindex $molUP::topMolecule 0] $molUP::atom2BondSel $molUP::atom1BondSel]]
-    set indexes2 [join [::util::bondedsel [lindex $molUP::topMolecule 0] $molUP::atom1BondSel $molUP::atom2BondSel]]
-    set atomSelect [atomselect [lindex $molUP::topMolecule 0] "index $indexes1 $indexes2"]
+    #set indexes1 [join [::util::bondedsel [lindex $molUP::topMolecule 0] $molUP::atom2BondSel $molUP::atom1BondSel]]
+    #set indexes2 [join [::util::bondedsel [lindex $molUP::topMolecule 0] $molUP::atom1BondSel $molUP::atom2BondSel]]
+    set atomSelect [atomselect [lindex $molUP::topMolecule 0] "all"]
     set molUP::initialSelection [$atomSelect get index]
     set molUP::initialSelectionX [$atomSelect get {x y z}]
 
@@ -52,9 +73,9 @@ proc molUP::guiBondModifInitialProc {} {
 #### Initial procedure AngleGui
 proc molUP::guiAngleModifInitialProc {} {
     ## Get the index of the atoms picked
-    set indexes1 [join [::util::bondedsel [lindex $molUP::topMolecule 0] $molUP::atom2AngleSel $molUP::atom1AngleSel]]
-    set indexes3 [join [::util::bondedsel [lindex $molUP::topMolecule 0] $molUP::atom2AngleSel $molUP::atom3AngleSel]]
-    set atomSelect [atomselect [lindex $molUP::topMolecule 0] "index $indexes1 $indexes3"]
+    #set indexes1 [join [::util::bondedsel [lindex $molUP::topMolecule 0] $molUP::atom2AngleSel $molUP::atom1AngleSel]]
+    #set indexes3 [join [::util::bondedsel [lindex $molUP::topMolecule 0] $molUP::atom2AngleSel $molUP::atom3AngleSel]]
+    set atomSelect [atomselect [lindex $molUP::topMolecule 0] "all"]
     set molUP::initialSelection [$atomSelect get index]
     set molUP::initialSelectionX [$atomSelect get {x y z}]
 
@@ -66,11 +87,13 @@ proc molUP::guiAngleModifInitialProc {} {
 #### Initial procedure DihedGui
 proc molUP::guiDihedModifInitialProc {} {
     ## Get the index of the atoms picked
-    set indexes1 [join [::util::bondedsel [lindex $molUP::topMolecule 0] $molUP::atom1DihedSel $molUP::atom2DihedSel]]
-    set indexes2 [join [::util::bondedsel [lindex $molUP::topMolecule 0] $molUP::atom1DihedSel $molUP::atom3DihedSel]]
-    set indexes3 [join [::util::bondedsel [lindex $molUP::topMolecule 0] $molUP::atom2DihedSel $molUP::atom3DihedSel]]
-    set indexes4 [join [::util::bondedsel [lindex $molUP::topMolecule 0] $molUP::atom3DihedSel $molUP::atom4DihedSel]]
-    set atomSelect [atomselect [lindex $molUP::topMolecule 0] "index $indexes1 $indexes2 $indexes3 $indexes4"]
+    #set indexes1 [join [::util::bondedsel [lindex $molUP::topMolecule 0] $molUP::atom1DihedSel $molUP::atom2DihedSel]]
+    #set indexes2 [join [::util::bondedsel [lindex $molUP::topMolecule 0] $molUP::atom1DihedSel $molUP::atom3DihedSel]]
+    #set indexes3 [join [::util::bondedsel [lindex $molUP::topMolecule 0] $molUP::atom2DihedSel $molUP::atom3DihedSel]]
+    #set indexes4 [join [::util::bondedsel [lindex $molUP::topMolecule 0] $molUP::atom3DihedSel $molUP::atom4DihedSel]]
+    #set atomSelect [atomselect [lindex $molUP::topMolecule 0] "index $indexes1 $indexes2 $indexes3 $indexes4"]
+    set atomSelect [atomselect [lindex $molUP::topMolecule 0] "all"]
+
     set molUP::initialSelection [$atomSelect get index]
     set molUP::initialSelectionX [$atomSelect get {x y z}]
 
@@ -88,6 +111,7 @@ proc molUP::revertInitialStructure {} {
     foreach atom $molUP::initialSelection {
         set sel [atomselect [lindex $molUP::topMolecule 0] "index $atom"]
         $sel moveto [lindex $molUP::initialSelectionX $i]
+        $sel delete
         incr i
     }
 
@@ -99,170 +123,148 @@ proc molUP::revertInitialStructure {} {
 ##############################################################################
 #### Run this everytime an atom is picked - Bond
 proc molUP::atomPicked {args} {
-    global vmd_pick_atom
-    global vmd_pick_shift_state
 
     set numberPickedAtoms [llength $molUP::pickedAtoms]
     set molUP::BondDistance "0.00"
 
-    if {$numberPickedAtoms > 1 } {
+    if {$numberPickedAtoms == 1 } {
 
-        set molUP::pickedAtoms {}
-
-        lappend molUP::pickedAtoms $vmd_pick_atom
+        lappend molUP::pickedAtoms $::vmd_pick_atom
 
         mol modselect 9 [lindex $molUP::topMolecule 0] index $molUP::pickedAtoms
 
         set molUP::atom1BondSel [lindex $molUP::pickedAtoms 0]
         set molUP::atom2BondSel [lindex $molUP::pickedAtoms 1]
-        set molUP::BondDistance [measure bond [list [list $molUP::atom1BondSel 0] [list $molUP::atom2BondSel 0]]]
+        set molUP::BondDistance [measure bond [list [list $molUP::atom1BondSel [lindex $molUP::topMolecule 0]] [list $molUP::atom2BondSel [lindex $molUP::topMolecule 0]]]]
         set molUP::initialBondDistance $molUP::BondDistance
-    
         
+        set molUP::pickedAtoms {}
+
+
+        #### Load the GUI
+        molUP::guiBondModif
+
+        #### Run the initial procedure
+        molUP::guiBondModifInitialProc
 
     } else {
         
-        lappend molUP::pickedAtoms $vmd_pick_atom
+        lappend molUP::pickedAtoms $::vmd_pick_atom
 
         mol modselect 9 [lindex $molUP::topMolecule 0] index $molUP::pickedAtoms
 
-        set molUP::atom1BondSel [lindex $molUP::pickedAtoms 0]
-        set molUP::atom2BondSel [lindex $molUP::pickedAtoms 1]
-        set molUP::BondDistance [measure bond [list [list $molUP::atom1BondSel 0] [list $molUP::atom2BondSel 0]]]
-        set molUP::initialBondDistance $molUP::BondDistance
     }
 
-    #### Load the GUI
-    molUP::guiBondModif
-
-    #### Run the initial procedure
-	molUP::guiBondModifInitialProc
 }
 
 #### Run this everytime an atom is picked - Angle
 proc molUP::atomPickedAngle {args} {
-    global vmd_pick_atom
-    global vmd_pick_shift_state
 
     set numberPickedAtoms [llength $molUP::pickedAtoms]
     set molUP::AngleValue "0.00"
 
-    if {$numberPickedAtoms > 2 } {
+    if {$numberPickedAtoms == 2 } {
+
+        lappend molUP::pickedAtoms $::vmd_pick_atom
+
+        mol modselect 9 [lindex $molUP::topMolecule 0] index $molUP::pickedAtoms
+
+        set molUP::atom1AngleSel [lindex $molUP::pickedAtoms 0]
+        set molUP::atom2AngleSel [lindex $molUP::pickedAtoms 1]
+        set molUP::atom3AngleSel [lindex $molUP::pickedAtoms 2]
+        set molUP::AngleValue [measure angle [list [list $molUP::atom1AngleSel [lindex $molUP::topMolecule 0][lindex $molUP::topMolecule 0]] [list $molUP::atom2AngleSel [lindex $molUP::topMolecule 0][lindex $molUP::topMolecule 0]] [list $molUP::atom3AngleSel [lindex $molUP::topMolecule 0][lindex $molUP::topMolecule 0]]]]
+        set molUP::initialAngleValue $molUP::AngleValue
+    
+        ## Set the selections for the desired atoms
+        set selection1 [atomselect [lindex $molUP::topMolecule 0] "index $molUP::atom1AngleSel"]
+        set selection2 [atomselect [lindex $molUP::topMolecule 0] "index $molUP::atom2AngleSel"]
+        set selection3 [atomselect [lindex $molUP::topMolecule 0] "index $molUP::atom3AngleSel"]
+
+        ## Get atom coordinates
+        set molUP::pos1 [join [$selection1 get {x y z}]]
+        set molUP::pos2 [join [$selection2 get {x y z}]]
+        set molUP::pos3 [join [$selection3 get {x y z}]]
+        $selection1 delete
+        $selection2 delete
+        $selection3 delete
+
+        ## Set vectors
+        set dir1   [vecnorm [vecsub $molUP::pos1 $molUP::pos2]]
+        set dir2   [vecnorm [vecsub $molUP::pos2 $molUP::pos3]]
+        set molUP::normvec [vecnorm [veccross $dir1 $dir2]]
+
+        set molUP::initialAngleValue [measure angle [list [list $molUP::atom1AngleSel [lindex $molUP::topMolecule 0]] [list $molUP::atom2AngleSel [lindex $molUP::topMolecule 0]] [list $molUP::atom3AngleSel [lindex $molUP::topMolecule 0]]]]
+
+        #### Load the GUI
+        molUP::guiAngleModif
+
+        #### Run the initial procedure
+        molUP::guiAngleModifInitialProc
 
         set molUP::pickedAtoms {}
 
-        lappend molUP::pickedAtoms $vmd_pick_atom
-
-        mol modselect 9 [lindex $molUP::topMolecule 0] index $molUP::pickedAtoms
-
-        set molUP::atom1AngleSel [lindex $molUP::pickedAtoms 0]
-        set molUP::atom2AngleSel [lindex $molUP::pickedAtoms 1]
-        set molUP::atom3AngleSel [lindex $molUP::pickedAtoms 2]
-        set molUP::AngleValue [measure angle [list [list $molUP::atom1AngleSel 0] [list $molUP::atom2AngleSel 0] [list $molUP::atom3AngleSel 0]]]
-        set molUP::initialAngleValue $molUP::AngleValue
-    
-
     } else {
         
-        lappend molUP::pickedAtoms $vmd_pick_atom
+        lappend molUP::pickedAtoms $::vmd_pick_atom
 
         mol modselect 9 [lindex $molUP::topMolecule 0] index $molUP::pickedAtoms
-
-        set molUP::atom1AngleSel [lindex $molUP::pickedAtoms 0]
-        set molUP::atom2AngleSel [lindex $molUP::pickedAtoms 1]
-        set molUP::atom3AngleSel [lindex $molUP::pickedAtoms 2]
-        set molUP::AngleValue [measure angle [list [list $molUP::atom1AngleSel 0] [list $molUP::atom2AngleSel 0] [list $molUP::atom3AngleSel 0]]]
-        set molUP::initialAngleValue $molUP::AngleValue
     }
 
-    ## Set the selections for the desired atoms
-    set selection1 [atomselect [lindex $molUP::topMolecule 0] "index $molUP::atom1AngleSel"]
-    set selection2 [atomselect [lindex $molUP::topMolecule 0] "index $molUP::atom2AngleSel"]
-    set selection3 [atomselect [lindex $molUP::topMolecule 0] "index $molUP::atom3AngleSel"]
-
-    ## Get atom coordinates
-    set molUP::pos1 [join [$selection1 get {x y z}]]
-    set molUP::pos2 [join [$selection2 get {x y z}]]
-    set molUP::pos3 [join [$selection3 get {x y z}]]
-    $selection1 delete
-    $selection2 delete
-    $selection3 delete
-
-    ## Set vectors
-    set dir1   [vecnorm [vecsub $molUP::pos1 $molUP::pos2]]
-    set dir2   [vecnorm [vecsub $molUP::pos2 $molUP::pos3]]
-    set molUP::normvec [vecnorm [veccross $dir1 $dir2]]
-
-    set molUP::initialAngleValue [measure angle [list [list $molUP::atom1AngleSel 0] [list $molUP::atom2AngleSel 0] [list $molUP::atom3AngleSel 0]]]
-
-    #### Load the GUI
-    molUP::guiAngleModif
-
-    #### Run the initial procedure
-	molUP::guiAngleModifInitialProc
 }
 
 #### Run this everytime an atom is picked - Dihed
 proc molUP::atomPickedDihed {args} {
-    global vmd_pick_atom
-    global vmd_pick_shift_state
 
     set numberPickedAtoms [llength $molUP::pickedAtoms]
     set molUP::DihedValue "0.00"
 
-    if {$numberPickedAtoms > 3 } {
+    if {$numberPickedAtoms == 3 } {
+
+        lappend molUP::pickedAtoms $::vmd_pick_atom
+
+        mol modselect 9 [lindex $molUP::topMolecule 0] index $molUP::pickedAtoms
+
+        set molUP::atom1DihedSel [lindex $molUP::pickedAtoms 0]
+        set molUP::atom2DihedSel [lindex $molUP::pickedAtoms 1]
+        set molUP::atom3DihedSel [lindex $molUP::pickedAtoms 2]
+        set molUP::atom4DihedSel [lindex $molUP::pickedAtoms 3]
+        set molUP::DihedValue [measure dihed [list [list $molUP::atom1DihedSel [lindex $molUP::topMolecule 0]] [list $molUP::atom2DihedSel [lindex $molUP::topMolecule 0]] [list $molUP::atom3DihedSel [lindex $molUP::topMolecule 0]] [list $molUP::atom4DihedSel [lindex $molUP::topMolecule 0]]]]
+        set molUP::initialDihedValue $molUP::DihedValue
+    
+        ## Set the selections for the desired atoms
+        set selection1 [atomselect [lindex $molUP::topMolecule 0] "index $molUP::atom1DihedSel"]
+        set selection2 [atomselect [lindex $molUP::topMolecule 0] "index $molUP::atom2DihedSel"]
+        set selection3 [atomselect [lindex $molUP::topMolecule 0] "index $molUP::atom3DihedSel"]
+        set selection4 [atomselect [lindex $molUP::topMolecule 0] "index $molUP::atom4DihedSel"]
+
+        ## Get atom coordinates
+        set molUP::pos1 [join [$selection1 get {x y z}]]
+        set molUP::pos2 [join [$selection2 get {x y z}]]
+        set molUP::pos3 [join [$selection3 get {x y z}]]
+        set molUP::pos4 [join [$selection4 get {x y z}]]
+        $selection1 delete
+        $selection2 delete
+        $selection3 delete
+        $selection4 delete
+
+        set molUP::initialDihedValue [measure dihed [list [list $molUP::atom1DihedSel [lindex $molUP::topMolecule 0]] [list $molUP::atom2DihedSel [lindex $molUP::topMolecule 0]] [list $molUP::atom3DihedSel [lindex $molUP::topMolecule 0]] [list $molUP::atom4DihedSel [lindex $molUP::topMolecule 0]]]]
+
+        #### Load the GUI
+        molUP::guiDihedModif
+
+        #### Run the initial procedure
+        molUP::guiDihedModifInitialProc
 
         set molUP::pickedAtoms {}
 
-        lappend molUP::pickedAtoms $vmd_pick_atom
-
-        mol modselect 9 [lindex $molUP::topMolecule 0] index $molUP::pickedAtoms
-
-        set molUP::atom1DihedSel [lindex $molUP::pickedAtoms 0]
-        set molUP::atom2DihedSel [lindex $molUP::pickedAtoms 1]
-        set molUP::atom3DihedSel [lindex $molUP::pickedAtoms 2]
-        set molUP::atom4DihedSel [lindex $molUP::pickedAtoms 3]
-        set molUP::DihedValue [measure dihed [list [list $molUP::atom1DihedSel 0] [list $molUP::atom2DihedSel 0] [list $molUP::atom3DihedSel 0] [list $molUP::atom4DihedSel 0]]]
-        set molUP::initialDihedValue $molUP::DihedValue
-    
-
     } else {
         
-        lappend molUP::pickedAtoms $vmd_pick_atom
+        lappend molUP::pickedAtoms $::vmd_pick_atom
 
         mol modselect 9 [lindex $molUP::topMolecule 0] index $molUP::pickedAtoms
 
-        set molUP::atom1DihedSel [lindex $molUP::pickedAtoms 0]
-        set molUP::atom2DihedSel [lindex $molUP::pickedAtoms 1]
-        set molUP::atom3DihedSel [lindex $molUP::pickedAtoms 2]
-        set molUP::atom4DihedSel [lindex $molUP::pickedAtoms 3]
-        set molUP::DihedValue [measure dihed [list [list $molUP::atom1DihedSel 0] [list $molUP::atom2DihedSel 0] [list $molUP::atom3DihedSel 0] [list $molUP::atom4DihedSel 0]]]
-        set molUP::initialDihedValue $molUP::DihedValue
     }
 
-    ## Set the selections for the desired atoms
-    set selection1 [atomselect [lindex $molUP::topMolecule 0] "index $molUP::atom1DihedSel"]
-    set selection2 [atomselect [lindex $molUP::topMolecule 0] "index $molUP::atom2DihedSel"]
-    set selection3 [atomselect [lindex $molUP::topMolecule 0] "index $molUP::atom3DihedSel"]
-    set selection4 [atomselect [lindex $molUP::topMolecule 0] "index $molUP::atom4DihedSel"]
-
-    ## Get atom coordinates
-    set molUP::pos1 [join [$selection1 get {x y z}]]
-    set molUP::pos2 [join [$selection2 get {x y z}]]
-    set molUP::pos3 [join [$selection3 get {x y z}]]
-    set molUP::pos4 [join [$selection4 get {x y z}]]
-    $selection1 delete
-    $selection2 delete
-    $selection3 delete
-    $selection4 delete
-
-    set molUP::initialDihedValue [measure dihed [list [list $molUP::atom1DihedSel 0] [list $molUP::atom2DihedSel 0] [list $molUP::atom3DihedSel 0] [list $molUP::atom4DihedSel 0]]]
-
-    #### Load the GUI
-    molUP::guiDihedModif
-
-    #### Run the initial procedure
-	molUP::guiDihedModifInitialProc
 }
 ##############################################################################
 
