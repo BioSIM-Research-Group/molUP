@@ -1,6 +1,9 @@
 ######### molUP ##############
-Last version: 1.4.2
+Last version: 1.4.3
 ##############################
+Version 1.4.3 (9 ABR 2018)
+- [Bug fixed] Fixed an issue that changes the connectivity when a new molecule is loaded.
+
 Version 1.4.2 (5 ABR 2018)
 - [Bug fixed] Fixed an issue that prevents the visualization of frequencies. 
 
