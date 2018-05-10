@@ -1249,20 +1249,14 @@ proc molUP::exportEnergy {args} {
         }
         set path [tk_getSaveFile -filetypes $fileTypes -defaultextension ".txt" -title "Export energy values" -initialfile "energy.txt"] 
 
+        set molID [lindex $molUP::topMolecule 0]
+
         if {$path != ""} {
             set file [open $path w]
-            set numberColumns [llength [lindex $molUP::listEnergiesOpt 0]]
 
-            if {$numberColumns == 4} {
-                puts $file "Energy of optimized structures (Units: Hartree)\nData exported by molUP - a VMD plugin\nStructure \t Total Energy \t High level Energy \t Low level Energy"
-                foreach value $molUP::listEnergiesOpt {
-                    puts $file "[lindex $value 0] \t\t [lindex $value 1] \t [lindex $value 2] \t [lindex $value 3]"
-                }
-            } else {
-                puts $file "Energy of optimized structures (Units: Hartree)\nStructure \t Energy"
-                foreach value $molUP::listEnergiesOpt {
-                    puts $file "[lindex $value 0] \t\t [lindex $value 1]"
-                }
+            puts $file "Energy of optimized structures (Units: Hartree)\nData exported by molUP - a VMD plugin\nStructure \t\t Total Energy \t High level Energy \t Medium level Energy \t Low level Energy"
+            foreach structure [subst $[subst molUP::structure$molID]] totalE [subst $[subst molUP::totalE$molID]] hlE [subst $[subst molUP::hlE$molID]] mlE [subst $[subst molUP::mlE$molID]] llE [subst $[subst molUP::llE$molID]] {
+                puts $file "$structure \t\t $totalE \t $hlE \t $mlE \t $llE"
             }
 
             close $file
