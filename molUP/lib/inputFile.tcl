@@ -132,7 +132,7 @@ proc molUP::getConnectivityFromInputFile {} {
 }
 
 #### Open the file
-proc molUP::loadBash {fileExtension} {
+proc molUP::loadBash {fileExtension flag} {
 	molUP::fileExtension $molUP::path
 	molUP::rootName $molUP::path
 
@@ -145,9 +145,19 @@ proc molUP::loadBash {fileExtension} {
 
 	#### Open a .log file
 	} elseif {$molUP::fileExtension == ".log"} {
-		trace remove variable ::vmd_initialize_structure write molUP::updateStructuresFromOtherSource
-		molUP::loadGaussianOutputFile optimizedStructures
-		trace variable ::vmd_initialize_structure w molUP::updateStructuresFromOtherSource
+
+		if {$flag == "-all"} {
+			trace remove variable ::vmd_initialize_structure write molUP::updateStructuresFromOtherSource
+			molUP::loadGaussianOutputFile allStructures
+			molUP::getConnectivityFromInputFile
+			molUP::updateStructures
+			molUP::firstProcEnergyAll
+			trace variable ::vmd_initialize_structure w molUP::updateStructuresFromOtherSource
+		} else {
+			trace remove variable ::vmd_initialize_structure write molUP::updateStructuresFromOtherSource
+			molUP::loadGaussianOutputFile optimizedStructures
+			trace variable ::vmd_initialize_structure w molUP::updateStructuresFromOtherSource
+		}
 
 		## Evaluate Freq Calculation
 		molUP::evaluateFreqCalc

@@ -11,8 +11,9 @@
 #####################################
 molUP::start
 set molUP::path "[lindex $argv 0]"
+set flag "[lindex $argv 1]"
 if {$molUP::path != ""} {
     set fileExtension [molUP::fileExtension "$molUP::path"]
-    molUP::loadBash "$fileExtension"
+    molUP::loadBash "$fileExtension" "$flag"
 }
 #####################################

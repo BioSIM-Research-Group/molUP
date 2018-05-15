@@ -1,6 +1,10 @@
 ######### molUP ##############
-Last version: 1.4.5
+Last version: 1.4.6
 ##############################
+Version 1.4.6 (15 MAY 2018)
+- [New feature] A "-all" flag was added to the molUP bash command. This new feature is allow the loading of all structures of a any Gaussian Output file.
+- [Bug fixed] Fixed an issue that precluded the conversion of certain AMBER parameters from PRMTOP files.
+
 Version 1.4.5 (10 MAY 2018)
 - [Bug fixed] Fixed an issue that does not allow the correct export of the energy data from energy profiles.
 

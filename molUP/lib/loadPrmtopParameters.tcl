@@ -26,7 +26,7 @@ proc molUP::loadPrmtopParameters {} {
                         lappend lowerCaseList $atomType
 
                         #Change type on VMD lists
-                        set selection [atomselect [lindex $molUP::topMolecule 0] "type $atomType"]
+                        set selection [atomselect [lindex $molUP::topMolecule 0] "type \"$atomType\""]
                         set type "[string toupper [string range $atomType 0 0][lindex $alternativeAtomTypes $i]]"
                         $selection set type $type
 

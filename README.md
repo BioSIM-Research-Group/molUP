@@ -63,8 +63,11 @@ Tutorial:
 alias molUP='vmd -e "path of the bashScript.tcl file" -args'
 
 2. Call molUP from the command line:
-
+Open a Gaussian file using the standard procedure:
 molUP "Gaussian file"
+
+Open a Gaussian output file reading all available structures:
+molUP "Gaussian file" -all
 
 
 ## Contacts
