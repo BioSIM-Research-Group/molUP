@@ -1,6 +1,9 @@
 ######### molUP ##############
-Last version: 1.4.6
+Last version: 1.4.7
 ##############################
+Version 1.4.7 (16 MAY 2018)
+- [Improvement] Significant improvement of the procedure that imports the PRMTOP file.
+
 Version 1.4.6 (15 MAY 2018)
 - [New feature] A "-all" flag was added to the molUP bash command. This new feature is allow the loading of all structures of a any Gaussian Output file.
 - [Bug fixed] Fixed an issue that precluded the conversion of certain AMBER parameters from PRMTOP files.

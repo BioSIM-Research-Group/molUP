@@ -55,14 +55,14 @@ proc molUP::loadPrmtopParameters {} {
 
 
         ### Get Unique Atom Types
-        set listAtomTypesUnique {}
-        foreach atomType $listAtomTypes {
-            if {[lsearch $listAtomTypesUnique $atomType] == -1} {
-                lappend listAtomTypesUnique $atomType
-            } else {
-                # Ignore
-            }
-        }
+        set listAtomTypesUnique [lsort -unique $listAtomTypes]
+#        foreach atomType $listAtomTypes {
+#            if {[lsearch $listAtomTypesUnique $atomType] == -1} {
+#                lappend listAtomTypesUnique $atomType
+#            } else {
+#                # Ignore
+#            }
+#        }
 
 
 
@@ -93,7 +93,7 @@ proc molUP::loadPrmtopParameters {} {
                     set r 0.0000
                     set e 0.0000
                 }
-                append parametersInfoFromPrmtop "VDW [format %2s $index] [format %8.4f $r] [format %8.4f $e]\n"
+                append parametersInfoFromPrmtop "VDW \"$index\" [format %8.4f $r] [format %8.4f $e]\n"
             }
         }
 
@@ -129,12 +129,10 @@ proc molUP::loadPrmtopParameters {} {
                 set atom2Search $atom2
             }
 
-
-
-            if {[lsearch -regexp $uniqueList "$atom1Search $atom2Search"] == -1} {
-                lappend uniqueList "$atom1 $atom2"
-                lappend uniqueList "$atom2 $atom1"
-                append parametersInfoFromPrmtop "HrmStr1 [format %2s $atom1] [format %2s $atom2] [format %6.2f $force] [format %6.4f $equil]\n"
+            if {[lsearch -exact $uniqueList "[string trim $atom1] [string trim $atom2]"] == -1} {
+                lappend uniqueList "[string trim $atom1] [string trim $atom2]"
+                lappend uniqueList "[string trim $atom2] [string trim $atom1]"
+                append parametersInfoFromPrmtop "HrmStr1 \"$atom1\" \"$atom2\" [format %6.2f $force] [format %6.4f $equil]\n"
             } else {
                 #Do nothing
             }
@@ -181,17 +179,17 @@ proc molUP::loadPrmtopParameters {} {
                 set atom3Search $atom3
             }
 
-            if {[lsearch -regexp $uniqueList "$atom1Search $atom2Search $atom3Search"] == -1} {
-                lappend uniqueList "$atom1 $atom2 $atom3"
-                lappend uniqueList "$atom3 $atom2 $atom1"
-                append parametersInfoFromPrmtop "HrmBnd1 [format %2s $atom1] [format %2s $atom2] [format %2s $atom3]  [format %4.2f $force] [format %7.4f $equil]\n"
+            if {[lsearch -exact $uniqueList "[string trim $atom1] [string trim $atom2] [string trim $atom3]"] == -1} {
+                lappend uniqueList "[string trim $atom1] [string trim $atom2] [string trim $atom3]"
+                lappend uniqueList "[string trim $atom3] [string trim $atom2] [string trim $atom1]"
+                append parametersInfoFromPrmtop "HrmBnd1 \"$atom1\" \"$atom2\" \"$atom3\"  [format %4.2f $force] [format %7.4f $equil]\n"
             } else {
                 #Do nothing
             }
         }
                 ## Add the angle parameters for TIP3P water molecules
-                append parametersInfoFromPrmtop "HrmBnd1 HW HW OW   0.00   0.0000\n"
-                append parametersInfoFromPrmtop "HrmBnd1 HW OW HW   0.00   0.0000\n"
+                append parametersInfoFromPrmtop "HrmBnd1 \"HW\" \"HW\" \"OW\"   0.00   0.0000\n"
+                append parametersInfoFromPrmtop "HrmBnd1 \"HW\" \"OW\" \"HW\"   0.00   0.0000\n"
 
 
 
@@ -228,14 +226,21 @@ proc molUP::loadPrmtopParameters {} {
                 set period [lindex $dihedPeriodList $valueIndexes]
                 set phase [expr [lindex $dihedPhaseList $valueIndexes]*180/3.1415926535897931]
 
-                 if {[lsearch $uniqueList "$atom1 $atom2 $atom3 $atom4 $force $phase $period"] == -1} {
-                     lappend uniqueList "$atom1 $atom2 $atom3 $atom4 $force $phase $period"
-                     lappend uniqueList "$atom1 $atom3 $atom2 $atom4 $force $phase $period"
-                     lappend uniqueList "$atom3 $atom2 $atom1 $atom4 $force $phase $period"
-                     lappend uniqueList "$atom3 $atom1 $atom2 $atom4 $force $phase $period"
-                     lappend uniqueList "$atom2 $atom1 $atom3 $atom4 $force $phase $period"
-                     lappend uniqueList "$atom2 $atom3 $atom1 $atom4 $force $phase $period"
-                     append parametersInfoFromPrmtop "ImpTrs [format %2s $atom1] [format %2s $atom2] [format %2s $atom3] [format %2s $atom4] [format %4.1f $force] [format %5.1f $phase] 2.0\n"
+                 if {[lsearch -exact $uniqueList "$atom1 $atom2 $atom3 $atom4"] == -1} {
+                     lappend uniqueList "$atom1 $atom3 $atom2 $atom4"
+                     lappend uniqueList "$atom3 $atom1 $atom2 $atom4"
+                     lappend uniqueList "$atom2 $atom1 $atom3 $atom4"
+                     lappend uniqueList "$atom1 $atom2 $atom3 $atom4"
+                     lappend uniqueList "$atom3 $atom2 $atom1 $atom4"
+                     lappend uniqueList "$atom2 $atom3 $atom1 $atom4"
+
+                     lappend uniqueList "$atom4 $atom1 $atom3 $atom2"
+                     lappend uniqueList "$atom4 $atom3 $atom1 $atom2"
+                     lappend uniqueList "$atom4 $atom2 $atom1 $atom3"
+                     lappend uniqueList "$atom4 $atom1 $atom2 $atom3"
+                     lappend uniqueList "$atom4 $atom3 $atom2 $atom1"
+                     lappend uniqueList "$atom4 $atom2 $atom3 $atom1"
+                     append parametersInfoFromPrmtop "ImpTrs \"$atom1\" \"$atom2\" \"$atom3\" \"$atom4\" [format %4.1f $force] [format %5.1f $phase] 2.0\n"
                  } else {
                      #Do nothing
                  }
@@ -256,7 +261,7 @@ proc molUP::loadPrmtopParameters {} {
 
                 }
 
-                if {[lsearch $uniqueListDihed "$atom1 $atom2 $atom3 $atom4"] == -1 && [lsearch $uniqueList "$atom1 $atom2 $atom3 $atom4 *"] == -1} {
+                if {[lsearch -exact $uniqueListDihed "$atom1 $atom2 $atom3 $atom4"] == -1} {
                      lappend uniqueListDihed "$atom1 $atom2 $atom3 $atom4"
                      lappend uniqueListDihed "$atom4 $atom3 $atom2 $atom1"
 
@@ -311,7 +316,7 @@ proc molUP::loadPrmtopParameters {} {
                 }
             }
                 
-            append parametersInfoFromPrmtop "AmbTrs [format %2s [lindex $dihed 0]] [format %2s [lindex $dihed 1]] [format %2s [lindex $dihed 2]] [format %2s [lindex $dihed 3]] [format %3.0f $phase1] [format %3.0f $phase2] [format %3.0f $phase3] [format %3.0f $phase4]   [format %5.3f $force1] [format %5.3f $force2] [format %5.3f $force3] [format %5.3f $force4] 1.0\n"
+            append parametersInfoFromPrmtop "AmbTrs \"[lindex $dihed 0]\" \"[lindex $dihed 1]\" \"[lindex $dihed 2]\" \"[lindex $dihed 3]\" [format %3.0f $phase1] [format %3.0f $phase2] [format %3.0f $phase3] [format %3.0f $phase4]   [format %5.3f $force1] [format %5.3f $force2] [format %5.3f $force3] [format %5.3f $force4] 1.0\n"
             set phase1 0
             set phase2 0
             set phase3 0
