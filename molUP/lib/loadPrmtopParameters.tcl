@@ -18,7 +18,7 @@ proc molUP::loadPrmtopParameters {} {
             ## Uppercase all atom types
             set newList {}
             set lowerCaseList {}
-            set alternativeAtomTypes [list J K X Y Z 8 9 I V 5 6 7 F G H Q R S T U L]
+            set alternativeAtomTypes [list J K X Y Z 8 9 I V 5 6 7 F G H Q R S T U L W]
             set i 0
             foreach atomType $listAtomTypes {
                 if {[string is lower [string range $atomType 0 0]] == 1} {
