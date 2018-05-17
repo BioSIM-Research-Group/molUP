@@ -1,6 +1,9 @@
 ######### molUP ##############
-Last version: 1.4.7
+Last version: 1.4.8
 ##############################
+Version 1.4.8 (17 MAY 2018)
+- [Bug fixed] Fixed an issue that prevents the loading of PRMTOP files that could present an unusual format.
+
 Version 1.4.7 (16 MAY 2018)
 - [Improvement] Significant improvement of the procedure that imports the PRMTOP file.
 

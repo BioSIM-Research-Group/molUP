@@ -68,8 +68,8 @@ proc molUP::loadPrmtopParameters {} {
 
 
         ### Get VDW Information
-        set lennardJonesA [molUP::prmtopGetDataFromFlag "LENNARD_JONES_ACOEF" $path]
-        set lennardJonesB [molUP::prmtopGetDataFromFlag "LENNARD_JONES_BCOEF" $path]
+        set lennardJonesA [molUP::prmtopTableExtractValues [molUP::prmtopGetDataFromFlag "LENNARD_JONES_ACOEF" $path]]
+        set lennardJonesB [molUP::prmtopTableExtractValues [molUP::prmtopGetDataFromFlag "LENNARD_JONES_BCOEF" $path]]
         set icoList [molUP::prmtopGetDataFromFlag "NONBONDED_PARM_INDEX" $path]
         set atomTypesList [molUP::prmtopGetDataFromFlag "ATOM_TYPE_INDEX" $path]
 
@@ -102,8 +102,8 @@ proc molUP::loadPrmtopParameters {} {
         set bondsIncH [molUP::prmtopGetDataFromFlag "BONDS_INC_HYDROGEN" $path]
         set bondsNotH [molUP::prmtopGetDataFromFlag "BONDS_WITHOUT_HYDROGEN" $path]
         set bondsList [concat $bondsIncH $bondsNotH]
-        set bondForceList [molUP::prmtopGetDataFromFlag "BOND_FORCE_CONSTANT" $path]
-        set bondEquiList [molUP::prmtopGetDataFromFlag "BOND_EQUIL_VALUE" $path]
+        set bondForceList [molUP::prmtopTableExtractValues [molUP::prmtopGetDataFromFlag "BOND_FORCE_CONSTANT" $path]]
+        set bondEquiList [molUP::prmtopTableExtractValues [molUP::prmtopGetDataFromFlag "BOND_EQUIL_VALUE" $path]]
 
         set uniqueList {}
         set numberBonds [expr [llength $bondsList] / 3]
@@ -143,8 +143,8 @@ proc molUP::loadPrmtopParameters {} {
         set anglesIncH [molUP::prmtopGetDataFromFlag "ANGLES_INC_HYDROGEN" $path]
         set anglesNotH [molUP::prmtopGetDataFromFlag "ANGLES_WITHOUT_HYDROGEN" $path]
         set anglesList [concat $anglesIncH $anglesNotH]
-        set angleForceList [molUP::prmtopGetDataFromFlag "ANGLE_FORCE_CONSTANT" $path]
-        set angleEquiList [molUP::prmtopGetDataFromFlag "ANGLE_EQUIL_VALUE" $path]
+        set angleForceList [molUP::prmtopTableExtractValues [molUP::prmtopGetDataFromFlag "ANGLE_FORCE_CONSTANT" $path]]
+        set angleEquiList [molUP::prmtopTableExtractValues [molUP::prmtopGetDataFromFlag "ANGLE_EQUIL_VALUE" $path]]
 
         set uniqueList {}
         set numberAngles [expr [llength $anglesList] / 4]
@@ -199,9 +199,9 @@ proc molUP::loadPrmtopParameters {} {
         set dihedIncH [molUP::prmtopGetDataFromFlag "DIHEDRALS_INC_HYDROGEN" $path]
         set dihedNotH [molUP::prmtopGetDataFromFlag "DIHEDRALS_WITHOUT_HYDROGEN" $path]
         set dihedList [concat $dihedIncH $dihedNotH]
-        set dihedForceList [molUP::prmtopGetDataFromFlag "DIHEDRAL_FORCE_CONSTANT" $path]
-        set dihedPeriodList [molUP::prmtopGetDataFromFlag "DIHEDRAL_PERIODICITY" $path]
-        set dihedPhaseList [molUP::prmtopGetDataFromFlag "DIHEDRAL_PHASE" $path]
+        set dihedForceList [molUP::prmtopTableExtractValues [molUP::prmtopGetDataFromFlag "DIHEDRAL_FORCE_CONSTANT" $path]]
+        set dihedPeriodList [molUP::prmtopTableExtractValues [molUP::prmtopGetDataFromFlag "DIHEDRAL_PERIODICITY" $path]]
+        set dihedPhaseList [molUP::prmtopTableExtractValues [molUP::prmtopGetDataFromFlag "DIHEDRAL_PHASE" $path]]
 
 
         set uniqueList {}
@@ -353,4 +353,18 @@ proc molUP::prmtopGetDataFromFlag {flag path} {
 
     return $data
 
+}
+
+proc molUP::prmtopTableExtractValues {data} {
+    set data [split $data "\n"]
+    set finalList {}
+    foreach line $data {
+        for {set i 0} {$i < 5} {incr i} {
+            set value [string trim [string range $line [expr 16 * $i] [expr 16 * $i + 15]]]
+            if {$value != ""} {
+                lappend finalList $value
+            }
+        }
+    }
+    return $finalList
 }
