@@ -1,6 +1,9 @@
 ######### molUP ##############
-Last version: 1.4.8
+Last version: 1.4.9
 ##############################
+Version 1.4.9 (21 MAY 2018)
+- [Bug fixed] Fixed an issue that prevents the loading of multiple files using molUP.
+
 Version 1.4.8 (17 MAY 2018)
 - [Bug fixed] Fixed an issue that prevents the loading of PRMTOP files that could present an unusual format.
 

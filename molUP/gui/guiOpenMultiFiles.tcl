@@ -103,7 +103,7 @@ proc molUP::loadMultipleFiles {} {
     while {[$molUP::openMultiFile.frame.back.pathEntry get $i.0 $i.end] != ""} {
         set molUP::path [$molUP::openMultiFile.frame.back.pathEntry get $i.0 $i.end]
         set fileExtension [molUP::fileExtension "$molUP::path"]
-        molUP::loadBash $fileExtension
+        molUP::loadBash $fileExtension "-multiple"
         incr i
     }
     destroy $molUP::openMultiFile
