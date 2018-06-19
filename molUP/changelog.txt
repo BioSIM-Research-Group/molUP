@@ -1,6 +1,9 @@
 ######### molUP ##############
-Last version: 1.4.10
+Last version: 1.4.11
 ##############################
+Version 1.4.11 (19 JUN 2018)
+- [Bug fixed] Elements with two characters were incorrectly saved when new Gaussian input files were generated. 
+
 Version 1.4.10 (18 JUN 2018)
 - [Bug fixed] Fixed an issue that misunderstanding the elements when new Gaussin input files are saved.
 

@@ -110,10 +110,17 @@ proc molUP::writeGaussianFileAdvanced {path selection} {
     set i 0
     foreach atomLayer $layerInfoList atomFreeze $freezeInfoList atomCharge $chargesInfoList atomCoord $allCoord element $elementInfo {
         if {$element == "X"} {
-            set element [string range [lindex $atomCharge 1] 0 0]
+            set element [lindex $atomLayer 1]
+            regsub -all {[0-9]*} $element "" element; #Remove numbers from the element name
+            if {[string is lower "[string range $element 1 1]"] == 1} {
+                set element [string range $element 0 1]
+            } else {
+                set element [string range $element 0 0]
+            }
         } else {
 
         }
+
         
         
         set lookForLinkAtom [lsearch $molUP::linkAtomsListIndex $i]
@@ -274,9 +281,13 @@ proc molUP::writeGaussianFile {path} {
     set i 0
     foreach atomLayer $layerInfoList atomFreeze $freezeInfoList atomCharge $chargesInfoList atomCoord $allCoord element $elementInfo {
         if {$element == "X"} {
-            set element [lindex $atomCharge 1]
+            set element [lindex $atomLayer 1]
             regsub -all {[0-9]*} $element "" element; #Remove numbers from the element name
-            set element [string range $element 0 0]
+            if {[string is lower "[string range $element 1 1]"] == 1} {
+                set element [string range $element 0 1]
+            } else {
+                set element [string range $element 0 0]
+            }
         } else {
 
         }
