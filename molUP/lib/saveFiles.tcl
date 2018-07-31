@@ -177,8 +177,15 @@ proc molUP::writeGaussianFileAdvanced {path selection} {
     }
 
     set linkAtomsList [lsort -unique -real [join $listD]]
-    puts $linkAtomsList
-    puts "indexes $indexes"
+    #puts $linkAtomsList
+    #puts "indexes $indexes"
+
+    #Get the atoms from the HL that are bonded to link atoms
+    molUP::linkAtoms
+    set linkAtomsPairList {}
+    foreach a $molUP::linkAtomsListIndex b $molUP::linkAtomsList {
+        lappend linkAtomsPairList [list $a [lindex $b 1]]
+    }
 
     foreach linkAtom $linkAtomsList {
         if {[lsearch $indexes $linkAtom] == -1} {
@@ -188,9 +195,27 @@ proc molUP::writeGaussianFileAdvanced {path selection} {
             set atomFreeze [.molUP.frame0.major.mol$molID.tabs.tabResults.tabs.tab3.tableLayer get $linkAtom]
             set atomCharge [.molUP.frame0.major.mol$molID.tabs.tabResults.tabs.tab4.tableLayer get $linkAtom]
 
-            set xx [$sel get x]
-            set yy [$sel get y]
-            set zz [$sel get z]
+            #Get the index of the atom in HL
+            set hlAtom [lindex [lsearch -index 0 -inline $linkAtomsPairList $linkAtom] 1]
+
+            # Get the coordinates of the link atom and the respective atom in the HL
+            set selHL [atomselect [lindex $molUP::topMolecule 0] "index [expr $hlAtom - 1]"]
+            set vecHL [join [$selHL get {x y z}]]
+            set vecLA [join [$sel get {x y z}]]
+
+            # Interatomic distance between the link atoms and the atom in the HL
+            set linkAtomDistance "1.09"
+
+            # Calculate the vector and apply it to move the link atom to the distance above
+            set vec [vecsub $vecHL $vecLA]
+            set vecLength [veclength $vec]
+            set scaling [format %.6f [expr ($vecLength - $linkAtomDistance) / $vecLength]]
+            set movingVector [vecscale $scaling $vec]
+            set finalPos [vecadd $vecLA $movingVector]
+
+            set xx [lindex $finalPos 0]
+            set yy [lindex $finalPos 1]
+            set zz [lindex $finalPos 2]
 
             if {[lindex $atomFreeze 4] == ""} {
                 set freeze 0
@@ -202,6 +227,7 @@ proc molUP::writeGaussianFileAdvanced {path selection} {
             puts $file "[format %-60s $initialInfo] [format %-4s $freeze] [format "%10s" [format "% f" $xx]] [format "%10s" [format "% f" $yy]] [format "%10s" [format "% f" $zz]] [format %-2s [lindex $atomLayer 4]]"
 
             $sel delete
+            $selHL delete
         }
 
     }

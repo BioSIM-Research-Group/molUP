@@ -1,6 +1,9 @@
 ######### molUP ##############
-Last version: 1.4.11
+Last version: 1.4.12
 ##############################
+Version 1.4.12 (31 JUL 2018)
+- [Bug fixed] Now, the link atoms are placed at the correct distance when custom selections are used to save new Gaussian Input Files.
+
 Version 1.4.11 (19 JUN 2018)
 - [Bug fixed] Elements with two characters were incorrectly saved when new Gaussian input files were generated. 
 
