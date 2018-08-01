@@ -40,7 +40,7 @@ proc molUP::guiSaveFile {} {
 		    -textvariable molUP::saveOptions \
 			-state readonly \
             -style molUP.white.TCombobox \
-		    -values "[list "Gaussian Input File (.com)" "Protein Data Bank (.pdb)" "Coordinates XYZ (.xyz)"]"
+		    -values "[list "Gaussian Input File (.com)" "Protein Data Bank (.pdb)" "Coordinates XYZ (.xyz)" "ORCA Input File (.inp)"]"
             ] -in $molUP::saveFile.frame.back -x 170 -y 10 -width 220
 
             $molUP::saveFile.frame.back.selectLoadMode set "Gaussian Input File (.com)"
@@ -127,6 +127,9 @@ proc molUP::saveOrder {} {
 
     } elseif {$molUP::saveOptions == "Coordinates XYZ (.xyz)"} {
         molUP::saveXYZ
+
+    } elseif {$molUP::saveOptions == "ORCA Input File (.inp)"} {
+        molUP::saveORCA
         
     } else {
         set message "Please select a suitable structure to save."

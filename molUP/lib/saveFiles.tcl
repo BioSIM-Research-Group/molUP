@@ -70,6 +70,29 @@ proc molUP::saveGaussian {} {
 
 }
 
+proc molUP::saveORCA {} {
+    
+    set molExists [mol list]
+    
+    if {$molExists == "ERROR) No molecules loaded."} {
+        set alert [tk_messageBox -message "No molecules loaded." -type ok -icon error]
+    } else {
+
+        set fileTypes {
+                {{ORCA input files (.inp)}       {.inp}        }
+        }
+        set path [tk_getSaveFile -title "Save file as ORCA Input" -filetypes $fileTypes -defaultextension ".inp" -initialfile "Created_by_molUP.inp"]
+
+        if {$path != ""} {
+            molUP::writeORCAFileAdvanced $path $molUP::atomSelectionSave
+        } else {}
+
+    }
+
+    destroy $::molUP::saveFile
+
+}
+
 proc molUP::writeGaussianFileAdvanced {path selection} {
     ## Create a file 
 	set file [open "$path" wb]
@@ -357,6 +380,162 @@ proc molUP::writeGaussianFile {path} {
 
     close $file
 
+}
+
+proc molUP::writeORCAFileAdvanced {path selection} {
+    ## Create a file 
+	set file [open "$path" wb]
+
+    set molID [lindex $molUP::topMolecule 0]
+
+    ## Write keywords
+    puts $file "!B3LYP 6-31G(d,p) SP\n"
+
+    set sel [atomselect [lindex $molUP::topMolecule 0] $selection]
+    set indexes [$sel get index]
+
+    ## Write Charge and Multi
+    puts $file "* xyz 0 1"
+
+    ## Get coordinates
+    set allCoord [$sel get {x y z}]
+    set elementInfo [$sel get element]
+
+    ## Get Layer Info
+    set layerInfoList [.molUP.frame0.major.mol$molID.tabs.tabResults.tabs.tab2.tableLayer get $indexes]
+
+    ## Get Freeze Info
+    set freezeInfoList [.molUP.frame0.major.mol$molID.tabs.tabResults.tabs.tab3.tableLayer get $indexes]
+    
+    ## Get Charges Info
+    set chargesInfoList [.molUP.frame0.major.mol$molID.tabs.tabResults.tabs.tab4.tableLayer get $indexes]
+
+  
+    ## Write on the file
+    set i 0
+    foreach atomLayer $layerInfoList atomFreeze $freezeInfoList atomCharge $chargesInfoList atomCoord $allCoord element $elementInfo {
+        if {$element == "X"} {
+            set element [lindex $atomLayer 1]
+            regsub -all {[0-9]*} $element "" element; #Remove numbers from the element name
+            if {[string is lower "[string range $element 1 1]"] == 1} {
+                set element [string range $element 0 1]
+            } else {
+                set element [string range $element 0 0]
+            }
+        } else {
+
+        }
+
+        
+        
+        set lookForLinkAtom [lsearch $molUP::linkAtomsListIndex $i]
+
+        set xx [lindex $atomCoord 0]
+        set yy [lindex $atomCoord 1]
+        set zz [lindex $atomCoord 2]
+
+        if {[lindex $atomFreeze 4] == ""} {
+            set freeze 0
+        } else {
+            set freeze [format %.0f [lindex $atomFreeze 4]]
+        }
+
+        if {$lookForLinkAtom == -1} {
+            puts $file "[format %2s $element] [format "%17s" [format "% f" $xx]] [format "%16s" [format "% f" $yy]] [format "%16s" [format "% f" $zz]]"
+        } else {
+            set linkAtom [lindex $molUP::linkAtomsList $lookForLinkAtom]
+            puts $file "[format %2s $element] [format "%17s" [format "% f" $xx]] [format "%16s" [format "% f" $yy]] [format "%16s" [format "% f" $zz]]"
+        }
+    
+        incr i
+    }
+
+
+
+
+    ## Add link atoms
+    set connectivity [topo getbondlist order]
+
+    set listD {}
+    foreach value $indexes {
+        set a [lsearch -index 0 -all $connectivity $value]
+        set listA {}
+        foreach c $a {
+            set d [lindex [lindex $connectivity $c] 1]
+            lappend listA $d
+        }
+
+        set b [lsearch -index 1 -all $connectivity $value]
+        set listB {}
+        foreach c $b {
+            set d [lindex [lindex $connectivity $c] 0]
+            lappend listB $d
+        }
+
+        set listC [concat $listA $listB]
+
+        lappend listD $listC
+
+    }
+
+    set linkAtomsList [lsort -unique -real [join $listD]]
+    #puts $linkAtomsList
+    #puts "indexes $indexes"
+
+    #Get the atoms from the HL that are bonded to link atoms
+    molUP::linkAtoms
+    set linkAtomsPairList {}
+    foreach a $molUP::linkAtomsListIndex b $molUP::linkAtomsList {
+        lappend linkAtomsPairList [list $a [lindex $b 1]]
+    }
+
+    foreach linkAtom $linkAtomsList {
+        if {[lsearch $indexes $linkAtom] == -1} {
+            set sel [atomselect [lindex $molUP::topMolecule 0] "index $linkAtom"]
+
+            set atomLayer [.molUP.frame0.major.mol$molID.tabs.tabResults.tabs.tab2.tableLayer get $linkAtom]
+            set atomFreeze [.molUP.frame0.major.mol$molID.tabs.tabResults.tabs.tab3.tableLayer get $linkAtom]
+            set atomCharge [.molUP.frame0.major.mol$molID.tabs.tabResults.tabs.tab4.tableLayer get $linkAtom]
+
+            #Get the index of the atom in HL
+            set hlAtom [lindex [lsearch -index 0 -inline $linkAtomsPairList $linkAtom] 1]
+
+            # Get the coordinates of the link atom and the respective atom in the HL
+            set selHL [atomselect [lindex $molUP::topMolecule 0] "index [expr $hlAtom - 1]"]
+            set vecHL [join [$selHL get {x y z}]]
+            set vecLA [join [$sel get {x y z}]]
+
+            # Interatomic distance between the link atoms and the atom in the HL
+            set linkAtomDistance "1.09"
+
+            # Calculate the vector and apply it to move the link atom to the distance above
+            set vec [vecsub $vecHL $vecLA]
+            set vecLength [veclength $vec]
+            set scaling [format %.6f [expr ($vecLength - $linkAtomDistance) / $vecLength]]
+            set movingVector [vecscale $scaling $vec]
+            set finalPos [vecadd $vecLA $movingVector]
+
+            set xx [lindex $finalPos 0]
+            set yy [lindex $finalPos 1]
+            set zz [lindex $finalPos 2]
+
+            if {[lindex $atomFreeze 4] == ""} {
+                set freeze 0
+            } else {
+                set freeze [lindex $atomFreeze 4]
+            }
+
+            puts $file " H [format "%17s" [format "% f" $xx]] [format "%16s" [format "% f" $yy]] [format "%16s" [format "% f" $zz]]"
+
+            $sel delete
+            $selHL delete
+        }
+
+    }
+
+    puts $file "*\n"
+
+    close $file
 }
 
 proc molUP::connectivityFromVMD {selection} {

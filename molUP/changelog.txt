@@ -1,6 +1,9 @@
 ######### molUP ##############
-Last version: 1.4.12
+Last version: 1.5.0
 ##############################
+Version 1.5.0 (1 AUG 2018)
+- [New feature] molUP now supports saving ORCA Input files.
+
 Version 1.4.12 (31 JUL 2018)
 - [Bug fixed] Now, the link atoms are placed at the correct distance when custom selections are used to save new Gaussian Input Files.
 
@@ -8,7 +11,7 @@ Version 1.4.11 (19 JUN 2018)
 - [Bug fixed] Elements with two characters were incorrectly saved when new Gaussian input files were generated. 
 
 Version 1.4.10 (18 JUN 2018)
-- [Bug fixed] Fixed an issue that misunderstanding the elements when new Gaussin input files are saved.
+- [Bug fixed] Fixed an issue that misunderstanding the elements when new Gaussian input files are saved.
 
 Version 1.4.9 (21 MAY 2018)
 - [Bug fixed] Fixed an issue that prevents the loading of multiple files using molUP.
