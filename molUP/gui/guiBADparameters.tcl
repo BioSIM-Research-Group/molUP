@@ -1,4 +1,4 @@
-package provide guiBADparam 1.0
+package provide guiBADparam 1.5.1
 package require Tk
 
 

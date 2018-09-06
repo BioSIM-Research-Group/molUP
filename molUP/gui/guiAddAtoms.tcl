@@ -1,4 +1,4 @@
-package provide guiAddAtoms 1.0
+package provide guiAddAtoms 1.5.1
 package require Tk
 
 #### GUI ############################################################

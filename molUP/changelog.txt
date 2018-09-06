@@ -1,6 +1,9 @@
 ######### molUP ##############
-Last version: 1.5.0
+Last version: 1.5.1
 ##############################
+Version 1.5.1 (6 SEP 2018)
+- [Minor Changes] Now all the internal packages have their own versions.
+
 Version 1.5.0 (1 AUG 2018)
 - [New feature] molUP now supports saving ORCA Input files.
 

@@ -1,4 +1,4 @@
-package provide timeControl 1.0 
+package provide timeControl 1.5.1
 
 proc molUP::duration { secs } {
      set timeatoms [ list ]

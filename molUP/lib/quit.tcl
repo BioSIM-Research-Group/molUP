@@ -1,4 +1,4 @@
-package provide quit 1.0
+package provide quit 1.5.1
 
 ### Quit the plugin and remove the temporary files
 

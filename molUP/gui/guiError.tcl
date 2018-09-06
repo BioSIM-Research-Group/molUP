@@ -1,4 +1,4 @@
-package provide guiError 1.0
+package provide guiError 1.5.1
 package require Tk
 
 #### GUI ############################################################

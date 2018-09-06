@@ -1,4 +1,4 @@
-package provide loadGaussianInputFile 2.0 
+package provide loadGaussianInputFile 1.5.1
 
 ### This procedure load a gaussian input file and converts it to PDB
 proc molUP::loadGaussianInputFile {} {

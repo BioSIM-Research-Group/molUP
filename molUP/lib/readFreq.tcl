@@ -1,4 +1,4 @@
-package provide readFreq 1.0 
+package provide readFreq 1.5.1
 
 proc molUP::readFreq {} {
 	set molID [lindex $molUP::topMolecule 0]

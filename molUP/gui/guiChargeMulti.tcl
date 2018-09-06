@@ -1,4 +1,4 @@
-package provide guiChargeMulti 1.0
+package provide guiChargeMulti 1.5.1
 
 #### GUI ############################################################
 proc molUP::guiChargeMulti {frame} {

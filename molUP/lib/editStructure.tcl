@@ -1,4 +1,4 @@
-package provide editStructure 1.0
+package provide editStructure 1.5.1
 
 #### Table Editor
 proc molUP::oniomLayer {tbl row col text} {

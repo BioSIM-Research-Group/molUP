@@ -1,4 +1,4 @@
-package provide guiMethodology 1.0
+package provide guiMethodology 1.5.1
 
 proc molUP::methodology {} {
      #### Check if the window exists

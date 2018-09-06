@@ -1,4 +1,4 @@
-package provide guiAngleModif 1.0
+package provide guiAngleModif 1.5.1
 package require Tk
 
 #### GUI ############################################################

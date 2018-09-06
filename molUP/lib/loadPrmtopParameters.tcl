@@ -1,4 +1,4 @@
-package provide loadPrmtop 1.0
+package provide loadPrmtop 1.5.1
 
 proc molUP::loadPrmtopParameters {} {
      set fileTypes {

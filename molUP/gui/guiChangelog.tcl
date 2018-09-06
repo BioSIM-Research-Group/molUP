@@ -1,4 +1,4 @@
-package provide guiChangelog 1.0
+package provide guiChangelog 1.5.1
 
 #### GUI ############################################################
 proc molUP::guiChangelog {} {

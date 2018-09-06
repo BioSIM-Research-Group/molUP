@@ -1,4 +1,4 @@
-package provide gaussianTheme 1.0
+package provide gaussianTheme 1.5.1
 
 proc molUP::loadImages {imgdir {patterns {*.gif}}} {
     foreach pattern $patterns {

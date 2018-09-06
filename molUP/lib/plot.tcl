@@ -1,4 +1,4 @@
-package provide plot 1.0
+package provide plot 1.5.1
 
 ## frame        - give a frame where the graph should be embed to
 ## x            - list of x values

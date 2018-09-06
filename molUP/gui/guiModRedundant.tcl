@@ -1,4 +1,4 @@
-package provide guiModRedundant 1.0
+package provide guiModRedundant 1.5.1
 
 proc molUP::guiModRed {} {
     #### Check if the window exists

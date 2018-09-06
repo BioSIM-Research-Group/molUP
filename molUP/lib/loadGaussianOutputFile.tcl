@@ -1,4 +1,4 @@
-package provide loadGaussianOutputFile 2.0 
+package provide loadGaussianOutputFile 1.5.1 
 
 
 

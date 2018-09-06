@@ -1,4 +1,4 @@
-package provide guiOpenMultiFile 1.0
+package provide guiOpenMultiFile 1.5.1
 package require Tk
 
 

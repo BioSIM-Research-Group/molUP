@@ -1,4 +1,4 @@
-package provide balloon 1.0
+package provide balloon 1.5.1
  
  namespace eval ::balloon {
    proc this {} "return [namespace current];";

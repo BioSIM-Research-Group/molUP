@@ -1,4 +1,4 @@
-package provide guiAddMolecule 1.0
+package provide guiAddMolecule 1.5.1
 package require Tk
 
 #### GUI ############################################################

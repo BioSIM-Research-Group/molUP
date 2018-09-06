@@ -1,4 +1,4 @@
-package provide guiDihedModif 1.0
+package provide guiDihedModif 1.5.1
 package require Tk
 
 #### GUI ############################################################

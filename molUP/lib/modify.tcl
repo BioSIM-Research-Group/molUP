@@ -1,4 +1,4 @@
-package provide modify 1.0
+package provide modify 1.5.1
 
 ##############################################################################
 #### Initial procedute BondGui

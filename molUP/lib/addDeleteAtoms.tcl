@@ -1,4 +1,4 @@
-package provide addDeleteAtoms 1.0
+package provide addDeleteAtoms 1.5.1
 
 ##### DELETE ATOMS
 proc molUP::pickAtomsToDelete {args} {

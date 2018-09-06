@@ -1,4 +1,4 @@
-package provide guiInfo 1.0
+package provide guiInfo 1.5.1
 
 #### GUI ############################################################
 proc molUP::guiInfo {fileName} {

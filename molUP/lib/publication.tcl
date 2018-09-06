@@ -1,4 +1,4 @@
-package provide publication 1.0
+package provide publication 1.5.1
 
 proc molUP::citeMolUP {} {
      #### Check if the window exists

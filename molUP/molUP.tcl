@@ -1,44 +1,44 @@
-package provide molUP 1.0
+package provide molUP 1.5.1
 
 #### INIT ############################################################
 namespace eval molUP:: {
 	namespace export molUP
 	
 		#### Load Packages				
-		package require guiMolUP 								1.0
-		package require guiBondModif							1.0
-		package require guiAngleModif							1.0
-		package require guiDihedModif							1.0
-		package require guiOpenFile								1.0
-		package require guiSaveFile								1.0
-		package require guiError								1.0
-		package require guiChargeMulti							1.0
-		package require guiCalcSetup							1.0
-		package require guiCredits								1.0
-		package require guiChangelog							1.0
-		package require guiInfo 								1.0
-		package require guiMethodology							1.0
-		package require guiBADparam								1.0
-		package require guiModRedundant							1.0
-		package require guiOpenMultiFile 						1.0
-		package require guiDeleteAtoms							1.0
-		package require guiAddAtoms								1.0
-		package require guiAddMolecule 							1.0
+		package require guiMolUP 								1.5.1
+		package require guiBondModif							1.5.1
+		package require guiAngleModif							1.5.1
+		package require guiDihedModif							1.5.1
+		package require guiOpenFile								1.5.1
+		package require guiSaveFile								1.5.1
+		package require guiError								1.5.1
+		package require guiChargeMulti							1.5.1
+		package require guiCalcSetup							1.5.1
+		package require guiCredits								1.5.1
+		package require guiChangelog							1.5.1
+		package require guiInfo 								1.5.1
+		package require guiMethodology							1.5.1
+		package require guiBADparam								1.5.1
+		package require guiModRedundant							1.5.1
+		package require guiOpenMultiFile 						1.5.1
+		package require guiDeleteAtoms							1.5.1
+		package require guiAddAtoms								1.5.1
+		package require guiAddMolecule 							1.5.1
 		
-		package require inputFile 								1.0
-		package require timeControl								1.0
-		package require quit									1.0
-		package require loadGaussianInputFile					2.0
-		package require loadGaussianOutputFile					2.0
-		package	require editStructure							1.0
-		package require modify									1.0
-		package require saveFiles								1.0
-		package require readFreq								1.0
-		package require energy									1.0
-		package require plot									1.0
-		package require addDeleteAtoms							1.0
-		package require publication								1.0
-		package require loadPrmtop								1.0
+		package require inputFile 								1.5.1
+		package require timeControl								1.5.1
+		package require quit									1.5.1
+		package require loadGaussianInputFile					1.5.1
+		package require loadGaussianOutputFile					1.5.1
+		package	require editStructure							1.5.1
+		package require modify									1.5.1
+		package require saveFiles								1.5.1
+		package require readFreq								1.5.1
+		package require energy									1.5.1
+		package require plot									1.5.1
+		package require addDeleteAtoms							1.5.1
+		package require publication								1.5.1
+		package require loadPrmtop								1.5.1
 
 
 		package require Tk
@@ -47,11 +47,11 @@ namespace eval molUP:: {
 		package require balloon
 		
 		# Theme
-		package require gaussianTheme							1.0
+		package require gaussianTheme							1.5.1
 
 		#### Program Variables
 		## General
-		variable version	    	"1.5.0"
+		variable version	    	"1.5.1"
 
 		#GUI
         variable topGui         	".molUP"

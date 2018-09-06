@@ -1,4 +1,4 @@
-package provide guiDeleteAtoms 1.0
+package provide guiDeleteAtoms 1.5.1
 package require Tk
 
 #### GUI ############################################################

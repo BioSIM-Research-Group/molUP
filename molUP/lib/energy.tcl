@@ -1,4 +1,4 @@
-package provide energy 1.0
+package provide energy 1.5.1
 
 proc molUP::firstProcEnergy {} {
     set oniomTrue [catch {exec $molUP::grep -E -m 1 "oniom" $molUP::path}]
