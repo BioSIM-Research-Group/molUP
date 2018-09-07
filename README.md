@@ -40,7 +40,7 @@ Visual Molecular Dynamics (VMD) 1.9.3 or later
 **Automatic Installation**
 
 You could easily install molUP through [vmdStore](https://github.com/portobiocomp/vmdStore).
-
+Temporarily unavailable since 2018 SEP 7. Expected maintenance time: 5 days 
 
 **Manual Installation**
 
