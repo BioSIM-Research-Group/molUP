@@ -1,4 +1,4 @@
-package provide inputFile 1.5.1
+package provide inputFile 1.5.2
 
 #### Browse a file in the system and get the path
 proc molUP::onSelect {} {
@@ -86,6 +86,8 @@ proc molUP::loadButton {fileExtension} {
 
 	destroy $molUP::openFile
 
+	#### Apply Charge and Multiplicity from File
+	molUP::applyChargeMultiplicityFromFile
 }
 
 #### Get Blank Lines Numbers
@@ -131,6 +133,34 @@ proc molUP::getConnectivityFromInputFile {} {
 	}
 }
 
+#### Apply the charge and multiplicity from the loaded file (do not recalculate when it appears for the first time)
+proc molUP::applyChargeMultiplicityFromFile {} {
+	puts "molUP : Charge and Multiplicity read from file: $molUP::chargesMultip"
+	if {$molUP::chargesMultip != ""} {
+		set length [llength $molUP::chargesMultip]
+
+		if {$length == 2} {
+			set molUP::chargeAll [lindex $molUP::chargesMultip 0]
+			set molUP::multiplicityValue [lindex $molUP::chargesMultip 1]
+		} elseif {$length == 6} {
+			set molUP::chargeHL [lindex $molUP::chargesMultip 2]
+			set molUP::multiplicityValue [lindex $molUP::chargesMultip 3]
+			set molUP::chargeML [lindex $molUP::chargesMultip 0]
+			set molUP::chargeLL [lindex $molUP::chargesMultip 0]
+			set molUP::multiplicityValue1 [lindex $molUP::chargesMultip 1]
+		} elseif {$length == 8} {
+			set molUP::chargeHL [lindex $molUP::chargesMultip 6]
+			set molUP::multiplicityValue [lindex $molUP::chargesMultip 7]
+			set molUP::chargeML [lindex $molUP::chargesMultip 2]
+			set molUP::multiplicityValue1 [lindex $molUP::chargesMultip 3]
+			set molUP::chargeLL [lindex $molUP::chargesMultip 0]
+			set molUP::multiplicityValue2 [lindex $molUP::chargesMultip 1]
+		}
+
+		set molUP::chargesMultip ""
+	}
+}
+
 #### Open the file
 proc molUP::loadBash {fileExtension flag} {
 	molUP::fileExtension $molUP::path
@@ -167,4 +197,6 @@ proc molUP::loadBash {fileExtension flag} {
 		set alert [tk_messageBox -message "Oops!\nThe file is not supported.\nYou can only load .com or .log files (Gaussian)." -type ok -icon question]
 	}
 
+	#### Apply Charge and Multiplicity from File
+	molUP::applyChargeMultiplicityFromFile
 }

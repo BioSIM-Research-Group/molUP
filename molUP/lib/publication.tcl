@@ -1,4 +1,4 @@
-package provide publication 1.5.1
+package provide publication 1.5.2
 
 proc molUP::citeMolUP {} {
      #### Check if the window exists
@@ -133,10 +133,12 @@ proc molUP::getCitationsFromKeywords {} {
     }
 
     set molUPRef "\nmolUP:\nmolUP: A VMD plugin to handle QM and ONIOM calculations using the gaussian software, H. S. Fernandes, M. J. Ramos, N. M. F. S. A. Cerqueira, J. Comput. Chem., (2018)\ndoi.org/10.1002/jcc.25189\n"
+    set vmdRef "\nVMD:\nVMD - Visual Molecular Dynamics, Humphrey, W., Dalke, A. and Schulten, K., J. Molec. Graphics, (2018)\ndoi.org/10.1016/0263-7855(96)00018-5\n"
     set gaussianRef "\nGaussian09 D.01:\nGaussian 09, Revision D.01, M. J. Frisch, G. W. Trucks, H. B. Schlegel, G. E. Scuseria, M. A. Robb, J. R. Cheeseman, G. Scalmani, V. Barone, B. Mennucci, G. A. Petersson, H. Nakatsuji, M. Caricato, X. Li, H. P. Hratchian, A. F. Izmaylov, J. Bloino, G. Zheng, J. L. Sonnenberg, M. Hada, M. Ehara, K. Toyota, R. Fukuda, J. Hasegawa, M. Ishida, T. Nakajima, Y. Honda, O. Kitao, H. Nakai, T. Vreven, J. A. Montgomery, Jr., J. E. Peralta, F. Ogliaro, M. Bearpark, J. J. Heyd, E. Brothers, K. N. Kudin, V. N. Staroverov, T. Keith, R. Kobayashi, J. Normand, K. Raghavachari, A. Rendell, J. C. Burant, S. S. Iyengar, J. Tomasi, M. Cossi, N. Rega, J. M. Millam, M. Klene, J. E. Knox, J. B. Cross, V. Bakken, C. Adamo, J. Jaramillo, R. Gomperts, R. E. Stratmann, O. Yazyev, A. J. Austin, R. Cammi, C. Pomelli, J. W. Ochterski, R. L. Martin, K. Morokuma, V. G. Zakrzewski, G. A. Voth, P. Salvador, J. J. Dannenberg, S. Dapprich, A. D. Daniels, O. Farkas, J. B. Foresman, J. V. Ortiz, J. Cioslowski, and D. J. Fox, Gaussian, Inc., Wallingford CT, 2013.\n"
     
     append references $gaussianRef
     append references $molUPRef
+    append references $vmdRef
 
     return $references
 }

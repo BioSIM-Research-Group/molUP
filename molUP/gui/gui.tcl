@@ -1,4 +1,4 @@
-package provide guiMolUP 1.5.1
+package provide guiMolUP 1.5.2
 
 proc molUP::buildGui {} {
 
@@ -545,7 +545,7 @@ proc molUP::collectMolInfo {} {
 	### Clear variables
 	set molUP::title "molUP VMD is a very good plugin :)"
 	set molUP::keywordsCalc "%mem=7000MB\n%NProc=4\n%chk=name.chk\n# "
-	set molUP::chargesMultip ""
+	#set molUP::chargesMultip "" This cannot be active in order to molUP::applyChargeMultiplicityFromFile proc works
 	set molUP::connectivity ""
 	set molUP::parameters ""
 
@@ -819,11 +819,17 @@ proc molUP::resultSection {molID frame majorHeight} {
 			-command [list $tResults.tabs.tab4.tableLayer xview]\
 			] -in $tResults.tabs.tab4 -x 0 -y [expr $resultsHeight - 60] -height 20 -width 375
 
+	place [ttk::button $tResults.tabs.tab4.updateChargesfromFile \
+			-text "Update charges from file" \
+			-command {molUP::updateChargesFromFile} \
+			-style molUP.blue.TButton \
+			] -in $tResults.tabs.tab4 -x 8 -y [expr $resultsHeight - 40 + 8] -width 182
+
 	place [ttk::button $tResults.tabs.tab4.clearSelection \
 			-text "Clear Selection" \
 			-command {molUP::clearSelection charges} \
 			-style molUP.blue.TButton \
-			] -in $tResults.tabs.tab4 -x 8 -y [expr $resultsHeight - 40 + 8] -width 375
+			] -in $tResults.tabs.tab4 -x 201 -y [expr $resultsHeight - 40 + 8] -width 182
 
 	$tResults.tabs.tab4.tableLayer configcolumns 0 -labelrelief raised 0 -labelbackground #b3dbff 0 -labelborderwidth 1
 	$tResults.tabs.tab4.tableLayer configcolumns 1 -labelrelief raised 1 -labelbackground #b3dbff 1 -labelbd 1
@@ -879,11 +885,17 @@ proc molUP::resultSection {molID frame majorHeight} {
 			] -in $tResults.tabs.tab2 -x 5 -y [expr $resultsHeight - 100 + 65] -width 118
 	#balloon $tResults.tabs.tab2.selectModificationValue -text "Choose a ONIOM layer - (H) High Layer, (M) Medium Layer and (L) Low Layer"
 
+	place [ttk::button $tResults.tabs.tab2.pickAtoms \
+			-text "Pick" \
+			-command {molUP::pickAtomsLayer} \
+			-style molUP.blue.TButton \
+			] -in $tResults.tabs.tab2 -x 133 -y [expr $resultsHeight - 100 + 65] -width 54
+
 	place [ttk::button $tResults.tabs.tab2.selectionApply \
 			-text "Apply" \
 			-command {molUP::applyToStructure oniom} \
 			-style molUP.blue.TButton \
-			] -in $tResults.tabs.tab2 -x 133 -y [expr $resultsHeight - 100 + 65] -width 118
+			] -in $tResults.tabs.tab2 -x 197 -y [expr $resultsHeight - 100 + 65] -width 54
 
 	place [ttk::button $tResults.tabs.tab2.clearSelection \
 			-text "Clear Selection" \
@@ -944,11 +956,17 @@ proc molUP::resultSection {molID frame majorHeight} {
 			] -in $tResults.tabs.tab3 -x 5 -y [expr $resultsHeight - 100 + 65] -width 118
 	#balloon $tResults.tabs.tab3.selectModificationValue -text "Choose freeze option"
 
+	place [ttk::button $tResults.tabs.tab3.pickAtoms \
+			-text "Pick" \
+			-command {molUP::pickAtomsFreeze} \
+			-style molUP.TButton \
+			] -in $tResults.tabs.tab3 -x 133 -y [expr $resultsHeight - 100 + 65] -width 54
+	
 	place [ttk::button $tResults.tabs.tab3.selectionApply \
 			-text "Apply" \
 			-command {molUP::applyToStructure freeze} \
 			-style molUP.TButton \
-			] -in $tResults.tabs.tab3 -x 133 -y [expr $resultsHeight - 100 + 65] -width 118
+			] -in $tResults.tabs.tab3 -x 197 -y [expr $resultsHeight - 100 + 65] -width 54
 
 	place [ttk::button $tResults.tabs.tab3.clearSelection \
 			-text "Clear Selection" \
@@ -1105,4 +1123,50 @@ proc molUP::saveKeywordsInputLastStep {name} {
 
 	destroy $molUP::saveKeywordsInput
 
+}
+
+#### Pick Atoms ONIOM
+proc molUP::pickAtomsLayer {} {
+	molUP::clearSelection oniom
+	set molUP::atomSelectionONIOM "index"
+	variable pickAtomsLayerListPickedAtoms ""
+	
+	## Trace the variable to run a command each time a atom is picked
+	trace variable ::vmd_pick_atom w molUP::pickAtomsLayerPicked
+	
+	## Activate atom pick
+	mouse mode pick
+}
+proc molUP::pickAtomsLayerPicked {args} {
+	if {[lsearch $molUP::pickAtomsLayerListPickedAtoms $::vmd_pick_atom] == -1} {
+		lappend molUP::pickAtomsLayerListPickedAtoms $::vmd_pick_atom
+	} else {
+		set molUP::pickAtomsLayerListPickedAtoms [lsearch -all -inline -not $molUP::pickAtomsLayerListPickedAtoms $::vmd_pick_atom]
+	}
+
+	set molUP::atomSelectionONIOM "index $molUP::pickAtomsLayerListPickedAtoms"
+	mol modselect 9 [lindex $molUP::topMolecule 0] index $molUP::pickAtomsLayerListPickedAtoms
+}
+
+#### Pick Atoms Freeze
+proc molUP::pickAtomsFreeze {} {
+	molUP::clearSelection freeze
+	set molUP::atomSelectionFreeze "index"
+	variable pickAtomsFreezeListPickedAtoms ""
+
+	## Trace the variable to run a command each time a atom is picked
+	trace variable ::vmd_pick_atom w molUP::pickAtomsFreezePicked
+		
+	## Activate atom pick
+	mouse mode pick
+}
+proc molUP::pickAtomsFreezePicked {args} {
+	if {[lsearch $molUP::pickAtomsFreezeListPickedAtoms $::vmd_pick_atom] == -1} {
+		lappend molUP::pickAtomsFreezeListPickedAtoms $::vmd_pick_atom
+	} else {
+		set molUP::pickAtomsFreezeListPickedAtoms [lsearch -all -inline -not $molUP::pickAtomsFreezeListPickedAtoms $::vmd_pick_atom]
+	}
+
+	set molUP::atomSelectionFreeze "index $molUP::pickAtomsFreezeListPickedAtoms"
+	mol modselect 9 [lindex $molUP::topMolecule 0] index $molUP::pickAtomsFreezeListPickedAtoms
 }

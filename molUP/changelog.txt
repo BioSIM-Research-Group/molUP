@@ -1,6 +1,12 @@
 ######### molUP ##############
-Last version: 1.5.1
+Last version: 1.5.2
 ##############################
+Version 1.5.2 (18 OUT 2018)
+- [New feature] A button was added to allow the import of new calculated charges from Gaussian output files.
+- [New feature] Atoms can now be picked to assign them to an ONIOM layer or to change its freezing state during optimization calculations.
+- [Minor Change] The charge and multiplicity is now loaded from the Gaussian file instead of being calculated ad the beginning.
+- [Bug fixed] Fixed the issue that prevented the VMD citation appears in the references list.
+
 Version 1.5.1 (6 SEP 2018)
 - [Minor Changes] Now all the internal packages have their own versions.
 

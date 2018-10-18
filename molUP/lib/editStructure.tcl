@@ -1,4 +1,4 @@
-package provide editStructure 1.5.1
+package provide editStructure 1.5.2
 
 #### Table Editor
 proc molUP::oniomLayer {tbl row col text} {
@@ -320,6 +320,12 @@ proc molUP::applyToStructure {option} {
     } else {
         
     }
+
+    ## Remove the trace variable of pick
+    trace remove variable ::vmd_pick_atom write molUP::pickAtomsLayerPicked
+    trace remove variable ::vmd_pick_atom write molUP::pickAtomsFreezePicked
+    mol modselect 9 [lindex $molUP::topMolecule 0] none
+    mouse mode rotate
 }
 
 
@@ -332,14 +338,19 @@ proc molUP::clearSelection {option} {
     } elseif {$option == "oniom"} {
         mol modselect 0 [lindex $molUP::topMolecule 0] none
         set molUP::atomSelectionONIOM ""
+        trace remove variable ::vmd_pick_atom write molUP::pickAtomsLayerPicked
+        mol modselect 9 [lindex $molUP::topMolecule 0] none
+        mouse mode rotate
 
     } elseif {$option == "freeze"} {
         mol modselect 0 [lindex $molUP::topMolecule 0] none
         set molUP::atomSelectionFreeze ""
+        trace remove variable ::vmd_pick_atom write molUP::pickAtomsFreezePicked
+        mol modselect 9 [lindex $molUP::topMolecule 0] none
+        mouse mode rotate
     } else {
         
     }
-
 }
 
 

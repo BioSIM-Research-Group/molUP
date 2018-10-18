@@ -1,11 +1,11 @@
-package provide molUP 1.5.1
+package provide molUP 1.5.2
 
 #### INIT ############################################################
 namespace eval molUP:: {
 	namespace export molUP
 	
 		#### Load Packages				
-		package require guiMolUP 								1.5.1
+		package require guiMolUP 								1.5.2
 		package require guiBondModif							1.5.1
 		package require guiAngleModif							1.5.1
 		package require guiDihedModif							1.5.1
@@ -14,7 +14,7 @@ namespace eval molUP:: {
 		package require guiError								1.5.1
 		package require guiChargeMulti							1.5.1
 		package require guiCalcSetup							1.5.1
-		package require guiCredits								1.5.1
+		package require guiCredits								1.5.2
 		package require guiChangelog							1.5.1
 		package require guiInfo 								1.5.1
 		package require guiMethodology							1.5.1
@@ -25,20 +25,21 @@ namespace eval molUP:: {
 		package require guiAddAtoms								1.5.1
 		package require guiAddMolecule 							1.5.1
 		
-		package require inputFile 								1.5.1
+		package require inputFile 								1.5.2
 		package require timeControl								1.5.1
 		package require quit									1.5.1
 		package require loadGaussianInputFile					1.5.1
 		package require loadGaussianOutputFile					1.5.1
-		package	require editStructure							1.5.1
+		package	require editStructure							1.5.2
 		package require modify									1.5.1
 		package require saveFiles								1.5.1
 		package require readFreq								1.5.1
 		package require energy									1.5.1
 		package require plot									1.5.1
 		package require addDeleteAtoms							1.5.1
-		package require publication								1.5.1
+		package require publication								1.5.2
 		package require loadPrmtop								1.5.1
+		package require updateChargesFromFile					1.5.2
 
 
 		package require Tk
@@ -51,7 +52,7 @@ namespace eval molUP:: {
 
 		#### Program Variables
 		## General
-		variable version	    	"1.5.1"
+		variable version	    	"1.5.2"
 
 		#GUI
         variable topGui         	".molUP"
@@ -76,6 +77,7 @@ namespace eval molUP:: {
 		variable addAtoms			".molUP.addAtoms"
 		variable periodicTable		".molUP.addAtoms.periodicTable"
 		variable addMolecule		".molUP.addAtoms.addMolecule"
+		variable updateCharges		".molUP.updateCharges"
 
 		global path
 		variable path 				"/"
