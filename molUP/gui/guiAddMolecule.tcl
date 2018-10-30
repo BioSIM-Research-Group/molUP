@@ -1,4 +1,4 @@
-package provide guiAddMolecule 1.5.1
+package provide guiAddMolecule 1.5.3
 package require Tk
 
 #### GUI ############################################################
@@ -18,9 +18,9 @@ proc molUP::guiAddMolecule {} {
 	set sHeight [expr [winfo vrootheight $::molUP::addMolecule] -50]
 
 	#### Change the location of window
-    wm geometry $::molUP::addMolecule 400x400+[expr $sWidth / 2 - 400]+200
+    wm geometry $::molUP::addMolecule 500x300+[expr $sWidth / 2 - 400]+200
 	$::molUP::addMolecule configure -background {white}
-	wm resizable $::molUP::addMolecule 0 0
+	wm resizable $::molUP::addMolecule 1 1
 
 	## Apply theme
 	ttk::style theme use molUPTheme

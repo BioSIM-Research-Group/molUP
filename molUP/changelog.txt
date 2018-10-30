@@ -1,6 +1,9 @@
 ######### molUP ##############
-Last version: 1.5.2
+Last version: 1.5.3
 ##############################
+Version 1.5.3 (30 OUT 2018)
+- [Bug fixed] An issue that hide the button "Add" on the "Add Molecule/Fragment" window of the "Add Atoms" tool. 
+
 Version 1.5.2 (18 OUT 2018)
 - [New feature] A button was added to allow the import of new calculated charges from Gaussian output files.
 - [New feature] Atoms can now be picked to assign them to an ONIOM layer or to change its freezing state during optimization calculations.
