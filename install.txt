@@ -2,5 +2,5 @@
 ## Version XXversionXX
 variable molUPpath "$::vmdStorePath/plugins/molUP"
 lappend auto_path $::molUPpath
-vmd_install_extension molUP "molUP::start" "PortoBioComp/molUP" 
+vmd_install_extension molUP "molUP::start" "VMD Store/molUP" 
 ####vmdStore#### END molUP
