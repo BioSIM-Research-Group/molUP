@@ -1,6 +1,6 @@
 # PKG Index - molUP
 
-package ifneeded molUP        	                            1.5.2 [list source [file join $dir/molUP.tcl]]
+package ifneeded molUP        	                            1.5.4 [list source [file join $dir/molUP.tcl]]
 
 #GUI
 package ifneeded guiMolUP        	                        1.5.2 [list source [file join $dir/gui/gui.tcl]]
@@ -19,7 +19,7 @@ package ifneeded guiInfo         	                        1.5.1 [list source [fi
 package ifneeded guiMethodology         	                1.5.1 [list source [file join $dir/gui/guiMethodology.tcl]]
 package ifneeded guiBADparam             	                1.5.1 [list source [file join $dir/gui/guiBADparameters.tcl]]
 package ifneeded guiModRedundant                            1.5.1 [list source [file join $dir/gui/guiModRedundant.tcl]]
-package ifneeded guiDeleteAtoms                             1.5.1 [list source [file join $dir/gui/guiDeleteAtoms.tcl]]
+package ifneeded guiDeleteAtoms                             1.5.4 [list source [file join $dir/gui/guiDeleteAtoms.tcl]]
 package ifneeded guiAddAtoms                                1.5.1 [list source [file join $dir/gui/guiAddAtoms.tcl]]
 package ifneeded guiAddMolecule                             1.5.3 [list source [file join $dir/gui/guiAddMolecule.tcl]]
 
@@ -37,7 +37,7 @@ package ifneeded readFreq                                 	1.5.1 [list source [f
 package ifneeded energy                                 	1.5.1 [list source [file join $dir/lib/energy.tcl]]
 package ifneeded plot                                    	1.5.1 [list source [file join $dir/lib/plot.tcl]]
 package ifneeded balloon                                    1.5.1 [list source [file join $dir/lib/balloon.tcl]]
-package ifneeded addDeleteAtoms                             1.5.1 [list source [file join $dir/lib/addDeleteAtoms.tcl]]
+package ifneeded addDeleteAtoms                             1.5.4 [list source [file join $dir/lib/addDeleteAtoms.tcl]]
 package ifneeded publication                                1.5.2 [list source [file join $dir/lib/publication.tcl]]
 package ifneeded loadPrmtop                                 1.5.1 [list source [file join $dir/lib/loadPrmtopParameters.tcl]]
 package ifneeded updateChargesFromFile                      1.5.2 [list source [file join $dir/lib/updateChargesFromFile.tcl]]

@@ -1,4 +1,4 @@
-package provide molUP 1.5.3
+package provide molUP 1.5.4
 
 #### INIT ############################################################
 namespace eval molUP:: {
@@ -21,7 +21,7 @@ namespace eval molUP:: {
 		package require guiBADparam								1.5.1
 		package require guiModRedundant							1.5.1
 		package require guiOpenMultiFile 						1.5.1
-		package require guiDeleteAtoms							1.5.1
+		package require guiDeleteAtoms							1.5.4
 		package require guiAddAtoms								1.5.1
 		package require guiAddMolecule 							1.5.3
 		
@@ -36,7 +36,7 @@ namespace eval molUP:: {
 		package require readFreq								1.5.1
 		package require energy									1.5.1
 		package require plot									1.5.1
-		package require addDeleteAtoms							1.5.1
+		package require addDeleteAtoms							1.5.4
 		package require publication								1.5.2
 		package require loadPrmtop								1.5.1
 		package require updateChargesFromFile					1.5.2
@@ -52,7 +52,7 @@ namespace eval molUP:: {
 
 		#### Program Variables
 		## General
-		variable version	    	"1.5.3"
+		variable version	    	"1.5.4"
 
 		#GUI
         variable topGui         	".molUP"
@@ -186,6 +186,7 @@ namespace eval molUP:: {
 		variable atomSelectionSave "all"
 		variable addAtomElement	"H"
 		variable moveAtomPosRectInitial	{}
+		variable atomSelectionDeleteAtoms ""
 
 
 		variable chargeAll	0
@@ -235,6 +236,3 @@ proc molUP::start {} {
 	update
 	return $::molUP::topGui
 }
-
-## Initiate ###
-#molUP::buildGui

@@ -1,4 +1,4 @@
-package provide addDeleteAtoms 1.5.1
+package provide addDeleteAtoms 1.5.4
 
 ##### DELETE ATOMS
 proc molUP::pickAtomsToDelete {args} {
@@ -8,9 +8,9 @@ proc molUP::pickAtomsToDelete {args} {
 	set name [$selection get name]
 	set resname [$selection get resname]
 	set resid [$selection get resid]
-	set x [$selection get x]
-	set y [$selection get y]
-	set z [$selection get z]
+	# set x [$selection get x]
+	# set y [$selection get y]
+	# set z [$selection get z]
 
 	set currentSelected [$molUP::deleteAtoms.frame0.frame.table getcolumns 0]
 
@@ -30,6 +30,34 @@ proc molUP::pickAtomsToDelete {args} {
 	} else {
 		mol modselect 9 top "none"
 	}
+}
+
+proc molUP::atomToDeleteSelection {sel} {
+    set selection [atomselect top "$sel"]
+    set names [$selection get name]
+	set resnames [$selection get resname]
+	set resids [$selection get resid]
+    set indexs [$selection get index]
+
+    set currentSelected [$molUP::deleteAtoms.frame0.frame.table getcolumns 0]
+
+    foreach name $names resname $resnames resid $resids index $indexs {
+        # Check if the atom is already in the list
+        if {[lsearch $currentSelected $index] == -1} {
+            # Add the atom to the list
+            $molUP::deleteAtoms.frame0.frame.table insert end [list "$index" "$name" "$resname" "$resid"]
+        } else {
+
+        }
+    }
+
+    # Update representation
+	if {[$molUP::deleteAtoms.frame0.frame.table getcolumns 0] != ""} {
+		mol modselect 9 top "index [$molUP::deleteAtoms.frame0.frame.table getcolumns 0]"
+	} else {
+		mol modselect 9 top "none"
+	}
+
 }
 
 proc molUP::deleteAtomProcess {} {
@@ -76,6 +104,9 @@ proc molUP::deleteAtomProcess {} {
 
         # Stop picking trace
         trace remove variable ::vmd_pick_atom write molUP::deleteAtomProcess
+
+        # Update connectivity
+        molUP::getConnectivityFromVMD
 
         # Close Gui
         molUP::deleteAtomsGuiCloseSave

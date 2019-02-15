@@ -1,6 +1,10 @@
 ######### molUP ##############
-Last version: 1.5.3
+Last version: 1.5.4
 ##############################
+Version 1.5.4 (15 FEV 2019)
+- [New feature] Atom selections can be used to choose which atoms must be deleted when using "Delete Atoms" tool.
+- [Bug fixed] A minor bug related to an error message shown during the VMD initialization was fixed.
+
 Version 1.5.3 (30 OUT 2018)
 - [Bug fixed] An issue that hide the button "Add" on the "Add Molecule/Fragment" window of the "Add Atoms" tool. 
 

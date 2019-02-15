@@ -1,4 +1,4 @@
-package provide guiDeleteAtoms 1.5.1
+package provide guiDeleteAtoms 1.5.4
 package require Tk
 
 #### GUI ############################################################
@@ -18,7 +18,7 @@ proc molUP::guiDeleteAtoms {} {
 	set sHeight [expr [winfo vrootheight $::molUP::deleteAtoms] -50]
 
 	#### Change the location of window
-    wm geometry $::molUP::deleteAtoms 400x220+[expr $sWidth - 400]+100
+    wm geometry $::molUP::deleteAtoms 400x280+[expr $sWidth - 400]+100
 	$::molUP::deleteAtoms configure -background {white}
 	wm resizable $::molUP::deleteAtoms 0 0
 
@@ -31,7 +31,7 @@ proc molUP::guiDeleteAtoms {} {
 
     #### Information
 	pack [ttk::frame $molUP::deleteAtoms.frame0]
-	pack [canvas $molUP::deleteAtoms.frame0.frame -bg white -width 400 -height 220 -highlightthickness 0] -in $molUP::deleteAtoms.frame0 
+	pack [canvas $molUP::deleteAtoms.frame0.frame -bg white -width 400 -height 280 -highlightthickness 0] -in $molUP::deleteAtoms.frame0 
         
     place [ttk::label $molUP::deleteAtoms.frame0.frame.title \
 		    -text {Pick the atoms that you want to delete.} \
@@ -61,18 +61,34 @@ proc molUP::guiDeleteAtoms {} {
 			-orient horizontal \
 			-command [list $molUP::deleteAtoms.frame0.frame.table xview]\
 			] -in $molUP::deleteAtoms.frame0.frame -x 10 -y 140 -height 20 -width 360
-                
+
+    place [ttk::label $molUP::deleteAtoms.frame0.frame.atomSelectionLabel \
+		    -text {Atom Selection: } \
+			-style molUP.white.TLabel \
+		    ] -in $molUP::deleteAtoms.frame0.frame -x 10 -y 172
+
+	place [ttk::entry $molUP::deleteAtoms.frame0.frame.atomSelection \
+			-textvariable molUP::atomSelectionDeleteAtoms \
+			-style molUP.TEntry \
+			] -in $molUP::deleteAtoms.frame0.frame -x 100 -y 170 -width 225
+
+	place [ttk::button $molUP::deleteAtoms.frame0.frame.applyAtomSelection \
+		    -text "Apply" \
+		    -command {molUP::atomToDeleteSelection $molUP::atomSelectionDeleteAtoms} \
+			-style molUP.TButton \
+		    ] -in $molUP::deleteAtoms.frame0.frame -x 330 -y 170 -width 60
+
     place [ttk::button $molUP::deleteAtoms.frame0.frame.apply \
 		            -text "Delete" \
 		            -command {molUP::deleteAtomProcess} \
 					-style molUP.TButton \
-		            ] -in $molUP::deleteAtoms.frame0.frame -x 230 -y 180 -width 75
+		            ] -in $molUP::deleteAtoms.frame0.frame -x 230 -y 240 -width 75
 				
 	place [ttk::button $molUP::deleteAtoms.frame0.frame.cancel \
 		            -text "Cancel" \
 		            -command {molUP::deleteAtomsGuiCloseSave} \
 					-style molUP.TButton \
-		            ] -in $molUP::deleteAtoms.frame0.frame -x 315 -y 180 -width 75
+		            ] -in $molUP::deleteAtoms.frame0.frame -x 315 -y 240 -width 75
 
 
     after idle {
