@@ -382,6 +382,10 @@ proc molUP::selectFreq {} {
 	## Animate Frequency
 	molUP::animateFreq $molUP::freqVectorsList $molUP::animationFreq $molUP::displacement "none"
 
+	# Update frames selector
+	$molUP::topGui.frame0.molSelection.framescale configure -to [expr [molinfo top get numframes] -1]
+	$molUP::topGui.frame0.molSelection.framescale configure -value [molinfo top get frame]
+
 }
 
 proc molUP::clearSelectionFreq {} {

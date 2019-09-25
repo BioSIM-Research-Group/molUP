@@ -2,7 +2,7 @@ package provide loadGaussianOutputFile 1.5.1
 
 
 
-### This procedure load a gaussian input file and converts it to PDB
+### This procedure load a gaussian input file
 proc molUP::loadGaussianOutputFile {option} {
     
 	## Check Normal Termination
@@ -371,6 +371,26 @@ proc molUP::readOniomStructure {} {
 				set charge "0.000000"
 				set gaussianAtomType "X"
 			} else {}
+
+			# Trying to get information when no information are provided regarding the PDBName, ResName and ResNum
+			if {$test == 0} {
+				set test [regexp {(\S+)[-](\S+)[-](\S+)} $column0 -> \
+    		atomicSymbol gaussianAtomType charge]
+				set pdbAtomType [string trim $gaussianAtomType "-"]
+				set resname "MOL"
+				set resid "1"
+			} else {}
+
+			# Trying to get information when only the atomicSymbol is provided
+			if {$test == 0} {
+				set test [regexp {(\S+)} $column0 -> \
+    		atomicSymbol]
+				set pdbAtomType [string trim $gaussianAtomType "-"]
+				set gaussianAtomType $pdbAtomType
+				set resname "MOL"
+				set resid "1"
+				set charge "0.000000"
+			} else {}
             
 			## Correction for charge signal
     		if {[string match "*--*" $column0]==1} {
@@ -484,6 +504,26 @@ proc molUP::readOniomStructureLastStructure {lastStructure} {
     		atomicSymbol pdbAtomType resname resid]
 				set charge "0.000000"
 				set gaussianAtomType "X"
+			} else {}
+
+			# Trying to get information when no information are provided regarding the PDBName, ResName and ResNum
+			if {$test == 0} {
+				set test [regexp {(\S+)[-](\S+)[-](\S+)} $column0 -> \
+    		atomicSymbol gaussianAtomType charge]
+				set pdbAtomType [string trim $gaussianAtomType "-"]
+				set resname "MOL"
+				set resid "1"
+			} else {}
+
+			# Trying to get information when only the atomicSymbol is provided
+			if {$test == 0} {
+				set test [regexp {(\S+)} $column0 -> \
+    		atomicSymbol]
+				set pdbAtomType [string trim $gaussianAtomType "-"]
+				set gaussianAtomType $pdbAtomType
+				set resname "MOL"
+				set resid "1"
+				set charge "0.000000"
 			} else {}
             
 			## Correction for charge signal

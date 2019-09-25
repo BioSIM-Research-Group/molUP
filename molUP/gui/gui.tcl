@@ -102,7 +102,7 @@ proc molUP::buildGui {} {
 
 
 	## Molecule Selection #############################################
-	pack [canvas $molUP::topGui.frame0.molSelection -bg #ededed -width 400 -height 35 -highlightthickness 0] -in $molUP::topGui.frame0
+	pack [canvas $molUP::topGui.frame0.molSelection -bg #ededed -width 400 -height 50 -highlightthickness 0] -in $molUP::topGui.frame0
 
 	place [ttk::label $molUP::topGui.frame0.molSelection.label \
 			-style molUP.gray.TLabel \
@@ -120,6 +120,20 @@ proc molUP::buildGui {} {
 			] -in $molUP::topGui.frame0.molSelection -x 70 -y 0 -width 325
 	bind $molUP::topGui.frame0.molSelection.combo <<ComboboxSelected>> {molUP::selectMolecule}
 
+	place [ttk::label $molUP::topGui.frame0.molSelection.framelabel \
+			-style molUP.gray.TLabel \
+			-text {Frame } ] -in $molUP::topGui.frame0.molSelection -x 5 -y 24
+
+	place [ttk::scale $molUP::topGui.frame0.molSelection.framescale \
+			-from 0 \
+			-to 0 \
+			-value 0 \
+			-length 325 \
+			-command {molUP::frameSelector} \
+			] -in $molUP::topGui.frame0.molSelection -x 70 -y 25 -width 325
+	trace variable ::vmd_frame w molUP::frameChanged
+
+
 	
 	## Results section ################################################ 
 	set molUP::majorHeight [expr $sHeight - 230]
@@ -127,76 +141,76 @@ proc molUP::buildGui {} {
 	
 
 	## Representantions ################################################
-	pack [canvas $molUP::topGui.frame0.rep -bg #ededed -width 400 -height 105 -highlightthickness 0 -relief raised] -in $molUP::topGui.frame0
+	pack [canvas $molUP::topGui.frame0.rep -bg #ededed -width 400 -height 90 -highlightthickness 0 -relief raised] -in $molUP::topGui.frame0
 	set rep $molUP::topGui.frame0.rep
 
 	place [ttk::label $rep.quickRepLabel \
 			-text {Representations} \
 			-style molUP.grayCenter.TLabel \
-			] -in $rep -x 0 -y 5 -width 400
+			] -in $rep -x 0 -y 0 -width 400
 
 	place [ttk::checkbutton $rep.showHL \
 			-text "High Layer" \
 			-variable molUP::HLrep \
 			-command {molUP::onOffRepresentation 1} \
 			-style molUP.TCheckbutton \
-			] -in $rep -x 5 -y 30 -width 123
+			] -in $rep -x 5 -y 25 -width 123
 
 	place [ttk::checkbutton $rep.showML \
 			-text "Medium Layer" \
 			-variable molUP::MLrep \
 			-command {molUP::onOffRepresentation 2} \
 			-style molUP.TCheckbutton \
-			] -in $rep -x 138 -y 30 -width 123
+			] -in $rep -x 138 -y 25 -width 123
 
 	place [ttk::checkbutton $rep.showLL \
 			-text "Low Layer" \
 			-variable molUP::LLrep \
 			-command {molUP::onOffRepresentation 3} \
 			-style molUP.TCheckbutton \
-			] -in $rep -x 271 -y 30 -width 123
+			] -in $rep -x 271 -y 25 -width 123
 
 	place [ttk::checkbutton $rep.unfreeze \
 			-text "Unfreeze" \
 			-variable molUP::unfreezeRep \
 			-command {molUP::onOffRepresentation 7} \
 			-style molUP.TCheckbutton \
-			] -in $rep -x 5 -y 55 -width 123
+			] -in $rep -x 5 -y 45 -width 123
 
 	place [ttk::checkbutton $rep.freezeMinusOne \
 			-text "Freeze" \
 			-variable molUP::freezeRep \
 			-command {molUP::onOffRepresentation 8} \
 			-style molUP.TCheckbutton \
-			] -in $rep -x 138 -y 55 -width 123
+			] -in $rep -x 138 -y 45 -width 123
 
 	place [ttk::checkbutton $rep.all \
 			-text "All" \
 			-variable molUP::allRep \
 			-command {molUP::onOffRepresentation 12} \
 			-style molUP.TCheckbutton \
-			] -in $rep -x 271 -y 55 -width 123
+			] -in $rep -x 271 -y 45 -width 123
 
 	place [ttk::checkbutton $rep.protein \
 			-text "Protein" \
 			-variable molUP::proteinRep \
 			-command {molUP::onOffRepresentation 4} \
 			-style molUP.TCheckbutton \
-			] -in $rep -x 5 -y 80 -width 123
+			] -in $rep -x 5 -y 65 -width 123
 
 	place [ttk::checkbutton $rep.nonProtein \
 			-text "Non-Protein" \
 			-variable molUP::nonproteinRep \
 			-command {molUP::onOffRepresentation 5} \
 			-style molUP.TCheckbutton \
-			] -in $rep -x 138 -y 80 -width 123
+			] -in $rep -x 138 -y 65 -width 123
 
 	place [ttk::checkbutton $rep.water \
 			-text "Water" \
 			-variable molUP::waterRep \
 			-command {molUP::onOffRepresentation 6} \
 			-style molUP.TCheckbutton \
-			] -in $rep -x 271 -y 80 -width 123
+			] -in $rep -x 271 -y 65 -width 123
 
 
 	#### Toolbar Menu Bootom ################################################
@@ -370,6 +384,11 @@ proc molUP::selectMolecule {} {
 
 	# Update charges
 	molUP::getChargesSum none
+
+	# Update frames selector
+	$molUP::topGui.frame0.molSelection.framescale configure -to [expr [molinfo top get numframes] -1]
+	$molUP::topGui.frame0.molSelection.framescale configure -value [molinfo top get frame]
+
 }
 
 
@@ -1169,4 +1188,14 @@ proc molUP::pickAtomsFreezePicked {args} {
 
 	set molUP::atomSelectionFreeze "index $molUP::pickAtomsFreezeListPickedAtoms"
 	mol modselect 9 [lindex $molUP::topMolecule 0] index $molUP::pickAtomsFreezeListPickedAtoms
+}
+
+proc molUP::frameSelector {args} {
+	set frame [lindex [split $args "."] 0]
+
+	animate goto $frame
+}
+
+proc molUP::frameChanged {args} {
+	$molUP::topGui.frame0.molSelection.framescale configure -value [molinfo top get frame]
 }

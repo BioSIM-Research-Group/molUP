@@ -1,6 +1,10 @@
 ######### molUP ##############
-Last version: 1.5.4
+Last version: 1.6.0
 ##############################
+Version 1.6.0 (28 SEP 2019)
+- [Improvement] molUP is now able to load Gaussian files whose coordinates are structured in two other formats.
+- [New feature] molUP has a new interactive selector to navigate though the frames.
+
 Version 1.5.4 (15 FEV 2019)
 - [New feature] Atom selections can be used to choose which atoms must be deleted when using "Delete Atoms" tool.
 - [Bug fixed] A minor bug related to an error message shown during the VMD initialization was fixed.
