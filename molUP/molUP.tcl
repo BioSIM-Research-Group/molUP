@@ -1,11 +1,11 @@
-package provide molUP 1.5.4
+package provide molUP 1.6.0
 
 #### INIT ############################################################
 namespace eval molUP:: {
 	namespace export molUP
 	
 		#### Load Packages				
-		package require guiMolUP 								1.5.2
+		package require guiMolUP 								1.6.0
 		package require guiBondModif							1.5.1
 		package require guiAngleModif							1.5.1
 		package require guiDihedModif							1.5.1
@@ -52,7 +52,7 @@ namespace eval molUP:: {
 
 		#### Program Variables
 		## General
-		variable version	    	"1.5.4"
+		variable version	    	"1.6.0"
 
 		#GUI
         variable topGui         	".molUP"

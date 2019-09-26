@@ -1,4 +1,4 @@
-package provide guiMolUP 1.5.2
+package provide guiMolUP 1.6.0
 
 proc molUP::buildGui {} {
 
