@@ -1,6 +1,9 @@
 ######### molUP ##############
-Last version: 1.6.0
+Last version: 1.6.1
 ##############################
+Version 1.6.1 (7 JAN 2020)
+- [Improvement] Additional molecular groups were added to the "Add Molecule/Fragment" tool.
+
 Version 1.6.0 (28 SEP 2019)
 - [Improvement] molUP is now able to load Gaussian files whose coordinates are structured in two other formats.
 - [New feature] molUP has a new interactive selector to navigate though the frames.
