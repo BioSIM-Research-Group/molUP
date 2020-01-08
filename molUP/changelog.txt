@@ -1,6 +1,9 @@
 ######### molUP ##############
-Last version: 1.6.1
+Last version: 1.6.2
 ##############################
+Version 1.6.2 (8 JAN 2020)
+- [New feature] A simple Tk console command was added to easily rename residues' names (Resname). Run "::molUP::changeResname VMD_SELECTION NEW_RESNAME", e.g.: "::molUP::changeResname "resid 53" VAL"
+
 Version 1.6.1 (7 JAN 2020)
 - [Improvement] Additional molecular groups were added to the "Add Molecule/Fragment" tool.
 

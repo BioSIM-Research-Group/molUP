@@ -1,4 +1,4 @@
-package provide molUP 1.6.0
+package provide molUP 1.6.2
 
 #### INIT ############################################################
 namespace eval molUP:: {
@@ -40,6 +40,7 @@ namespace eval molUP:: {
 		package require publication								1.5.2
 		package require loadPrmtop								1.5.1
 		package require updateChargesFromFile					1.5.2
+		package require changeStructureData						1.6.2
 
 
 		package require Tk
@@ -52,7 +53,7 @@ namespace eval molUP:: {
 
 		#### Program Variables
 		## General
-		variable version	    	"1.6.1"
+		variable version	    	"1.6.2"
 
 		#GUI
         variable topGui         	".molUP"
