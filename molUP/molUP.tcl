@@ -1,4 +1,4 @@
-package provide molUP 1.6.2
+package provide molUP 1.6.3
 
 #### INIT ############################################################
 namespace eval molUP:: {
@@ -28,8 +28,8 @@ namespace eval molUP:: {
 		package require inputFile 								1.5.2
 		package require timeControl								1.5.1
 		package require quit									1.5.1
-		package require loadGaussianInputFile					1.5.1
-		package require loadGaussianOutputFile					1.5.1
+		package require loadGaussianInputFile					1.6.3
+		package require loadGaussianOutputFile					1.6.3
 		package	require editStructure							1.5.2
 		package require modify									1.5.1
 		package require saveFiles								1.5.1
@@ -53,7 +53,7 @@ namespace eval molUP:: {
 
 		#### Program Variables
 		## General
-		variable version	    	"1.6.2"
+		variable version	    	"1.6.3"
 
 		#GUI
         variable topGui         	".molUP"
@@ -212,6 +212,20 @@ namespace eval molUP:: {
 			variable cut "$molUPpath/windowsDependencies/cut.exe"
 			variable tail "$molUPpath/windowsDependencies/tail.exe"
 			variable grep "$molUPpath/windowsDependencies/grep.exe"
+		} elseif {[string first "Darwin" $::tcl_platform(os)] != -1} {
+			catch {exec ggrep} debug
+			if {[string match "*no such file or directory*" $debug] == 1 } {
+				puts "ERROR-ERROR-ERROR - molUP - ERROR-ERROR-ERROR\nPlease, install GNU-grep. In Terminal, run the following commands:\n/bin/bash -c \"\$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)\"\nbrew install grep\n\nIf you have already Homebrew installed on your machine, the first command is not required. Simply run:\nbrew install grep"
+			}
+			catch {exec gsed} debug
+			if {[string match "*no such file or directory*" $debug] == 1 } {
+				puts "ERROR-ERROR-ERROR - molUP - ERROR-ERROR-ERROR\nPlease, install GNU-grep. In Terminal, run the following commands:\n/bin/bash -c \"\$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)\"\nbrew install gnu-sed\n\nIf you have already Homebrew installed on your machine, the first command is not required. Simply run:\nbrew install gnu-sed"
+			}
+			variable sed "gsed"
+			variable head "head"
+			variable cut "cut"
+			variable tail "tail"
+			variable grep "ggrep"
 		} else {
 			variable sed "sed"
 			variable head "head"

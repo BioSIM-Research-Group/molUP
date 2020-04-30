@@ -1,4 +1,4 @@
-package provide loadGaussianInputFile 1.5.1
+package provide loadGaussianInputFile 1.6.3
 
 ### This procedure load a gaussian input file and converts it to PDB
 proc molUP::loadGaussianInputFile {} {
@@ -60,7 +60,7 @@ proc molUP::loadGaussianInputFile {} {
 		variable attributes [list "x" "y" "z" "element" "name" "type" "resname" "resid" "altloc" "user" "charge"]
 
 	} else {
-		molUP::guiError "The file has a strange structure. The file cannot be openned." "Error"
+		molUP::guiError "The file has a strange structure. The file cannot be openned. Please, contact molUp develoeprs to request support for this type of file." "Error"
 	}
 
 	#### Load and prepara structure on VMD

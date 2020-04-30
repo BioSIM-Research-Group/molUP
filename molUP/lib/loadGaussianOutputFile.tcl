@@ -1,6 +1,4 @@
-package provide loadGaussianOutputFile 1.5.1 
-
-
+package provide loadGaussianOutputFile 1.6.3
 
 ### This procedure load a gaussian input file
 proc molUP::loadGaussianOutputFile {option} {
@@ -34,7 +32,10 @@ proc molUP::loadGaussianOutputFile {option} {
 		## Get the number of columns
 		set numberColumns [llength [lindex $molUP::structureGaussian 0]]
 
-		if {$numberColumns == 4} {
+		if {$numberColumns == 1} {
+			molUP::readSmallModelStructureOneColumn
+			variable attributes [list "x" "y" "z" "element" "name" "type" "resname" "resid"]
+		} elseif {$numberColumns == 4} {
 			molUP::readSmallModelStructure
 			variable attributes [list "x" "y" "z" "element" "name" "type" "resname" "resid"]
 
@@ -43,8 +44,7 @@ proc molUP::loadGaussianOutputFile {option} {
 			variable attributes [list "x" "y" "z" "element" "name" "type" "resname" "resid" "altloc" "user" "charge"]
 
 		} else {
-			molUP::guiError "The file has a strange structure. The file cannot be openned."
-
+			molUP::guiError "The file has a strange structure. The file cannot be openned. Please, contact molUp develoeprs to request support for this type of file." "Error"
 		}
 
 		molUP::createMolecule
@@ -83,7 +83,10 @@ proc molUP::loadGaussianOutputFile {option} {
 		## Get the number of columns
 		set numberColumns [llength [lindex $molUP::structureGaussian 0]]
 
-		if {$numberColumns == 4} {
+		if {$numberColumns == 1} {
+			molUP::readSmallModelStructureLastStructureOneColumn $allAtomsLastStructureCoord
+			variable attributes [list "x" "y" "z" "element" "name" "type" "resname" "resid"]
+		} elseif {$numberColumns == 4} {
 			molUP::readSmallModelStructureLastStructure $allAtomsLastStructureCoord
 			variable attributes [list "x" "y" "z" "element" "name" "type" "resname" "resid"]
 		} elseif {$numberColumns > 4} {
@@ -91,7 +94,7 @@ proc molUP::loadGaussianOutputFile {option} {
 			variable attributes [list "x" "y" "z" "element" "name" "type" "resname" "resid" "altloc" "user" "charge"]
 
 		} else {
-			molUP::guiError "The file has a strange structure. The file cannot be openned."
+			molUP::guiError "The file has a strange structure. The file cannot be openned. Please, contact molUp develoeprs to request support for this type of file." "Error"
 
 		}
 
@@ -154,14 +157,17 @@ proc molUP::loadGaussianOutputFile {option} {
 					incr structureNumber
 					set numberColumns [llength [lindex $molUP::structureGaussian 0]]
 
-					if {$numberColumns == 4} {
+					if {$numberColumns == 1} {
+						molUP::readSmallModelStructureLastStructureOneColumn $allAtomsLastStructureCoord
+						variable attributes [list "x" "y" "z" "element" "name" "type" "resname" "resid"]
+					} elseif {$numberColumns == 4} {
 						molUP::readSmallModelStructureLastStructure $allAtomsLastStructureCoord
 						variable attributes [list "x" "y" "z" "element" "name" "type" "resname" "resid"]
 					} elseif {$numberColumns > 4} { 
 						molUP::readOniomStructureLastStructure $allAtomsLastStructureCoord
 						variable attributes [list "x" "y" "z" "element" "name" "type" "resname" "resid" "altloc" "user" "charge"]
 					} else {
-						molUP::guiError "The file has a strange structure. The file cannot be openned."
+						molUP::guiError "The file has a strange structure. The file cannot be openned. Please, contact molUp develoeprs to request support for this type of file." "Error"
 					}
 
 					molUP::createMolecule
@@ -231,14 +237,17 @@ proc molUP::loadGaussianOutputFile {option} {
 				incr structureNumber
 				set numberColumns [llength [lindex $molUP::structureGaussian 0]]
 
-				if {$numberColumns == 4} {
+				if {$numberColumns == 1} {
+						molUP::readSmallModelStructureLastStructureOneColumn $allAtomsLastStructureCoord
+						variable attributes [list "x" "y" "z" "element" "name" "type" "resname" "resid"]
+				} elseif {$numberColumns == 4} {
 					molUP::readSmallModelStructureLastStructure $allAtomsLastStructureCoord
 					variable attributes [list "x" "y" "z" "element" "name" "type" "resname" "resid"]
 				} elseif {$numberColumns > 4} {
 					molUP::readOniomStructureLastStructure $allAtomsLastStructureCoord
 					variable attributes [list "x" "y" "z" "element" "name" "type" "resname" "resid" "altloc" "user" "charge"]
 				} else {
-					molUP::guiError "The file has a strange structure. The file cannot be openned."
+					molUP::guiError "The file has a strange structure. The file cannot be openned. Please, contact molUp develoeprs to request support for this type of file." "Error"
 				}  
 
 
@@ -316,9 +325,16 @@ proc molUP::evaluateFreqCalc {} {
 
 proc molUP::numberAtomsFirstStructure {} {
 	set lineBeforeStructure [split [exec $molUP::head -n 300 $molUP::path | $molUP::grep -n " Charge =" | $molUP::tail -n 1] ":"]
-	set firstLineStructure [expr [lindex $lineBeforeStructure 0] + 1]
-	set lineAfterStructure [split [exec $molUP::grep -E -n -m 2 "^ $" $molUP::path | $molUP::tail -n 1] ":"]
-	set lastLineStructure [expr [lindex $lineAfterStructure 0] - 1]
+	catch {exec $molUP::head -n 300 $molUP::path | $molUP::grep "^ Redundant internal coordinates found in file.  (old form)."} testTypeofInput
+	if {$testTypeofInput == " Redundant internal coordinates found in file.  (old form)."} {
+		set firstLineStructure [expr [lindex $lineBeforeStructure 0] + 2]
+		set lineAfterStructure [split [exec $molUP::grep -E -n -m 2 "^ Recover connectivity data from disk." $molUP::path | $molUP::tail -n 1] ":"]
+		set lastLineStructure [expr [lindex $lineAfterStructure 0] - 1]
+	} else {
+		set firstLineStructure [expr [lindex $lineBeforeStructure 0] + 1]
+		set lineAfterStructure [split [exec $molUP::grep -E -n -m 2 "^ $" $molUP::path | $molUP::tail -n 1] ":"]
+		set lastLineStructure [expr [lindex $lineAfterStructure 0] - 1]
+	}
 	set numberAtoms [expr $lastLineStructure - $firstLineStructure + 1]
 	
 	#### Grep the initial structure
@@ -463,6 +479,51 @@ proc molUP::readSmallModelStructure {} {
     	}
 }
 
+proc molUP::readSmallModelStructureOneColumn {} {
+		set i 0
+		set molUP::structureReadyToLoad {}
+		set molUP::structureReadyToLoadCharges {}
+		set molUP::structureReadyToLoadLayer {}
+		set molUP::structureReadyToLoadFreeze {}
+
+		set index 0
+    	foreach atom $molUP::structureGaussian {
+    		lassign [split $atom ","] column0 column1 column2 column3 column4
+            
+			## Atom information
+			set atomInfo {}
+			set atomInfoCharges {}
+			set atomInfoLayer {}
+			set atomInfoFreeze {}
+
+    		incr i
+
+			set resname "MOL"
+			set resid "1"
+			set pdbAtomType $column0
+			set gaussianAtomType $column0
+			set atomicSymbol $column0
+            
+			## Add information about atom
+    		lappend atomInfo [format %.6f $column2] [format %.6f $column3] [format %.6f $column4] $atomicSymbol $pdbAtomType $gaussianAtomType $resname $resid
+            
+
+			set charge $column1
+			lappend atomInfoCharges $index $gaussianAtomType $resname $resid [format %.6f $charge]
+			lappend atomInfoLayer $index $pdbAtomType $resname $resid "H"
+			lappend atomInfoFreeze $index $pdbAtomType $resname $resid "0"
+
+			## Add Atom information to structure
+			lappend molUP::structureReadyToLoad $atomInfo
+			lappend molUP::structureReadyToLoadCharges $atomInfoCharges
+			lappend molUP::structureReadyToLoadLayer $atomInfoLayer
+			lappend molUP::structureReadyToLoadFreeze $atomInfoFreeze
+
+
+			incr index
+    	}
+}
+
 
 
 
@@ -585,6 +646,51 @@ proc molUP::readSmallModelStructureLastStructure {lastStructure} {
 			set charge 0.000000
 
 			lappend atomInfoCharges $index [string trim $gaussianAtomType "-"] $resname $resid [format %.6f $charge]
+			lappend atomInfoLayer $index $pdbAtomType $resname $resid "H"
+			lappend atomInfoFreeze $index $pdbAtomType $resname $resid "0"
+
+			## Add Atom information to structure
+			lappend molUP::structureReadyToLoad $atomInfo
+			lappend molUP::structureReadyToLoadCharges $atomInfoCharges
+			lappend molUP::structureReadyToLoadLayer $atomInfoLayer
+			lappend molUP::structureReadyToLoadFreeze $atomInfoFreeze
+
+			incr index
+    	}
+}
+
+proc molUP::readSmallModelStructureLastStructureOneColumn {lastStructure} {
+		set i 0
+		set molUP::structureReadyToLoad {}
+		set molUP::structureReadyToLoadCharges {}
+		set molUP::structureReadyToLoadLayer {}
+		set molUP::structureReadyToLoadFreeze {}
+
+		set index 0
+    	foreach atom $molUP::structureGaussian coord $lastStructure {
+    		lassign [split $atom ","] column0 column1 column2 column3 column4
+			lassign $coord columnCoord0 columnCoord1 columnCoord2 columnCoord3 columnCoord4 columnCoord5
+            
+			## Atom information
+			set atomInfo {}
+			set atomInfoCharges {}
+			set atomInfoLayer {}
+			set atomInfoFreeze {}
+
+    		incr i
+
+			set resname "MOL"
+			set resid "1"
+			set pdbAtomType $column0
+			set gaussianAtomType $column0
+			set atomicSymbol $column0
+            
+			## Add information about atom
+    		lappend atomInfo [format %.6f $columnCoord3] [format %.6f $columnCoord4] [format %.6f $columnCoord5] $atomicSymbol $pdbAtomType $gaussianAtomType $resname $resid
+            
+			set charge $column1
+
+			lappend atomInfoCharges $index $gaussianAtomType $resname $resid [format %.6f $charge]
 			lappend atomInfoLayer $index $pdbAtomType $resname $resid "H"
 			lappend atomInfoFreeze $index $pdbAtomType $resname $resid "0"
 
