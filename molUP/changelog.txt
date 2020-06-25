@@ -1,6 +1,9 @@
 ######### molUP ##############
-Last version: 1.6.3
+Last version: 1.6.4
 ##############################
+Version 1.6.4 (25 JUN 2020)
+- [Bug fixed] Wrong element on atomtypes starting with numbers.
+
 Version 1.6.3 (30 APR 2020)
 - [Improvement] Now, molUP requires GNU-sed and GNU-grep when running on macOS. gsed and ggrep commands should be available on macOS. To install them, please install HomeBrew: /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)" and then: brew install grep gnu-sed
 - [Improvement] molUP is now able to load Gaussian files whose coordinates are structured in the following format: " <ELEMENT>,<CHARGE>,<XXX>,<YYY>,<ZZZ>"
