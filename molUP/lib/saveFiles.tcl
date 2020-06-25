@@ -163,7 +163,6 @@ proc molUP::writeGaussianFileAdvanced {path selection} {
             puts $file "[format %-60s $initialInfo] [format %-4s $freeze] [format "%10s" [format "% f" $xx]] [format "%10s" [format "% f" $yy]] [format "%10s" [format "% f" $zz]] [format %-2s [lindex $atomLayer 4]]"
         } else {
             set linkAtom [lindex $molUP::linkAtomsList $lookForLinkAtom]
-            #[string range [lindex $atomCharge 1] 0 0]
 
             set initialInfo " $element-[lindex $atomCharge 1]-[format %.6f [lindex $atomCharge 4]](PDBName=[lindex $atomLayer 1],ResName=[lindex $atomLayer 2],ResNum=[lindex $atomLayer 3])"
             puts $file "[format %-60s $initialInfo] [format %-4s $freeze] [format "%10s" [format "% f" $xx]] [format "%10s" [format "% f" $yy]] [format "%10s" [format "% f" $zz]] [format %-2s [lindex $atomLayer 4]]$linkAtom"
@@ -361,7 +360,7 @@ proc molUP::writeGaussianFile {path} {
         } else {
             set linkAtom [lindex $molUP::linkAtomsList $lookForLinkAtom]
 
-            set initialInfo " [string range [lindex $atomCharge 1] 0 0]-[lindex $atomCharge 1]-[format %.6f [lindex $atomCharge 4]](PDBName=[lindex $atomLayer 1],ResName=[lindex $atomLayer 2],ResNum=[lindex $atomLayer 3])"
+            set initialInfo " $element-[lindex $atomCharge 1]-[format %.6f [lindex $atomCharge 4]](PDBName=[lindex $atomLayer 1],ResName=[lindex $atomLayer 2],ResNum=[lindex $atomLayer 3])"
             puts $file "[format %-60s $initialInfo] [format %-4s $freeze] [format "%10s" [format "% f" $xx]] [format "%10s" [format "% f" $yy]] [format "%10s" [format "% f" $zz]] [format %-2s [lindex $atomLayer 4]]$linkAtom"
         }
     
