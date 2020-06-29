@@ -1,4 +1,4 @@
-package provide molUP 1.6.4
+package provide molUP 1.6.5
 
 #### INIT ############################################################
 namespace eval molUP:: {
@@ -33,7 +33,7 @@ namespace eval molUP:: {
 		package	require editStructure							1.5.2
 		package require modify									1.5.1
 		package require saveFiles								1.5.2
-		package require readFreq								1.5.1
+		package require readFreq								1.6.5
 		package require energy									1.5.1
 		package require plot									1.5.1
 		package require addDeleteAtoms							1.5.4
@@ -53,7 +53,7 @@ namespace eval molUP:: {
 
 		#### Program Variables
 		## General
-		variable version	    	"1.6.4"
+		variable version	    	"1.6.5"
 
 		#GUI
         variable topGui         	".molUP"

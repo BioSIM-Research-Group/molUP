@@ -1,6 +1,9 @@
 ######### molUP ##############
-Last version: 1.6.4
+Last version: 1.6.5
 ##############################
+Version 1.6.5 (29 JUN 2020)
+- [Bug fixed] Some small vectors were not being displayed. 
+
 Version 1.6.4 (25 JUN 2020)
 - [Bug fixed] Wrong element on atomtypes starting with numbers.
 

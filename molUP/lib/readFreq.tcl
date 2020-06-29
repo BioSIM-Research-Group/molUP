@@ -1,4 +1,4 @@
-package provide readFreq 1.5.1
+package provide readFreq 1.6.5
 
 proc molUP::readFreq {} {
 	set molID [lindex $molUP::topMolecule 0]
@@ -288,7 +288,8 @@ return $answer
 
 proc molUP::extractFreqVectors {file where} {
 	if {[lindex $molUP::freqLine [lindex $where 0]] != [expr [lindex $molUP::freqLine [lindex $where 0]] + 30]} {
-		catch {exec $molUP::sed -n "[lindex $molUP::freqLine [lindex $where 0]] {p; :loop n; p; [expr [lindex $molUP::freqLine [lindex $where 0]] + 30] q; b loop}" $file | $molUP::grep -n -m 1 "  Atom  AN      X      Y      Z"} a
+		set loopVar [expr [lindex $molUP::freqLine [lindex $where 0]] + 30]
+		catch {exec $molUP::sed -n "[lindex $molUP::freqLine [lindex $where 0]] {p; :loop n; p; $loopVar q; b loop}" $file | $molUP::grep -n -m 1 "  Atom  AN      X      Y      Z"} a
 	} else {
 		catch {exec $molUP::sed -n "[lindex $molUP::freqLine [lindex $where 0]] {p; :loop n; q; b loop}" $file | $molUP::grep -n -m 1 "  Atom  AN      X      Y      Z"} a
 	}
@@ -309,7 +310,7 @@ proc molUP::extractFreqVectors {file where} {
 
 	set freq_vector ""
 	foreach a $vectors_split {
-		if {[lindex $a $columnX] != "0.00" && [lindex $a $columnY] != "0.00" && [lindex $a $columnZ] != "0.00"} {
+		if {[lindex $a $columnX] != "0.00" || [lindex $a $columnY] != "0.00" || [lindex $a $columnZ] || "0.00"} {
 			set freq_vector [lappend list "[lindex $a 0] [lindex $a $columnX] [lindex $a $columnY] [lindex $a $columnZ]"]
 		}
 	}
