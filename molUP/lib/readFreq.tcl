@@ -288,8 +288,7 @@ return $answer
 
 proc molUP::extractFreqVectors {file where} {
 	if {[lindex $molUP::freqLine [lindex $where 0]] != [expr [lindex $molUP::freqLine [lindex $where 0]] + 30]} {
-		set loopVar [expr [lindex $molUP::freqLine [lindex $where 0]] + 30]
-		catch {exec $molUP::sed -n "[lindex $molUP::freqLine [lindex $where 0]] {p; :loop n; p; $loopVar q; b loop}" $file | $molUP::grep -n -m 1 "  Atom  AN      X      Y      Z"} a
+		catch {exec $molUP::sed -n "[lindex $molUP::freqLine [lindex $where 0]] {p; :loop n; p; [expr [lindex $molUP::freqLine [lindex $where 0]] + 30] q; b loop}" $file | $molUP::grep -n -m 1 "  Atom  AN      X      Y      Z"} a
 	} else {
 		catch {exec $molUP::sed -n "[lindex $molUP::freqLine [lindex $where 0]] {p; :loop n; q; b loop}" $file | $molUP::grep -n -m 1 "  Atom  AN      X      Y      Z"} a
 	}
@@ -366,14 +365,18 @@ proc molUP::animateFreq {freqList animationFreq displacement a} {
 
 proc molUP::selectFreq {} {
 	set molID [lindex $molUP::topMolecule 0]
+	
+	## Get the list of freq vectors
+	set path [lindex [lindex $molUP::pathsFreq [lsearch -index 0 -all $molUP::pathsFreq $molID]] 1]
+	
 	set indexSelectedAtoms [$molUP::topGui.frame0.major.mol$molID.tabs.tabOutput.tabs.tab5.tableLayer curselection]
 	set freqLineTable [$molUP::topGui.frame0.major.mol$molID.tabs.tabOutput.tabs.tab5.tableLayer get $indexSelectedAtoms]
 	set freqToSearch [lindex $freqLineTable 1]
 
+	molUP::readFreqFile $path
+
 	set answer [molUP::searchFreq $freqToSearch $molUP::freqList $molUP::freqLine]
 
-	## Get the list of freq vectors
-	set path [lindex [lindex $molUP::pathsFreq [lsearch -index 0 -all $molUP::pathsFreq $molID]] 1]
 
 	set molUP::freqVectorsList [molUP::extractFreqVectors $path $answer]
 	
