@@ -1,4 +1,4 @@
-package provide loadGaussianOutputFile 1.6.3
+package provide loadGaussianOutputFile 1.6.6
 
 ### This procedure load a gaussian input file
 proc molUP::loadGaussianOutputFile {option} {
@@ -325,8 +325,8 @@ proc molUP::evaluateFreqCalc {} {
 
 proc molUP::numberAtomsFirstStructure {} {
 	set lineBeforeStructure [split [exec $molUP::head -n 300 $molUP::path | $molUP::grep -n " Charge =" | $molUP::tail -n 1] ":"]
-	catch {exec $molUP::head -n 300 $molUP::path | $molUP::grep "^ Redundant internal coordinates found in file.  (old form)."} testTypeofInput
-	if {$testTypeofInput == " Redundant internal coordinates found in file.  (old form)."} {
+	catch {exec $molUP::head -n 300 $molUP::path | $molUP::grep "^ Redundant internal coordinates found in file."} testTypeofInput
+	if {$testTypeofInput == " Redundant internal coordinates found in file.  (old form)." || $testTypeofInput == " Redundant internal coordinates found in file."} {
 		set firstLineStructure [expr [lindex $lineBeforeStructure 0] + 2]
 		set lineAfterStructure [split [exec $molUP::grep -E -n -m 2 "^ Recover connectivity data from disk." $molUP::path | $molUP::tail -n 1] ":"]
 		set lastLineStructure [expr [lindex $lineAfterStructure 0] - 1]
@@ -336,7 +336,7 @@ proc molUP::numberAtomsFirstStructure {} {
 		set lastLineStructure [expr [lindex $lineAfterStructure 0] - 1]
 	}
 	set numberAtoms [expr $lastLineStructure - $firstLineStructure + 1]
-	
+
 	#### Grep the initial structure
 	if {$firstLineStructure != $lastLineStructure} {
 		catch {exec $molUP::sed -n "$firstLineStructure {p; :loop n; p; $lastLineStructure q; b loop}" $molUP::path} molUP::structureGaussian
@@ -435,6 +435,7 @@ proc molUP::readOniomStructure {} {
 }
 
 proc molUP::readSmallModelStructure {} {
+		puts "molUP detects input information in the following format: ELEMENT,XX,YY,ZZ"
 		set i 0
 		set molUP::structureReadyToLoad {}
 		set molUP::structureReadyToLoadCharges {}
@@ -480,6 +481,7 @@ proc molUP::readSmallModelStructure {} {
 }
 
 proc molUP::readSmallModelStructureOneColumn {} {
+		puts "molUP detects input information in the following format: ELEMENT,FREEZE,XX,YY,ZZ"
 		set i 0
 		set molUP::structureReadyToLoad {}
 		set molUP::structureReadyToLoadCharges {}
