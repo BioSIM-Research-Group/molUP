@@ -1,6 +1,9 @@
 ######### molUP ##############
-Last version: 1.6.6
+Last version: 1.6.7
 ##############################
+Version 1.6.7 (9 MAR 2021)
+- [Bug fixed] An issue prevented the animation of vibrational frequencies in some Gaussian output files.
+
 Version 1.6.6 (21 JAN 2021)
 - [Bug fixed] An issue prevented some Gaussian output files to load. This only affected Gaussian calculations restarted from checkpoint files.
 

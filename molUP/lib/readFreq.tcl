@@ -1,4 +1,4 @@
-package provide readFreq 1.6.5
+package provide readFreq 1.6.7
 
 proc molUP::readFreq {} {
 	set molID [lindex $molUP::topMolecule 0]
@@ -294,7 +294,15 @@ proc molUP::extractFreqVectors {file where} {
 	}
 	set lookUpPos [split $a ":"]
 
-	set numberLines [expr [lindex $molUP::freqLine 1] - [lindex $molUP::freqLine 0]]
+	if {[llength $molUP::freqLine] == 1} {
+		catch {exec $molUP::grep -m 1 "NAtoms=" $file} natomsLine
+		regexp -all {^\sNAtoms=\s*(\S+)\sNActive} $natomsLine b natoms
+		set numberLines [expr $natoms + 7]
+	} else {
+		set numberLines [expr [lindex $molUP::freqLine 1] - [lindex $molUP::freqLine 0]]
+	}
+
+	puts $numberLines
 
 	if {[expr [lindex $molUP::freqLine [lindex $where 0]] + [lindex $lookUpPos 0]] != [expr [lindex $molUP::freqLine [expr [lindex $where 0]+1]]-3]} {
 		catch {exec $molUP::sed -n "[expr [lindex $molUP::freqLine [lindex $where 0]] + [lindex $lookUpPos 0]] {p; :loop n; p; [expr [lindex $molUP::freqLine [lindex $where 0]] + $numberLines -3] q; b loop}" $file} vectors
@@ -376,6 +384,7 @@ proc molUP::selectFreq {} {
 	molUP::readFreqFile $path
 
 	set answer [molUP::searchFreq $freqToSearch $molUP::freqList $molUP::freqLine]
+	puts $answer
 
 
 	set molUP::freqVectorsList [molUP::extractFreqVectors $path $answer]
