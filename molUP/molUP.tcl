@@ -1,4 +1,4 @@
-package provide molUP 1.6.7
+package provide molUP 1.6.8
 
 #### INIT ############################################################
 namespace eval molUP:: {
@@ -25,7 +25,7 @@ namespace eval molUP:: {
 		package require guiAddAtoms								1.5.1
 		package require guiAddMolecule 							1.5.3
 		
-		package require inputFile 								1.5.2
+		package require inputFile 								1.6.8
 		package require timeControl								1.5.1
 		package require quit									1.5.1
 		package require loadGaussianInputFile					1.6.3
@@ -53,7 +53,7 @@ namespace eval molUP:: {
 
 		#### Program Variables
 		## General
-		variable version	    	"1.6.7"
+		variable version	    	"1.6.8"
 
 		#GUI
         variable topGui         	".molUP"

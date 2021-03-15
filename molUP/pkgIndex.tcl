@@ -1,6 +1,6 @@
 # PKG Index - molUP
 
-package ifneeded molUP        	                            1.6.7 [list source [file join $dir/molUP.tcl]]
+package ifneeded molUP        	                            1.6.8 [list source [file join $dir/molUP.tcl]]
 
 #GUI
 package ifneeded guiMolUP        	                        1.6.0 [list source [file join $dir/gui/gui.tcl]]
@@ -25,7 +25,7 @@ package ifneeded guiAddMolecule                             1.5.3 [list source [
 
 
 #lib
-package ifneeded inputFile   	                            1.5.2 [list source [file join $dir/lib/inputFile.tcl]]
+package ifneeded inputFile   	                            1.6.8 [list source [file join $dir/lib/inputFile.tcl]]
 package ifneeded quit		  	                            1.5.1 [list source [file join $dir/lib/quit.tcl]]
 package ifneeded timeControl     	                        1.5.1 [list source [file join $dir/lib/timeControl.tcl]]
 package ifneeded loadGaussianInputFile     	                1.6.3 [list source [file join $dir/lib/loadGaussianInputFile.tcl]]

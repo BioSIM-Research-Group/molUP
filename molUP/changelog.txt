@@ -1,6 +1,9 @@
 ######### molUP ##############
-Last version: 1.6.7
+Last version: 1.6.8
 ##############################
+Version 1.6.8 (15 MAR 2021)
+- [Bug fixed] An issue prevented some Gaussian input files, created by other software, to properly load in molUP.
+
 Version 1.6.7 (9 MAR 2021)
 - [Bug fixed] An issue prevented the animation of vibrational frequencies in some Gaussian output files.
 

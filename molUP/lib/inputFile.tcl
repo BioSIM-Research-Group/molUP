@@ -1,4 +1,4 @@
-package provide inputFile 1.5.2
+package provide inputFile 1.6.8
 
 #### Browse a file in the system and get the path
 proc molUP::onSelect {} {
@@ -92,7 +92,7 @@ proc molUP::loadButton {fileExtension} {
 
 #### Get Blank Lines Numbers
 proc molUP::getBlankLines {path numberLine} {
-	catch {exec $molUP::grep -E -n -m 8 -e "^ \+$" -e "^$" $path} blankLines
+	catch {exec $molUP::grep -E -n -m 8 -e "^ \+$" -e "^$" -e "^\[\[:space:\]\]*$" $path} blankLines
 	set eachBlankLine [split $blankLines ":"]
 	set lineNumber [lindex $eachBlankLine $numberLine]
 	return $lineNumber
