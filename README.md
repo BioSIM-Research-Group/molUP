@@ -76,7 +76,7 @@ molUP "Gaussian file" -all
 
 
 ## Contacts
-If you have any suggestion of new features, please contact us: henrique.fernandes@fc.up.pt
+If you have any suggestion of new features, please contact us: hfernandes@med.up.pt
 
 ## Citation
 S. Fernandes, H., M.J. Ramos, and N. M. F. S. A. Cerqueira, molUP: A VMD plugin to handle QM and ONIOM calculations using the gaussian software. Journal of Computational Chemistry
