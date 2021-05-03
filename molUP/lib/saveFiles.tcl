@@ -1,4 +1,4 @@
-package provide saveFiles 1.5.2
+package provide saveFiles 1.7.0
 
 proc molUP::savePDB {} {
     
@@ -393,6 +393,22 @@ proc molUP::writeORCAFileAdvanced {path selection} {
 
     set sel [atomselect [lindex $molUP::topMolecule 0] $selection]
     set indexes [$sel get index]
+
+    ## PointCharges
+    if {$selection != "all"} {
+        set shell1 [lsort -unique -real [join [[atomselect $molID "altloc H"] getbonds]]]
+        set shell2 [lsort -unique -real [join [[atomselect $molID "index $shell1"] getbonds]]]
+        set pointcharges [[atomselect $molID "all and not index $shell2"] get {charge x y z}]
+        set numberAtomsPC [llength $pointcharges]
+        if {$numberAtomsPC > 0} {
+            puts $file "% pointcharges \"[file tail ${path}_pointchargesMM.xyz]\"\n"
+            set pointchargesfile [open "${path}_pointchargesMM.xyz" wb]
+            puts $pointchargesfile "$numberAtomsPC\n"
+            foreach a $pointcharges {
+                puts $pointchargesfile $a
+            }
+        }
+    }
 
     ## Write Charge and Multi
     puts $file "* xyz 0 1"

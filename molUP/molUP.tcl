@@ -1,4 +1,4 @@
-package provide molUP 1.6.8
+package provide molUP 1.7.0
 
 #### INIT ############################################################
 namespace eval molUP:: {
@@ -32,7 +32,7 @@ namespace eval molUP:: {
 		package require loadGaussianOutputFile					1.6.6
 		package	require editStructure							1.5.2
 		package require modify									1.5.1
-		package require saveFiles								1.5.2
+		package require saveFiles								1.7.0
 		package require readFreq								1.6.7
 		package require energy									1.5.1
 		package require plot									1.5.1
@@ -53,7 +53,7 @@ namespace eval molUP:: {
 
 		#### Program Variables
 		## General
-		variable version	    	"1.6.8"
+		variable version	    	"1.7.0"
 
 		#GUI
         variable topGui         	".molUP"

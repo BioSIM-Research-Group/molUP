@@ -1,6 +1,9 @@
 ######### molUP ##############
-Last version: 1.6.8
+Last version: 1.7.0
 ##############################
+Version 1.7.9 (03 MAY 2021)
+- [New feature] Now, molUP saves ORCA input files with pointcharges file according to the ONIOM Electrostatic Embedding Scheme: ONIOM=ScaleCharge=555500 (Default values of Gaussian Software).
+
 Version 1.6.8 (15 MAR 2021)
 - [Bug fixed] An issue prevented some Gaussian input files, created by other software, to properly load in molUP.
 
