@@ -39,6 +39,7 @@ namespace eval molUP:: {
 		package require addDeleteAtoms							1.5.4
 		package require publication								1.5.2
 		package require loadPrmtop								1.5.1
+		package require loadPrmtopTerminal  					1.7.0
 		package require updateChargesFromFile					1.5.2
 		package require changeStructureData						1.6.2
 
