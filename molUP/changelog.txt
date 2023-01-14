@@ -1,6 +1,9 @@
 ######### molUP ##############
-Last version: 1.7.0
+Last version: 1.7.1
 ##############################
+Version 1.7.1 (14 JAN 2023)
+- [New feature] Implemented a method to load AMBER (PRMTOP file) parameters from the terminal (Thanks to NithinChintala).
+
 Version 1.7.0 (03 MAY 2021)
 - [New feature] Now, molUP saves ORCA input files with pointcharges file according to the ONIOM Electrostatic Embedding Scheme: ONIOM=ScaleCharge=555500 (Default values of Gaussian Software).
 

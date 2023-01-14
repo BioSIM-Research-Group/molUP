@@ -1,4 +1,4 @@
-package provide loadPrmtopTerminal 1.7.0
+package provide loadPrmtopTerminal 1.7.1
 
 proc molUP::loadPrmtopParametersTerminal {path} {
     set molID [lindex $molUP::topMolecule 0]

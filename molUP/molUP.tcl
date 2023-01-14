@@ -1,4 +1,4 @@
-package provide molUP 1.7.0
+package provide molUP 1.7.1
 
 #### INIT ############################################################
 namespace eval molUP:: {
@@ -39,7 +39,7 @@ namespace eval molUP:: {
 		package require addDeleteAtoms							1.5.4
 		package require publication								1.5.2
 		package require loadPrmtop								1.5.1
-		package require loadPrmtopTerminal  					1.7.0
+		package require loadPrmtopTerminal  					1.7.1
 		package require updateChargesFromFile					1.5.2
 		package require changeStructureData						1.6.2
 
@@ -54,7 +54,7 @@ namespace eval molUP:: {
 
 		#### Program Variables
 		## General
-		variable version	    	"1.7.0"
+		variable version	    	"1.7.1"
 
 		#GUI
         variable topGui         	".molUP"

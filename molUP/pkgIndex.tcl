@@ -1,6 +1,6 @@
 # PKG Index - molUP
 
-package ifneeded molUP        	                            1.7.0 [list source [file join $dir/molUP.tcl]]
+package ifneeded molUP        	                            1.7.1 [list source [file join $dir/molUP.tcl]]
 
 #GUI
 package ifneeded guiMolUP        	                        1.6.0 [list source [file join $dir/gui/gui.tcl]]
@@ -40,7 +40,7 @@ package ifneeded balloon                                    1.5.1 [list source [
 package ifneeded addDeleteAtoms                             1.5.4 [list source [file join $dir/lib/addDeleteAtoms.tcl]]
 package ifneeded publication                                1.5.2 [list source [file join $dir/lib/publication.tcl]]
 package ifneeded loadPrmtop                                 1.5.1 [list source [file join $dir/lib/loadPrmtopParameters.tcl]]
-package ifneeded loadPrmtopTerminal                         1.7.0 [list source [file join $dir/lib/loadPrmtopParametersTerminal.tcl]]
+package ifneeded loadPrmtopTerminal                         1.7.1 [list source [file join $dir/lib/loadPrmtopParametersTerminal.tcl]]
 package ifneeded updateChargesFromFile                      1.5.2 [list source [file join $dir/lib/updateChargesFromFile.tcl]]
 package ifneeded changeStructureData                        1.6.2 [list source [file join $dir/lib/changeStructureData.tcl]]
 
